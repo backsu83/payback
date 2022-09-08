@@ -1,0 +1,39 @@
+###################################################
+# DCM Configurations
+###################################################
+saturn.application.tenantid: "Gmarket"
+spring.jpa.hibernate.default_schema: dbo
+
+com:
+  ebaykorea:
+    reward:
+      dcm:
+        maximumPoolSize: 10
+        minimumIdle: 1
+
+ebay.kr.dcm:
+  serviceUrl: "http://dcm-dev-config-saturn.d2.ebaykorea.com/%1$s/%2$s"
+  applicationName: DCM_TEST
+  datasources:
+    - name: gmarketStardbDataSource
+      connectionName: stardb_read
+      hikariCp:
+        maximumPoolSize: ${com.ebaykorea.payback.dcm.maximumPoolSize}
+        minimumIdle: ${com.ebaykorea.payback.dcm.minimumIdle}
+      local:
+        url: jdbc:sqlserver://gdevdb01.gmarket.nh:3950;DatabaseName=stardb
+        username: dev
+        password: dev3950
+        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        sql-script-encoding: utf-8
+    - name: tigerDataSource
+      connectionName: tiger_read
+      hikariCp:
+        maximumPoolSize: ${com.ebaykorea.payback.dcm.maximumPoolSize}
+        minimumIdle: ${com.ebaykorea.payback.dcm.minimumIdle}
+      local:
+        url: jdbc:sqlserver://gdevdb01.gmarket.nh:3950;DatabaseName=tiger
+        username: dev
+        password: dev3950
+        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        sql-script-encoding: utf-8

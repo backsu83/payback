@@ -1,0 +1,18 @@
+
+dependencies {
+//    implementation "io.springfox:springfox-boot-starter:2.9.2"
+//    implementation "io.springfox:springfox-swagger-ui:2.9.2"
+//    implementation "io.springfox:springfox-spring-webmvc:2.9.2"
+}
+
+tasks.withType(Jar) {
+    destinationDirectory = file("$rootDir/build/libs")
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+test {
+    exclude 'com/ebaykorea/payback/api**'
+}
