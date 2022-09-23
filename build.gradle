@@ -97,6 +97,10 @@ subprojects {
         annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
         implementation 'com.google.code.gson:gson'
         implementation 'com.google.guava:guava:26.0-jre'
+        implementation "io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}"
+        implementation "io.github.resilience4j:resilience4j-feign:${resilience4jVersion}"
+        implementation "io.github.resilience4j:resilience4j-retry:${resilience4jVersion}"
+        implementation "io.github.resilience4j:resilience4j-annotations:${resilience4jVersion}"
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
