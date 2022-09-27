@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.adapter.rest;
 
 import com.ebaykorea.payback.adapter.rest.dto.CashbackOrderRequestDto;
+import com.ebaykorea.payback.adapter.rest.dto.SaveCashbackRequestDto;
+import com.ebaykorea.payback.core.CashbackApplicationService;
 import com.ebaykorea.payback.port.data.cashback.CashbackOrderQuery;
 import com.ebaykorea.payback.adapter.rest.dto.CashbackRequestDto;
 import com.ebaykorea.payback.port.data.cashback.CashbackResponse;
@@ -30,8 +32,9 @@ public class CashbackController {
   private final CashbackRequestMapper requestMapper;
   private final RewardGatewayImpl rewardGateway;
   private final CashbackOrderMapper cashbackOrderMapper;
+  private final CashbackApplicationService applicationService;
 
-  //TODO: 임시 end-point, 제거 예정
+  //TODO: 임시 코드 제거 예정
   /**
    * api 조회 테스트
    *
@@ -44,7 +47,7 @@ public class CashbackController {
     return ResponseEntity.ok(rewardGateway.getCashbackReward(requestMapper.of(request)));
   }
 
-  //TODO: 임시 end-point, 제거 예정
+  //TODO: 임시 코드 제거 예정
   /**
    * db + api 조회 테스트
    *
@@ -57,6 +60,15 @@ public class CashbackController {
     return ResponseEntity.ok(cashbackQuery.getCashbackOrder(
         cashbackOrderMapper.of(request),
         requestMapper.of(request.getReward())));
+  }
+
+  /**
+   * 캐시백 데이터 저장
+   * @param request
+   */
+  @PostMapping("/cashbacks")
+  public void saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
+    applicationService.setCashback(request.getOrderKey());
   }
 }
 

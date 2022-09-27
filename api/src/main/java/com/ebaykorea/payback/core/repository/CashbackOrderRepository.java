@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+//TODO: 임시 코드 제거 예정
 @Repository
 public interface CashbackOrderRepository  {
     Optional<CashbackOrderEntity> findById(CashbackOrderEntityId id);
