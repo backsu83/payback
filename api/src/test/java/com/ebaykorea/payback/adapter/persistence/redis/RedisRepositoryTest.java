@@ -1,22 +1,24 @@
 package com.ebaykorea.payback.adapter.persistence.redis;
 
-import com.ebaykorea.payback.adapter.persistence.DatabaseConfigTest;
 import com.ebaykorea.payback.adapter.persistence.redis.support.GsonUtils;
 import com.ebaykorea.payback.adapter.persistence.redis.support.RedisCrudException;
-import com.ebaykorea.payback.port.persistence.redis.RedisRepository;
+import com.ebaykorea.payback.config.test.RedisTestConfiguration;
 import com.ebaykorea.payback.port.persistence.redis.entity.RedisCustomEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
 
-@SpringBootTest(classes = DatabaseConfigTest.class)
+//TODO: integration test로 이동 및 명확한 테스트 코드로 변경 필요 (+local 세팅 의존 없이)
+@DataRedisTest
+@Import(RedisTestConfiguration.class)
 public class RedisRepositoryTest {
 
     @Autowired
-    RedisRepository repository;
+    RedisRepositoryImpl repository;
 
     @Test
     void findByKey() {

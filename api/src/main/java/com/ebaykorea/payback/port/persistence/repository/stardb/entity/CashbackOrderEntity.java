@@ -17,6 +17,10 @@ import java.time.Instant;
 @Table(name = "CASHBACK_ORDER")
 public class CashbackOrderEntity implements Serializable {
 
+    //FIXME: sp 새로 만들기 (Carbon -> Payback)
+    public static final String FIND_BY_ID = "UPGMKT_Carbon_CashbackOrder_Select";
+    public static final String SAVE = "UPGMKT_Carbon_CashbackOrder_Insert";
+
     @Id
     @Column(name = "BUY_ORDER_NO")
     private long buyOrderNo;

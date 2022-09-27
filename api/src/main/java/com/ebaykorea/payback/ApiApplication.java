@@ -12,9 +12,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @SpringBootApplication(exclude = {
         DataSourceAutoConfiguration.class
-},
-        scanBasePackages = {
-        "com.ebaykorea.payback"
 })
 public class ApiApplication {
     public static void main(String[] args) {

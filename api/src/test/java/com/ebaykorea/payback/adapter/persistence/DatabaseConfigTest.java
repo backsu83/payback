@@ -9,11 +9,12 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = {
-        DataSourceAutoConfiguration.class
+    DataSourceAutoConfiguration.class
 })
 @ComponentScan(basePackages = {
-        "com.ebaykorea.payback.core.config",
-        "com.ebaykorea.payback.core.persistence",
+    "com.ebaykorea.payback.config",
+    "com.ebaykorea.payback.adapter.persistence",
+    "com.ebaykorea.payback.port.persistence",
 })
 public class DatabaseConfigTest {
 
