@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.repository;
 
-import com.ebaykorea.payback.port.persistence.repository.stardb.entity.CashbackOrderEntity;
-import com.ebaykorea.payback.port.persistence.repository.stardb.entity.CashbackOrderEntityId;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntityId;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
