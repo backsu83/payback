@@ -64,30 +64,20 @@ subprojects {
         implementation platform(SpringBootPlugin.BOM_COORDINATES)
         implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.boot:spring-boot-starter-aop'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
         implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-cache'
         implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
         //ebaykorea standard core
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-ebaykr:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-circuitbreaker:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-moa:${saturnStarterVersion}"
-        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:2.4.15-SNAPSHOT"
         implementation "io.github.openfeign:feign-jackson"
-
-        implementation('com.ebaykorea.saturn.component:ebaykr-dcm:0.0.5.RELEASE'){
-            exclude group:'org.springframework.boot'
-            exclude group:'org.projectlombok'
-            exclude group:'net.logstash.logback'
-            exclude group:'com.zaxxer'
-            exclude group:'org.hibernate.validator'
-            exclude group:'org.junit.vintage'
-        }
 
         //third party library
         implementation "org.mapstruct:mapstruct:${mapstructVersion}"
