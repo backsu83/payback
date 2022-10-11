@@ -8,16 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.Instant;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CashbackOrderEntity {
-
-    //FIXME: sp 새로 만들기 (Carbon -> Payback)
-    public static final String FIND_BY_ID = "stardb.dbo.UPGMKT_Carbon_CashbackOrder_Select";
+    public static final String FIND_BY_ID = "stardb.dbo.UPGMKT_Payback_CashbackOrder_Select";
     public static final String SAVE = "stardb.dbo.UPGMKT_Payback_CashbackOrder_Insert";
 
     @Id
