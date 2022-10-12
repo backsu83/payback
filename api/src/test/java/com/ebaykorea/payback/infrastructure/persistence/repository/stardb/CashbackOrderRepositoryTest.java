@@ -1,82 +1,55 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
 
-import com.ebaykorea.payback.api.persistence.DatabaseConfigTest;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Optional;
 
-//TODO: repository test 및 구현 코드 변경 필요 (SP 호출하도록)
-@SpringBootTest(classes = DatabaseConfigTest.class)
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
 public class CashbackOrderRepositoryTest {
-//
-//    @Autowired
-//    CashbackOrderRepository cashbackOrderRepository;
-//
-//    @Test
-//    public void findByBuyOrderNo() {
-//        CashbackOrderEntity cashbackOrder = cashbackOrderRepository.findByBuyOrderNo(4681185340L);
-//        System.out.println(GsonUtils.toJsonPretty(cashbackOrder));
-//        assertNotNull(cashbackOrder);
-//    }
-//
-//    @Test
-//    public void findByEntityId() {
-//        Optional<CashbackOrderEntity> cashbackOrder = cashbackOrderRepository.findById(
-//                CashbackOrderEntityId
-//                        .builder()
-//                        .buyOrderNo(4681185340L)
-//                        .cashbackType("I")
-//                        .tradeCd("SVC")
-//                        .build()
-//        );
-//        System.out.println(GsonUtils.toJsonPretty(cashbackOrder.get()));
-//        assertNotNull(cashbackOrder);
-//    }
-//
-//    @Test
-//    public void update() {
-//        Optional<CashbackOrderEntity> cashbackOrder = Optional.ofNullable(cashbackOrderRepository.findByBuyOrderNo(4681185340L));
-//
-//        cashbackOrder.ifPresent(updateCashbackOrder ->{
-//            updateCashbackOrder.setCashbackMoney(BigDecimal.valueOf(60.00));
-//            updateCashbackOrder.setCashbackBasisMoney(BigDecimal.valueOf(3000.00));
-//            cashbackOrderRepository.save(updateCashbackOrder);
-//        });
-//
-//        System.out.println(GsonUtils.toJsonPretty(cashbackOrder));
-//    }
-//
-//    @Test
-//    public void save() {
-//        CashbackOrderEntity cashbackOrder = new CashbackOrderEntity();
-//        cashbackOrder.setBuyOrderNo(4681185340L);
-//        cashbackOrder.setCashbackType("I");
-//        cashbackOrder.setTradeCd("SVC");
-//        cashbackOrder.setCashbackMoney(BigDecimal.valueOf(100));
-//        cashbackOrder.setCashbackBasisMoney(BigDecimal.valueOf(5000));
-//        cashbackOrder.setGdNo("828713049");
-//        cashbackOrder.setPackNo(4051530904L);
-//        cashbackOrder.setCustNo("103574394");
-//        cashbackOrder.setUserKey("TEST-USERKEY");
-//        cashbackOrder.setTradeStatus("90");
-//        cashbackOrder.setUseEnableDt(Instant.now());
-//        cashbackOrder.setSiteType("G");
-//        cashbackOrder.setIsRequestCancel(Boolean.FALSE);
-//        cashbackOrder.setRegId("TESTER");
-//        cashbackOrderRepository.save(cashbackOrder);
-//    }
-//
-//    @Test
-//    public void delete() {
-//        Optional<CashbackOrderEntity> cashbackOrder = cashbackOrderRepository.findById(
-//                CashbackOrderEntityId
-//                        .builder()
-//                        .buyOrderNo(4681185340L)
-//                        .cashbackType("I")
-//                        .tradeCd("SVC")
-//                        .build()
-//        );
-//        cashbackOrderRepository.delete(cashbackOrder.get());
-//
-//    }
+
+  @Autowired
+  CashbackOrderRepository cashbackOrderRepository;
+
+  @Test
+  @Transactional
+  public void saveAndFindTest() {
+
+    final var cashbackOrderEntity = buildCashbackOrderEntity();
+    cashbackOrderRepository.save(cashbackOrderEntity);
+    final var result = cashbackOrderRepository.findById(cashbackOrderEntity);
+
+    assertNotEquals(Optional.empty(), result);
+    assertEquals(cashbackOrderEntity.getBuyOrderNo(), result.get().getBuyOrderNo());
+  }
+
+  private CashbackOrderEntity buildCashbackOrderEntity() {
+    final var nowDate = Timestamp.from(Instant.now());
+    return CashbackOrderEntity.builder()
+        .buyOrderNo(1L)
+        .cashbackType("I")
+        .tradeCd("SV")
+        .cashbackMoney(BigDecimal.TEN)
+        .cashbackBasisMoney(BigDecimal.TEN)
+        .gdNo("gdNo")
+        .packNo(1L)
+        .custNo("custNo")
+        .userKey("userKey")
+        .tradeStatus("T")
+        .useEnableDt(nowDate)
+        .siteType("G")
+        .smileClubYn("N")
+        .regId("regId")
+        .regDt(nowDate)
+        .shopType(null)
+        .build();
+  }
 }
