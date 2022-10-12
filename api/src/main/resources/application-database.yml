@@ -1,6 +1,0 @@
-
-saturn:
-  datasource:
-    appName: PAYBACK_API
-    userName: daemon_app
-    tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
