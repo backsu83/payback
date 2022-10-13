@@ -2,7 +2,7 @@ package com.ebaykorea.payback.infrastructure.gateway.impl;
 
 import com.ebaykorea.payback.infrastructure.data.cashback.CashbackResponse;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRequestDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.mapper.RewardGatewayMapper;
 import com.ebaykorea.payback.infrastructure.gateway.client.RewardApiClient;
 import com.ebaykorea.payback.infrastructure.gateway.client.dto.RewardBaseResponse;
@@ -17,8 +17,8 @@ public class RewardGatewayImpl implements RewardGateway {
   private final RewardApiClient rewardApiClient;
   private final RewardGatewayMapper responseMapper;
 
-  public CashbackResponse getCashbackReward(final CashbackRequestDto request) {
-    return Optional.ofNullable(rewardApiClient.cashbackReward(request))
+  public CashbackResponse getCashbackReward(final CashbackRewardRequestDto request) {
+    return Optional.ofNullable(rewardApiClient.getCashbackReward(request))
         .filter(RewardBaseResponse::isSuccess)
         .map(RewardBaseResponse::getResult)
         .map(responseMapper::of)

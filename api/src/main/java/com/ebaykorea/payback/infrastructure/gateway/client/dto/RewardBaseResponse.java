@@ -2,17 +2,11 @@ package com.ebaykorea.payback.infrastructure.gateway.client.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Optional;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
 public class RewardBaseResponse<T> {
     private final static String ResponseOK = "0000";

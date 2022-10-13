@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
-public class CashbackRequestDto {
+public class CashbackRewardRequestDto {
 
   private Integer totalPrice;
   private List<Goods> goods;

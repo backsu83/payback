@@ -1,22 +1,22 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackInfoDto
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRequestDto
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackResponseDto
+import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRewardRequestDto
+import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRewardResponseDto
 import com.ebaykorea.payback.infrastructure.gateway.client.dto.ClubDayCashbackInfoDto
 import com.ebaykorea.payback.infrastructure.gateway.client.dto.ItemCashbackInfoDto
 import com.ebaykorea.payback.infrastructure.gateway.client.dto.NspCashbackInfoDto
 
 class RewardApiGrocery {
   static def CashbackRequestDataDto_생성(Map map = [:]) {
-    new CashbackRequestDto(
+    new CashbackRewardRequestDto(
         (map.totalPrice ?: 1000) as Integer,
-        (map.goods ?: [CashbackRequestDtoGoods_생성()]) as List<CashbackRequestDto.Goods>
+        (map.goods ?: [CashbackRequestDtoGoods_생성()]) as List<CashbackRewardRequestDto.Goods>
     )
   }
 
   static def CashbackRequestDtoGoods_생성(Map map = [:]) {
-    new CashbackRequestDto.Goods(
+    new CashbackRewardRequestDto.Goods(
         (map.siteCd ?: 0) as Integer,
         (map.gdNo ?: "gdNo") as String,
         (map.gdlcCd ?: "gdlcCd") as String,
@@ -31,18 +31,18 @@ class RewardApiGrocery {
   }
 
   static def CashbackResponseDataDto_생성(Map map = [:]) {
-    new CashbackResponseDto(
+    new CashbackRewardResponseDto(
         (map.totalItemCashbackAmount ?: 0) as Integer,
         (map.totalNSPCashbackAmount ?: 0) as Integer,
         (map.ifSmileCardCashbackAmount ?: 0) as Integer,
         (map.ifNewSmileCardCashbackAmount ?: 0) as Integer,
         (map.useEnableDate ?: "") as String,
-        (map.goods ?: [CashbackResponseDtoGoods_생성()]) as List<CashbackResponseDto.Goods>
+        (map.goods ?: [CashbackResponseDtoGoods_생성()]) as List<CashbackRewardResponseDto.Goods>
     )
   }
 
   static def CashbackResponseDtoGoods_생성(Map map = [:]) {
-    new CashbackResponseDto.Goods(
+    new CashbackRewardResponseDto.Goods(
         (map.clubDayExpectSaveAmount ?: 0) as Integer,
         (map.clubDayExpectSaveRate ?: 0) as Integer,
         (map.key ?: "key") as String,

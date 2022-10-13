@@ -13,8 +13,8 @@ import java.util.Map;
 public enum OrderSiteType {
   Unknown(null, ""),
   Gmarket(0, "G"),
-  G9(1, "G9"),
-  G9Short(9, "9");
+  G9(1, "G9"), //TODO: retire 대상
+  G9Short(9, "9"); //TODO: retire 대상
 
   private Integer code;
   private String shortCode;

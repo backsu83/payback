@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway.client
 
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRequestDto
+import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.dto.RewardBaseResponse
 import com.ebaykorea.payback.infrastructure.gateway.client.dto.RewardBaseReturn
 import spock.lang.Specification
@@ -13,10 +13,10 @@ class RewardApiClientSpec extends Specification {
 
   def "CashbackReward 테스트"() {
     setup:
-    rewardApiClient.cashbackReward(_ as CashbackRequestDto) >> response
+    rewardApiClient.getCashbackReward(_ as CashbackRewardRequestDto) >> response
 
     expect:
-    def result = rewardApiClient.cashbackReward(request)
+    def result = rewardApiClient.getCashbackReward(request)
     result == response
 
     where:
