@@ -3,15 +3,11 @@ package com.ebaykorea.payback.infrastructure.gateway.client.dto;
 import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
 public class CashbackInfoDto {
   /** 캐시백 코드 */

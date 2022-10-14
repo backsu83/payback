@@ -3,22 +3,19 @@ package com.ebaykorea.payback.infrastructure.gateway.client.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;;
 
 import java.util.List;
 
-@Getter
-@Builder
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
-public class CashbackRequestDto {
+public class CashbackRewardRequestDto {
 
   private Integer totalPrice;
   private List<Goods> goods;
 
-  @Getter
-  @Builder
+  @Data
   @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
   public static class Goods {
     private Integer siteCd;
