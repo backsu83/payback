@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.gateway.client.dto;
+package com.ebaykorea.payback.infrastructure.gateway.client.reward.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;

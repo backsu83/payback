@@ -1,8 +1,9 @@
 package com.ebaykorea.payback.infrastructure.gateway.client
 
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRewardRequestDto
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.RewardBaseResponse
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.RewardBaseReturn
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseReturn
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRequestDataDto_생성

@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.gateway.client.dto;
+package com.ebaykorea.payback.infrastructure.gateway.client.reward.dto;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.SmileCardType;
