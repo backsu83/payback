@@ -1,7 +1,7 @@
-package com.ebaykorea.payback.infrastructure.gateway.client;
+package com.ebaykorea.payback.infrastructure.gateway.client.reward;
 
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.*;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

@@ -1,11 +1,11 @@
-package com.ebaykorea.payback.infrastructure.gateway.impl;
+package com.ebaykorea.payback.infrastructure.gateway;
 
 import com.ebaykorea.payback.infrastructure.data.cashback.CashbackResponse;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRewardRequestDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.mapper.RewardGatewayMapper;
-import com.ebaykorea.payback.infrastructure.gateway.client.RewardApiClient;
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.RewardBaseResponse;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
