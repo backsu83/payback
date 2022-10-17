@@ -1,30 +1,23 @@
-package com.ebaykorea.payback.infrastructure.gateway.client.dto;
+package com.ebaykorea.payback.infrastructure.gateway.client.reward.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
-public class CashbackResponseDto {
+public class CashbackRewardResponseDto {
   private Integer totalItemCashbackAmount;
   private Integer totalNSPCashbackAmount;
   private Integer ifSmileCardCashbackAmount;
   private Integer ifNewSmileCardCashbackAmount;
   private String useEnableDate;
-  private List<CashbackResponseDto.Goods> goods;
+  private List<CashbackRewardResponseDto.Goods> goods;
 
-  @Getter
-  @Setter
-  @AllArgsConstructor
+  @Data
   @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
   public static class Goods {
     /** 클럽데이 예상 금액(클럽데이 적용될 경우에만 값이 있고 아니면 0) */

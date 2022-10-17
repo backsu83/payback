@@ -1,11 +1,10 @@
-package com.ebaykorea.payback.infrastructure.gateway.client.dto;
+package com.ebaykorea.payback.infrastructure.gateway.client.reward.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.*;
 
-@Value
-@Builder
+@Data
 @JsonDeserialize(builder = RewardBaseReturn.RewardBaseReturnBuilder.class)
 public class RewardBaseReturn {
     /** 결과 코드 */

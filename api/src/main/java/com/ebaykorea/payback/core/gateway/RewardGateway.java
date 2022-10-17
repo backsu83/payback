@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.core.gateway;
 
 import com.ebaykorea.payback.infrastructure.data.cashback.CashbackResponse;
-import com.ebaykorea.payback.infrastructure.gateway.client.dto.CashbackRequestDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
 
 public interface RewardGateway {
-  CashbackResponse getCashbackReward(final CashbackRequestDto request);
+  CashbackResponse getCashbackReward(final CashbackRewardRequestDto request);
 }
