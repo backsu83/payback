@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.model.policy;
+package com.ebaykorea.payback.core.domain.entity.policy;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

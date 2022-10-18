@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.model.cashback;
+package com.ebaykorea.payback.core.domain.entity.cashback;
 
 import java.math.BigDecimal;
 import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;

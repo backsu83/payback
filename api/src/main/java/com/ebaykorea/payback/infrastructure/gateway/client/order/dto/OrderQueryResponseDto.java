@@ -9,11 +9,8 @@ public class OrderQueryResponseDto {
   /** 주문 키 */
   private String orderKey;
 
-  /** 거래 키 */
-  private String txKey;
-
   /** 결제 번호 */
-  private String paySeq;
+  private Long paySeq;
 
   /** 주문 기본 정보 */
   private OrderBaseDto orderBase;

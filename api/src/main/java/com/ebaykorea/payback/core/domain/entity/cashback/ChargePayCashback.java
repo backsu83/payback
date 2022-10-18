@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.model.cashback;
+package com.ebaykorea.payback.core.domain.entity.cashback;
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.constant.ShopType;
@@ -12,21 +12,20 @@ import java.time.Instant;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class SmileCardCashback extends Cashback {
+public class ChargePayCashback extends Cashback {
 
-  private final BigDecimal t2t3Cashback;
-  private final boolean t2t3CashbackApply;
+  private final BigDecimal clubAmount;
 
-  public SmileCardCashback(
+  public ChargePayCashback(
       final long orderNo,
       final String itemNo,
       final CashbackType type,
       final ShopType shopType,
-      final BigDecimal amount,
+      final BigDecimal amount, //cashback_order와 detail.CHARGE_PAY_REWARD 저장하는 금액 소스가 다른데 통일할수 없는지 확인 필요
       final BigDecimal basisAmount,
       final Instant useEnableDate,
-      final BigDecimal t2t3Cashback,
-      final boolean t2t3CashbackApply
+      final BigDecimal clubAmount,
+      final boolean isChargePay
   ) {
     super(
         orderNo,
@@ -36,8 +35,8 @@ public class SmileCardCashback extends Cashback {
         amount,
         basisAmount,
         useEnableDate,
-        CashbackApplyStrategy.smileCardCashbackStrategy());
-    this.t2t3Cashback = t2t3Cashback;
-    this.t2t3CashbackApply = t2t3CashbackApply;
+        CashbackApplyStrategy.chargePayCashbackStrategy(amount, isChargePay));
+
+    this.clubAmount = clubAmount;
   }
 }

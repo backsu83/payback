@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.core;
 
-import com.ebaykorea.payback.core.domain.model.Cashbacks;
 import com.ebaykorea.payback.core.repository.CashbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
