@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.gateway.client
+package com.ebaykorea.payback.infrastructure.gateway.client.reward
 
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto

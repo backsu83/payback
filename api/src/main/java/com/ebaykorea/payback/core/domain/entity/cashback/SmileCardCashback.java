@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.model.cashback;
+package com.ebaykorea.payback.core.domain.entity.cashback;
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.constant.ShopType;
@@ -12,9 +12,12 @@ import java.time.Instant;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class ClubDayCashback extends Cashback {
+public class SmileCardCashback extends Cashback {
 
-  public ClubDayCashback(
+  private final BigDecimal t2t3Cashback;
+  private final boolean t2t3CashbackApply;
+
+  public SmileCardCashback(
       final long orderNo,
       final String itemNo,
       final CashbackType type,
@@ -22,7 +25,8 @@ public class ClubDayCashback extends Cashback {
       final BigDecimal amount,
       final BigDecimal basisAmount,
       final Instant useEnableDate,
-      final boolean isClubMember
+      final BigDecimal t2t3Cashback,
+      final boolean t2t3CashbackApply
   ) {
     super(
         orderNo,
@@ -32,6 +36,8 @@ public class ClubDayCashback extends Cashback {
         amount,
         basisAmount,
         useEnableDate,
-        CashbackApplyStrategy.clubDayCashbackStrategy(amount, isClubMember));
+        CashbackApplyStrategy.smileCardCashbackStrategy());
+    this.t2t3Cashback = t2t3Cashback;
+    this.t2t3CashbackApply = t2t3CashbackApply;
   }
 }
