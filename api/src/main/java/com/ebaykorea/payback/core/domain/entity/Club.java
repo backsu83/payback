@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.model;
+package com.ebaykorea.payback.core.domain.entity;
 
 import lombok.Value;
 
