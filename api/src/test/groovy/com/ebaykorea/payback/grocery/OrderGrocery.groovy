@@ -3,6 +3,7 @@ package com.ebaykorea.payback.grocery
 import com.ebaykorea.payback.core.domain.entity.Buyer
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscount
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscountUnit
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot
 import com.ebaykorea.payback.core.domain.entity.order.Order
 import com.ebaykorea.payback.core.domain.entity.order.OrderItem
 import com.ebaykorea.payback.core.domain.entity.order.OrderItemAddition
@@ -97,6 +98,19 @@ class OrderGrocery {
     new BundleDiscountUnit(
         (map.orderUnitKey ?: "orderUnitKey1") as String,
         (map.discountAmount ?: 100L) as BigDecimal,
+    )
+  }
+
+  static def ItemSnapshot_생성(Map map = [:]) {
+    new ItemSnapshot(
+        (map.snapshotKey ?: "itemSnapshotKey1") as String,
+        (map.itemNo ?: "itemNo1") as String,
+        (map.sellerCustNo ?: "sellerCustNo") as String,
+        (map.itemLargeCategoryCode ?: "1") as String,
+        (map.itemMediumCategoryCode ?: "2") as String,
+        (map.itemSmallCategoryCode ?: "3") as String,
+        (map.isMoneyCategory ?: false) as boolean,
+        (map.buyerMileageRate ?: 0L) as BigDecimal
     )
   }
 }

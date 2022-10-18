@@ -3,6 +3,8 @@ package com.ebaykorea.payback.grocery
 import com.ebaykorea.payback.core.domain.constant.MemberType
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.BundleDiscountDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.BuyerDto
+import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.ItemSnapshotDto
+import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.ItemTypeDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.OrderBaseDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.OrderItemAdditionDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.OrderItemDto
@@ -117,6 +119,25 @@ class OrderApiGrocery {
     new BundleDiscountDto.BundleDiscountUnitDto().tap{
       orderUnitKey = (map.orderUnitKey ?: "orderUnitKey1") as String
       discountAmount = (map.discountAmount ?: 100L) as BigDecimal
+    }
+  }
+
+  static def ItemSnapshotDto_생성(Map map = [:]) {
+    new ItemSnapshotDto().tap{
+      snapshotKey = (map.snapshotKey ?: "itemSnapshotKey1") as String
+      itemNo = (map.itemNo ?: "itemNo1") as String
+      sellerCustNo = (map.sellerCustNo ?: "sellerCustNo") as String
+      itemLargeCategoryCode = (map.itemLargeCategoryCode ?: "1") as String
+      itemMediumCategoryCode = (map.itemMediumCategoryCode ?: "2") as String
+      itemSmallCategoryCode = (map.itemSmallCategoryCode ?: "3") as String
+      itemType = (map.itemType ?: ItemTypeDto_생성(map)) as ItemTypeDto
+      buyerMileageRate = (map.buyerMileageRate ?: 0L) as BigDecimal
+    }
+  }
+
+  static def ItemTypeDto_생성(Map map = [:]) {
+    new ItemTypeDto().tap {
+      isMoneyCategory = (map.isMoneyCategory ?: false) as Boolean
     }
   }
 }

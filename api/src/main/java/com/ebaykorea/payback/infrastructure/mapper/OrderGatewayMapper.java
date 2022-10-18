@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.mapper;
 
 import com.ebaykorea.payback.core.domain.constant.MemberType;
 import com.ebaykorea.payback.core.domain.entity.Buyer;
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.order.OrderItem;
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.*;
@@ -37,4 +38,14 @@ public interface OrderGatewayMapper {
   @Mapping(source = "snapshotKey", target = "itemSnapshotKey")
   @Mapping(source = "source.branch.branchPrice", target = "branchPrice")
   OrderItem map(OrderItemDto source);
+
+  @Mapping(source = "source.itemType", target = "isMoneyCategory", qualifiedByName = "mapIsMoneyCategory")
+  ItemSnapshot map(ItemSnapshotDto source);
+
+  @Named("mapIsMoneyCategory")
+  default boolean mapIsMoneyCategory(ItemTypeDto source) {
+    return Optional.ofNullable(source)
+        .map(ItemTypeDto::getIsMoneyCategory)
+        .orElse(false);
+  }
 }
