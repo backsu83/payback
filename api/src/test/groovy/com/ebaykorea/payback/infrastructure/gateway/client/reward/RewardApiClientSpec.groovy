@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.reward
 
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseReturn
@@ -21,7 +20,7 @@ class RewardApiClientSpec extends Specification {
     result == response
 
     where:
-    desc | request                     | response
-    "캐시백 api 테스트"   | CashbackRequestDataDto_생성() | new RewardBaseResponse(RewardBaseReturn.builder().returnCode("0000").build(), CashbackResponseDataDto_생성())
+    desc          | request                     | response
+    "캐시백 api 테스트" | CashbackRequestDataDto_생성() | new RewardBaseResponse(RewardBaseReturn.builder().returnCode("0000").build(), CashbackResponseDataDto_생성())
   }
 }

@@ -138,6 +138,7 @@ class OrderApiGrocery {
   static def ItemTypeDto_생성(Map map = [:]) {
     new ItemTypeDto().tap {
       isMoneyCategory = (map.isMoneyCategory ?: false) as Boolean
+      isSmileDelivery = (map.isSmileDelivery ?: false) as Boolean
     }
   }
 }

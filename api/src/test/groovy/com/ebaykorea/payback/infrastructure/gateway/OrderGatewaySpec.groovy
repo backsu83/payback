@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots
 import com.ebaykorea.payback.infrastructure.gateway.client.order.OrderApiClient
 import com.ebaykorea.payback.infrastructure.mapper.OrderGatewayMapper
 import org.mapstruct.factory.Mappers
@@ -55,7 +56,7 @@ class OrderGatewaySpec extends Specification {
 
     where:
     desc | response                                                                                           | expectResult
-    "단일" | [ItemSnapshotDto_생성()]                                                                             | [ItemSnapshot_생성()]
-    "복수" | [ItemSnapshotDto_생성(), ItemSnapshotDto_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)] | [ItemSnapshot_생성(), ItemSnapshot_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)]
+    "단일" | [ItemSnapshotDto_생성()]                                                                             | ItemSnapshots.of([ItemSnapshot_생성()])
+    "복수" | [ItemSnapshotDto_생성(), ItemSnapshotDto_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)] | ItemSnapshots.of([ItemSnapshot_생성(), ItemSnapshot_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)])
   }
 }

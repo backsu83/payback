@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.grocery
 
-import com.ebaykorea.payback.core.domain.entity.Buyer
+import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Buyer
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscount
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscountUnit
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot
@@ -110,6 +110,7 @@ class OrderGrocery {
         (map.itemMediumCategoryCode ?: "2") as String,
         (map.itemSmallCategoryCode ?: "3") as String,
         (map.isMoneyCategory ?: false) as boolean,
+        (map.isSmileDelivery ?: false) as boolean,
         (map.buyerMileageRate ?: 0L) as BigDecimal
     )
   }

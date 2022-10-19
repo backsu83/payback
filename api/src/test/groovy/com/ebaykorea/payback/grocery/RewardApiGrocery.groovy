@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackInfoDto
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodResponseDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardResponseDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.ClubDayCashbackInfoDto
@@ -17,6 +18,7 @@ class RewardApiGrocery {
 
   static def CashbackRequestDtoGoods_생성(Map map = [:]) {
     new CashbackRewardRequestDto.Goods().tap {
+      key = (map.key ?: "orderNo1") as String
       siteCd = (map.siteCd ?: 0) as Integer
       gdNo = (map.gdNo ?: "gdNo") as String
       gdlcCd = (map.gdlcCd ?: "gdlcCd") as String
@@ -25,8 +27,10 @@ class RewardApiGrocery {
       scNo = (map.scNo ?: "scNo") as String
       isSmileClub = (map.isSmileClub ?: false) as Boolean
       isSmileDelivery = (map.isSmileDelivery ?: false) as Boolean
+      isSmileFresh = (map.isSmileFresh ?: false) as Boolean
       qty = (map.qty ?: 1) as Integer
       price = (map.price ?: 1000) as Integer
+      marketabilityItemYn = (map.marketabilityItemYn ?: "N") as String
     }
   }
 
@@ -37,12 +41,12 @@ class RewardApiGrocery {
       ifSmileCardCashbackAmount = (map.ifSmileCardCashbackAmount ?: 0) as Integer
       ifNewSmileCardCashbackAmount = (map.ifNewSmileCardCashbackAmount ?: 0) as Integer
       useEnableDate = (map.useEnableDate ?: "") as String
-      goods = (map.goods ?: [CashbackResponseDtoGoods_생성()]) as List<CashbackRewardResponseDto.Goods>
+      goods = (map.goods ?: [CashbackRewardGoodResponseDto_생성()]) as List<CashbackRewardGoodResponseDto>
     }
   }
 
-  static def CashbackResponseDtoGoods_생성(Map map = [:]) {
-    new CashbackRewardResponseDto.Goods().tap {
+  static def CashbackRewardGoodResponseDto_생성(Map map = [:]) {
+    new CashbackRewardGoodResponseDto().tap {
       clubDayExpectSaveAmount = (map.clubDayExpectSaveAmount ?: 0) as Integer
       clubDayExpectSaveRate = (map.clubDayExpectSaveRate ?: 0) as Integer
       key = (map.key ?: "key") as String

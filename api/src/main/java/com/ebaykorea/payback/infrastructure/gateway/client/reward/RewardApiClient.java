@@ -3,6 +3,7 @@ package com.ebaykorea.payback.infrastructure.gateway.client.reward;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
 import io.github.resilience4j.retry.annotation.Retry;
+import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,14 +24,14 @@ public interface RewardApiClient {
       method = RequestMethod.POST,
       value = "/api/Read/V2/CashbackReward"
   )
-  RewardBaseResponse<CashbackRewardResponseDto> getCashbackReward(@RequestBody final CashbackRewardRequestDto request);
+  Optional<RewardBaseResponse<CashbackRewardResponseDto>> getCashbackReward(@RequestBody final CashbackRewardRequestDto request);
 
   @RequestMapping(
       method = RequestMethod.POST,
       value = "api/Read/V2/CashbackRewardBackend",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  RewardBaseResponse<List<CashbackRewardBackendResponseDto>> getCashbackRewardBackend(@RequestBody final CashbackRewardRequestDto request);
+  Optional<RewardBaseResponse<List<CashbackRewardBackendResponseDto>>> getCashbackRewardBackend(@RequestBody final CashbackRewardRequestDto request);
 
   /**
    * 스마일카드 T2T3 캐시백 저장

@@ -28,8 +28,14 @@ public class ItemSnapshot {
   /** 상품소분류코드 */
   private String itemSmallCategoryCode;
 
-  /** 상품타입 */
+  /** 환금성 상품 여부 */
   private boolean isMoneyCategory;
+
+  /** 스마일배송 상품 여부 */
+  private boolean isSmileDelivery;
+
+  /** 스마일프레시 상품 여부 */
+  private boolean isSmileFresh;
 
   /** 구매자마일리지율 */
   private BigDecimal buyerMileageRate;

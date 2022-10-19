@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
-import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.gateway.OrderGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.order.OrderApiClient;
@@ -21,15 +21,17 @@ public class OrderGatewayImpl implements OrderGateway {
   private static final String ORDER_QUERY_FIELDS = "orderKey,paySeq,orderBase,orderUnits,buyer,bundleDiscounts,tenant";
 
   @Override
-  public Optional<Order> findOrder(final String orderKey, final String userKey) {
+  public Optional<Order> findOrder(final String orderKey) {
     return orderApiClient.findOrder(orderKey, ORDER_QUERY_FIELDS)
-        .map(order -> orderGatewayMapper.map(order, userKey));
+        .map(orderGatewayMapper::map);
   }
 
   @Override
-  public List<ItemSnapshot> findItemSnapshot(final List<String> itemSnapshotKeys) {
-    return orderApiClient.findItemSnapshots(itemSnapshotKeys).stream()
+  public ItemSnapshots findItemSnapshot(final List<String> itemSnapshotKeys) {
+    final var itemSnapshots = orderApiClient.findItemSnapshots(itemSnapshotKeys).stream()
         .map(orderGatewayMapper::map)
         .collect(Collectors.toUnmodifiableList());
+
+    return ItemSnapshots.of(itemSnapshots);
   }
 }
