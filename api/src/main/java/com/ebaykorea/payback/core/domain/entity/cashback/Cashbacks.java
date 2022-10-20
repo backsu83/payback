@@ -1,13 +1,12 @@
-package com.ebaykorea.payback.core.domain.entity;
+package com.ebaykorea.payback.core.domain.entity.cashback;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
-import com.ebaykorea.payback.core.domain.entity.policy.Policy;
+import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Buyer;
+import com.ebaykorea.payback.core.domain.entity.cashback.policy.Policy;
 import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @EqualsAndHashCode
@@ -29,15 +28,4 @@ public class Cashbacks {
    * TODO: 캐시백 적립 여부에 따라 정책 정보도 함께 저장하는것이 좋을것 같은데 협의 후 결정 필요
    */
   private final List<Policy> policies;
-
-  //TODO: clubapi 연동 결과 위치 확인
-  private final Club club;
-
-  public Optional<Club> findClub() {
-    return Optional.ofNullable(club);
-  }
-
-  public boolean hasClub() {
-    return findClub().isPresent();
-  }
 }
