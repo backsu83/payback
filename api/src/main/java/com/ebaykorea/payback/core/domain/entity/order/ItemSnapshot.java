@@ -1,11 +1,15 @@
-package com.ebaykorea.payback.infrastructure.gateway.client.order.dto;
+package com.ebaykorea.payback.core.domain.entity.order;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
-public class ItemSnapshotDto {
+@Getter
+@Builder
+@EqualsAndHashCode
+@ToString
+@AllArgsConstructor
+public class ItemSnapshot {
   /** 상품 스냅샷 키 */
   private String snapshotKey;
 
@@ -25,7 +29,7 @@ public class ItemSnapshotDto {
   private String itemSmallCategoryCode;
 
   /** 상품타입 */
-  private ItemTypeDto itemType;
+  private boolean isMoneyCategory;
 
   /** 구매자마일리지율 */
   private BigDecimal buyerMileageRate;

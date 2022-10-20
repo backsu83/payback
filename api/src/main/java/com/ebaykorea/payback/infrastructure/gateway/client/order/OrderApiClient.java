@@ -32,5 +32,5 @@ public interface OrderApiClient {
       value = "/snapshot/item/items",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  List<ItemSnapshotDto> getItemSnapshots(@RequestParam("snapshotKeys")final List<String> snapshotKeys);
+  List<ItemSnapshotDto> findItemSnapshots(@RequestParam("snapshotKeys")final List<String> snapshotKeys);
 }

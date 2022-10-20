@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.gateway.OrderGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.order.OrderApiClient;
@@ -7,7 +8,9 @@ import com.ebaykorea.payback.infrastructure.mapper.OrderGatewayMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,5 +26,10 @@ public class OrderGatewayImpl implements OrderGateway {
         .map(order -> orderGatewayMapper.map(order, userKey));
   }
 
-  //TODO 주문시점의 상품 스냅샷 조회
+  @Override
+  public List<ItemSnapshot> findItemSnapshot(final List<String> itemSnapshotKeys) {
+    return orderApiClient.findItemSnapshots(itemSnapshotKeys).stream()
+        .map(orderGatewayMapper::map)
+        .collect(Collectors.toUnmodifiableList());
+  }
 }
