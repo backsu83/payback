@@ -6,6 +6,5 @@ pluginManagement {
 }
 
 rootProject.name = 'payback'
-include 'core'
 include 'api'
 
