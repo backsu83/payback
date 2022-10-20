@@ -4,12 +4,15 @@ import com.ebaykorea.payback.util.PaybackDecimals;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Data
-@JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
+@AllArgsConstructor
+@NoArgsConstructor
 public class PaymentMainDto {
     /**
      * 결제 금액
@@ -26,7 +29,7 @@ public class PaymentMainDto {
     /**
      * 결제 인증 seq
      */
-    long payAuthSeq;
+//    long payAuthSeq;
 
     @JsonIgnore
     public boolean hasAmount() {

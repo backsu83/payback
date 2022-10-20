@@ -1,12 +1,17 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.payment.dto;
 
 import com.ebaykorea.payback.core.domain.constant.PaymentType;
+import com.ebaykorea.payback.core.exception.PaybackException;
+import com.ebaykorea.payback.core.exception.PaybackExceptionCode;
 import com.ebaykorea.payback.infrastructure.gateway.client.payment.dto.auth.SmilePayDto;
+import com.ebaykorea.payback.infrastructure.persistence.redis.support.GsonUtils;
 import com.ebaykorea.payback.util.PaybackDecimals;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +24,8 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 
 
 @Data
-@JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
+@AllArgsConstructor
+@NoArgsConstructor
 public class PaymentDto {
     /** 결제 순번 **/
     Long paymentSequence;
@@ -37,7 +43,7 @@ public class PaymentDto {
     List<PaymentSubDto> subPaymentMethods;
     /** 인증 정보 */
     PaymentAuthDto authentications;
-//    /** 메타 */
+    /** 메타 */
 //    MetaDto meta;
 
     /**
@@ -58,7 +64,7 @@ public class PaymentDto {
         if (paymentType == PaymentType.NewSmilePay) {
             return PaymentType.Complex;
         } else if (paymentType == PaymentType.Unknown) {
-            throw new PaymentBusinessException("fail to paymentType");        }
+            throw new PaybackException(PaybackExceptionCode.GATEWAY_001, "unknown paymentType");        }
 
         return paymentType;
     }
@@ -81,7 +87,7 @@ public class PaymentDto {
     private List<PaymentType> toSmilepayPaymentTypes(final SmilePayDto newSmilePay) {
 
         if (newSmilePay == null) {
-            throw new PaymentBusinessException("newSmilePay is null");
+            throw new PaybackException(PaybackExceptionCode.GATEWAY_001, "newSmilePay is null");
         }
 
         /**
@@ -97,7 +103,7 @@ public class PaymentDto {
                 .collect(toUnmodifiableList());
 
         if (smilepayPaymentTypes.isEmpty()){
-            throw new PaymentBusinessException("fail to smilepayPaymentTypes");
+            throw new PaybackException(PaybackExceptionCode.GATEWAY_001, "fail to smilepayPaymentTypes");
         }
 
         return smilepayPaymentTypes;
@@ -105,14 +111,10 @@ public class PaymentDto {
 
     @JsonIgnore
     public boolean hasMainPayment() {
-        return hasMainPaymentAmount() || hasMainPaymentMethod(mainPaymentMediumCode(Direct));
-    }
-
-    @JsonIgnore
-    private boolean hasMainPaymentAmount() {
-        return Optional.ofNullable(mainPaymentMethod)
+        Boolean hasMainPaymentAmount = Optional.ofNullable(mainPaymentMethod)
                 .map(PaymentMainDto::hasAmount)
                 .orElse(false);
+        return hasMainPaymentAmount || hasMainPaymentMethod(mainPaymentMediumCode(Direct));
     }
 
     @JsonIgnore
@@ -132,9 +134,7 @@ public class PaymentDto {
 
     private PaymentType toMainPaymentType() {
         // 부 결제 수단 100%인 경우 (스마일캐시 전액 등) 주 결제수단은 Unknown
-        return hasMainPayment()
-                ? toRawMainPaymentType()
-                : PaymentType.Unknown;
+        return hasMainPayment() ? toRawMainPaymentType() : PaymentType.Unknown;
     }
 
 }

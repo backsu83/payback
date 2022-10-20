@@ -7,6 +7,7 @@ import lombok.*;
 import java.util.Optional;
 
 @Data
+@Builder
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
 public class RewardBaseResponse<T> {
     private final static String ResponseOK = "0000";

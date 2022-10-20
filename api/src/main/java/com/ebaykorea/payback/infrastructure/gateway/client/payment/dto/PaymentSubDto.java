@@ -8,7 +8,6 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
 public class PaymentSubDto {
     /**
      * 결제 금액

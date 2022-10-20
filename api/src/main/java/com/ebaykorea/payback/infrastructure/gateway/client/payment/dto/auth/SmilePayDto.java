@@ -2,17 +2,17 @@ package com.ebaykorea.payback.infrastructure.gateway.client.payment.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Data
-@JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
+@AllArgsConstructor
+@NoArgsConstructor
 public class SmilePayDto {
 
     String certificationId;
@@ -24,11 +24,8 @@ public class SmilePayDto {
     BigDecimal etcRequestMoney;
     @JsonProperty("ePrepayRequestMoney")
     BigDecimal ePrepayRequestMoney;
-    String cashReceiptEncryptionValue;
-//    CashReceiptType cashReceiptType;
-//    CashReceiptWayType cashReceiptWayType;
     Boolean isFreeInstallment;
-    Long settleGroupSeq;
+    Long settleGroupSequence;
     List<Long> smilePayContractCode;
     Integer smilePayItemType;
 

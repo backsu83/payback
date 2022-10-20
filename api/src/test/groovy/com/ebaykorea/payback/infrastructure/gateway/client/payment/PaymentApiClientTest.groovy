@@ -1,22 +1,26 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.payment
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+
 import spock.lang.Specification
+import static com.ebaykorea.payback.grocery.PaymentApiGrocery.paymentDto_생성
 
-@SpringBootTest
+
 class PaymentApiClientTest extends Specification {
+    def paymentClientApi = Stub(PaymentApiClient)
 
-    @Autowired
-    PaymentApiClient paymentApiClient;
 
     def "findPaymentRecord"() {
         setup:
-        def paySed = Long.valueOf(38876501);
+        paymentClientApi.findPaymentRecord(_ as Long) >> response
 
         expect:
-        def result = paymentApiClient.findPaymentRecord(paySed);
-        println result;
+        def result = paymentClientApi.findPaymentRecord(paySeq)
+        result == response
+
+        where:
+        desc                   | paySeq                 | response
+        "payment api 테스트"   | Long.valueOf(38876501) | paymentDto_생성()
+
 
     }
 }
