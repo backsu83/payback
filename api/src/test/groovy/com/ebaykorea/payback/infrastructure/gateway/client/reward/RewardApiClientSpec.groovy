@@ -22,6 +22,8 @@ class RewardApiClientSpec extends Specification {
 
     where:
     desc | request                     | response
-    "캐시백 api 테스트"   | CashbackRequestDataDto_생성() | new RewardBaseResponse(RewardBaseReturn.builder().returnCode("0000").build(), CashbackResponseDataDto_생성())
+    "캐시백 api 테스트"   | CashbackRequestDataDto_생성() | RewardBaseResponse.builder()
+                                                              .returnBase(RewardBaseReturn.builder().returnCode("0000").build())
+                                                              .result(CashbackResponseDataDto_생성()).build()
   }
 }
