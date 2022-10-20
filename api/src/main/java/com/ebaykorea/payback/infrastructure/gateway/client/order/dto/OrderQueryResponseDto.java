@@ -23,7 +23,4 @@ public class OrderQueryResponseDto {
 
   /** 주문 복수 할인 정보 */
   private List<BundleDiscountDto> bundleDiscounts;
-
-  /** 사이트 구분 테넌트 정보 (gmarket, gmarket-global, g9)*/
-  private String tenant;
 }

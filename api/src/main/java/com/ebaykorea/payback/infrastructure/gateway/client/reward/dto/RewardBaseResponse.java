@@ -6,19 +6,25 @@ import lombok.*;
 
 import java.util.Optional;
 
-@Data
-@Builder
+@Value
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
 public class RewardBaseResponse<T> {
-    private final static String ResponseOK = "0000";
 
-    private RewardBaseReturn returnBase;
+  private final static String ResponseOK = "0000";
 
-    private T result;
+  RewardBaseReturn returnBase;
 
-    public Optional<T> findData() {
-        return Optional.ofNullable(result);
+  T result;
+
+  public Optional<T> findSuccessData() {
+    if (!isSuccess()) {
+      return Optional.empty();
     }
-    public boolean isSuccess() { return returnBase != null && ResponseOK.equals(returnBase.getReturnCode()); }
+    return Optional.ofNullable(result);
+  }
+
+  private boolean isSuccess() {
+    return returnBase != null && ResponseOK.equals(returnBase.getReturnCode());
+  }
 
 }

@@ -1,6 +1,12 @@
 package com.ebaykorea.payback.core.domain.entity.order;
 
-import com.ebaykorea.payback.core.domain.entity.Buyer;
+import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
+import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Map;
 import lombok.*;
 
 import java.time.Instant;
@@ -19,7 +25,7 @@ public class Order {
   private Long paySeq;
 
   /** 구매자 정보 */
-  private Buyer buyer;
+  private OrderBuyer buyer;
 
   /** 주문 일자 */
   private Instant orderDate;
@@ -30,6 +36,13 @@ public class Order {
   /** 주문 복수 할인 정보 */
   private List<BundleDiscount> bundleDiscounts;
 
-  /** 사이트 구분 테넌트 정보 (gmarket, gmarket-global, g9)*/
-  private String tenant;
+  //orderUnit별 복수할인 적용 금액
+  public Map<String, BigDecimal> getBundleDiscountMap() {
+    return orEmptyStream(bundleDiscounts)
+        .map(BundleDiscount::getBundleDiscountUnits)
+        .flatMap(Collection::stream)
+        .collect(groupingBy(
+            BundleDiscountUnit::getOrderUnitKey,
+            mapping(BundleDiscountUnit::getDiscountAmount, summarizing())));
+  }
 }

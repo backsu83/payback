@@ -11,6 +11,9 @@ public class CashbackApplicationService {
   private final CashbackRepository cashbackRepository;
 
   public void setCashback(final String orderKey) {
+    //TODO: validation 어디서 할지
+    //회원여부, 주결제수단결제금액 유무, 수기결제여부
+
     //1. 주문정보 조회
 
     //2. 리워드 정책 조회

@@ -1,8 +1,11 @@
 package com.ebaykorea.payback.core.gateway;
 
-import com.ebaykorea.payback.infrastructure.data.cashback.CashbackResponse;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
+import com.ebaykorea.payback.core.domain.entity.order.Order;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
+import java.util.Map;
 
 public interface RewardGateway {
-  CashbackResponse getCashbackReward(final CashbackRewardRequestDto request);
+
+  RewardCashbackPolicies findCashbackPolicies(Order order, Map<String, ItemSnapshot> itemSnapshotMap);
 }
