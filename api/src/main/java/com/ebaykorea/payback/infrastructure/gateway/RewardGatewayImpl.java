@@ -5,6 +5,7 @@ import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
+import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.mapper.RewardGatewayMapper;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.GATEWAY_002;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +56,7 @@ public class RewardGatewayImpl implements RewardGateway {
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .orElseThrow(() -> new RuntimeException(""))); //TODO: Exception
+            .orElseThrow(() -> new PaybackException(GATEWAY_002, "getCashbackReward 실패")));
   }
 
   private CompletableFuture<List<CashbackRewardBackendResponseDto>> getCashbackBackendRewardAsync(final CashbackRewardRequestDto request) {
@@ -61,7 +64,7 @@ public class RewardGatewayImpl implements RewardGateway {
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .orElseThrow(() -> new RuntimeException(""))); //TODO: Exception
+            .orElseThrow(() -> new PaybackException(GATEWAY_002, "getCashbackRewardBackend 실패")));
   }
 
 
