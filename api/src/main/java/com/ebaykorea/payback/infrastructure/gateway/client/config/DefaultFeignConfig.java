@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +18,18 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
  */
 @Configuration
 public class DefaultFeignConfig {
+
+  @Autowired
+  private ObjectMapper objectMapper;
+
+  @Bean
+  public FeignRequestLogging customFeignRequestLogging() {
+    return new FeignRequestLogging();
+  }
+
   @Bean
   public Logger.Level feignLoggerLevel() {
-    return Logger.Level.FULL;
+    return Logger.Level.BASIC;
   }
 
   @Bean

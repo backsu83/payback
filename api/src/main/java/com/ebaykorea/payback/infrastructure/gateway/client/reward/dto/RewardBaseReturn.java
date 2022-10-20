@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.*;
 
 @Data
+@Builder
 @JsonDeserialize(builder = RewardBaseReturn.RewardBaseReturnBuilder.class)
 public class RewardBaseReturn {
     /** 결과 코드 */
