@@ -5,10 +5,7 @@ import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnit;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackInfoDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodResponseDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.util.PaybackBooleans;
 import com.ebaykorea.payback.util.PaybackNumbers;
 import java.math.BigDecimal;
@@ -19,6 +16,7 @@ import org.mapstruct.Mapping;
 public interface RewardGatewayMapper {
 
   //@Mapping(source = "", target = "key") //TODO: buyOrderNo (transaction-api 결과 필요)
+  @Mapping(constant = "orderNo1", target = "key")//TODO: test를 위한 임시 조치
   @Mapping(constant = "0", target = "siteCd")
   @Mapping(source = "itemSnapshot.itemNo", target = "gdNo")
   @Mapping(source = "itemSnapshot.itemLargeCategoryCode", target = "gdlcCd")
@@ -31,7 +29,7 @@ public interface RewardGatewayMapper {
   @Mapping(source = "orderUnit.orderItem.quantity", target = "qty")
   @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPriceWithBundleDiscount(bundleDiscountPrice)))", target = "price")
   @Mapping(expression = "java(PaybackBooleans.toYN(itemSnapshot.isMoneyCategory()))", target = "marketabilityItemYn")
-  CashbackRewardRequestDto.Goods map(OrderBuyer buyer, OrderUnit orderUnit, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice);
+  CashbackRewardGoodRequestDto map(OrderBuyer buyer, OrderUnit orderUnit, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice);
 
 
   @Mapping(expression = "java(Long.valueOf(goods.getKey()))", target = "policyKey")

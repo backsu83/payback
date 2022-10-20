@@ -6,18 +6,18 @@ import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPoli
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardResponseDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.mapper.RewardGatewayMapper;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
 import com.ebaykorea.payback.util.PaybackInstants;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,39 +29,53 @@ public class RewardGatewayImpl implements RewardGateway {
   private final RewardGatewayMapper rewardGatewayMapper;
 
   @Override
-  public RewardCashbackPolicies findCashbackPolicies(final Order order,
+  public RewardCashbackPolicies findCashbackPolicies(
+      final Order order,
       final Map<String, ItemSnapshot> itemSnapshotMap) {
     final var request = toCashbackRewardRequestDto(order, itemSnapshotMap);
 
-    final var cashbackRewardResponse = rewardApiClient.getCashbackReward(request)
-        .map(RewardBaseResponse::findSuccessData)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .orElseThrow(() -> new RuntimeException("")); //TODO: Exception
+    final var cashbackRewardResponseFuture = getCashbackRewardAsync(request);
+    final var cashbackRewardBackendsResponseFuture = getCashbackBackendRewardAsync(request);
 
-    final var cashbackRewardBackendsResponse = rewardApiClient.getCashbackRewardBackend(request)
-        .map(RewardBaseResponse::findSuccessData)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .orElseThrow(() -> new RuntimeException("")); //TODO: Exception
+    final var cashbackRewardResponse = cashbackRewardResponseFuture.join();
+    final var cashbackRewardBackendsResponse = cashbackRewardBackendsResponseFuture.join();
 
     return RewardCashbackPolicies.of(
         toRewardCashbackPolicies(cashbackRewardResponse),
         toRewardBackendCashbackPolicies(cashbackRewardBackendsResponse),
-        PaybackInstants.from(cashbackRewardResponse.getUseEnableDate()),
+        cashbackRewardResponse.getUseEnableDate(),
         BigDecimal.valueOf(cashbackRewardResponse.getIfSmileCardCashbackAmount()),
         BigDecimal.valueOf(cashbackRewardResponse.getIfNewSmileCardCashbackAmount()));
   }
 
-  CashbackRewardRequestDto toCashbackRewardRequestDto(final Order order,
-      final Map<String, ItemSnapshot> itemSnapshotMap) {
-    return CashbackRewardRequestDto.builder()
-        //.totalPrice() //TODO: 주결제수단 금액 payment-api 결과 필요
-        .goods(buildGoods(order, itemSnapshotMap))
-        .build();
+  private CompletableFuture<CashbackRewardResponseDto> getCashbackRewardAsync(final CashbackRewardRequestDto request) {
+    return CompletableFuture.supplyAsync(() -> rewardApiClient.getCashbackReward(request))
+        .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .orElseThrow(() -> new RuntimeException(""))); //TODO: Exception
   }
 
-  List<CashbackRewardRequestDto.Goods> buildGoods(final Order order,
+  private CompletableFuture<List<CashbackRewardBackendResponseDto>> getCashbackBackendRewardAsync(final CashbackRewardRequestDto request) {
+    return CompletableFuture.supplyAsync(() -> rewardApiClient.getCashbackRewardBackend(request))
+        .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .orElseThrow(() -> new RuntimeException(""))); //TODO: Exception
+  }
+
+
+  CashbackRewardRequestDto toCashbackRewardRequestDto(
+      final Order order,
+      final Map<String, ItemSnapshot> itemSnapshotMap) {
+    return new CashbackRewardRequestDto(
+        0, //TODO: 주결제수단 금액 payment-api 결과 필요
+        buildGoods(order, itemSnapshotMap)
+    );
+  }
+
+  List<CashbackRewardGoodRequestDto> buildGoods(
+      final Order order,
       final Map<String, ItemSnapshot> itemSnapshotMap) {
     final var bundleDiscountMap = order.getBundleDiscountMap();
 

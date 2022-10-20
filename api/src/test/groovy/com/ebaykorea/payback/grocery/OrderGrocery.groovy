@@ -1,10 +1,12 @@
 package com.ebaykorea.payback.grocery
 
-import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Buyer
+import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscount
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscountUnit
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots
 import com.ebaykorea.payback.core.domain.entity.order.Order
+import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer
 import com.ebaykorea.payback.core.domain.entity.order.OrderItem
 import com.ebaykorea.payback.core.domain.entity.order.OrderItemAddition
 import com.ebaykorea.payback.core.domain.entity.order.OrderItemOption
@@ -19,19 +21,17 @@ class OrderGrocery {
     new Order(
         (map.orderKey ?: "orderKey") as String,
         (map.paySeq ?: 1L) as Long,
-        (map.buyer ?: Buyer_생성(map)) as Buyer,
-        (map.orderDate ?: Instant.parse("2022-10-17T09:35:24.00Z")) as Instant,
+        (map.buyer ?: OrderBuyer_생성(map)) as OrderBuyer,
+        (map.orderDate ?: TestConstant.ORDER_DATE) as Instant,
         (map.orderUnits ?: [OrderUnit_생성(map)]) as List<OrderUnit>,
-        (map.bundleDiscounts ?: null) as List<BundleDiscount>,
-        (map.tenant ?: "gmarket") as String
+        (map.bundleDiscounts ?: null) as List<BundleDiscount>
     )
   }
 
-  static def Buyer_생성(Map map = [:]) {
-    new Buyer(
+  static def OrderBuyer_생성(Map map = [:]) {
+    new OrderBuyer(
         (map.buyerNo ?: "buyerNo") as String,
         (map.buyerId ?: "buyerId") as String,
-        (map.userKey ?: "userKey") as String,
         (map.member) as boolean,
         (map.smileClubMember ?: false) as boolean
     )
@@ -101,6 +101,12 @@ class OrderGrocery {
     )
   }
 
+  static def ItemSnapshots_생성(Map map = [:]) {
+    new ItemSnapshots(
+        (map.itemSnapshots ?: []) as List<ItemSnapshot>
+    )
+  }
+
   static def ItemSnapshot_생성(Map map = [:]) {
     new ItemSnapshot(
         (map.snapshotKey ?: "itemSnapshotKey1") as String,
@@ -111,6 +117,7 @@ class OrderGrocery {
         (map.itemSmallCategoryCode ?: "3") as String,
         (map.isMoneyCategory ?: false) as boolean,
         (map.isSmileDelivery ?: false) as boolean,
+        (map.isSmileFresh ?: false) as boolean,
         (map.buyerMileageRate ?: 0L) as BigDecimal
     )
   }

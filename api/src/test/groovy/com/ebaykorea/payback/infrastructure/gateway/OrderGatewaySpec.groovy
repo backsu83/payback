@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
-import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots
 import com.ebaykorea.payback.infrastructure.gateway.client.order.OrderApiClient
 import com.ebaykorea.payback.infrastructure.mapper.OrderGatewayMapper
 import org.mapstruct.factory.Mappers
@@ -16,6 +15,7 @@ import static com.ebaykorea.payback.grocery.OrderApiGrocery.OrderUnitCouponDto_�
 import static com.ebaykorea.payback.grocery.OrderApiGrocery.OrderUnitDiscountDto_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.BundleDiscount_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshot_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshots_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.OrderItemAddition_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.OrderItemOption_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnitCoupon_생성
@@ -32,7 +32,7 @@ class OrderGatewaySpec extends Specification {
     orderApiClient.findOrder(_ as String, _ as String) >> Optional.of(response)
 
     expect:
-    def result = orderGatewayImpl.findOrder("orderKey", "userKey")
+    def result = orderGatewayImpl.findOrder("orderKey")
     result != null
     result.get() == expectResult
 
@@ -56,7 +56,7 @@ class OrderGatewaySpec extends Specification {
 
     where:
     desc | response                                                                                           | expectResult
-    "단일" | [ItemSnapshotDto_생성()]                                                                             | ItemSnapshots.of([ItemSnapshot_생성()])
-    "복수" | [ItemSnapshotDto_생성(), ItemSnapshotDto_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)] | ItemSnapshots.of([ItemSnapshot_생성(), ItemSnapshot_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)])
+    "단일" | [ItemSnapshotDto_생성()]                                                                             | ItemSnapshots_생성(itemSnapshots: [ItemSnapshot_생성()])
+    "복수" | [ItemSnapshotDto_생성(), ItemSnapshotDto_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)] | ItemSnapshots_생성(itemSnapshots: [ItemSnapshot_생성(), ItemSnapshot_생성(snapshotKey: "itemSnapshotKey2", isMoneyCategory: true)])
   }
 }

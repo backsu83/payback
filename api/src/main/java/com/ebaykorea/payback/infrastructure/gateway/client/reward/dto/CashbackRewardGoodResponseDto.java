@@ -1,9 +1,14 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.reward.dto;
 
 import java.util.List;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
 public class CashbackRewardGoodResponseDto {
   /** 클럽데이 예상 금액(클럽데이 적용될 경우에만 값이 있고 아니면 0) */
   private Integer clubDayExpectSaveAmount;

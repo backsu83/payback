@@ -10,29 +10,29 @@ import lombok.Value;
 
 @Value
 public class RewardCashbackPolicies {
-  List<RewardCashbackPolicy> rewardCashbackPolicies;
-  List<RewardBackendCashbackPolicy> rewardBackendCashbackPolicies;
+  List<RewardCashbackPolicy> cashbackPolicies;
+  List<RewardBackendCashbackPolicy> backendCashbackPolicies;
 
-  Instant useEnableDate;
+  String useEnableDate;
   BigDecimal smileCardCashbackAmount;
   BigDecimal newSmileCardCashbackAmount;
 
   public static RewardCashbackPolicies of(
       final List<RewardCashbackPolicy> rewardCashbackPolicies,
       final List<RewardBackendCashbackPolicy> rewardBackendCashbackPolicies,
-      final Instant useEnableDate,
+      final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
     return new RewardCashbackPolicies(rewardCashbackPolicies, rewardBackendCashbackPolicies, useEnableDate, smileCardCashbackAmount, newSmileCardCashbackAmount);
   }
 
   public Map<Long, List<RewardCashbackPolicy>> policyMapByPolicyKey() {
-    return rewardCashbackPolicies.stream()
+    return cashbackPolicies.stream()
         .collect(groupingBy(RewardCashbackPolicy::getPolicyKey));
   }
 
   public Map<Long, List<RewardBackendCashbackPolicy>> backendPolicyMapByPolicyKey() {
-    return rewardBackendCashbackPolicies.stream()
+    return backendCashbackPolicies.stream()
         .collect(groupingBy(RewardBackendCashbackPolicy::getPolicyKey));
   }
 }

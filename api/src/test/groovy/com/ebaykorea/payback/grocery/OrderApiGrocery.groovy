@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.grocery
 
+import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.MemberType
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.BundleDiscountDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.BuyerDto
@@ -26,13 +27,12 @@ class OrderApiGrocery {
       buyer = (map.buyer ?: BuyerDto_생성(map)) as BuyerDto
       orderUnits = (map.orderUnits ?: [OrderUnitDto_생성(map)]) as List<OrderUnitDto>
       bundleDiscounts = (map.bundleDiscounts ?: null) as List<BundleDiscountDto>
-      tenant = (map.tenant ?: "gmarket") as String
     }
   }
 
   static def OrderBaseDto_생성(Map map = [:]) {
     new OrderBaseDto().tap {
-      orderDate = (map.orderDate ?: Instant.parse("2022-10-17T09:35:24.00Z")) as Instant
+      orderDate = (map.orderDate ?: TestConstant.ORDER_DATE) as Instant
     }
   }
 

@@ -36,9 +36,6 @@ public class Order {
   /** 주문 복수 할인 정보 */
   private List<BundleDiscount> bundleDiscounts;
 
-  /** 사이트 구분 테넌트 정보 (gmarket, gmarket-global, g9)*/
-  private String tenant;
-
   //orderUnit별 복수할인 적용 금액
   public Map<String, BigDecimal> getBundleDiscountMap() {
     return orEmptyStream(bundleDiscounts)
