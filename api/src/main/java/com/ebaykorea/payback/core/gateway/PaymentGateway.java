@@ -1,4 +1,8 @@
 package com.ebaykorea.payback.core.gateway;
 
-//public interface PaymentGateway {
-//}
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
+
+public interface PaymentGateway {
+
+    Payment findPaymentRecord(Long paySeq);
+}
