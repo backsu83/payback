@@ -1,0 +1,15 @@
+package com.ebaykorea.payback.infrastructure.mapper;
+
+import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Club;
+import com.ebaykorea.payback.infrastructure.gateway.client.club.dto.ClubDataDto;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper(componentModel = "spring")
+public interface ClubGatewayMapper {
+
+    @Mapping(source = "member.membershipGrade", target = "membershipGrade")
+    @Mapping(source = "member.payCycleType", target = "payCycleType")
+    @Mapping(source = "member.partnerID", target = "partnerID")
+    Club map(ClubDataDto clubDataDto);
+}

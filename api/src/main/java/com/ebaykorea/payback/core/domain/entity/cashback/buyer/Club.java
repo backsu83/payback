@@ -4,7 +4,7 @@ import lombok.Value;
 
 @Value
 public class Club {
-  String partnerId;
+  String partnerID;
   String payCycleType;
   String membershipGrade;
 }
