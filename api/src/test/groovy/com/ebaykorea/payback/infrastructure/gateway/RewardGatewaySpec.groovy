@@ -2,7 +2,6 @@ package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseReturn
@@ -11,9 +10,10 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshot_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnitKey_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnit_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.Order_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackInfoDto_생성
-import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRequestDataDto_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackResponseDataDto_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRewardBackendResponseDto_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRewardGoodRequestDto_생성
@@ -33,7 +33,7 @@ class RewardGatewaySpec extends Specification {
     rewardApiClient.getCashbackRewardBackend(_ as CashbackRewardRequestDto) >> Optional.of(new RewardBaseResponse(rewardBase, cashbackBackendResponse))
 
     expect:
-    def result = rewardGatewayImpl.findCashbackPolicies(Order_생성(), ["itemSnapshotKey1": ItemSnapshot_생성()])
+    def result = rewardGatewayImpl.getCashbackPolicies(Order_생성(), ["itemSnapshotKey1": ItemSnapshot_생성()], ["orderUnitKey1": OrderUnitKey_생성()])
     result == expectResult
 
     where:
@@ -44,11 +44,12 @@ class RewardGatewaySpec extends Specification {
 
   def "request에 대한 매핑이 정상인지 확인한다"() {
     expect:
-    def result = rewardGatewayImpl.buildGoods(주문, 상품)
+    def result = rewardGatewayImpl.buildGoods(주문, 상품, 키)
     result == expectResult
 
     where:
-    desc | 주문         | 상품                                      | expectResult
-    "기본" | Order_생성() | ["itemSnapshotKey1": ItemSnapshot_생성()] | [CashbackRewardGoodRequestDto_생성()]
+    desc    | 주문                                                                                  | 상품                                      | 키                                                                                                                     | expectResult
+    "기본"    | Order_생성()                                                                          | ["itemSnapshotKey1": ItemSnapshot_생성()] | ["orderUnitKey1": OrderUnitKey_생성()]                                                                                  | [CashbackRewardGoodRequestDto_생성()]
+    "여러 주문" | Order_생성(orderUnits: [OrderUnit_생성(), OrderUnit_생성(orderUnitKey: "orderUnitKey2")]) | ["itemSnapshotKey1": ItemSnapshot_생성()] | ["orderUnitKey1": OrderUnitKey_생성(), "orderUnitKey2": OrderUnitKey_생성(orderUnitKey: "orderUnitKey2", buyOrderNo: 2L)] | [CashbackRewardGoodRequestDto_생성(), CashbackRewardGoodRequestDto_생성(key: "2")]
   }
 }

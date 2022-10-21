@@ -23,3 +23,5 @@ apis:
     url: "https://clubapi-dev.gmarket.co.kr"
   payment:
     url: "http://payment-api-dev.gmarket.co.kr"
+  transaction:
+    url: "http://transaction-api-dev.gmarket.co.kr/v1"

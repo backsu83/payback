@@ -5,6 +5,7 @@ import com.ebaykorea.payback.core.domain.entity.order.BundleDiscount
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscountUnit
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots
+import com.ebaykorea.payback.core.domain.entity.order.KeyMap
 import com.ebaykorea.payback.core.domain.entity.order.Order
 import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer
 import com.ebaykorea.payback.core.domain.entity.order.OrderItem
@@ -13,6 +14,7 @@ import com.ebaykorea.payback.core.domain.entity.order.OrderItemOption
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnit
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitCoupon
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitDiscount
+import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey
 
 import java.time.Instant
 
@@ -102,7 +104,7 @@ class OrderGrocery {
   }
 
   static def ItemSnapshots_생성(Map map = [:]) {
-    new ItemSnapshots(
+    ItemSnapshots.of(
         (map.itemSnapshots ?: []) as List<ItemSnapshot>
     )
   }
@@ -119,6 +121,22 @@ class OrderGrocery {
         (map.isSmileDelivery ?: false) as boolean,
         (map.isSmileFresh ?: false) as boolean,
         (map.buyerMileageRate ?: 0L) as BigDecimal
+    )
+  }
+
+  static def KeyMap_생성(Map map = [:]) {
+    KeyMap.of(
+        (map.orderKey ?: "orderKey") as String,
+        (map.packNo ?: 1L) as long,
+        (map.orderUnitKeys ?: [OrderUnitKey_생성(map)]) as List<OrderUnitKey>,
+    )
+  }
+
+  static def OrderUnitKey_생성(Map map = [:]) {
+    new OrderUnitKey(
+        (map.orderUnitKey ?: "orderUnitKey1") as String,
+        (map.buyOrderNo ?: 1L) as long,
+        (map.contrNo ?: 1L) as long,
     )
   }
 }
