@@ -21,7 +21,7 @@ class RewardApiGrocery {
 
   static def CashbackRewardGoodRequestDto_생성(Map map = [:]) {
     new CashbackRewardGoodRequestDto().tap {
-      key = (map.key ?: "orderNo1") as String
+      key = (map.key ?: "1") as String
       siteCd = (map.siteCd ?: 0) as Integer
       gdNo = (map.gdNo ?: "itemNo1") as String
       gdlcCd = (map.gdlcCd ?: "1") as String

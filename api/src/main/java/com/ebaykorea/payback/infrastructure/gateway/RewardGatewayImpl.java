@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.gateway;
 
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
+import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
@@ -10,7 +11,6 @@ import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.mapper.RewardGatewayMapper;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
-import com.ebaykorea.payback.util.PaybackInstants;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,10 +32,11 @@ public class RewardGatewayImpl implements RewardGateway {
   private final RewardGatewayMapper rewardGatewayMapper;
 
   @Override
-  public RewardCashbackPolicies findCashbackPolicies(
+  public RewardCashbackPolicies getCashbackPolicies(
       final Order order,
-      final Map<String, ItemSnapshot> itemSnapshotMap) {
-    final var request = toCashbackRewardRequestDto(order, itemSnapshotMap);
+      final Map<String, ItemSnapshot> itemSnapshotMap,
+      final Map<String, OrderUnitKey> orderUnitKeyMap) {
+    final var request = toCashbackRewardRequestDto(order, itemSnapshotMap, orderUnitKeyMap);
 
     final var cashbackRewardResponseFuture = getCashbackRewardAsync(request);
     final var cashbackRewardBackendsResponseFuture = getCashbackBackendRewardAsync(request);
@@ -70,16 +71,20 @@ public class RewardGatewayImpl implements RewardGateway {
 
   CashbackRewardRequestDto toCashbackRewardRequestDto(
       final Order order,
-      final Map<String, ItemSnapshot> itemSnapshotMap) {
+      final Map<String, ItemSnapshot> itemSnapshotMap,
+      final Map<String, OrderUnitKey> orderUnitKeyMap
+  ) {
     return new CashbackRewardRequestDto(
         0, //TODO: 주결제수단 금액 payment-api 결과 필요
-        buildGoods(order, itemSnapshotMap)
+        buildGoods(order, itemSnapshotMap, orderUnitKeyMap)
     );
   }
 
   List<CashbackRewardGoodRequestDto> buildGoods(
       final Order order,
-      final Map<String, ItemSnapshot> itemSnapshotMap) {
+      final Map<String, ItemSnapshot> itemSnapshotMap,
+      final Map<String, OrderUnitKey> orderUnitKeyMap
+  ) {
     final var bundleDiscountMap = order.getBundleDiscountMap();
 
     return order.getOrderUnits().stream()
@@ -87,6 +92,7 @@ public class RewardGatewayImpl implements RewardGateway {
             rewardGatewayMapper.map(
                 order.getBuyer(),
                 orderUnit,
+                orderUnitKeyMap.get(orderUnit.getOrderUnitKey()),
                 itemSnapshotMap.get(orderUnit.getOrderItem().getItemSnapshotKey()),
                 bundleDiscountMap.get(orderUnit.getOrderUnitKey())))
         .collect(Collectors.toUnmodifiableList());
