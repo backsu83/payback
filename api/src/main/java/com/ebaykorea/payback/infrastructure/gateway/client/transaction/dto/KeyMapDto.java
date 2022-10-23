@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class KeyMapDto {
-  private String transactionKey;
+  private String txKey;
   private String orderKey;
   private Long packNo;
   private String orderUnitKey;
