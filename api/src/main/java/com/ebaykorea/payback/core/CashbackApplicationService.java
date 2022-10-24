@@ -10,7 +10,7 @@ public class CashbackApplicationService {
 
   private final CashbackRepository cashbackRepository;
 
-  public void setCashback(final String orderKey) {
+  public void setCashback(final String txKey, final String orderKey) {
     //TODO: validation 어디서 할지
     //회원여부, 주결제수단결제금액 유무, 수기결제여부
 

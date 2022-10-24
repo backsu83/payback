@@ -2,13 +2,15 @@ package com.ebaykorea.payback.infrastructure.gateway.client.transaction;
 
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
 import com.ebaykorea.payback.infrastructure.gateway.client.transaction.dto.KeyMapDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.transaction.dto.KeyMapResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.Optional;
 
 @FeignClient(
     value = "transactionApiClient",
@@ -16,11 +18,13 @@ import java.util.List;
     configuration = DefaultFeignConfig.class
 )
 public interface TransactionApiClient {
-  //TODO: 현재 transaction-api에 orderKey로 조회하는 기능이 없어 추가 예정입니다
   @RequestMapping(
       method = RequestMethod.GET,
-      value = "/key/maps",
+      value = "/key/maps/{tx-key}",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  List<KeyMapDto> findKeyMaps(@RequestParam("order-key")final String orderKey);
+  Optional<KeyMapResponseDto> findKeyMaps(
+      @PathVariable(value = "tx-key") final String txKey,
+      @RequestParam("order-key")final String orderKey,
+      @RequestParam("fields")final String fields);
 }

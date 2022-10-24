@@ -25,7 +25,7 @@ public class CashbackController {
    */
   @PostMapping("/cashbacks")
   public void saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
-    applicationService.setCashback(request.getOrderKey());
+    applicationService.setCashback(request.getTxKey(), request.getOrderKey());
   }
 }
 
