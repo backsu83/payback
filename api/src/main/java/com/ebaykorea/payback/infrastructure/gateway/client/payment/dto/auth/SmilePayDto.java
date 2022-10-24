@@ -20,7 +20,8 @@ public class SmilePayDto {
     BigDecimal cashRequestMoney;
     BigDecimal mobileRequestMoney;
     BigDecimal etcRequestMoney;
-    BigDecimal ePrepayRequestMoney;
+    @JsonProperty("ePrepayRequestMoney")
+    BigDecimal prepayRequestMoney;
     Boolean isFreeInstallment;
     Long settleGroupSequence;
     List<Long> smilePayContractCode;

@@ -54,7 +54,7 @@ class PaymentTest extends Specification {
                 cashRequestMoney: cash,
                 mobileRequestMoney: mobile,
                 etcRequestMoney: etc,
-                ePrepayRequestMoney: ePrepay,
+                prepayRequestMoney: ePrepay,
         )
 
         expect:

@@ -25,7 +25,7 @@ public class SmilePay {
     BigDecimal cashRequestMoney;
     BigDecimal mobileRequestMoney;
     BigDecimal etcRequestMoney;
-    BigDecimal ePrepayRequestMoney;
+    BigDecimal prepayRequestMoney;
     Boolean isFreeInstallment;
     Long settleGroupSequence;
     List<Long> smilePayContractCode;
@@ -44,7 +44,7 @@ public class SmilePay {
         return Optional.ofNullable(etcRequestMoney);
     }
     public Optional<BigDecimal> findEPrepayRequestMoney(){
-        return Optional.ofNullable(ePrepayRequestMoney);
+        return Optional.ofNullable(prepayRequestMoney);
     }
 
     public List<PaymentType> toSmilepayPaymentTypes() {
