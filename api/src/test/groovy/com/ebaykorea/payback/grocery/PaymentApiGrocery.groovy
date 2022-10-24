@@ -38,7 +38,7 @@ class PaymentApiGrocery {
                 (map.cashRequestMoney ?: 0L as BigDecimal),
                 (map.mobileRequestMoney ?: 0L as BigDecimal),
                 (map.etcRequestMoney ?: 0L as BigDecimal),
-                (map.ePrepayRequestMoney ?: 0L as BigDecimal),
+                (map.prepayRequestMoney ?: 0L as BigDecimal),
                 (map.isFreeInstallment ?: false as Boolean),
                 (map.settleGroupSequence ?: null as Long),
                 (map.smilePayContractCode ?: [100] as List<Long>),
