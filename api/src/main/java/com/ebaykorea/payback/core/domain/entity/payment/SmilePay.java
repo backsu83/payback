@@ -25,7 +25,6 @@ public class SmilePay {
     BigDecimal cashRequestMoney;
     BigDecimal mobileRequestMoney;
     BigDecimal etcRequestMoney;
-    @JsonProperty("ePrepayRequestMoney")
     BigDecimal ePrepayRequestMoney;
     Boolean isFreeInstallment;
     Long settleGroupSequence;

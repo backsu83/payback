@@ -12,6 +12,7 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class Payment {
     /** 결제 순번 **/
     Long paymentSequence;
@@ -59,14 +60,13 @@ public class Payment {
      * 주결제정보 및 인증값 기준으로 주결제수단 PaymentType 변환
      * @return 스마일페이 인 경우 AX가 아닌 스마일페이 상세 PaymentType (SR, SH, SM, SE 등), 부결제수단 전액인 경우 Unknown
      */
-    public List<PaymentType> toDetailedMainPaymentTypes(SmilePay smilePay) {
+    public List<PaymentType> toDetailedMainPaymentTypes(List<PaymentType> types) {
 
         if (mainPaymentType == PaymentType.NewSmilePay) {
-            return smilePay.toSmilepayPaymentTypes();
+            return types;
         } else {
             return List.of(mainPaymentType);
         }
     }
-
 
 }

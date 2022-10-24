@@ -1,9 +1,5 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.payment.dto;
 
-import com.ebaykorea.payback.util.PaybackDecimals;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,28 +27,4 @@ public class PaymentMainDto {
      */
 //    long payAuthSeq;
 
-    @JsonIgnore
-    public boolean hasAmount() {
-        return PaybackDecimals.isGreaterThanZero(amount);
-    }
-
-    @JsonIgnore
-    public boolean hasMediumCode(final String ...mediumCodes) {
-        for (String code : mediumCodes) {
-            if (code.equals(mediumCode)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @JsonIgnore
-    public boolean hasSmallCode(final String ...smallCodes) {
-        for (String code : smallCodes) {
-            if (code.equals(smallCode)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
