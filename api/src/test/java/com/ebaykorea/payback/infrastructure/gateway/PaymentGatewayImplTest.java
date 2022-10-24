@@ -17,6 +17,6 @@ class PaymentGatewayImplTest {
 
     @Test
     void findPaymentRecord() {
-        paymentGateway.findPaymentRecord(38876501L);
+        paymentGateway.getPaymentRecord(38876501L);
     }
 }

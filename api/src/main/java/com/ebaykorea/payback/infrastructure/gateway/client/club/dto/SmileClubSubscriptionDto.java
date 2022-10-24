@@ -12,5 +12,5 @@ public final class SmileClubSubscriptionDto {
   private Long unifyMasterId;
   private String membershipGrade;
   private String payCycleType;
-  private String partnerID;
+  private String partnerId;
 }

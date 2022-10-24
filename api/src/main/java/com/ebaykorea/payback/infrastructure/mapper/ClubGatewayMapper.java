@@ -10,6 +10,6 @@ public interface ClubGatewayMapper {
 
     @Mapping(source = "member.membershipGrade", target = "membershipGrade")
     @Mapping(source = "member.payCycleType", target = "payCycleType")
-    @Mapping(source = "member.partnerID", target = "partnerID")
+    @Mapping(source = "member.partnerId", target = "partnerId")
     Club map(ClubDataDto clubDataDto);
 }

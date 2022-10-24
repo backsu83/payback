@@ -11,14 +11,14 @@ class ClubApiGrocery {
                     (map.unifyMasterId ?: 23268003L) as Long,
                     (map.membershipGrade ?: "BASC") as String,
                     (map.payCycleType ?: "ANNL") as String,
-                    (map.partnerID ?: "S001") as String
+                    (map.partnerId ?: "S001") as String
             )) as SmileClubSubscriptionDto
         )
     }
 
     static def club_생성(Map map = [:]) {
         new Club(
-            (map.partnerID ?: "S001") as String,
+            (map.partnerId ?: "S001") as String,
             (map.payCycleType ?: "ANNL") as String,
             (map.membershipGrade ?: "BASC") as String,
         )

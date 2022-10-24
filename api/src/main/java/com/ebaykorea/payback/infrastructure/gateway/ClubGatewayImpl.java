@@ -21,7 +21,7 @@ public class ClubGatewayImpl implements ClubGateway {
     private final ClubGatewayMapper clubGatewayMapper;
 
     @Override
-    public Optional<Club> getMemberSynopsis(String custNo) {
+    public Optional<Club> findMemberSynopsis(String custNo) {
         return Optional.of(clubGatewayMapper
                 .map(clubApiClient
                         .getMemberSynopsis(custNo)

@@ -15,7 +15,7 @@ public class PaymentGatewayImpl implements PaymentGateway {
     private final PaymentGatewayMapper paymentGatewayMapper;
 
     @Override
-    public Payment findPaymentRecord(Long paySeq) {
+    public Payment getPaymentRecord(Long paySeq) {
         return paymentGatewayMapper.map(paymentApiClient.findPaymentRecord(paySeq));
     }
 }

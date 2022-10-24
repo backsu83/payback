@@ -17,7 +17,7 @@ class ClubGatewayImplTest {
 
     @Test
     public void test() {
-        Club memberSynopsis = gateway.getMemberSynopsis("103574394").get();
+        Club memberSynopsis = gateway.findMemberSynopsis("103574394").get();
         System.out.println(GsonUtils.toJsonPretty(memberSynopsis));
     }
 }

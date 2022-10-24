@@ -18,7 +18,7 @@ class PaymentGatewaySpec extends Specification {
         paymentApiClient.findPaymentRecord(_ as Long) >> response
 
         expect:
-        def result = paymentGatewayImpl.findPaymentRecord(38876501L)
+        def result = paymentGatewayImpl.getPaymentRecord(38876501L)
         result == expectResult
 
         where:

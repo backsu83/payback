@@ -19,7 +19,7 @@ class ClubGatewaySpec extends Specification {
         clubApiClient.getMemberSynopsis(_ as String) >> ClubBaseResponseDto.builder().message("Success").data(response).build()
 
         expect:
-        def result = clubGatewayImpl.getMemberSynopsis("custNo")
+        def result = clubGatewayImpl.findMemberSynopsis("custNo")
         result == expectResult
 
         where:
