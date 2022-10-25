@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.mapper;
+package com.ebaykorea.payback.infrastructure.gateway.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Club;
 import com.ebaykorea.payback.infrastructure.gateway.client.club.dto.ClubDataDto;

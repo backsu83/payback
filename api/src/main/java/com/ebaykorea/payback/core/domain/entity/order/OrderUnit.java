@@ -5,9 +5,12 @@ import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackObjects.orElse;
 
 import java.math.BigDecimal;
+
+import com.ebaykorea.payback.util.PaybackStrings;
 import lombok.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Value
 @Builder
@@ -54,5 +57,15 @@ public class OrderUnit {
     return orEmptyStream(coupons)
         .map(OrderUnitCoupon::getCouponAmount)
         .collect(summarizing());
+  }
+
+  private Optional<OrderItem> findOrderItem() {
+    return Optional.ofNullable(orderItem);
+  }
+
+  public String getItemSnapshotKey() {
+    return findOrderItem()
+        .map(OrderItem::getItemSnapshotKey)
+        .orElse(PaybackStrings.EMPTY);
   }
 }

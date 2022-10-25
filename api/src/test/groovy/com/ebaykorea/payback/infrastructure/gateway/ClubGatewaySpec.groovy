@@ -2,7 +2,7 @@ package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.infrastructure.gateway.client.club.ClubApiClient
 import com.ebaykorea.payback.infrastructure.gateway.client.club.dto.ClubBaseResponseDto
-import com.ebaykorea.payback.infrastructure.mapper.ClubGatewayMapper
+import com.ebaykorea.payback.infrastructure.gateway.mapper.ClubGatewayMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 

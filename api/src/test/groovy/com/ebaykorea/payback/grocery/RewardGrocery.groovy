@@ -17,29 +17,29 @@ class RewardGrocery {
   }
 
   static def RewardCashbackPolicy_생성(Map map = [:]) {
-    new RewardCashbackPolicy(
-        (map.policyKey ?: 1L) as long,
-        (map.cashbackCd ?: CashbackType.Item) as CashbackType,
-        (map.cashbackAmount ?: 1000) as Integer,
-        (map.cashbackSeq ?: 1) as Integer,
-        (map.payType ?: "P") as String,
-        (map.payRate ?: 0L) as BigDecimal,
-        (map.payMaxMoney ?: 0L) as BigDecimal,
-        (map.cashbackTitle ?: "cashbackTitle") as String
-    )
+    RewardCashbackPolicy.builder()
+        .policyKey((map.policyKey ?: 1L) as long)
+        .cashbackCd((map.cashbackCd ?: CashbackType.Item) as CashbackType)
+        .cashbackAmount((map.cashbackAmount ?: 1000) as Integer)
+        .cashbackSeq((map.cashbackSeq ?: 1) as Integer)
+        .payType((map.payType ?: "P") as String)
+        .payRate((map.payRate ?: 0L) as BigDecimal)
+        .payMaxMoney((map.payMaxMoney ?: 0L) as BigDecimal)
+        .cashbackTitle((map.cashbackTitle ?: "cashbackTitle") as String)
+        .build()
   }
 
   static def RewardBackendCashbackPolicy_생성(Map map = [:]) {
-    new RewardBackendCashbackPolicy(
-        (map.policyKey ?: 1L) as long,
-        (map.cashbackSeq ?: 1) as Integer,
-        (map.cashbackCode ?: CashbackType.Item) as CashbackType,
-        (map.chargePayRewardRate ?: 0L) as BigDecimal,
-        (map.chargePayRewardClubRate ?: 0L) as BigDecimal,
-        (map.chargePayRewardMaxMoney ?: 0) as Integer,
-        (map.chargePayRewardClubMaxMoney ?: 0) as Integer,
-        (map.clubDayPayRate ?: 0L) as BigDecimal,
-        (map.clubDaySaveMaxMoney ?: 0) as Integer
-    )
+    RewardBackendCashbackPolicy.builder()
+        .policyKey((map.policyKey ?: 1L) as long)
+        .cashbackSeq((map.cashbackSeq ?: 1) as Integer)
+        .cashbackCode((map.cashbackCode ?: CashbackType.Item) as CashbackType)
+        .chargePayRewardRate((map.chargePayRewardRate ?: 0L) as BigDecimal)
+        .chargePayRewardClubRate((map.chargePayRewardClubRate ?: 0L) as BigDecimal)
+        .chargePayRewardMaxMoney((map.chargePayRewardMaxMoney ?: 0) as Integer)
+        .chargePayRewardClubMaxMoney((map.chargePayRewardClubMaxMoney ?: 0) as Integer)
+        .clubDayPayRate((map.clubDayPayRate ?: 0L) as BigDecimal)
+        .clubDaySaveMaxMoney((map.clubDaySaveMaxMoney ?: 0) as Integer)
+        .build()
   }
 }

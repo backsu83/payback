@@ -1,23 +1,29 @@
-package com.ebaykorea.payback.infrastructure.mapper;
+package com.ebaykorea.payback.infrastructure.gateway.mapper;
 
 import com.ebaykorea.payback.core.domain.constant.MemberType;
-import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
-import com.ebaykorea.payback.core.domain.entity.order.Order;
-import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer;
-import com.ebaykorea.payback.core.domain.entity.order.OrderItem;
+import com.ebaykorea.payback.core.domain.entity.order.*;
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
 
 @Mapper(componentModel = "spring")
 public interface OrderGatewayMapper {
 
-  //@Mapping(target = "buyer", expression = "java(mapToBuyer(source.getBuyer()))")
-  @Mapping(source = "source.orderBase.orderDate", target = "orderDate")
-  Order map(OrderQueryResponseDto source);
+  default Order map(final OrderQueryResponseDto source) {
+    return Order.of(
+        source.getOrderKey(),
+        source.getPaySeq(),
+        mapToBuyer(source.getBuyer()),
+        source.getOrderBase().getOrderDate(),
+        orEmptyStream(source.getOrderUnits()).map(this::map).collect(Collectors.toUnmodifiableList()),
+        orEmptyStream(source.getBundleDiscounts()).map(this::map).collect(Collectors.toUnmodifiableList()));
+  }
 
   @Mapping(source = "source.memberType", target = "member", qualifiedByName = "mapIsMember")
   @Mapping(source = "source.smileClubMembership", target = "smileClubMember", qualifiedByName = "mapIsSmileClubMember")
@@ -35,9 +41,13 @@ public interface OrderGatewayMapper {
         .orElse(false);
   }
 
+  OrderUnit map(OrderUnitDto source);
+
   @Mapping(source = "snapshotKey", target = "itemSnapshotKey")
   @Mapping(source = "source.branch.branchPrice", target = "branchPrice")
   OrderItem map(OrderItemDto source);
+
+  BundleDiscount map(BundleDiscountDto source);
 
   @Mapping(source = "source.itemType", target = "isMoneyCategory", qualifiedByName = "mapIsMoneyCategory")
   @Mapping(source = "source.itemType", target = "isSmileDelivery", qualifiedByName = "mapIsSmileDelivery")

@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @ToString
-@AllArgsConstructor
 public class Cashbacks {
   private final String orderKey;
   private final long packNo;
@@ -28,4 +27,42 @@ public class Cashbacks {
    * TODO: 캐시백 적립 여부에 따라 정책 정보도 함께 저장하는것이 좋을것 같은데 협의 후 결정 필요
    */
   private final List<Policy> policies;
+
+  private Cashbacks(
+      final String orderKey,
+      final long packNo,
+      final OrderSiteType orderSiteType,
+      final Instant orderDate,
+      final Buyer buyer,
+      final List<Cashback> cashbacks,
+      final List<Policy> policies
+  ) {
+    this.orderKey = orderKey;
+    this.packNo = packNo;
+    this.orderSiteType = orderSiteType;
+    this.orderDate = orderDate;
+    this.buyer = buyer;
+    this.cashbacks = cashbacks;
+    this.policies = policies;
+
+    validate();
+  }
+
+  public Cashbacks of(
+      final String orderKey,
+      final long packNo,
+      final OrderSiteType orderSiteType,
+      final Instant orderDate,
+      final Buyer buyer,
+      final List<Cashback> cashbacks,
+      final List<Policy> policies
+  ) {
+    return new Cashbacks(orderKey, packNo, orderSiteType, orderDate, buyer, cashbacks, policies);
+  }
+
+  //불변성 검사
+  private void validate() {
+
+  }
+
 }

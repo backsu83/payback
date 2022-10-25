@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.mapper;
+package com.ebaykorea.payback.infrastructure.gateway.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer;

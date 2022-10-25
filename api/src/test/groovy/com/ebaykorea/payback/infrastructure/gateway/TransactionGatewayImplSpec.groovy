@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.infrastructure.gateway.client.transaction.TransactionApiClient
-import com.ebaykorea.payback.infrastructure.mapper.TransactionGatewayMapper
+import com.ebaykorea.payback.infrastructure.gateway.mapper.TransactionGatewayMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 

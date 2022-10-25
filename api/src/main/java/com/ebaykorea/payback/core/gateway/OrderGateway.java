@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderGateway {
-  Optional<Order> findOrder(String orderKey);
-  ItemSnapshots findItemSnapshot(List<String> itemSnapshotKey);
+  Order getOrder(String orderKey);
+  ItemSnapshots getItemSnapshot(List<String> itemSnapshotKey);
 }

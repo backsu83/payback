@@ -7,13 +7,7 @@ import lombok.Data;
 
 @Data
 public class CardDto {
-
-    InstallmentType freeInstallmentType;
-
-    // 무이자할부 여부
-    public boolean isFreeInstallment() {
-        return freeInstallmentType == InstallmentType.InterestFree
-                || freeInstallmentType == InstallmentType.InterestOnGmkt;
-    }
+  private InstallmentType freeInstallmentType;
+  private ManualPaymentDto manualPayment;
 
 }

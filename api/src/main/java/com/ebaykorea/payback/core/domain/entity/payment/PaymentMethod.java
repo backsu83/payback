@@ -1,33 +1,55 @@
 package com.ebaykorea.payback.core.domain.entity.payment;
 
-import com.ebaykorea.payback.core.domain.constant.PaymentType;
-import com.ebaykorea.payback.util.PaybackDecimals;
+import lombok.Builder;
 import lombok.Value;
 
 import java.math.BigDecimal;
 
-@Value
-public class PaymentMethod {
-    /**
-     * 결제 금액
-     */
-    BigDecimal amount;
-    /**
-     * 중분류코드
-     */
-    String mediumCode;
-    /**
-     * 소분류코드
-     */
-    String smallCode;
+import static com.ebaykorea.payback.core.domain.constant.PaymentCode.PaymentMethodMediumCode.*;
+import static com.ebaykorea.payback.core.domain.constant.PaymentCode.PaymentMethodSmallCode.SmilePayReCharge;
 
-    public static PaymentType toMainPaymentType(String mediumCode , BigDecimal amount) {
-        // 부 결제 수단 100%인 경우 (스마일캐시 전액 등) 주 결제수단은 Unknown
-        if(PaybackDecimals.isGreaterThanZero(amount)) {
-            return PaymentType.ofMediumCode(mediumCode);
-        } else {
-            return PaymentType.Unknown;
-        }
+@Value
+@Builder
+public class PaymentMethod {
+  /**
+   * 결제 금액
+   */
+  BigDecimal amount;
+  /**
+   * 중분류코드
+   */
+  String mediumCode;
+  /**
+   * 소분류코드
+   */
+  String smallCode;
+
+  // 스마일페이 여부
+  public boolean isSmilePay() {
+    return hasMediumCode(NewSmilePayCard, NewSmilePayCMS, NewSmilePayMobile);
+  }
+
+  // 캐시 충전 여부
+  public boolean isChargePay() {
+    return hasSmallCode(SmilePayReCharge);
+  }
+
+  private boolean hasMediumCode(final String ...mediumCodes) {
+    for (String code : mediumCodes) {
+      if (code.equals(mediumCode)) {
+        return true;
+      }
     }
+    return false;
+  }
+
+  private boolean hasSmallCode(final String ...smallCodes) {
+    for (String code : smallCodes) {
+      if (code.equals(smallCode)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }

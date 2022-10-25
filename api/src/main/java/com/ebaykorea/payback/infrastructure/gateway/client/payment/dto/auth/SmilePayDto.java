@@ -12,18 +12,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SmilePayDto {
-
-    String certificationId;
-    String smilePayToken;
-    BigDecimal totalMoney;
-    BigDecimal cardRequestMoney;
-    BigDecimal cashRequestMoney;
-    BigDecimal mobileRequestMoney;
-    BigDecimal etcRequestMoney;
-    @JsonProperty("ePrepayRequestMoney")
-    BigDecimal prepayRequestMoney;
-    Boolean isFreeInstallment;
-    Long settleGroupSequence;
-    List<Long> smilePayContractCode;
-    Integer smilePayItemType;
+  private String certificationId;
+  private String smilePayToken;
+  private BigDecimal totalMoney;
+  private BigDecimal cardRequestMoney;
+  private BigDecimal cashRequestMoney;
+  private BigDecimal mobileRequestMoney;
+  private BigDecimal etcRequestMoney;
+  @JsonProperty("ePrepayRequestMoney")
+  private BigDecimal prepayRequestMoney;
+  private Boolean isFreeInstallment;
+  private Long settleGroupSequence;
+  private List<Long> smilePayContractCode;
+  private Integer smilePayItemType;
 }

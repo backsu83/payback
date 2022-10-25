@@ -13,6 +13,8 @@ public enum PaybackExceptionCode {
     VALID_002(""),
     VALID_003(""),
 
+    DOMAIN_ENTITY_001("불변성 오류: {0}"),
+
     GATEWAY_001("처리 실패 : {0}"),
     GATEWAY_002("API 조회 실패"),
     GATEWAY_003(""),

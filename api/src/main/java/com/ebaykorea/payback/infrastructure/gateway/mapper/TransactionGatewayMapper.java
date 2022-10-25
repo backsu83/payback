@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.mapper;
+package com.ebaykorea.payback.infrastructure.gateway.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.infrastructure.gateway.client.transaction.dto.KeyMapDto;

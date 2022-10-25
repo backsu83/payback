@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.infrastructure.gateway.client.order.OrderApiClient
-import com.ebaykorea.payback.infrastructure.mapper.OrderGatewayMapper
+import com.ebaykorea.payback.infrastructure.gateway.mapper.OrderGatewayMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
@@ -32,9 +32,9 @@ class OrderGatewaySpec extends Specification {
     orderApiClient.findOrder(_ as String, _ as String) >> Optional.of(response)
 
     expect:
-    def result = orderGatewayImpl.findOrder("orderKey")
+    def result = orderGatewayImpl.getOrder("orderKey")
     result != null
-    result.get() == expectResult
+    result == expectResult
 
     where:
     desc          | response                                                                                                                              | expectResult
@@ -49,7 +49,7 @@ class OrderGatewaySpec extends Specification {
     orderApiClient.findItemSnapshots(_ as List<String>) >> response
 
     expect:
-    def result = orderGatewayImpl.findItemSnapshot(List.of("itemSnapshotKey1"))
+    def result = orderGatewayImpl.getItemSnapshot(List.of("itemSnapshotKey1"))
 
     result != null
     result == expectResult
