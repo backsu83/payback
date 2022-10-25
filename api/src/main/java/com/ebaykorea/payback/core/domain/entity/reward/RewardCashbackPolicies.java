@@ -3,7 +3,6 @@ package com.ebaykorea.payback.core.domain.entity.reward;
 import static java.util.stream.Collectors.groupingBy;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import lombok.Value;
@@ -18,12 +17,31 @@ public class RewardCashbackPolicies {
   BigDecimal newSmileCardCashbackAmount;
 
   public static RewardCashbackPolicies of(
-      final List<RewardCashbackPolicy> rewardCashbackPolicies,
-      final List<RewardBackendCashbackPolicy> rewardBackendCashbackPolicies,
+      final List<RewardCashbackPolicy> cashbackPolicies,
+      final List<RewardBackendCashbackPolicy> backendCashbackPolicies,
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
-    return new RewardCashbackPolicies(rewardCashbackPolicies, rewardBackendCashbackPolicies, useEnableDate, smileCardCashbackAmount, newSmileCardCashbackAmount);
+    return new RewardCashbackPolicies(cashbackPolicies, backendCashbackPolicies, useEnableDate, smileCardCashbackAmount, newSmileCardCashbackAmount);
+  }
+
+  private RewardCashbackPolicies(
+      final List<RewardCashbackPolicy> cashbackPolicies,
+      final List<RewardBackendCashbackPolicy> backendCashbackPolicies,
+      final String useEnableDate,
+      final BigDecimal smileCardCashbackAmount,
+      final BigDecimal newSmileCardCashbackAmount) {
+    this.cashbackPolicies = cashbackPolicies;
+    this.backendCashbackPolicies = backendCashbackPolicies;
+    this.useEnableDate = useEnableDate;
+    this.smileCardCashbackAmount = smileCardCashbackAmount;
+    this.newSmileCardCashbackAmount = newSmileCardCashbackAmount;
+
+    validate();
+  }
+
+  public void validate() {
+
   }
 
   public Map<Long, List<RewardCashbackPolicy>> policyMapByPolicyKey() {

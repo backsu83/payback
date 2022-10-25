@@ -1,72 +1,112 @@
 package com.ebaykorea.payback.core.domain.entity.payment;
 
-import com.ebaykorea.payback.core.domain.constant.PaymentType;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.core.exception.PaybackExceptionCode;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
-@Getter
-@Builder
-@EqualsAndHashCode
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
+import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
+import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
+
+@Value
 public class Payment {
-    /** 결제 순번 **/
-    Long paymentSequence;
-    /** 거래 키 **/
-    String txKey;
-    /** 구매자 회원 번호 **/
-    String buyerNo;
-    /** 구매자 회원 아이디 **/
-    String buyerId;
-    /** 제휴사 코드 **/
-    String partnershipCode;
-    /** main 결제 코드 */
-    PaymentMethod mainPaymentMethod;
-    /** sub 결제 코드 */
-    List<PaymentMethodSub> subPaymentMethods;
+  /**
+   * 결제 순번
+   **/
+  Long paymentSequence;
+  /**
+   * main 결제 코드
+   */
+  PaymentMethod mainPaymentMethod;
+  /**
+   * sub 결제 코드
+   */
+  List<PaymentMethodSub> subPaymentMethods;
 
-    /** 인증 수단 */
-    SmilePay smilePay;
+  SmilePay smilePay;
 
-    /** main 결제 타입 */
-    PaymentType mainPaymentType;
+  Card card;
 
-    /**
-     * 대표 결제수단 변환
-     * 1. 부 결제수단이 1개 이상 결제된 경우 복합결제 (AX)
-     * 2. 스마일페이는 AX
-     * 3. 주 결제수단 전액은 주결제수단 타입
-     * @return 스마일캐시 전액 또는 스마일페이 전액 또는 복합결제: Complex(AX), 그외 케이스 각 PaymentType
-     */
-    public PaymentType toPaymentType() {
+  public static Payment of(
+      final Long paymentSequence,
+      final PaymentMethod mainPaymentMethod,
+      final List<PaymentMethodSub> subPaymentMethods,
+      final SmilePay smilePay,
+      final Card card
+  ) {
+    return new Payment(paymentSequence, mainPaymentMethod, subPaymentMethods, smilePay, card);
+  }
 
-        if (subPaymentMethods != null && !subPaymentMethods.isEmpty()) {
-            return PaymentType.Complex;
-        }
+  private Payment(
+      final Long paymentSequence,
+      final PaymentMethod mainPaymentMethod,
+      final List<PaymentMethodSub> subPaymentMethods,
+      final SmilePay smilePay,
+      final Card card
+  ) {
+    this.paymentSequence = paymentSequence;
+    this.mainPaymentMethod = mainPaymentMethod;
+    this.subPaymentMethods = subPaymentMethods;
+    this.smilePay = smilePay;
+    this.card = card;
 
-        if (mainPaymentType == PaymentType.NewSmilePay) {
-            return PaymentType.Complex;
-        } else if (mainPaymentType == PaymentType.Unknown) {
-            throw new PaybackException(PaybackExceptionCode.GATEWAY_001, "unknown paymentType");        }
+    validate();
+  }
 
-        return mainPaymentType;
+  private void validate() {
+    if (!hasMainPaymentMethod() && !hasSubPaymentMethods()) {
+      throw new PaybackException(DOMAIN_ENTITY_001, "결제수단이 없습니다");
     }
+  }
 
-    /**
-     * 주결제정보 및 인증값 기준으로 주결제수단 PaymentType 변환
-     * @return 스마일페이 인 경우 AX가 아닌 스마일페이 상세 PaymentType (SR, SH, SM, SE 등), 부결제수단 전액인 경우 Unknown
-     */
-    public List<PaymentType> toDetailedMainPaymentTypes(List<PaymentType> types) {
+  private Optional<PaymentMethod> findMainPaymentMethod() {
+    return Optional.ofNullable(mainPaymentMethod);
+  }
 
-        if (mainPaymentType == PaymentType.NewSmilePay) {
-            return types;
-        } else {
-            return List.of(mainPaymentType);
-        }
-    }
+  // 주 결제 수단 존재 여부
+  private boolean hasMainPaymentMethod() {
+    return findMainPaymentMethod().isPresent();
+  }
 
+  // 부 결제 수단 존재 여부
+  private boolean hasSubPaymentMethods() {
+    return orEmptyStream(subPaymentMethods).findAny().isPresent();
+  }
+
+  public BigDecimal getMainPaymentAmount() {
+    return findMainPaymentMethod()
+        .map(PaymentMethod::getAmount)
+        .orElse(BigDecimal.ZERO);
+  }
+
+  private Optional<Card> findCard() {
+    return Optional.ofNullable(card);
+  }
+
+  // 수기 결제 여부
+  public boolean isManualCardPayment() {
+    return findCard()
+        .map(Card::isManualPayment)
+        .orElse(false);
+  }
+
+  // 무이자 할부 여부
+  public boolean isFreeInstallment() {
+    return isCardFreeInstallment() || isSmilePayFreeInstallment();
+  }
+
+  private boolean isCardFreeInstallment() {
+    return findCard()
+        .map(Card::isFreeInstallment)
+        .orElse(false);
+  }
+
+  private boolean isSmilePayFreeInstallment() {
+    return Optional.ofNullable(smilePay)
+        .map(SmilePay::isFreeInstallment)
+        .orElse(false);
+  }
 }

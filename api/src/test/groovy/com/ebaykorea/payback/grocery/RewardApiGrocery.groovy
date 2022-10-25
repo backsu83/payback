@@ -14,7 +14,7 @@ import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.NspCashbac
 class RewardApiGrocery {
   static def CashbackRequestDataDto_생성(Map map = [:]) {
     new CashbackRewardRequestDto(
-      (map.totalPrice ?: 1000) as Integer,
+      (map.totalPrice ?: 17000) as Integer,
       (map.goods ?: [CashbackRewardGoodRequestDto_생성()]) as List<CashbackRewardGoodRequestDto>
     )
   }

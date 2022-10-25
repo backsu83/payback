@@ -1,12 +1,12 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.infrastructure.gateway.client.payment.PaymentApiClient
-import com.ebaykorea.payback.infrastructure.mapper.PaymentGatewayMapper
+import com.ebaykorea.payback.infrastructure.gateway.mapper.PaymentGatewayMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.PaymentApiGrocery.paymentDto_생성
-import static com.ebaykorea.payback.grocery.PaymentGrocery.payment_생성
+import static com.ebaykorea.payback.grocery.PaymentGrocery.스마일페이_Payment_생성
 
 class PaymentGatewaySpec extends Specification {
     def paymentApiClient = Stub(PaymentApiClient)
@@ -23,6 +23,6 @@ class PaymentGatewaySpec extends Specification {
 
         where:
         desc | response | expectResult
-        "Dto 변환"  | paymentDto_생성() | payment_생성()
+        "Dto 변환"  | paymentDto_생성() | 스마일페이_Payment_생성()
     }
 }

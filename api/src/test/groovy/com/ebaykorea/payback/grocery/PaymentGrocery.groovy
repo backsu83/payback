@@ -1,50 +1,68 @@
 package com.ebaykorea.payback.grocery
 
-import com.ebaykorea.payback.core.domain.constant.PaymentType
+import com.ebaykorea.payback.core.domain.constant.ComplexType
+import com.ebaykorea.payback.core.domain.constant.InstallmentType
+import com.ebaykorea.payback.core.domain.constant.PaymentCode
+import com.ebaykorea.payback.core.domain.entity.payment.Card
 import com.ebaykorea.payback.core.domain.entity.payment.Payment
 import com.ebaykorea.payback.core.domain.entity.payment.PaymentMethod
 import com.ebaykorea.payback.core.domain.entity.payment.PaymentMethodSub
 import com.ebaykorea.payback.core.domain.entity.payment.SmilePay
 
 class PaymentGrocery {
-    static def payment_생성(Map map = [:]) {
-        new Payment(
-                (map.paymentSequence ?: "38876501") as Long ,
-                (map.txKey ?: "15d399b007000300ftlsxgk") as String ,
-                (map.buyerNo ?: "132872352") as String ,
-                (map.buyerId ?: "seunghbaek") as String ,
-                (map.partnershipCode ?: "200011415") as String ,
-                (map.mainPaymentMethod ?: paymentMethod_생성()) as PaymentMethod ,
-                (map.subPaymentMethods ?: []) as List<PaymentMethodSub> ,
-                (map.smilePay ?: smilePay_생성() as SmilePay),
-                (map.mainPaymentType ?: PaymentType.NewSmilePay as PaymentType)
-        )
-    }
+  static def 기본_Payment_생성(Map map = [:]) {
+    Payment.of(
+        (map.paymentSequence ?: "38876501") as Long,
+        (map.mainPaymentMethod ?: null) as PaymentMethod,
+        (map.subPaymentMethods ?: []) as List<PaymentMethodSub>,
+        (map.smilePay ?: null) as SmilePay,
+        (map.card ?: null) as Card,
+    )
+  }
 
-    static def paymentMethod_생성(Map map = [:]) {
-        new PaymentMethod(
-                (map.amount ?: 17000L) as BigDecimal,
-                (map.mediumCode ?: "200000036") as String,
-                (map.smallCode ?: "300000290") as String,
-        )
-    }
+  static def 스마일페이_Payment_생성(Map map = [:]) {
+    기본_Payment_생성(
+        mainPaymentMethod: paymentMethod_생성(map),
+        smilePay: smilePay_생성(map)
+    )
+  }
 
-    static def smilePay_생성(Map map = [:]) {
-        new SmilePay(
-                (map.certificationId ?: "1100000017276736S001" as String),
-                (map.smilePayToken ?: "token" as String),
-                (map.totalMoney ?: 17000L as BigDecimal),
-                (map.cardRequestMoney ?: 0L as BigDecimal),
-                (map.cashRequestMoney ?: 0L as BigDecimal),
-                (map.mobileRequestMoney ?: 0L as BigDecimal),
-                (map.etcRequestMoney ?: 0L as BigDecimal),
-                (map.prepayRequestMoney ?: 0L as BigDecimal),
-                (map.isFreeInstallment ?: false as Boolean),
-                (map.settleGroupSequence ?: null as Long),
-                (map.smilePayContractCode ?: [100] as List<Long>),
-                (map.smilePayItemType ?: 1 as Integer)
-        )
-    }
+  static def 카드_Payment_생성(Map map = [:]) {
+    기본_Payment_생성(
+        mainPaymentMethod: paymentMethod_생성(mediumCode: PaymentCode.PaymentMethodMediumCode.CreditCard),
+        card: card_생성(map)
+    )
+  }
+
+  static def paymentMethod_생성(Map map = [:]) {
+    PaymentMethod.builder()
+        .amount((map.amount ?: 17000L) as BigDecimal)
+        .mediumCode((map.mediumCode ?: PaymentCode.PaymentMethodMediumCode.NewSmilePayCMS) as String)
+        .smallCode((map.smallCode ?: "300000290") as String)
+        .build()
+  }
+
+  static def PaymentMethodSub_생성(Map map = [:]) {
+    PaymentMethodSub.builder()
+        .complexType((map.complexType ?: ComplexType.SmileCash) as ComplexType)
+        .amount((map.amount ?: 1000L) as BigDecimal)
+        .mediumCode((map.mediumCode ?: "200000036") as String)
+        .smallCode((map.mediumCode ?: "200000036") as String)
+        .build()
+  }
+
+  static def smilePay_생성(Map map = [:]) {
+    SmilePay.builder()
+        .isFreeInstallment((map.isFreeInstallment ?: false) as boolean)
+        .build()
+  }
+
+  static def card_생성(Map map = [:]) {
+    Card.builder()
+        .freeInstallmentType((map.freeInstallmentType ?: InstallmentType.Default) as InstallmentType)
+        .isManualPayment((map.isManualPayment ?: false) as boolean)
+        .build()
+  }
 
 
 }

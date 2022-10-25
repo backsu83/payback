@@ -3,13 +3,14 @@ package com.ebaykorea.payback.infrastructure.gateway;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
-import com.ebaykorea.payback.infrastructure.mapper.RewardGatewayMapper;
+import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.GATEWAY_002;
+import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +36,10 @@ public class RewardGatewayImpl implements RewardGateway {
   @Override
   public RewardCashbackPolicies getCashbackPolicies(
       final Order order,
+      final Payment payment,
       final Map<String, ItemSnapshot> itemSnapshotMap,
       final Map<String, OrderUnitKey> orderUnitKeyMap) {
-    final var request = toCashbackRewardRequestDto(order, itemSnapshotMap, orderUnitKeyMap);
+    final var request = toCashbackRewardRequestDto(order, payment, itemSnapshotMap, orderUnitKeyMap);
 
     final var cashbackRewardResponseFuture = getCashbackRewardAsync(request);
     final var cashbackRewardBackendsResponseFuture = getCashbackBackendRewardAsync(request);
@@ -71,11 +74,12 @@ public class RewardGatewayImpl implements RewardGateway {
 
   CashbackRewardRequestDto toCashbackRewardRequestDto(
       final Order order,
+      final Payment payment,
       final Map<String, ItemSnapshot> itemSnapshotMap,
       final Map<String, OrderUnitKey> orderUnitKeyMap
   ) {
     return new CashbackRewardRequestDto(
-        0, //TODO: 주결제수단 금액 payment-api 결과 필요
+        toInteger(payment.getMainPaymentAmount()),
         buildGoods(order, itemSnapshotMap, orderUnitKeyMap)
     );
   }
@@ -85,7 +89,7 @@ public class RewardGatewayImpl implements RewardGateway {
       final Map<String, ItemSnapshot> itemSnapshotMap,
       final Map<String, OrderUnitKey> orderUnitKeyMap
   ) {
-    final var bundleDiscountMap = order.getBundleDiscountMap();
+    final var bundleDiscountMap = order.findBundleDiscountMap();
 
     return order.getOrderUnits().stream()
         .map(orderUnit ->

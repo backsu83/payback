@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentAuthDto {
-
-    SmilePayDto smilePay;
-    CardDto card;
-
+  SmilePayDto smilePay;
+  CardDto card;
 }
