@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.cashback;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Member;
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.policy.Policy;
 import lombok.*;
 

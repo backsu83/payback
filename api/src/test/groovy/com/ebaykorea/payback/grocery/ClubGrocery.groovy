@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.grocery
 
-import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Club
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Club
 
 class ClubGrocery {
   static def club_생성(Map map = [:]) {

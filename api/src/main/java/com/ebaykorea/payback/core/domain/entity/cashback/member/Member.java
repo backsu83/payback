@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.entity.cashback.buyer;
+package com.ebaykorea.payback.core.domain.entity.cashback.member;
 
 import java.util.Optional;
 

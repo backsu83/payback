@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.service;
 
-import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Member;
-import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Club;
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
 import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer;
 import com.ebaykorea.payback.core.gateway.ClubGateway;
 import com.ebaykorea.payback.core.gateway.UserGateway;
