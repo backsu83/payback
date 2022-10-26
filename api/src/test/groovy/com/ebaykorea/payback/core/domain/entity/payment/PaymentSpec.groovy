@@ -27,7 +27,7 @@ class PaymentSpec extends Specification {
     "신용카드 수기결제"   | 카드_Payment_생성(isManualPayment: true)                               | 17000L | true   | false
   }
 
-  def "Payment_불변성_검증"() {
+  def "Payment_불변식_검증"() {
     when:
     기본_Payment_생성()
 

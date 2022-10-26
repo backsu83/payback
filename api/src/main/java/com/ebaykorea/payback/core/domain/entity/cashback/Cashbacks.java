@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.cashback;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Buyer;
+import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.policy.Policy;
 import lombok.*;
 
@@ -17,7 +17,7 @@ public class Cashbacks {
   private final OrderSiteType orderSiteType;
   private final Instant orderDate;
 
-  private final Buyer buyer;
+  private final Member member;
 
   //TODO: detail에 저장 시 어떻게 할지 고민
   private final List<Cashback> cashbacks;
@@ -33,7 +33,7 @@ public class Cashbacks {
       final long packNo,
       final OrderSiteType orderSiteType,
       final Instant orderDate,
-      final Buyer buyer,
+      final Member member,
       final List<Cashback> cashbacks,
       final List<Policy> policies
   ) {
@@ -41,7 +41,7 @@ public class Cashbacks {
     this.packNo = packNo;
     this.orderSiteType = orderSiteType;
     this.orderDate = orderDate;
-    this.buyer = buyer;
+    this.member = member;
     this.cashbacks = cashbacks;
     this.policies = policies;
 
@@ -53,14 +53,14 @@ public class Cashbacks {
       final long packNo,
       final OrderSiteType orderSiteType,
       final Instant orderDate,
-      final Buyer buyer,
+      final Member member,
       final List<Cashback> cashbacks,
       final List<Policy> policies
   ) {
-    return new Cashbacks(orderKey, packNo, orderSiteType, orderDate, buyer, cashbacks, policies);
+    return new Cashbacks(orderKey, packNo, orderSiteType, orderDate, member, cashbacks, policies);
   }
 
-  //불변성 검사
+  //불변식
   private void validate() {
 
   }
