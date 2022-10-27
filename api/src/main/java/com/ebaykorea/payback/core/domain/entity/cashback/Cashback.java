@@ -23,6 +23,6 @@ public abstract class Cashback {
   private final CashbackApplyStrategy cashbackApplyStrategy;
 
   public boolean isApply() {
-    return cashbackApplyStrategy.isApply();
+    return this.cashbackApplyStrategy.isApply();
   }
 }

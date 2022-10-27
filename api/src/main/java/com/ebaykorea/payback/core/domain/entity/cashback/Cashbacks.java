@@ -16,7 +16,6 @@ public class Cashbacks {
   private final long packNo;
   private final OrderSiteType orderSiteType;
   private final Instant orderDate;
-
   private final Member member;
 
   //TODO: detail에 저장 시 어떻게 할지 고민
@@ -48,7 +47,7 @@ public class Cashbacks {
     validate();
   }
 
-  public Cashbacks of(
+  public static Cashbacks of(
       final String orderKey,
       final long packNo,
       final OrderSiteType orderSiteType,
