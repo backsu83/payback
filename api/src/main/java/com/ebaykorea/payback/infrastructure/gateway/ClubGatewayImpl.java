@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
-import com.ebaykorea.payback.core.domain.entity.cashback.buyer.Club;
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
 import com.ebaykorea.payback.core.gateway.ClubGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.club.ClubApiClient;
 import com.ebaykorea.payback.infrastructure.gateway.mapper.ClubGatewayMapper;
