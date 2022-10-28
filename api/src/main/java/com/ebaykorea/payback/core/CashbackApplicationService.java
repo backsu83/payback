@@ -5,6 +5,7 @@ import com.ebaykorea.payback.core.gateway.PaymentGateway;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
 import com.ebaykorea.payback.core.repository.CashbackRepository;
+import com.ebaykorea.payback.core.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ public class CashbackApplicationService {
   private final TransactionGateway transactionGateway;
   private final RewardGateway rewardGateway;
 
+  private final MemberService memberService;
+
   private final CashbackRepository cashbackRepository;
 
   public void setCashback(final String txKey, final String orderKey) {
@@ -26,6 +29,10 @@ public class CashbackApplicationService {
       return;
     }
 
+    //TODO: 동시성 고려 (applicationService 레이어에서는 동시성 처리를 하지 않고 도메인 서비스나 gateway에서 할수있도록 고려해보자)
+    //TODO: applicationService 레이어에서 gateway와 repository를 호출하는것이 맞을지 고민
+    //회원 정보
+    final var member = memberService.getMember(order.getBuyer());
     //주문 키 매핑 정보
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
     //상품 스냅샷 정보

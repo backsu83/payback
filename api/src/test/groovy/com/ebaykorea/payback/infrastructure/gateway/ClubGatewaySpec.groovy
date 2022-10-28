@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.ClubApiGrocery.clubDataDto_생성
-import static com.ebaykorea.payback.grocery.ClubApiGrocery.club_생성
+import static com.ebaykorea.payback.grocery.ClubGrocery.club_생성
 
 class ClubGatewaySpec extends Specification {
     def clubApiClient = Stub(ClubApiClient)

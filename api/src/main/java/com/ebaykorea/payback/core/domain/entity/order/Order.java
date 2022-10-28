@@ -85,7 +85,7 @@ public class Order {
       throw new PaybackException(DOMAIN_ENTITY_001, "paySeq 값이 없습니다");
     }
     if (buyer == null) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "orderBuyer는 null일 수 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_001, "buyer는 null일 수 없습니다");
     }
     if (orderDate == null) {
       throw new PaybackException(DOMAIN_ENTITY_001, "orderDate는 null일 수 없습니다");
@@ -112,6 +112,7 @@ public class Order {
   }
 
   // 캐시백 적용 대상 주문 여부
+  //TODO: 글로벌과 G9 여부도 여기서 체크해야할듯
   public boolean isForCashback() {
     return isMember();
   }
