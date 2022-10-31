@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -40,11 +40,11 @@ public class CashbackOrderMemberEntity {
   private String insOprt;
 
   @Column(name = "INS_DATE")
-  private Instant insDate;
+  private Timestamp insDate;
 
   @Column(name = "UPD_OPRT")
   private String updOprt;
 
   @Column(name = "UPD_DATE")
-  private Instant updDate;
+  private Timestamp updDate;
 }
