@@ -20,6 +20,7 @@ public class SmileCardCashback extends Cashback {
   public SmileCardCashback(
       final long orderNo,
       final String itemNo,
+      final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
@@ -30,6 +31,7 @@ public class SmileCardCashback extends Cashback {
     super(
         orderNo,
         itemNo,
+        type,
         shopType,
         amount,
         basisAmount,

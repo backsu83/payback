@@ -96,6 +96,7 @@ public class CashbackFactory {
     return new SellerCashback(
         orderUnitKey.getBuyOrderNo(),
         itemSnapshot.getItemNo(),
+        Seller,
         ShopType.Unknown, //TODO
         orderUnit.orderUnitPrice(bundleDiscountPrice, itemSnapshot.getBuyerMileageRate()),
         orderUnit.orderUnitPrice(bundleDiscountPrice),
@@ -120,6 +121,7 @@ public class CashbackFactory {
       return new ItemCashback(
           rewardCashbackPolicy.getPolicyKey(),
           orderUnit.getOrderItem().getItemNo(),
+          rewardCashbackPolicy.getCashbackCd(),
           ShopType.Unknown, //TODO
           cashbackAmount,
           basisAmount,
@@ -132,6 +134,7 @@ public class CashbackFactory {
       return new SmilePayCashback(
           rewardCashbackPolicy.getPolicyKey(),
           orderUnit.getOrderItem().getItemNo(),
+          rewardCashbackPolicy.getCashbackCd(),
           ShopType.Unknown, //TODO
           cashbackAmount,
           basisAmount,
@@ -144,6 +147,7 @@ public class CashbackFactory {
       return new ChargePayCashback(
           rewardCashbackPolicy.getPolicyKey(),
           orderUnit.getOrderItem().getItemNo(),
+          rewardCashbackPolicy.getCashbackCd(),
           ShopType.Unknown, //TODO
           cashbackAmount,
           basisAmount,
@@ -157,6 +161,7 @@ public class CashbackFactory {
       return new ClubDayCashback(
           rewardCashbackPolicy.getPolicyKey(),
           orderUnit.getOrderItem().getItemNo(),
+          rewardCashbackPolicy.getCashbackCd(),
           ShopType.Unknown, //TODO
           cashbackAmount, //TODO: https://jira.ebaykorea.com/browse/RWD-973 확인 필요
           basisAmount,
@@ -167,11 +172,11 @@ public class CashbackFactory {
       return new NoneCashback(
           rewardCashbackPolicy.getPolicyKey(),
           orderUnit.getOrderItem().getItemNo(),
+          rewardCashbackPolicy.getCashbackCd(),
           ShopType.Unknown,
           cashbackAmount,
           basisAmount,
-          useEnableDate,
-          rewardCashbackPolicy.getCashbackCd()
+          useEnableDate
       );
     }
   }

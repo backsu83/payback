@@ -13,25 +13,24 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class NoneCashback extends Cashback {
-  private final CashbackType type;
 
   public NoneCashback(
       final long orderNo,
       final String itemNo,
+      final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
-      final Instant useEnableDate,
-      final CashbackType type
+      final Instant useEnableDate
   ) {
     super(
         orderNo,
         itemNo,
+        type,
         shopType,
         amount,
         basisAmount,
         useEnableDate,
         CashbackApplyStrategy.notForSaveStrategy());
-    this.type = type;
   }
 }
