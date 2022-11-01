@@ -5,16 +5,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 
 public class PaybackInstants {
   private static final ZoneId SEOUL = ZoneId.of("Asia/Seoul");
 
-  public static Instant from(final String dateString) {
-    try {
-      return LocalDateTime.parse(dateString).atZone(SEOUL).toInstant();
-    } catch (DateTimeParseException e) {
-      return LocalDate.parse(dateString).atStartOfDay().atZone(SEOUL).toInstant();
-    }
+  public static Instant getDefaultEnableDate(final Instant orderDate) {
+    return orderDate.atZone(SEOUL)
+        .truncatedTo(ChronoUnit.DAYS).plus(30, ChronoUnit.DAYS)
+        .toInstant();
   }
 
 }

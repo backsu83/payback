@@ -2,7 +2,7 @@ package com.ebaykorea.payback.core.service;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
-import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer;
+import com.ebaykorea.payback.core.domain.entity.order.Buyer;
 import com.ebaykorea.payback.core.gateway.ClubGateway;
 import com.ebaykorea.payback.core.gateway.UserGateway;
 import com.ebaykorea.payback.util.PaybackStrings;
@@ -17,19 +17,19 @@ public class MemberService {
   private final ClubGateway clubGateway;
   private final UserGateway userGateway;
 
-  public Member getMember(final OrderBuyer orderBuyer) {
-    final var clubAsync = getClubAsync(orderBuyer.getBuyerNo());
-    final var userKeyAsync = getUserKeyAsync(orderBuyer.getBuyerNo());
+  public Member getMember(final Buyer buyer) {
+    final var clubAsync = getClubAsync(buyer.getBuyerNo());
+    final var userKeyAsync = getUserKeyAsync(buyer.getBuyerNo());
 
     final var club = clubAsync.join();
     final var userKey = userKeyAsync.join();
 
     return Member.of(
-        orderBuyer.getBuyerNo(),
-        orderBuyer.getBuyerId(),
+        buyer.getBuyerNo(),
+        buyer.getBuyerId(),
         userKey,
-        orderBuyer.isMember(),
-        orderBuyer.isSmileClubMember(),
+        buyer.isMember(),
+        buyer.isSmileClubMember(),
         club);
   }
 

@@ -4,8 +4,7 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_E
 import static com.ebaykorea.payback.util.PaybackCollections.*;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackObjects.orElse;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.*;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -16,6 +15,8 @@ import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Value
@@ -33,7 +34,7 @@ public class Order {
   /**
    * 구매자 정보
    */
-  OrderBuyer buyer;
+  Buyer buyer;
 
   /**
    * 주문 일자
@@ -53,7 +54,7 @@ public class Order {
   public static Order of(
       final String orderKey,
       final Long paySeq,
-      final OrderBuyer buyer,
+      final Buyer buyer,
       final Instant orderDate,
       final List<OrderUnit> orderUnits,
       final List<BundleDiscount> bundleDiscounts
@@ -64,7 +65,7 @@ public class Order {
   private Order(
       final String orderKey,
       final Long paySeq,
-      final OrderBuyer buyer,
+      final Buyer buyer,
       final Instant orderDate,
       final List<OrderUnit> orderUnits,
       final List<BundleDiscount> bundleDiscounts
@@ -119,5 +120,13 @@ public class Order {
 
   private boolean isMember() {
     return buyer.isMember();
+  }
+
+  private Map<String, OrderUnit> findOrderUnitMap() {
+    return orderUnits.stream().collect(toUnmodifiableMap(OrderUnit::getOrderUnitKey, Function.identity()));
+  }
+
+  public Optional<OrderUnit> findOrderUnit(final String orderUnitKey) {
+    return Optional.ofNullable(findOrderUnitMap().get(orderUnitKey));
   }
 }

@@ -6,7 +6,7 @@ import lombok.Value;
 import java.math.BigDecimal;
 
 @Value
-public class Policy {
+public class CashbackPolicy {
   long policyNo;
   long orderNo;
   CashbackType type;

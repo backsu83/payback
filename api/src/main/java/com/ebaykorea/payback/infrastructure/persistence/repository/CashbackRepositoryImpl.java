@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository;
 
-import com.ebaykorea.payback.core.domain.entity.cashback.Cashbacks;
+import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.repository.CashbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class CashbackRepositoryImpl implements CashbackRepository {
 
   @Transactional
   @Override
-  public void save(Cashbacks cashbacks) {
+  public void save(PayCashback payCashback) {
     //TODO
   }
 }

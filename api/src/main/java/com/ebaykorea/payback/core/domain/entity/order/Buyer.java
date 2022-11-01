@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class OrderBuyer {
+public class Buyer {
   String buyerNo;
   String buyerId;
   boolean member;

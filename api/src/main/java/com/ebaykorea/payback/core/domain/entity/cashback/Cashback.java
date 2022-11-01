@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.core.domain.entity.cashback;
 
-import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.constant.ShopType;
 import lombok.*;
 
@@ -14,7 +13,6 @@ import java.time.Instant;
 public abstract class Cashback {
   private final long orderNo;
   private final String itemNo;
-  private final CashbackType type;
   private final ShopType shopType;
   private final BigDecimal amount;
   private final BigDecimal basisAmount;

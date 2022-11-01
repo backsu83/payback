@@ -82,6 +82,10 @@ public class Payment {
         .orElse(BigDecimal.ZERO);
   }
 
+  public boolean hasMainPaymentAmount() {
+    return isGreaterThanZero(getMainPaymentAmount());
+  }
+
   private Optional<Card> findCard() {
     return Optional.ofNullable(card);
   }
@@ -90,6 +94,19 @@ public class Payment {
   public boolean isManualCardPayment() {
     return findCard()
         .map(Card::isManualPayment)
+        .orElse(false);
+  }
+
+  // 자동 충전 여부
+  public boolean isChargePayment() {
+    return findMainPaymentMethod()
+        .map(PaymentMethod::isChargePay)
+        .orElse(false);
+  }
+
+  public boolean isSmilePayPayment() {
+    return findMainPaymentMethod()
+        .map(PaymentMethod::isSmilePay)
         .orElse(false);
   }
 
@@ -109,4 +126,5 @@ public class Payment {
         .map(SmilePay::isFreeInstallment)
         .orElse(false);
   }
+
 }

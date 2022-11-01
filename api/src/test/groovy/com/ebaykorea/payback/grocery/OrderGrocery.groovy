@@ -7,7 +7,7 @@ import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap
 import com.ebaykorea.payback.core.domain.entity.order.Order
-import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer
+import com.ebaykorea.payback.core.domain.entity.order.Buyer
 import com.ebaykorea.payback.core.domain.entity.order.OrderItem
 import com.ebaykorea.payback.core.domain.entity.order.OrderItemAddition
 import com.ebaykorea.payback.core.domain.entity.order.OrderItemOption
@@ -23,15 +23,15 @@ class OrderGrocery {
     Order.of(
         (map.orderKey ?: "orderKey") as String,
         (map.paySeq ?: 1L) as Long,
-        (map.buyer ?: OrderBuyer_생성(map)) as OrderBuyer,
+        (map.buyer ?: Buyer_생성(map)) as Buyer,
         (map.orderDate ?: TestConstant.ORDER_DATE) as Instant,
         (map.orderUnits ?: [OrderUnit_생성(map)]) as List<OrderUnit>,
         (map.bundleDiscounts ?: []) as List<BundleDiscount>
     )
   }
 
-  static def OrderBuyer_생성(Map map = [:]) {
-    OrderBuyer.builder()
+  static def Buyer_생성(Map map = [:]) {
+    Buyer.builder()
         .buyerNo((map.buyerNo ?: "buyerNo") as String)
         .buyerId((map.buyerId ?: "buyerId") as String)
         .member((map.member) as boolean)

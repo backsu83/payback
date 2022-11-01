@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway.mapper;
 
+import com.ebaykorea.payback.core.domain.entity.order.Buyer;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
-import com.ebaykorea.payback.core.domain.entity.order.OrderBuyer;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnit;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
@@ -27,9 +27,9 @@ public interface RewardGatewayMapper {
   @Mapping(source = "itemSnapshot.smileDelivery", target = "isSmileDelivery")
   @Mapping(source = "itemSnapshot.smileFresh", target = "isSmileFresh")
   @Mapping(source = "orderUnit.orderItem.quantity", target = "qty")
-  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPriceWithBundleDiscount(bundleDiscountPrice)))", target = "price")
+  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPrice(bundleDiscountPrice)))", target = "price")
   @Mapping(expression = "java(PaybackBooleans.toYN(itemSnapshot.isMoneyCategory()))", target = "marketabilityItemYn")
-  CashbackRewardGoodRequestDto map(OrderBuyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice);
+  CashbackRewardGoodRequestDto map(Buyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice);
 
 
   @Mapping(expression = "java(Long.valueOf(goods.getKey()))", target = "policyKey")

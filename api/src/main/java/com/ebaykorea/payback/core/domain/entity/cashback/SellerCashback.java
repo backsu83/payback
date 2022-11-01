@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.core.domain.entity.cashback;
 
-import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.constant.ShopType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,12 +16,11 @@ public class SellerCashback extends Cashback {
   public SellerCashback (
       final long orderNo,
       final String itemNo,
-      final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
       final Instant useEnableDate
   ) {
-    super(orderNo, itemNo, type, shopType, amount, basisAmount, useEnableDate, CashbackApplyStrategy.defaultCashbackStrategy(amount));
+    super(orderNo, itemNo, shopType, amount, basisAmount, useEnableDate, CashbackApplyStrategy.defaultCashbackStrategy(amount));
   }
 }

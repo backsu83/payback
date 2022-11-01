@@ -12,20 +12,17 @@ import java.time.Instant;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class SmileCardCashback extends Cashback {
+public class NoneCashback extends Cashback {
+  private final CashbackType type;
 
-  private final BigDecimal t2t3Cashback;
-  private final boolean t2t3CashbackApply;
-
-  public SmileCardCashback(
+  public NoneCashback(
       final long orderNo,
       final String itemNo,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
       final Instant useEnableDate,
-      final BigDecimal t2t3Cashback,
-      final boolean t2t3CashbackApply
+      final CashbackType type
   ) {
     super(
         orderNo,
@@ -34,9 +31,7 @@ public class SmileCardCashback extends Cashback {
         amount,
         basisAmount,
         useEnableDate,
-        CashbackApplyStrategy.notForSaveStrategy() //스마일카드 캐시백은 api 연동만 합니다
-    );
-    this.t2t3Cashback = t2t3Cashback;
-    this.t2t3CashbackApply = t2t3CashbackApply;
+        CashbackApplyStrategy.notForSaveStrategy());
+    this.type = type;
   }
 }

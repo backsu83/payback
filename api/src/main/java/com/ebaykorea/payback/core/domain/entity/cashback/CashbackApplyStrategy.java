@@ -25,7 +25,7 @@ public interface CashbackApplyStrategy {
   }
 
   //cashback_order 저장 대상이 아님
-  static CashbackApplyStrategy smileCardCashbackStrategy() {
+  static CashbackApplyStrategy notForSaveStrategy() {
     return () -> false;
   }
 }
