@@ -1,10 +1,10 @@
 package com.ebaykorea.payback.util;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
 public class PaybackInstants {
@@ -16,4 +16,9 @@ public class PaybackInstants {
         .toInstant();
   }
 
+  public static final DateTimeFormatter DATE_TIME_FORMATTER = new DateTimeFormatterBuilder()
+      .appendPattern("yyyy-MM-dd")
+      .parseDefaulting(ChronoField.NANO_OF_DAY, 0)
+      .toFormatter()
+      .withZone(SEOUL);
 }

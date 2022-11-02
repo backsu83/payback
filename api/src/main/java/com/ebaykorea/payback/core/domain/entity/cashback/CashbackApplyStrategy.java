@@ -12,8 +12,8 @@ public interface CashbackApplyStrategy {
   }
 
   //TODO: cashbackAvailable 조건 확인
-  static CashbackApplyStrategy cashbackAvailableStrategy(final BigDecimal amount, final boolean cashbackAvailable) {
-    return () -> isGreaterThanZero(amount) && cashbackAvailable;
+  static CashbackApplyStrategy cashbackAvailableStrategy(final BigDecimal amount, final boolean isSmilePay) {
+    return () -> isGreaterThanZero(amount) && isSmilePay;
   }
 
   static CashbackApplyStrategy chargePayCashbackStrategy(final BigDecimal amount, final boolean isChargePay) {

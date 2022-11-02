@@ -22,7 +22,7 @@ public class ItemCashback extends Cashback {
       final BigDecimal amount, //cashback_order와 detail.ITEM_AMOUNT 저장하는 금액 소스가 다른데 통일할수 없는지 확인 필요
       final BigDecimal basisAmount,
       final Instant useEnableDate,
-      final Boolean cashbackAvailable
+      final Boolean isSmilePay
   ) {
     super(
         orderNo,
@@ -32,6 +32,6 @@ public class ItemCashback extends Cashback {
         amount,
         basisAmount,
         useEnableDate,
-        CashbackApplyStrategy.cashbackAvailableStrategy(amount, cashbackAvailable));
+        CashbackApplyStrategy.cashbackAvailableStrategy(amount, isSmilePay));
   }
 }

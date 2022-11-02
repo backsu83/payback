@@ -16,6 +16,7 @@ public class SmileCardCashback extends Cashback {
 
   private final BigDecimal t2t3Cashback;
   private final boolean t2t3CashbackApply;
+  private final String smileCardType;
 
   public SmileCardCashback(
       final long orderNo,
@@ -26,7 +27,8 @@ public class SmileCardCashback extends Cashback {
       final BigDecimal basisAmount,
       final Instant useEnableDate,
       final BigDecimal t2t3Cashback,
-      final boolean t2t3CashbackApply
+      final boolean t2t3CashbackApply,
+      final String smileCardType
   ) {
     super(
         orderNo,
@@ -40,5 +42,6 @@ public class SmileCardCashback extends Cashback {
     );
     this.t2t3Cashback = t2t3Cashback;
     this.t2t3CashbackApply = t2t3CashbackApply;
+    this.smileCardType = smileCardType;
   }
 }

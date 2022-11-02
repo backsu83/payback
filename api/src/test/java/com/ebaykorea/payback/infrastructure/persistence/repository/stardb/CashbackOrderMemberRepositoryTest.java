@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 @Disabled
 class CashbackOrderMemberRepositoryTest {
@@ -25,6 +26,7 @@ class CashbackOrderMemberRepositoryTest {
   }
 
   @Test
+  @Transactional
   void save() {
     Long id = 5227995641L;
     Optional<CashbackOrderMemberEntity> byId = repository.findById(id);

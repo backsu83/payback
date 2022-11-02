@@ -26,6 +26,8 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 @RequiredArgsConstructor
 public class CashbackFactory {
 
+  //TODO: SmileCardCashback
+
   public List<Cashback> createCashbacks(
       final KeyMap keyMap,
       final Order order,
@@ -34,10 +36,11 @@ public class CashbackFactory {
       final ItemSnapshots itemSnapshots,
       final RewardCashbackPolicies rewardCashbackPolicies
   ) {
-    return Stream.concat(
-        createSellerCashbackStream(keyMap, order, itemSnapshots),
-        createOtherCashbackStream(keyMap, order, member, payment, rewardCashbackPolicies)
-    ).collect(Collectors.toUnmodifiableList());
+    return Stream.of(
+            createSellerCashbackStream(keyMap, order, itemSnapshots),
+            createOtherCashbackStream(keyMap, order, member, payment, rewardCashbackPolicies))
+        .flatMap(s -> s)
+        .collect(Collectors.toUnmodifiableList());
   }
 
   Stream<Cashback> createSellerCashbackStream(
@@ -85,7 +88,6 @@ public class CashbackFactory {
           );
         });
   }
-
 
   Cashback createSellerCashback(
       final Instant orderDate,
@@ -163,7 +165,7 @@ public class CashbackFactory {
           orderUnit.getOrderItem().getItemNo(),
           rewardCashbackPolicy.getCashbackCd(),
           ShopType.Unknown, //TODO
-          cashbackAmount, //TODO: https://jira.ebaykorea.com/browse/RWD-973 확인 필요
+          cashbackAmount,
           basisAmount,
           useEnableDate,
           member.isSmileClubMember()
@@ -173,7 +175,7 @@ public class CashbackFactory {
           rewardCashbackPolicy.getPolicyKey(),
           orderUnit.getOrderItem().getItemNo(),
           rewardCashbackPolicy.getCashbackCd(),
-          ShopType.Unknown,
+          ShopType.Unknown, //TODO
           cashbackAmount,
           basisAmount,
           useEnableDate

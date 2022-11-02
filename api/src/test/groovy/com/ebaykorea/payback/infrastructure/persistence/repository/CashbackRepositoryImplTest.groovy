@@ -9,8 +9,6 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Ignore
 import spock.lang.Specification
 
-import static com.ebaykorea.payback.grocery.CashbackGrocery.cashback_생성
-
 @Ignore
 class CashbackRepositoryImplTest extends Specification {
 
