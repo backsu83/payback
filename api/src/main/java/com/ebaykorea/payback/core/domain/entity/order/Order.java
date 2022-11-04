@@ -16,7 +16,6 @@ import lombok.*;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Value
@@ -47,9 +46,9 @@ public class Order {
   List<OrderUnit> orderUnits;
 
   /**
-   * 주문 복수 할인 정보
+   * 주문 단위 별 복수 할인 금액
    */
-  List<BundleDiscount> bundleDiscounts;
+  Map<String, BigDecimal> bundleDiscountMap;
 
   public static Order of(
       final String orderKey,
@@ -59,7 +58,7 @@ public class Order {
       final List<OrderUnit> orderUnits,
       final List<BundleDiscount> bundleDiscounts
   ) {
-    return new Order(orderKey, paySeq, buyer, orderDate, orderUnits, bundleDiscounts);
+    return new Order(orderKey, paySeq, buyer, orderDate, orderUnits, makeDiscountMap(bundleDiscounts));
   }
 
   private Order(
@@ -68,14 +67,14 @@ public class Order {
       final Buyer buyer,
       final Instant orderDate,
       final List<OrderUnit> orderUnits,
-      final List<BundleDiscount> bundleDiscounts
+      final Map<String, BigDecimal> bundleDiscountMap
   ) {
     this.orderKey = orderKey;
     this.paySeq = paySeq;
     this.buyer = buyer;
     this.orderDate = orderDate;
     this.orderUnits = orderUnits;
-    this.bundleDiscounts = bundleDiscounts;
+    this.bundleDiscountMap = bundleDiscountMap;
 
     validate();
   }
@@ -97,7 +96,7 @@ public class Order {
   }
 
   //orderUnit별 복수할인 적용 금액
-  public Map<String, BigDecimal> findBundleDiscountMap() {
+  private static Map<String, BigDecimal> makeDiscountMap(List<BundleDiscount> bundleDiscounts) {
     return orEmptyStream(bundleDiscounts)
         .map(BundleDiscount::getBundleDiscountUnits)
         .flatMap(Collection::stream)
@@ -122,11 +121,8 @@ public class Order {
     return buyer.isMember();
   }
 
-  private Map<String, OrderUnit> findOrderUnitMap() {
-    return orderUnits.stream().collect(toUnmodifiableMap(OrderUnit::getOrderUnitKey, Function.identity()));
-  }
-
-  public Optional<OrderUnit> findOrderUnit(final String orderUnitKey) {
-    return Optional.ofNullable(findOrderUnitMap().get(orderUnitKey));
+  public BigDecimal getBundleDiscountPrice(final String orderUnitKey) {
+    return Optional.ofNullable(bundleDiscountMap.get(orderUnitKey))
+        .orElse(BigDecimal.ZERO);
   }
 }

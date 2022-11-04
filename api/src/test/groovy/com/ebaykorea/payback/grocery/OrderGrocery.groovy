@@ -126,6 +126,7 @@ class OrderGrocery {
 
   static def KeyMap_생성(Map map = [:]) {
     KeyMap.of(
+        (map.txKey ?: "txKey") as String,
         (map.orderKey ?: "orderKey") as String,
         (map.packNo ?: 1L) as long,
         (map.orderUnitKeys ?: [OrderUnitKey_생성(map)]) as List<OrderUnitKey>,

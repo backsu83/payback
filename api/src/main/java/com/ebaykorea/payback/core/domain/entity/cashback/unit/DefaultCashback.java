@@ -1,7 +1,8 @@
-package com.ebaykorea.payback.core.domain.entity.cashback;
+package com.ebaykorea.payback.core.domain.entity.cashback.unit;
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.constant.ShopType;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,25 +13,25 @@ import java.time.Instant;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class NoneCashback extends Cashback {
+public class DefaultCashback extends CashbackUnit {
 
-  public NoneCashback(
-      final long orderNo,
+  public DefaultCashback(
       final String itemNo,
       final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
-      final Instant useEnableDate
+      final Instant useEnableDate,
+      final CashbackPolicy cashbackPolicy
   ) {
     super(
-        orderNo,
         itemNo,
         type,
         shopType,
         amount,
         basisAmount,
         useEnableDate,
-        CashbackApplyStrategy.notForSaveStrategy());
+        CashbackApplyStrategy.notForSaveStrategy(),
+        cashbackPolicy);
   }
 }

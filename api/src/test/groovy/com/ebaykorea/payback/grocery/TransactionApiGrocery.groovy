@@ -12,7 +12,7 @@ class TransactionApiGrocery {
 
   static def KeyMapDto_생성(Map map = [:]) {
     new KeyMapDto().tap {
-      txKey = (map.transactionKey ?: "transactionKey") as String
+      txKey = (map.txKey ?: "txKey") as String
       orderKey = (map.orderKey ?: "orderKey") as String
       packNo = (map.packNo ?: 1L) as Long
       orderUnitKey = (map.orderUnitKey ?: "orderUnitKey1") as String

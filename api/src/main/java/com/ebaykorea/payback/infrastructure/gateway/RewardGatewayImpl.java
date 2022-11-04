@@ -89,8 +89,6 @@ public class RewardGatewayImpl implements RewardGateway {
       final Map<String, ItemSnapshot> itemSnapshotMap,
       final Map<String, OrderUnitKey> orderUnitKeyMap
   ) {
-    final var bundleDiscountMap = order.findBundleDiscountMap();
-
     return order.getOrderUnits().stream()
         .map(orderUnit ->
             rewardGatewayMapper.map(
@@ -98,7 +96,7 @@ public class RewardGatewayImpl implements RewardGateway {
                 orderUnit,
                 orderUnitKeyMap.get(orderUnit.getOrderUnitKey()),
                 itemSnapshotMap.get(orderUnit.getOrderItem().getItemSnapshotKey()),
-                bundleDiscountMap.get(orderUnit.getOrderUnitKey())))
+                order.getBundleDiscountPrice(orderUnit.getOrderUnitKey())))
         .collect(Collectors.toUnmodifiableList());
   }
 

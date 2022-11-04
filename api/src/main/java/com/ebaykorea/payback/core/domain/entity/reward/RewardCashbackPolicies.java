@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.reward;
 
+import static com.ebaykorea.payback.util.PaybackCollections.toMapBy;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
@@ -15,8 +16,8 @@ import lombok.Value;
 
 @Value
 public class RewardCashbackPolicies {
-  List<RewardCashbackPolicy> cashbackPolicies;
-  List<RewardBackendCashbackPolicy> backendCashbackPolicies;
+  Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap;
+  Map<Long, RewardBackendCashbackPolicy> backendCashbackPolicyMap;
 
   String useEnableDate;
   BigDecimal smileCardCashbackAmount;
@@ -29,21 +30,21 @@ public class RewardCashbackPolicies {
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
     return new RewardCashbackPolicies(
-        cashbackPolicies,
-        backendCashbackPolicies,
+        cashbackPolicies.stream().collect(groupingBy(RewardCashbackPolicy::getPolicyKey)),
+        backendCashbackPolicies.stream().collect(toMapBy(RewardBackendCashbackPolicy::getPolicyKey)),
         useEnableDate,
         smileCardCashbackAmount,
         newSmileCardCashbackAmount);
   }
 
   private RewardCashbackPolicies(
-      final List<RewardCashbackPolicy> cashbackPolicies,
-      final List<RewardBackendCashbackPolicy> backendCashbackPolicies,
+      final Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap,
+      final Map<Long, RewardBackendCashbackPolicy> backendCashbackPolicyMap,
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
-    this.cashbackPolicies = cashbackPolicies;
-    this.backendCashbackPolicies = backendCashbackPolicies;
+    this.cashbackPolicyMap = cashbackPolicyMap;
+    this.backendCashbackPolicyMap = backendCashbackPolicyMap;
     this.useEnableDate = useEnableDate;
     this.smileCardCashbackAmount = smileCardCashbackAmount;
     this.newSmileCardCashbackAmount = newSmileCardCashbackAmount;
@@ -53,15 +54,6 @@ public class RewardCashbackPolicies {
 
   public void validate() {
 
-  }
-
-  public Map<Long, List<RewardCashbackPolicy>> findCashbackPolicyMap() {
-    return cashbackPolicies.stream()
-        .collect(groupingBy(RewardCashbackPolicy::getPolicyKey));
-  }
-
-  public Map<Long, List<RewardBackendCashbackPolicy>> findBackendCashbackPolicyMep() {
-    return backendCashbackPolicies.stream().collect(groupingBy(RewardBackendCashbackPolicy::getPolicyKey));
   }
 
   //정책이 여러개 등록될 경우를 고려하여 key 및 타입별 캐시백 금액을 Sum한 형태로 가져옵니다
@@ -82,8 +74,12 @@ public class RewardCashbackPolicies {
     }
   }
 
-  private List<RewardCashbackPolicy> findRewardCashbackPolicies(final long policyKey) {
-    return Optional.ofNullable(findCashbackPolicyMap().get(policyKey))
+  public List<RewardCashbackPolicy> findRewardCashbackPolicies(final long policyKey) {
+    return Optional.ofNullable(cashbackPolicyMap.get(policyKey))
         .orElse(Collections.emptyList());
+  }
+
+  public Optional<RewardBackendCashbackPolicy> findBackendRewardCashbackPolicy(final long policyKey) {
+    return Optional.ofNullable(backendCashbackPolicyMap.get(policyKey));
   }
 }

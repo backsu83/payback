@@ -15,7 +15,7 @@ public class CashbackInfoDto {
   /** 캐시백금액 */
   private Integer cashbackAmount;
   /** 캐시백 정책번호 */
-  private Integer cashbackSeq;
+  private Long cashbackSeq;
   /** 적립타입 P, W */
   private String payType;
   /** 적립율 */

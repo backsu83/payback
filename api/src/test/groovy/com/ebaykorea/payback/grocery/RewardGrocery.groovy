@@ -7,9 +7,9 @@ import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy
 
 class RewardGrocery {
   static def RewardCashbackPolicies_생성(Map map = [:]) {
-    new RewardCashbackPolicies(
-        (map.cashbackPolicies ?: [RewardCashbackPolicy_생성()]) as List<RewardCashbackPolicy>,
-        (map.backendCashbackPolicies ?: [RewardBackendCashbackPolicy_생성()]) as List<RewardBackendCashbackPolicy>,
+    RewardCashbackPolicies.of(
+        (map.cashbackPolicies ?: []) as List<RewardCashbackPolicy>,
+        (map.backendCashbackPolicies ?: []) as List<RewardBackendCashbackPolicy>,
         (map.useEnableDate ?: "2023-10-17") as String,
         (map.smileCardCashbackAmount ?: 0L) as BigDecimal,
         (map.newSmileCardCashbackAmount ?: 0L) as BigDecimal
@@ -21,7 +21,7 @@ class RewardGrocery {
         .policyKey((map.policyKey ?: 1L) as long)
         .cashbackCd((map.cashbackCd ?: CashbackType.Item) as CashbackType)
         .cashbackAmount((map.cashbackAmount ?: 1000) as Integer)
-        .cashbackSeq((map.cashbackSeq ?: 1) as Integer)
+        .cashbackSeq((map.cashbackSeq ?: 1L) as Long)
         .payType((map.payType ?: "P") as String)
         .payRate((map.payRate ?: 0L) as BigDecimal)
         .payMaxMoney((map.payMaxMoney ?: 0L) as BigDecimal)
