@@ -1,11 +1,11 @@
 package com.ebaykorea.payback.core.domain.entity.order;
 
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.util.PaybackStrings;
 import lombok.Value;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
 import static com.ebaykorea.payback.util.PaybackCollections.orEmpty;
@@ -52,5 +52,18 @@ public class KeyMap {
   public Map<String, OrderUnitKey> findOrderUnitKeyMap() {
     return orderUnitKeys.stream()
         .collect(toUnmodifiableMap(OrderUnitKey::getOrderUnitKey, identity()));
+  }
+
+  public Optional<OrderUnitKey> findOrderUnitKey(final String orderUnitKey) {
+    return Optional.ofNullable(findOrderUnitKeyMap().get(orderUnitKey));
+  }
+
+  public Map<Long, OrderUnitKey> findOrderUnitKeyMapByBuyOrderNo() {
+    return orderUnitKeys.stream()
+        .collect(toUnmodifiableMap(OrderUnitKey::getBuyOrderNo, identity()));
+  }
+
+  public Optional<OrderUnitKey> findOrderUnitKeyByOrderNo(final long buyOrderNo) {
+    return Optional.ofNullable(findOrderUnitKeyMapByBuyOrderNo().get(buyOrderNo));
   }
 }

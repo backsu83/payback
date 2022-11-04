@@ -12,17 +12,16 @@ import java.time.Instant;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class ItemCashback extends Cashback {
+public class NoneCashback extends Cashback {
 
-  public ItemCashback(
+  public NoneCashback(
       final long orderNo,
       final String itemNo,
       final CashbackType type,
       final ShopType shopType,
-      final BigDecimal amount, //cashback_order와 detail.ITEM_AMOUNT 저장하는 금액 소스가 다른데 통일할수 없는지 확인 필요
+      final BigDecimal amount,
       final BigDecimal basisAmount,
-      final Instant useEnableDate,
-      final Boolean isSmilePay
+      final Instant useEnableDate
   ) {
     super(
         orderNo,
@@ -32,6 +31,6 @@ public class ItemCashback extends Cashback {
         amount,
         basisAmount,
         useEnableDate,
-        CashbackApplyStrategy.cashbackAvailableStrategy(amount, isSmilePay));
+        CashbackApplyStrategy.notForSaveStrategy());
   }
 }

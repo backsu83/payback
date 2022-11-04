@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository;
 
-import com.ebaykorea.payback.core.domain.entity.cashback.Cashbacks;
+import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.repository.CashbackRepository;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderDetailRepository;
@@ -23,21 +23,23 @@ public class CashbackRepositoryImpl implements CashbackRepository {
 
   @Transactional
   @Override
-  public void save(final Cashbacks cashbacks) {
+  public void save(PayCashback payCashback) {
 
-    final var list = cashbacks.getCashbacks();
+    //TODO: PayCashback이 완성되면 좀더 간단하게 구현될 수 있습니다
 
-    list.forEach(cashback -> {
-      cashbackOrderRepository.save(cashbackEntityMapper.map(cashbacks, cashback));
-      cashbackOrderDetailRepository.save(cashbackEntityMapper.mapToDetail(cashbacks, cashback));
-      cashbacks.getPolicies().stream()
-          .filter(o -> o.getOrderNo() == cashback.getOrderNo())
-          .forEach(policy -> {
-            cashbackOrderPolicyRepository.save(cashbackEntityMapper.mapToPolicy(cashbacks, policy));
-          });
-    });
-    if(cashbacks.getMember().isSmileClubMember())
-      cashbackOrderMemberRepository.save(cashbackEntityMapper.mapToMember(cashbacks));
+//    final var list = payCashback.getCashbacks();
+//
+//    list.forEach(cashback -> {
+//      cashbackOrderRepository.save(cashbackEntityMapper.map(payCashback, cashback));
+//      cashbackOrderDetailRepository.save(cashbackEntityMapper.mapToDetail(payCashback, cashback));
+//      payCashback.getCashbackPolicies().stream()
+//          .filter(o -> o.getOrderNo() == cashback.getOrderNo())
+//          .forEach(policy -> {
+//            cashbackOrderPolicyRepository.save(cashbackEntityMapper.mapToPolicy(payCashback, policy));
+//          });
+//    });
+//    if(payCashback.getMember().isSmileClubMember())
+//      cashbackOrderMemberRepository.save(cashbackEntityMapper.mapToMember(payCashback));
   }
 
 }

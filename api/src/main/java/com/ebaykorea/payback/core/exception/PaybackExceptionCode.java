@@ -14,6 +14,7 @@ public enum PaybackExceptionCode {
     VALID_003(""),
 
     DOMAIN_ENTITY_001("불변식 오류: {0}"),
+    FACTORY_001("CashbackFactory 오류: {0}"),
 
     GATEWAY_001("처리 실패 : {0}"),
     GATEWAY_002("API 조회 실패"),

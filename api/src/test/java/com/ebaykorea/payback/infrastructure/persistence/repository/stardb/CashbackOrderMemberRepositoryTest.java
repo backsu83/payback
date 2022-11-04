@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 @Disabled
 class CashbackOrderMemberRepositoryTest {
@@ -25,12 +26,13 @@ class CashbackOrderMemberRepositoryTest {
   }
 
   @Test
+  @Transactional
   void save() {
     Long id = 5227995641L;
     Optional<CashbackOrderMemberEntity> byId = repository.findById(id);
     if(!Objects.isNull(byId)) {
       final var nowDate = Timestamp.from(Instant.now());
-      CashbackOrderMemberRepository result = repository.save(CashbackOrderMemberEntity.builder()
+      repository.save(CashbackOrderMemberEntity.builder()
           .packNo(id)
           .buyerNo("132871942")
           .memberGrade("BASC")
@@ -41,7 +43,6 @@ class CashbackOrderMemberRepositoryTest {
           .insOprt("test")
           .updDate(nowDate)
           .updOprt("test").build());
-      System.out.println(GsonUtils.toJsonPretty(result));
     }
   }
 }

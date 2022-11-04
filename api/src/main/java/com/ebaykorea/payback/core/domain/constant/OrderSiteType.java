@@ -16,8 +16,8 @@ public enum OrderSiteType {
   G9(1, "G9"), //TODO: retire 대상
   G9Short(9, "9"); //TODO: retire 대상
 
-  private Integer code;
-  private String shortCode;
+  private final Integer code;
+  private final String shortCode;
 
   private static transient Map<Integer, OrderSiteType> map = PaybackEnums.reverseMap(OrderSiteType.class, OrderSiteType::getCode);
 

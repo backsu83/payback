@@ -12,8 +12,8 @@ public interface CashbackApplyStrategy {
   }
 
   //TODO: cashbackAvailable 조건 확인
-  static CashbackApplyStrategy cashbackAvailableStrategy(final BigDecimal amount, final boolean cashbackAvailable) {
-    return () -> isGreaterThanZero(amount) && cashbackAvailable;
+  static CashbackApplyStrategy cashbackAvailableStrategy(final BigDecimal amount, final boolean isSmilePay) {
+    return () -> isGreaterThanZero(amount) && isSmilePay;
   }
 
   static CashbackApplyStrategy chargePayCashbackStrategy(final BigDecimal amount, final boolean isChargePay) {
@@ -25,7 +25,7 @@ public interface CashbackApplyStrategy {
   }
 
   //cashback_order 저장 대상이 아님
-  static CashbackApplyStrategy smileCardCashbackStrategy() {
+  static CashbackApplyStrategy notForSaveStrategy() {
     return () -> false;
   }
 }

@@ -1,10 +1,16 @@
 package com.ebaykorea.payback.core.domain.entity.reward;
 
+import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
+import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
+import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 import static java.util.stream.Collectors.groupingBy;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+import java.time.Instant;
+import java.util.*;
+
+import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import lombok.Value;
 
 @Value
@@ -22,7 +28,12 @@ public class RewardCashbackPolicies {
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
-    return new RewardCashbackPolicies(cashbackPolicies, backendCashbackPolicies, useEnableDate, smileCardCashbackAmount, newSmileCardCashbackAmount);
+    return new RewardCashbackPolicies(
+        cashbackPolicies,
+        backendCashbackPolicies,
+        useEnableDate,
+        smileCardCashbackAmount,
+        newSmileCardCashbackAmount);
   }
 
   private RewardCashbackPolicies(
@@ -44,13 +55,35 @@ public class RewardCashbackPolicies {
 
   }
 
-  public Map<Long, List<RewardCashbackPolicy>> policyMapByPolicyKey() {
+  public Map<Long, List<RewardCashbackPolicy>> findCashbackPolicyMap() {
     return cashbackPolicies.stream()
         .collect(groupingBy(RewardCashbackPolicy::getPolicyKey));
   }
 
-  public Map<Long, List<RewardBackendCashbackPolicy>> backendPolicyMapByPolicyKey() {
-    return backendCashbackPolicies.stream()
-        .collect(groupingBy(RewardBackendCashbackPolicy::getPolicyKey));
+  public Map<Long, List<RewardBackendCashbackPolicy>> findBackendCashbackPolicyMep() {
+    return backendCashbackPolicies.stream().collect(groupingBy(RewardBackendCashbackPolicy::getPolicyKey));
+  }
+
+  //정책이 여러개 등록될 경우를 고려하여 key 및 타입별 캐시백 금액을 Sum한 형태로 가져옵니다
+  //TODO: https://jira.ebaykorea.com/browse/RWD-971 확인 필요
+  public BigDecimal getCashbackAmount(final long policyKey, final CashbackType cashbackType) {
+    return findRewardCashbackPolicies(policyKey).stream()
+        .filter(p -> p.getCashbackCd() == cashbackType)
+        .map(RewardCashbackPolicy::getCashbackAmount)
+        .map(BigDecimal::valueOf)
+        .collect(summarizing());
+  }
+
+  public Instant toUseEnableDate(final Instant orderDate) {
+    if (isBlank(useEnableDate)) {
+      return getDefaultEnableDate(orderDate);
+    } else {
+      return DATE_TIME_FORMATTER.parse(useEnableDate, Instant::from);
+    }
+  }
+
+  private List<RewardCashbackPolicy> findRewardCashbackPolicies(final long policyKey) {
+    return Optional.ofNullable(findCashbackPolicyMap().get(policyKey))
+        .orElse(Collections.emptyList());
   }
 }

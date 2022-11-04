@@ -35,10 +35,16 @@ public class CashbackApplicationService {
     final var member = memberService.getMember(order.getBuyer());
     //주문 키 매핑 정보
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
-    //상품 스냅샷 정보
-    final var itemSnapshot = orderGateway.getItemSnapshot(order.findItemSnapshotKeys());
     //결제 정보
     final var paymentRecord = paymentGateway.getPaymentRecord(order.getPaySeq());
+    //상품 스냅샷 정보
+    final var itemSnapshot = orderGateway.getItemSnapshot(order.findItemSnapshotKeys());
+
+    //TODO 판매자 캐시백은 적립해야함
+    if (!paymentRecord.hasMainPaymentAmount()) {
+      return;
+    }
+
 
     //리워드 캐시백 정책 조회
     final var rewardCashbackPolicies = rewardGateway.getCashbackPolicies(

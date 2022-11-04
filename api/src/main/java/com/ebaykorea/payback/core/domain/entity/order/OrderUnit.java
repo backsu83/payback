@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.order;
 
+import static com.ebaykorea.payback.core.domain.constant.BasisMoneyRate.BASIS_MONEY_RATE;
 import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackObjects.orElse;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import com.ebaykorea.payback.util.PaybackStrings;
 import lombok.*;
 
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +44,16 @@ public class OrderUnit {
         .subtract(couponPrice());
   }
 
-  public BigDecimal orderUnitPriceWithBundleDiscount(BigDecimal bundleDiscountPrice) {
+  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice) {
     return orderUnitPrice()
         .subtract(orElse(bundleDiscountPrice, BigDecimal.ZERO));
+  }
+
+  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal buyerMileageRate) {
+    return orderUnitPrice(bundleDiscountPrice)
+        .multiply(buyerMileageRate)
+        .multiply(BASIS_MONEY_RATE)
+        .setScale(0, RoundingMode.FLOOR);
   }
 
   public BigDecimal itemDiscountPrice() {

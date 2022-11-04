@@ -27,7 +27,7 @@ public interface OrderGatewayMapper {
 
   @Mapping(source = "source.memberType", target = "member", qualifiedByName = "mapIsMember")
   @Mapping(source = "source.smileClubMembership", target = "smileClubMember", qualifiedByName = "mapIsSmileClubMember")
-  OrderBuyer mapToBuyer(BuyerDto source);
+  Buyer mapToBuyer(BuyerDto source);
 
   @Named("mapIsMember")
   default boolean mapIsMember(final MemberType memberType) {

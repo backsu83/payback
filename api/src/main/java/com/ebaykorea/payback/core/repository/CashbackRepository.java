@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.repository;
 
-import com.ebaykorea.payback.core.domain.entity.cashback.Cashbacks;
+import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 
 public interface CashbackRepository {
-  void save(Cashbacks cashbacks);
+  void save(PayCashback payCashback);
 }
