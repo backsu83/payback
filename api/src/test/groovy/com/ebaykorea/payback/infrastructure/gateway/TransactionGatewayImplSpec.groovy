@@ -20,7 +20,7 @@ class TransactionGatewayImplSpec extends Specification {
     client.findKeyMaps(_ as String, _ as String, _ as String) >> Optional.of(response)
 
     expect:
-    def result = transactionGateway.getKeyMap("orderKey", "txKey")
+    def result = transactionGateway.getKeyMap("txKey", "orderKey")
     result == expectResult
 
     where:

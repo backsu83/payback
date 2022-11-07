@@ -10,7 +10,7 @@ class OrderSpec extends Specification {
   def "Order 겁증"() {
     expect:
     def order = 주문정보
-    order.findBundleDiscountMap() == 복수할인정보
+    order.getBundleDiscountMap() == 복수할인정보
     order.findItemSnapshotKeys() == 상품키
     order.isForCashback() == 캐시백주문대상여부
 

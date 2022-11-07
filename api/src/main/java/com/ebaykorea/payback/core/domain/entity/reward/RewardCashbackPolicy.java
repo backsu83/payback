@@ -15,7 +15,7 @@ public class RewardCashbackPolicy {
   /** 캐시백금액 */
   Integer cashbackAmount;
   /** 캐시백 정책번호 */
-  Integer cashbackSeq;
+  Long cashbackSeq;
   /** 적립타입 P, W */
   String payType;
   /** 적립율 */

@@ -3,7 +3,8 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper;
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
-import com.ebaykorea.payback.core.domain.entity.cashback.policy.CashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderDetailEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderMemberEntity;
@@ -27,12 +28,12 @@ public interface CashbackEntityMapper {
   }
 
   @Mapping(source = "cashback.orderNo", target = "buyOrderNo")
-  @Mapping(source = "cashback.type", target = "cashbackType")
-  @Mapping(source = "cashback.amount", target = "cashbackMoney")
-  @Mapping(source = "cashback.basisAmount", target = "cashbackBasisMoney")
-  @Mapping(source = "cashback.itemNo", target = "gdNo")
-  @Mapping(source = "cashback.shopType", target = "shopType")
-  @Mapping(source = "cashback.useEnableDate", target = "useEnableDt")
+  @Mapping(source = "cashbackUnit.type", target = "cashbackType")
+  @Mapping(source = "cashbackUnit.amount", target = "cashbackMoney")
+  @Mapping(source = "cashbackUnit.basisAmount", target = "cashbackBasisMoney")
+  @Mapping(source = "cashbackUnit.itemNo", target = "gdNo")
+  @Mapping(source = "cashbackUnit.shopType", target = "shopType")
+  @Mapping(source = "cashbackUnit.useEnableDate", target = "useEnableDt")
   @Mapping(source = "payCashback.packNo", target = "packNo")
   @Mapping(source = "payCashback.orderSiteType", target = "siteType")
   @Mapping(source = "payCashback.member.buyerNo", target = "custNo")
@@ -42,7 +43,7 @@ public interface CashbackEntityMapper {
   @Mapping(source = "payCashback.orderDate", target = "regDt")
   @Mapping(constant = "SV", target = "tradeCd")
   @Mapping(constant = "10", target = "tradeStatus")
-  CashbackOrderEntity map(PayCashback payCashback , Cashback cashback);
+  CashbackOrderEntity map(PayCashback payCashback , Cashback cashback, CashbackUnit cashbackUnit);
 
   @Mapping(source = "packNo", target = "packNo")
   @Mapping(source = "member.buyerId", target = "buyerNo")

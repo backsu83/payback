@@ -6,8 +6,13 @@ import java.util.stream.Collector;
 import static java.math.BigDecimal.ZERO;
 
 public class PaybackDecimals {
+
   public static boolean isGreaterThanZero(final BigDecimal decimal) {
     return decimal.compareTo(ZERO) > 0;
+  }
+
+  public static BigDecimal orZero(final BigDecimal decimal) {
+    return decimal == null ? ZERO : decimal;
   }
 
   // BigDecimal Sum

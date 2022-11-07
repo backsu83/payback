@@ -6,5 +6,6 @@ import java.util.List;
 
 @Data
 public class KeyMapResponseDto {
+  private String txKey;
   private List<KeyMapDto> orders;
 }

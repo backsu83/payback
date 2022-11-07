@@ -2,11 +2,13 @@ package com.ebaykorea.payback.core.domain.entity.order;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
 import static com.ebaykorea.payback.util.PaybackCollections.isEmpty;
+import static com.ebaykorea.payback.util.PaybackCollections.toMapBy;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toUnmodifiableMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.ebaykorea.payback.core.exception.PaybackException;
 import lombok.Value;
@@ -14,26 +16,26 @@ import lombok.Value;
 @Value
 public class ItemSnapshots {
 
-  List<ItemSnapshot> itemSnapshots;
+  Map<String, ItemSnapshot> itemSnapshotMap;
 
   public static ItemSnapshots of(final List<ItemSnapshot> itemSnapshots) {
-    return new ItemSnapshots(itemSnapshots);
+    return new ItemSnapshots(itemSnapshots.stream().collect(toMapBy(ItemSnapshot::getSnapshotKey)));
   }
 
-  public Map<String, ItemSnapshot> bySnapshotKey() {
-    return itemSnapshots.stream().collect(toUnmodifiableMap(ItemSnapshot::getSnapshotKey, identity()));
-  }
-
-  private ItemSnapshots(final List<ItemSnapshot> itemSnapshots) {
-    this.itemSnapshots = itemSnapshots;
+  private ItemSnapshots(final Map<String, ItemSnapshot> itemSnapshotMap) {
+    this.itemSnapshotMap = itemSnapshotMap;
 
     validate();
   }
 
   // 불변식
   private void validate() {
-    if (isEmpty(itemSnapshots)) {
+    if (itemSnapshotMap == null || itemSnapshotMap.isEmpty()) {
       throw new PaybackException(DOMAIN_ENTITY_001, "itemSnapshots 정보가 없습니다");
     }
+  }
+
+  public Optional<ItemSnapshot> findBy(final String snapshotKey) {
+    return Optional.ofNullable(itemSnapshotMap.get(snapshotKey));
   }
 }

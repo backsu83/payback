@@ -36,6 +36,6 @@ public class TransactionGatewayImpl implements TransactionGateway {
         .map(transactionGatewayMapper::mapToOrderUnitKey)
         .collect(Collectors.toUnmodifiableList());
 
-    return KeyMap.of(firstKeyMap.getOrderKey(), firstKeyMap.getPackNo(), orderUnitKeys);
+    return KeyMap.of(txKey, orderKey, firstKeyMap.getPackNo(), orderUnitKeys);
   }
 }

@@ -15,21 +15,25 @@ import static java.util.stream.Collectors.toUnmodifiableMap;
 
 @Value
 public class KeyMap {
+  String txKey;
   String orderKey;
   long packNo;
   List<OrderUnitKey> orderUnitKeys;
 
   public static KeyMap of(
+      final String txKey,
       final String orderKey,
       final long packNo,
       final List<OrderUnitKey> orderUnitKeys) {
-    return new KeyMap(orderKey, packNo, orderUnitKeys);
+    return new KeyMap(txKey, orderKey, packNo, orderUnitKeys);
   }
 
   private KeyMap(
+      final String txKey,
       final String orderKey,
       final long packNo,
       final List<OrderUnitKey> orderUnitKeys) {
+    this.txKey = txKey;
     this.orderKey = orderKey;
     this.packNo = packNo;
     this.orderUnitKeys = orderUnitKeys;
@@ -38,6 +42,9 @@ public class KeyMap {
   }
 
   public void validate() {
+    if (isBlank(txKey)) {
+      throw new PaybackException(DOMAIN_ENTITY_001, "txKey가 없습니다");
+    }
     if (isBlank(orderKey)) {
       throw new PaybackException(DOMAIN_ENTITY_001, "orderKey가 없습니다");
     }
@@ -54,7 +61,7 @@ public class KeyMap {
         .collect(toUnmodifiableMap(OrderUnitKey::getOrderUnitKey, identity()));
   }
 
-  public Optional<OrderUnitKey> findOrderUnitKey(final String orderUnitKey) {
+  public Optional<OrderUnitKey> findBy(final String orderUnitKey) {
     return Optional.ofNullable(findOrderUnitKeyMap().get(orderUnitKey));
   }
 

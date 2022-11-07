@@ -50,7 +50,7 @@ public class CashbackApplicationService {
     final var rewardCashbackPolicies = rewardGateway.getCashbackPolicies(
         order,
         paymentRecord,
-        itemSnapshot.bySnapshotKey(),
+        itemSnapshot.getItemSnapshotMap(),
         orderKeyMap.findOrderUnitKeyMap());
 
     //final var cashbacks = Cashbacks.of(); // TODO

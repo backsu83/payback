@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.order;
 
+import com.ebaykorea.payback.core.domain.constant.ShopType;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -36,4 +37,14 @@ public class ItemSnapshot {
 
   /** 구매자마일리지율 */
   BigDecimal buyerMileageRate;
+
+  public ShopType toShopType() {
+    if (isSmileDelivery) {
+      return ShopType.SmileDelivery;
+    } else if (isSmileFresh) {
+      return ShopType.SmileFresh;
+    } else {
+      return ShopType.Unknown;
+    }
+  }
 }

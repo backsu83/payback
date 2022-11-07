@@ -1,28 +1,30 @@
 package com.ebaykorea.payback.core.domain.entity.cashback;
 
-import com.ebaykorea.payback.core.domain.constant.CashbackType;
-import com.ebaykorea.payback.core.domain.constant.ShopType;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.SmileCardCashback;
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
-public abstract class Cashback {
+public class Cashback {
+
+  private final String orderUnitKey;
+
   private final long orderNo;
-  private final String itemNo;
-  private final CashbackType type; //TODO: type은 다른 방법으로 처리해도 될거같다
-  private final ShopType shopType;
-  private final BigDecimal amount;
-  private final BigDecimal basisAmount;
-  private final Instant useEnableDate;
+  /* 주문 단위 별 캐시백 목록 */
+  private final List<CashbackUnit> cashbackUnits;
 
-  private final CashbackApplyStrategy cashbackApplyStrategy;
+  private final SmileCardCashback smileCardCashback;
 
-  public boolean isApply() {
-    return this.cashbackApplyStrategy.isApply();
+  public static Cashback of(
+      final String orderUnitKey,
+      final long orderNo,
+      final List<CashbackUnit> cashbackUnits,
+      final SmileCardCashback smileCardCashback) {
+    return new Cashback(orderUnitKey, orderNo, cashbackUnits, smileCardCashback);
   }
 }
