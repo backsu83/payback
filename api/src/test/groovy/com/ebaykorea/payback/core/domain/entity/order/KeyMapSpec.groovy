@@ -9,7 +9,7 @@ class KeyMapSpec extends Specification {
   def "KeyMap 검증"() {
     expect:
     def keyMap = 키맵정보
-    keyMap.findOrderUnitKeyMap() == orderUnitKeyMap
+    keyMap.orderUnitKeyMap() == orderUnitKeyMap
 
     where:
     desc | 키맵정보                                                                                          | orderUnitKeyMap

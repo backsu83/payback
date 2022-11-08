@@ -2,12 +2,12 @@ package com.ebaykorea.payback.core.factory
 
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.CashbackType
-import com.ebaykorea.payback.core.factory.impl.ChargePayCashbackFactory
-import com.ebaykorea.payback.core.factory.impl.ClubDayCashbackFactory
-import com.ebaykorea.payback.core.factory.impl.DefaultCashbackFactory
-import com.ebaykorea.payback.core.factory.impl.ItemCashbackFactory
-import com.ebaykorea.payback.core.factory.impl.SellerCashbackFactory
-import com.ebaykorea.payback.core.factory.impl.SmilePayCashbackFactory
+import com.ebaykorea.payback.core.factory.impl.ChargePayCashbackCreator
+import com.ebaykorea.payback.core.factory.impl.ClubDayCashbackCreator
+import com.ebaykorea.payback.core.factory.impl.DefaultCashbackCreator
+import com.ebaykorea.payback.core.factory.impl.ItemCashbackCreator
+import com.ebaykorea.payback.core.factory.impl.SellerCashbackCreator
+import com.ebaykorea.payback.core.factory.impl.SmilePayCashbackCreator
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.CashbackUnitGrocery.*
@@ -22,12 +22,12 @@ import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicies
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicy_생성
 
 class CashbackUnitFactorySpec extends Specification {
-  def sellerCashbackFactory = new SellerCashbackFactory()
-  def itemCashbackFactory = new ItemCashbackFactory()
-  def smilePayCashbackFactory = new SmilePayCashbackFactory()
-  def chargePayCashbackFactory = new ChargePayCashbackFactory()
-  def clubDayCashbackFactory = new ClubDayCashbackFactory()
-  def defaultCashbackFactory = new DefaultCashbackFactory()
+  def sellerCashbackFactory = new SellerCashbackCreator()
+  def itemCashbackFactory = new ItemCashbackCreator()
+  def smilePayCashbackFactory = new SmilePayCashbackCreator()
+  def chargePayCashbackFactory = new ChargePayCashbackCreator()
+  def clubDayCashbackFactory = new ClubDayCashbackCreator()
+  def defaultCashbackFactory = new DefaultCashbackCreator()
   def cashbackFactory = new CashbackUnitFactory(
       sellerCashbackFactory,
       itemCashbackFactory,

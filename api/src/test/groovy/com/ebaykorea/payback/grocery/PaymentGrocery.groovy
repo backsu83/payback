@@ -38,7 +38,7 @@ class PaymentGrocery {
     PaymentMethod.builder()
         .amount((map.amount ?: 17000L) as BigDecimal)
         .mediumCode((map.mediumCode ?: PaymentCode.PaymentMethodMediumCode.NewSmilePayCMS) as String)
-        .smallCode((map.smallCode ?: "300000290") as String)
+        .smallCode((map.smallCode ?: PaymentCode.PaymentMethodSmallCode.SmilePayReCharge) as String)
         .build()
   }
 

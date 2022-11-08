@@ -24,12 +24,12 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 @Service
 @RequiredArgsConstructor
 public class CashbackUnitFactory {
-  private final SellerCashbackFactory sellerCashbackFactory;
-  private final ItemCashbackFactory itemCashbackFactory;
-  private final SmilePayCashbackFactory smilePayCashbackFactory;
-  private final ChargePayCashbackFactory chargePayCashbackFactory;
-  private final ClubDayCashbackFactory clubDayCashbackFactory;
-  private final DefaultCashbackFactory defaultCashbackFactory;
+  private final SellerCashbackCreator sellerCashbackCreator;
+  private final ItemCashbackCreator itemCashbackCreator;
+  private final SmilePayCashbackCreator smilePayCashbackCreator;
+  private final ChargePayCashbackCreator chargePayCashbackCreator;
+  private final ClubDayCashbackCreator clubDayCashbackCreator;
+  private final DefaultCashbackCreator defaultCashbackCreator;
 
   /**
    * 주문단위(주문번호)별 캐시백 목록을 가져옵니다
@@ -58,7 +58,7 @@ public class CashbackUnitFactory {
       final ItemSnapshot itemSnapshot,
       final BigDecimal bundleDiscountPrice
   ) {
-    return sellerCashbackFactory.create(
+    return sellerCashbackCreator.create(
         getDefaultEnableDate(orderDate),
         itemSnapshot,
         orderUnit.orderUnitPrice(bundleDiscountPrice, itemSnapshot.getBuyerMileageRate()),
@@ -113,7 +113,7 @@ public class CashbackUnitFactory {
 
     switch (rewardCashbackPolicy.getCashbackCd()) {
       case Item:
-        return itemCashbackFactory.createItemCashback(
+        return itemCashbackCreator.createItemCashback(
             useEnableDate,
             payment,
             itemSnapshot,
@@ -123,7 +123,7 @@ public class CashbackUnitFactory {
         );
 
       case SmilePay:
-        return smilePayCashbackFactory.create(
+        return smilePayCashbackCreator.create(
             useEnableDate,
             payment,
             itemSnapshot,
@@ -132,7 +132,7 @@ public class CashbackUnitFactory {
             rewardCashbackPolicy
         );
       case ChargePay:
-        return chargePayCashbackFactory.create(
+        return chargePayCashbackCreator.create(
             useEnableDate,
             payment,
             itemSnapshot,
@@ -142,7 +142,7 @@ public class CashbackUnitFactory {
             backendCashbackPolicy
         );
       case ClubDay:
-        return clubDayCashbackFactory.create(
+        return clubDayCashbackCreator.create(
             useEnableDate,
             member,
             payment,
@@ -154,7 +154,7 @@ public class CashbackUnitFactory {
         );
       default:
         //TODO: 기록이나 로깅이 필요할거 같음
-        return defaultCashbackFactory.create(
+        return defaultCashbackCreator.create(
             useEnableDate,
             itemSnapshot,
             cashbackAmount,

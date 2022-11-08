@@ -56,21 +56,21 @@ public class KeyMap {
     }
   }
 
-  public Map<String, OrderUnitKey> findOrderUnitKeyMap() {
+  public Map<String, OrderUnitKey> orderUnitKeyMap() {
     return orderUnitKeys.stream()
         .collect(toUnmodifiableMap(OrderUnitKey::getOrderUnitKey, identity()));
   }
 
   public Optional<OrderUnitKey> findBy(final String orderUnitKey) {
-    return Optional.ofNullable(findOrderUnitKeyMap().get(orderUnitKey));
+    return Optional.ofNullable(orderUnitKeyMap().get(orderUnitKey));
   }
 
-  public Map<Long, OrderUnitKey> findOrderUnitKeyMapByBuyOrderNo() {
+  private Map<Long, OrderUnitKey> orderUnitKeyMapByBuyOrderNo() {
     return orderUnitKeys.stream()
         .collect(toUnmodifiableMap(OrderUnitKey::getBuyOrderNo, identity()));
   }
 
-  public Optional<OrderUnitKey> findOrderUnitKeyByOrderNo(final long buyOrderNo) {
-    return Optional.ofNullable(findOrderUnitKeyMapByBuyOrderNo().get(buyOrderNo));
+  public Optional<OrderUnitKey> findByOrderNo(final long buyOrderNo) {
+    return Optional.ofNullable(orderUnitKeyMapByBuyOrderNo().get(buyOrderNo));
   }
 }

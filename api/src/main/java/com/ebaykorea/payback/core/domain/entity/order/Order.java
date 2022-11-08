@@ -4,6 +4,7 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_E
 import static com.ebaykorea.payback.util.PaybackCollections.*;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackObjects.orElse;
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
 
 import java.math.BigDecimal;
@@ -124,5 +125,13 @@ public class Order {
   public BigDecimal getBundleDiscountPrice(final String orderUnitKey) {
     return Optional.ofNullable(bundleDiscountMap.get(orderUnitKey))
         .orElse(BigDecimal.ZERO);
+  }
+
+  private Map<String, OrderUnit> orderUnitMap() {
+    return orderUnits.stream().collect(toMap(OrderUnit::getOrderUnitKey, identity()));
+  }
+
+  public Optional<OrderUnit> findOrderUnitBy(final String orderUnitKey) {
+    return Optional.ofNullable(orderUnitMap().get(orderUnitKey));
   }
 }

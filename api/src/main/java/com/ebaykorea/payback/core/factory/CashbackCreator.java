@@ -2,7 +2,6 @@ package com.ebaykorea.payback.core.factory;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.SmileCardCashback;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
@@ -50,15 +49,8 @@ public class CashbackCreator {
               bundleDiscountPrice,
               rewardCashbackPolicies);
 
-          final var smileCardCashback = createSmileCardCashback();
-
-          return Cashback.of(orderUnitKey.getOrderUnitKey(), orderUnitKey.getBuyOrderNo(), cashbackUnits, smileCardCashback);
+          return Cashback.of(orderUnitKey.getOrderUnitKey(), orderUnitKey.getBuyOrderNo(), cashbackUnits);
         })
         .collect(Collectors.toUnmodifiableList());
-  }
-
-  SmileCardCashback createSmileCardCashback() {
-    //TODO
-    return null;
   }
 }

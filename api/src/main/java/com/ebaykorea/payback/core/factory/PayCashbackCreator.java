@@ -15,6 +15,7 @@ import static com.ebaykorea.payback.core.domain.constant.OrderSiteType.Gmarket;
 @RequiredArgsConstructor
 public class PayCashbackCreator {
   private final CashbackCreator cashbackCreator;
+  private final SmileCardCashbackCreator smileCardCashbackCreator;
 
   public PayCashback create(
       final KeyMap keyMap,
@@ -30,7 +31,8 @@ public class PayCashbackCreator {
         Gmarket, //TODO: repository에서 고정값으로 넣어주어도 될듯
         order.getOrderDate(),
         member,
-        cashbackCreator.createCashbacks(keyMap, order, member, payment, itemSnapshots, rewardCashbackPolicies)
+        cashbackCreator.createCashbacks(keyMap, order, member, payment, itemSnapshots, rewardCashbackPolicies),
+        smileCardCashbackCreator.createSmileCardCashback(keyMap, order, payment, itemSnapshots, rewardCashbackPolicies)
     );
   }
 }

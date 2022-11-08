@@ -1,9 +1,10 @@
 package com.ebaykorea.payback.core.factory.impl;
 
 import com.ebaykorea.payback.core.domain.constant.CashbackPayType;
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.ChargePayCashback;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.ChargePayCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.ClubDayCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.ClubDayCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
@@ -17,25 +18,27 @@ import java.time.Instant;
 import static com.ebaykorea.payback.util.PaybackDecimals.orZero;
 
 @Component
-public class ChargePayCashbackFactory {
+public class ClubDayCashbackCreator {
 
   public CashbackUnit create(
       final Instant useEnableDate,
+      final Member member,
       final Payment payment,
       final ItemSnapshot itemSnapshot,
       final BigDecimal cashbackAmount,
       final BigDecimal basisAmount,
       final RewardCashbackPolicy rewardCashbackPolicy,
-      final RewardBackendCashbackPolicy rewardBackendCashbackPolicy) {
-    return new ChargePayCashback(
+      final RewardBackendCashbackPolicy rewardBackendCashbackPolicy
+  ) {
+    return new ClubDayCashback(
         itemSnapshot.getItemNo(),
         rewardCashbackPolicy.getCashbackCd(),
         itemSnapshot.toShopType(),
         cashbackAmount,
         basisAmount,
         useEnableDate,
-        BigDecimal.ZERO, //TODO
-        payment.isChargePayment(),
+        payment.isSmilePayPayment(),
+        member.isSmileClubMember(),
         createCashbackPolicy(rewardCashbackPolicy, rewardBackendCashbackPolicy)
     );
   }
@@ -43,7 +46,7 @@ public class ChargePayCashbackFactory {
   private CashbackPolicy createCashbackPolicy(
       final RewardCashbackPolicy rewardCashbackPolicy,
       final RewardBackendCashbackPolicy rewardBackendCashbackPolicy) {
-    return new ChargePayCashbackPolicy(
+    return new ClubDayCashbackPolicy(
         rewardCashbackPolicy.getCashbackSeq(),
         rewardCashbackPolicy.getCashbackCd(),
         rewardCashbackPolicy.getCashbackTitle(),
@@ -51,10 +54,8 @@ public class ChargePayCashbackFactory {
         rewardCashbackPolicy.getPayType(),
         rewardCashbackPolicy.getPayRate(),
         rewardCashbackPolicy.getPayMaxMoney(),
-        orZero(rewardBackendCashbackPolicy.getChargePayRewardRate()),
-        orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getChargePayRewardMaxMoney())),
-        orZero(rewardBackendCashbackPolicy.getChargePayRewardClubRate()),
-        orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getChargePayRewardClubMaxMoney()))
+        orZero(rewardBackendCashbackPolicy.getClubDayPayRate()),
+        orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getClubDaySaveMaxMoney(), 0))
     );
   }
 }

@@ -51,7 +51,7 @@ public class CashbackApplicationService {
         order,
         paymentRecord,
         itemSnapshot.getItemSnapshotMap(),
-        orderKeyMap.findOrderUnitKeyMap());
+        orderKeyMap.orderUnitKeyMap());
 
     //final var cashbacks = Cashbacks.of(); // TODO
 
