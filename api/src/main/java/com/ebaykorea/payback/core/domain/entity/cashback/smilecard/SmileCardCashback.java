@@ -24,7 +24,7 @@ public class SmileCardCashback {
       final List<T2T3SmileCardCashback> t2t3Cashbacks) {
     return new SmileCardCashback(
         cashbackAmount,
-        SmileCardCashbackApplyStrategy.defaultCashbackStrategy(isSmileCard, isFreeInstallment, cashbackAmount),
+        SmileCardCashbackApplyStrategy.defaultSmileCardCashbackStrategy(isSmileCard, isFreeInstallment, cashbackAmount),
         t2t3Cashbacks);
   }
 

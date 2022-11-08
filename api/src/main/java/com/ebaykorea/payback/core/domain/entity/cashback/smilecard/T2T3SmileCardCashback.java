@@ -29,7 +29,7 @@ public class T2T3SmileCardCashback {
         amount,
         basisAmount,
         smileCardType,
-        SmileCardCashbackApplyStrategy.t2t3CashbackStrategy(isT2T3, isFreeInstallment, amount));
+        SmileCardCashbackApplyStrategy.t2t3SmileCardCashbackStrategy(isT2T3, isFreeInstallment, amount));
   }
 
   private T2T3SmileCardCashback(

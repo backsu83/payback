@@ -8,11 +8,11 @@ import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
 public interface SmileCardCashbackApplyStrategy {
   boolean isApply();
 
-  static SmileCardCashbackApplyStrategy defaultCashbackStrategy(final boolean isSmileCard, final boolean isFreeInstallment, final BigDecimal amount) {
+  static SmileCardCashbackApplyStrategy defaultSmileCardCashbackStrategy(final boolean isSmileCard, final boolean isFreeInstallment, final BigDecimal amount) {
     return () -> isSmileCard && !isFreeInstallment && isGreaterThanZero(amount);
   }
 
-  static SmileCardCashbackApplyStrategy t2t3CashbackStrategy(final boolean isT2T3, final boolean isFreeInstallment, final BigDecimal amount) {
+  static SmileCardCashbackApplyStrategy t2t3SmileCardCashbackStrategy(final boolean isT2T3, final boolean isFreeInstallment, final BigDecimal amount) {
     return () -> isT2T3 && !isFreeInstallment && isGreaterThanZero(amount);
   }
 }

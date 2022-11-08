@@ -23,6 +23,7 @@ import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRewardGoodR
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardBackendCashbackPolicy_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicies_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicy_생성
+import static com.ebaykorea.payback.grocery.RewardGrocery.RewardT2T3SmileCardCashbackPolicy_생성
 
 class RewardGatewaySpec extends Specification {
   def rewardApiClient = Stub(RewardApiClient)
@@ -44,14 +45,17 @@ class RewardGatewaySpec extends Specification {
     desc | cashbackResponse
     "아이템 캐시백" | CashbackResponseDataDto_생성()
     "아이템,스마일페이 캐시백" | CashbackResponseDataDto_생성(cashbackInfo: [CashbackInfoDto_생성(), CashbackInfoDto_생성(cashbackCd: CashbackType.SmilePay)])
+    "스마일카드 캐시백" | CashbackResponseDataDto_생성(ifSmileCardCashbackAmount: 1000L, ifNewSmileCardCashbackAmount: 500L)
     _________________________________________________
     cashbackBackendResponse | _
     [CashbackRewardBackendResponseDto_생성()] | _
     [CashbackRewardBackendResponseDto_생성(), CashbackRewardBackendResponseDto_생성(cashbackCode: CashbackType.SmilePay)] | _
+    [CashbackRewardBackendResponseDto_생성()] | _
     _________________________________________________
     expectResult | _
-    RewardCashbackPolicies_생성(cashbackPolicies: [RewardCashbackPolicy_생성()], backendCashbackPolicies: [RewardBackendCashbackPolicy_생성()]) | _
-    RewardCashbackPolicies_생성(cashbackPolicies: [RewardCashbackPolicy_생성(), RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay)], backendCashbackPolicies: [RewardBackendCashbackPolicy_생성(), RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.SmilePay)]) | _
+    RewardCashbackPolicies_생성(cashbackPolicies: [RewardCashbackPolicy_생성()], backendCashbackPolicies: [RewardBackendCashbackPolicy_생성()], smileCardCashbackPolicies: [RewardT2T3SmileCardCashbackPolicy_생성()]) | _
+    RewardCashbackPolicies_생성(cashbackPolicies: [RewardCashbackPolicy_생성(), RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay)], backendCashbackPolicies: [RewardBackendCashbackPolicy_생성(), RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.SmilePay)], smileCardCashbackPolicies: [RewardT2T3SmileCardCashbackPolicy_생성()]) | _
+    RewardCashbackPolicies_생성(smileCardCashbackAmount: 1000L, newSmileCardCashbackAmount: 500L, cashbackPolicies: [RewardCashbackPolicy_생성()], backendCashbackPolicies: [RewardBackendCashbackPolicy_생성()], smileCardCashbackPolicies: [RewardT2T3SmileCardCashbackPolicy_생성()]) | _
   }
 
   def "request 정보 중 결제금액이 정상적으로 변환되는지 확인한다"() {
