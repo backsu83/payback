@@ -18,20 +18,25 @@ import lombok.Value;
 public class RewardCashbackPolicies {
   Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap;
   Map<Long, RewardBackendCashbackPolicy> backendCashbackPolicyMap;
+  Map<Long, RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicyMap;
 
   String useEnableDate;
+  /** 스마일카드(T0) 사용할 경우 적립예정금액 */
   BigDecimal smileCardCashbackAmount;
+  /** 뉴스마일카드(T1,T2,T3) 사용할 경우 적립예정금액 */
   BigDecimal newSmileCardCashbackAmount;
 
   public static RewardCashbackPolicies of(
       final List<RewardCashbackPolicy> cashbackPolicies,
       final List<RewardBackendCashbackPolicy> backendCashbackPolicies,
+      final List<RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicies,
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
     return new RewardCashbackPolicies(
         cashbackPolicies.stream().collect(groupingBy(RewardCashbackPolicy::getPolicyKey)),
         backendCashbackPolicies.stream().collect(toMapBy(RewardBackendCashbackPolicy::getPolicyKey)),
+        smileCardCashbackPolicies.stream().collect(toMapBy(RewardT2T3SmileCardCashbackPolicy::getPolicyKey)),
         useEnableDate,
         smileCardCashbackAmount,
         newSmileCardCashbackAmount);
@@ -40,11 +45,13 @@ public class RewardCashbackPolicies {
   private RewardCashbackPolicies(
       final Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap,
       final Map<Long, RewardBackendCashbackPolicy> backendCashbackPolicyMap,
+      final Map<Long, RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicyMap,
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
     this.cashbackPolicyMap = cashbackPolicyMap;
     this.backendCashbackPolicyMap = backendCashbackPolicyMap;
+    this.smileCardCashbackPolicyMap = smileCardCashbackPolicyMap;
     this.useEnableDate = useEnableDate;
     this.smileCardCashbackAmount = smileCardCashbackAmount;
     this.newSmileCardCashbackAmount = newSmileCardCashbackAmount;

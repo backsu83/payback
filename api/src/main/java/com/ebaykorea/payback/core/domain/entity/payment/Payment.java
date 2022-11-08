@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.core.domain.entity.payment;
 
+import com.ebaykorea.payback.core.domain.constant.SmileCardType;
 import com.ebaykorea.payback.core.exception.PaybackException;
+import com.ebaykorea.payback.util.PaybackStrings;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -127,4 +129,28 @@ public class Payment {
         .orElse(false);
   }
 
+
+  public SmileCardType toSmileCardType() {
+    return findMainPaymentMethod()
+        .map(PaymentMethod::toSmileCardType)
+        .orElse(SmileCardType.Unknown);
+  }
+
+  public boolean isT2T3SmileCard() {
+    return findMainPaymentMethod()
+        .map(PaymentMethod::isT2T3)
+        .orElse(false);
+  }
+
+  public boolean isT1T2T3SmileCard() {
+    return findMainPaymentMethod()
+        .map(PaymentMethod::isT1T2T3)
+        .orElse(false);
+  }
+
+  public boolean isSmileCard() {
+    return findMainPaymentMethod()
+        .map(PaymentMethod::isSmileCard)
+        .orElse(false);
+  }
 }

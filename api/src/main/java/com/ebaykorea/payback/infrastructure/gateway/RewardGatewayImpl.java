@@ -7,6 +7,7 @@ import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
@@ -50,6 +51,7 @@ public class RewardGatewayImpl implements RewardGateway {
     return RewardCashbackPolicies.of(
         toRewardCashbackPolicies(cashbackRewardResponse),
         toRewardBackendCashbackPolicies(cashbackRewardBackendsResponse),
+        toRewardSmileCardCashbackPolicy(cashbackRewardResponse),
         cashbackRewardResponse.getUseEnableDate(),
         BigDecimal.valueOf(cashbackRewardResponse.getIfSmileCardCashbackAmount()),
         BigDecimal.valueOf(cashbackRewardResponse.getIfNewSmileCardCashbackAmount()));
@@ -111,6 +113,13 @@ public class RewardGatewayImpl implements RewardGateway {
   List<RewardBackendCashbackPolicy> toRewardBackendCashbackPolicies(
       final List<CashbackRewardBackendResponseDto> cashbackRewardBackendsResponse) {
     return cashbackRewardBackendsResponse.stream()
+        .map(rewardGatewayMapper::map)
+        .collect(Collectors.toUnmodifiableList());
+  }
+
+  List<RewardT2T3SmileCardCashbackPolicy> toRewardSmileCardCashbackPolicy(
+      final CashbackRewardResponseDto cashbackRewardResponse) {
+    return cashbackRewardResponse.getGoods().stream()
         .map(rewardGatewayMapper::map)
         .collect(Collectors.toUnmodifiableList());
   }

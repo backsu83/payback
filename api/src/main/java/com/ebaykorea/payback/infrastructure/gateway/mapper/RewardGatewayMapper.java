@@ -6,6 +6,7 @@ import com.ebaykorea.payback.core.domain.entity.order.OrderUnit;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.util.PaybackBooleans;
 import com.ebaykorea.payback.util.PaybackNumbers;
@@ -33,9 +34,12 @@ public interface RewardGatewayMapper {
 
 
   @Mapping(expression = "java(Long.valueOf(goods.getKey()))", target = "policyKey")
-  //@Mapping(source = "goods.ifSmileCardT2T3CashbackAmount", target = "smileCardT2T3CashbackAmount")
   RewardCashbackPolicy map(CashbackRewardGoodResponseDto goods, CashbackInfoDto cashbackInfo);
 
   @Mapping(expression = "java(Long.valueOf(source.getKey()))", target = "policyKey")
   RewardBackendCashbackPolicy map(CashbackRewardBackendResponseDto source);
+
+  @Mapping(expression = "java(Long.valueOf(source.getKey()))", target = "policyKey")
+  @Mapping(source = "ifSmileCardT2T3CashbackAmount", target = "cashbackAmount")
+  RewardT2T3SmileCardCashbackPolicy map(CashbackRewardGoodResponseDto source);
 }

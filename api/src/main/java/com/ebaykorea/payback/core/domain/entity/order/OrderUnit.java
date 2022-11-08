@@ -44,6 +44,11 @@ public class OrderUnit {
         .subtract(couponPrice());
   }
 
+  public BigDecimal orderUnitPriceExcludingCouponPrice() {
+    return orderItem.orderItemPrice()
+        .subtract(itemDiscountPrice());
+  }
+
   public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice) {
     return orderUnitPrice()
         .subtract(orElse(bundleDiscountPrice, BigDecimal.ZERO));

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Component
-public class ItemCashbackFactory {
+public class ItemCashbackCreator {
 
   public CashbackUnit createItemCashback(
       Instant useEnableDate,

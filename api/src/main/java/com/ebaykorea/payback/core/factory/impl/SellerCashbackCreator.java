@@ -13,7 +13,7 @@ import java.time.Instant;
 import static com.ebaykorea.payback.core.domain.constant.CashbackType.Seller;
 
 @Component
-public class SellerCashbackFactory {
+public class SellerCashbackCreator {
   private static final long SELLER_CASHBACK_POLICY_NO = 0;
   private static final String SELLER_CASHBACK_POLICY_NAME = "판매자 제공 적립";
 

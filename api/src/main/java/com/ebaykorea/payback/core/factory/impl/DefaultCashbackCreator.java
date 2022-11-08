@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Component
-public class DefaultCashbackFactory {
+public class DefaultCashbackCreator {
 
   public CashbackUnit create(
       Instant useEnableDate,
