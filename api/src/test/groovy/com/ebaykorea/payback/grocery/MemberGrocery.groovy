@@ -15,7 +15,7 @@ class MemberGrocery {
     )
   }
 
-  static def 회원_생성(boolean smileClubMember = false, Club club = null) {
-    Member_생성(member: true, smileClubMember: smileClubMember, club: club)
+  static def 회원_생성(boolean smileClubMember = false, Club club = null, String userKey = "") {
+    Member_생성(member: true, smileClubMember: smileClubMember, club: club, userKey: userKey)
   }
 }

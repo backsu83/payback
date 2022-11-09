@@ -16,8 +16,8 @@ class CashbackPolicyGrocery {
         (map.name ?: "판매자 제공 적립") as String,
         (map.subType ?: null) as String,
         (map.payType ?: "P") as String,
-        (map.rate ?: 0L) as BigDecimal,
-        (map.cashbackMaxLimitMoney ?: null) as BigDecimal
+        (map.saveRate ?: 0L) as BigDecimal,
+        (map.maxLimitMoney ?: null) as BigDecimal
     )
   }
 
@@ -28,8 +28,8 @@ class CashbackPolicyGrocery {
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: null) as String,
         (map.payType ?: "P") as String,
-        (map.rate ?: 0L) as BigDecimal,
-        (map.cashbackMaxLimitMoney ?: 0L) as BigDecimal
+        (map.saveRate ?: 0L) as BigDecimal,
+        (map.maxLimitMoney ?: 0L) as BigDecimal
     )
   }
 
@@ -40,8 +40,8 @@ class CashbackPolicyGrocery {
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: "P") as String,
         (map.payType ?: "P") as String,
-        (map.rate ?: 0L) as BigDecimal,
-        (map.cashbackMaxLimitMoney ?: 0L) as BigDecimal
+        (map.saveRate ?: 0L) as BigDecimal,
+        (map.maxLimitMoney ?: 0L) as BigDecimal
     )
   }
 
@@ -52,8 +52,8 @@ class CashbackPolicyGrocery {
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: "P") as String,
         (map.payType ?: "P") as String,
-        (map.rate ?: 0L) as BigDecimal,
-        (map.cashbackMaxLimitMoney ?: 0L) as BigDecimal,
+        (map.saveRate ?: 0L) as BigDecimal,
+        (map.maxLimitMoney ?: 0L) as BigDecimal,
         (map.chargePaySaveRate ?: 0L) as BigDecimal,
         (map.chargePayClubSaveRate ?: 0L) as BigDecimal,
         (map.chargePayMaxMoney ?: 0L) as BigDecimal,
@@ -68,8 +68,8 @@ class CashbackPolicyGrocery {
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: "P") as String,
         (map.payType ?: "P") as String,
-        (map.rate ?: 0L) as BigDecimal,
-        (map.cashbackMaxLimitMoney ?: 0L) as BigDecimal,
+        (map.saveRate ?: 0L) as BigDecimal,
+        (map.maxLimitMoney ?: 0L) as BigDecimal,
         (map.clubDayMaxSaveMoney ?: 0L) as BigDecimal,
         (map.clubDayMaxSaveRate ?: 0L) as BigDecimal
     )
@@ -82,8 +82,8 @@ class CashbackPolicyGrocery {
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: null) as String,
         (map.payType ?: "P") as String,
-        (map.rate ?: 0L) as BigDecimal,
-        (map.cashbackMaxLimitMoney ?: 0L) as BigDecimal
+        (map.saveRate ?: 0L) as BigDecimal,
+        (map.maxLimitMoney ?: 0L) as BigDecimal
     )
   }
 }

@@ -18,6 +18,6 @@ public abstract class CashbackPolicy {
   String name;
   String subType;
   String payType;
-  BigDecimal rate;
-  BigDecimal cashbackMaxLimitMoney;
+  BigDecimal saveRate;
+  BigDecimal maxLimitMoney;
 }

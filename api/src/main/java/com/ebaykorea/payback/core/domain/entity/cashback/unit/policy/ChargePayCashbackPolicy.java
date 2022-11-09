@@ -23,8 +23,8 @@ public class ChargePayCashbackPolicy extends CashbackPolicy {
       final String name,
       final String subType,
       final String payType,
-      final BigDecimal rate,
-      final BigDecimal cashbackMaxLimitMoney,
+      final BigDecimal saveRate,
+      final BigDecimal maxLimitMoney,
       final BigDecimal chargePaySaveRate,
       final BigDecimal chargePayClubSaveRate,
       final BigDecimal chargePayMaxMoney,
@@ -36,8 +36,8 @@ public class ChargePayCashbackPolicy extends CashbackPolicy {
         name,
         subType,
         payType,
-        rate,
-        cashbackMaxLimitMoney
+        saveRate,
+        maxLimitMoney
     );
     this.chargePaySaveRate = chargePaySaveRate;
     this.chargePayClubSaveRate = chargePayClubSaveRate;

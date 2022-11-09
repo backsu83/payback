@@ -18,16 +18,16 @@ public class ItemCashbackPolicy extends CashbackPolicy {
       final String name,
       final String subType,
       final String payType,
-      final BigDecimal rate,
-      final BigDecimal cashbackMaxLimitMoney) {
+      final BigDecimal saveRate,
+      final BigDecimal maxLimitMoney) {
     super(
         policyNo,
         type,
         name,
         subType,
         payType,
-        rate,
-        cashbackMaxLimitMoney
+        saveRate,
+        maxLimitMoney
     );
   }
 }

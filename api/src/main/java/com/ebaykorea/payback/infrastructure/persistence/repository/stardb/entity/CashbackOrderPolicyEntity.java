@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entit
 
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -21,36 +22,36 @@ public class CashbackOrderPolicyEntity {
 
   @Id
   @Column(name = "BUY_ORDER_NO")
-  private Long buyOrderNo;
+  private Long orderNo;
 
   @Id
   @Column(name = "CASHBACK_TYPE")
-  private String cashbackType;
+  private String type;
 
   @Id
   @Column(name = "CASHBACK_POLICY_NO")
-  private Long cashbackPolicyNo;
+  private Long policyNo;
 
   @Column(name = "CASHBACK_POLICY_NM")
-  private String cashbackPolicyNm;
+  private String name;
 
   @Column(name = "CASHBACK_SUB_TYPE")
-  private String cashbackSubType;
+  private String subType;
 
   @Column(name = "CASHBACK_SAVE_RATE")
-  private BigDecimal cashbackSaveRate;
+  private BigDecimal saveRate;
 
   @Column(name = "CASHBACK_PAY_TYPE")
-  private String cashbackPayType;
+  private String payType;
 
   @Column(name = "CASHBACK_MAX_LIMIT_MONEY")
-  private BigDecimal cashbackMaxLimitMoney;
+  private BigDecimal maxLimitMoney;
 
   @Column(name = "REG_ID")
   private String regId;
 
   @Column(name = "REG_DT")
-  private Instant regDt;
+  private Timestamp regDt;
 
   @Column(name = "CHARGE_PAY_SAVE_RATE")
   public BigDecimal chargePaySaveRate;

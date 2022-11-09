@@ -18,8 +18,8 @@ public class DefaultCashbackPolicy extends CashbackPolicy {
       final String name,
       final String subType,
       final String payType,
-      final BigDecimal rate,
-      final BigDecimal cashbackMaxLimitMoney
+      final BigDecimal saveRate,
+      final BigDecimal maxLimitMoney
   ) {
     super(
         policyNo,
@@ -27,8 +27,8 @@ public class DefaultCashbackPolicy extends CashbackPolicy {
         name,
         subType,
         payType,
-        rate,
-        cashbackMaxLimitMoney
+        saveRate,
+        maxLimitMoney
     );
   }
 }
