@@ -46,7 +46,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
           saveCashbackPolicies(payCashback, cashback, cashback.findAppliedCashbackPolicies());
 
           //cashback_order_detail
-          saveCashbackDetails(payCashback, cashback);
+          saveCashbackDetail(payCashback, cashback);
         });
 
     //TODO smilecard_cashback
@@ -72,7 +72,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
         .collect(Collectors.toUnmodifiableList());
   }
 
-  private void saveCashbackDetails(final PayCashback payCashback, final Cashback cashback) {
+  private void saveCashbackDetail(final PayCashback payCashback, final Cashback cashback) {
     final var cashbackDetailEntity = cashbackOrderDetailEntityMapper.map(payCashback, cashback);
     cashbackOrderDetailRepository.save(cashbackDetailEntity);
   }
