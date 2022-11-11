@@ -49,7 +49,7 @@ public class CashbackCreator {
               bundleDiscountPrice,
               rewardCashbackPolicies);
 
-          return Cashback.of(orderUnitKey.getOrderUnitKey(), orderUnitKey.getBuyOrderNo(), cashbackUnits);
+          return Cashback.of(orderUnitKey.getBuyOrderNo(), cashbackUnits);
         })
         .collect(Collectors.toUnmodifiableList());
   }

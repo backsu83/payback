@@ -24,7 +24,7 @@ class CashbackUnitGrocery {
   static def SellerCashback_생성(Map map = [:]) {
     new SellerCashback(
         (map.itemNo ?: "itemNo1") as String,
-        (map.type ?: CashbackType.Seller) as CashbackType,
+        //(map.type ?: CashbackType.Seller) as CashbackType,
         (map.shopType ?: ShopType.Unknown) as ShopType,
         (map.amount ?: 0L) as BigDecimal,
         (map.basisAmount ?: 1000L) as BigDecimal,
@@ -36,7 +36,7 @@ class CashbackUnitGrocery {
   static def ItemCashback_생성(Map map = [:]) {
     new ItemCashback(
         (map.itemNo ?: "itemNo1") as String,
-        (map.type ?: CashbackType.Item) as CashbackType,
+        //(map.type ?: CashbackType.Item) as CashbackType,
         (map.shopType ?: ShopType.Unknown) as ShopType,
         (map.amount ?: 1000L) as BigDecimal,
         (map.basisAmount ?: 1000L) as BigDecimal,
@@ -49,20 +49,21 @@ class CashbackUnitGrocery {
   static def SmilePayCashback_생성(Map map = [:]) {
     new SmilePayCashback(
         (map.itemNo ?: "itemNo1") as String,
-        (map.type ?: CashbackType.SmilePay) as CashbackType,
+        //(map.type ?: CashbackType.SmilePay) as CashbackType,
         (map.shopType ?: ShopType.Unknown) as ShopType,
         (map.amount ?: 1000L) as BigDecimal,
         (map.basisAmount ?: 1000L) as BigDecimal,
         (map.useEnableDate ?: TestConstant.USE_ENABLE_DATE) as Instant,
         (map.isSmilePay) as boolean,
-        (map.cashbackPolicy ?: SmilePayCashbackPolicy_생성(map)) as CashbackPolicy
+        (map.cashbackPolicy ?: SmilePayCashbackPolicy_생성(map)) as CashbackPolicy,
+        (map.clubAmount ?: 0L) as BigDecimal
     )
   }
 
   static def ChargePayCashback_생성(Map map = [:]) {
     new ChargePayCashback(
         (map.itemNo ?: "itemNo1") as String,
-        (map.type ?: CashbackType.ChargePay) as CashbackType,
+        //(map.type ?: CashbackType.ChargePay) as CashbackType,
         (map.shopType ?: ShopType.Unknown) as ShopType,
         (map.amount ?: 1000L) as BigDecimal,
         (map.basisAmount ?: 1000L) as BigDecimal,
@@ -76,7 +77,7 @@ class CashbackUnitGrocery {
   static def ClubDayCashback_생성(Map map = [:]) {
     new ClubDayCashback(
         (map.itemNo ?: "itemNo1") as String,
-        (map.type ?: CashbackType.ClubDay) as CashbackType,
+        //(map.type ?: CashbackType.ClubDay) as CashbackType,
         (map.shopType ?: ShopType.Unknown) as ShopType,
         (map.amount ?: 1000L) as BigDecimal,
         (map.basisAmount ?: 1000L) as BigDecimal,

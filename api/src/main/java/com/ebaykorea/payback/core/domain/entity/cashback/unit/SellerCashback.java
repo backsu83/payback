@@ -17,7 +17,6 @@ public class SellerCashback extends CashbackUnit {
 
   public SellerCashback(
       final String itemNo,
-      final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
@@ -26,12 +25,16 @@ public class SellerCashback extends CashbackUnit {
   ) {
     super(
         itemNo,
-        type,
         shopType,
         amount,
         basisAmount,
         useEnableDate,
         CashbackApplyStrategy.defaultCashbackStrategy(amount),
         cashbackPolicy);
+  }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.Seller;
   }
 }

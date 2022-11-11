@@ -15,7 +15,6 @@ import static com.ebaykorea.payback.grocery.MemberGrocery.회원_생성
 class PayCashbackGrocery {
   static def PayCashback_생성(Map map = [:]) {
     PayCashback.of(
-        (map.txKey ?: "txKey") as String,
         (map.packNo ?: 1L) as long,
         (map.orderDate ?: TestConstant.ORDER_DATE) as Instant,
         (map.member ?: 회원_생성()) as Member,
@@ -26,7 +25,6 @@ class PayCashbackGrocery {
 
   static def Cashback_생성(Map map = [:]) {
     Cashback.of(
-        (map.orderUnitKey ?: "orderUnitKey1") as String,
         (map.orderNo ?: 1L) as long,
         (map.cashbackUnits ?: []) as List<CashbackUnit>
     )

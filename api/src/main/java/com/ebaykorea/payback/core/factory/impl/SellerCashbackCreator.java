@@ -25,7 +25,6 @@ public class SellerCashbackCreator {
   ) {
     return new SellerCashback(
         itemSnapshot.getItemNo(),
-        Seller,
         itemSnapshot.toShopType(),
         cashbackAmount,
         basisAmount,

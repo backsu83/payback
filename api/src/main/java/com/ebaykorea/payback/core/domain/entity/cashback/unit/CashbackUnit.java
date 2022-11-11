@@ -15,10 +15,9 @@ import java.time.Instant;
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
-public abstract class CashbackUnit {
-  //private final long cashbackUnitId;
+public abstract class CashbackUnit implements CashbackTarget {
+
   private final String itemNo;
-  private final CashbackType type; //TODO: type은 다른 방법으로 처리해도 될거같다
   private final ShopType shopType;
   private final BigDecimal amount;
   private final BigDecimal basisAmount;
@@ -29,5 +28,13 @@ public abstract class CashbackUnit {
   //캐시백 적용여부
   public boolean isApply() {
     return this.cashbackApplyStrategy.isApply();
+  }
+
+  public BigDecimal getClubAmount() {
+    return BigDecimal.ZERO;
+  }
+
+  public boolean is(final CashbackType cashbackType) {
+    return this.getCashbackType() == cashbackType;
   }
 }

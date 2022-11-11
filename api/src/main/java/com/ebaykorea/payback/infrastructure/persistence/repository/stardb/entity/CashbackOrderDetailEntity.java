@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -48,13 +49,13 @@ public class CashbackOrderDetailEntity {
   private String regId;
 
   @Column(name = "REG_DT")
-  private Instant regDt;
+  private Timestamp regDt;
 
   @Column(name = "CHG_ID")
   private String chgId;
 
   @Column(name = "CHG_DT")
-  private Instant chgDt;
+  private Timestamp chgDt;
 
   @Column(name = "CHARGE_PAY_REWARD")
   public BigDecimal chargePayReward;

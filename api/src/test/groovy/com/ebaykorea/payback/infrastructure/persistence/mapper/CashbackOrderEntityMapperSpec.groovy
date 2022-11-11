@@ -22,7 +22,7 @@ class CashbackOrderEntityMapperSpec extends Specification {
   def "CashbackOrderEntityMapper가 정상인지 확인"() {
 
     expect:
-    def result = mapper.map(payCashback, cashback, cashback.findApplyCashbackUnits())
+    def result = mapper.map(payCashback, cashback, cashback.findAppliedCashbackUnits())
     result == expectResult
 
     where:

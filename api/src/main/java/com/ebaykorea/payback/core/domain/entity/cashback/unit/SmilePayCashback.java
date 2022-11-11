@@ -15,24 +15,38 @@ import java.time.Instant;
 @ToString(callSuper = true)
 public class SmilePayCashback extends CashbackUnit {
 
+  private final BigDecimal clubAmount;
+
   public SmilePayCashback(
       final String itemNo,
-      final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount, //cashback_order와 detail.PAY_AMOUNT 저장하는 금액 소스가 다른데 통일할수 없는지 확인 필요
       final BigDecimal basisAmount,
       final Instant useEnableDate,
       final boolean isSmilePay,
-      final CashbackPolicy cashbackPolicy
+      final CashbackPolicy cashbackPolicy,
+      final BigDecimal clubAmount
       ) {
     super(
         itemNo,
-        type,
         shopType,
         amount,
         basisAmount,
         useEnableDate,
         CashbackApplyStrategy.cashbackAvailableStrategy(amount, isSmilePay),
         cashbackPolicy);
+    this.clubAmount = clubAmount;
   }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.SmilePay;
+  }
+
+  @Override
+  public BigDecimal getClubAmount() {
+    return clubAmount;
+  }
+
+
 }

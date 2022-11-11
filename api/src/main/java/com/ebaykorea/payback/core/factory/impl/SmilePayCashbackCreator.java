@@ -26,13 +26,13 @@ public class SmilePayCashbackCreator {
   ) {
     return new SmilePayCashback(
         itemSnapshot.getItemNo(),
-        rewardCashbackPolicy.getCashbackCd(),
         itemSnapshot.toShopType(),
         cashbackAmount,
         basisAmount,
         useEnableDate,
         payment.isSmilePayPayment(),
-        createCashbackPolicy(rewardCashbackPolicy)
+        createCashbackPolicy(rewardCashbackPolicy),
+        rewardCashbackPolicy.getClubCashbackAmount()
     );
   }
 
