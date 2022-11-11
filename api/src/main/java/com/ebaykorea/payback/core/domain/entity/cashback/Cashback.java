@@ -1,9 +1,11 @@
 package com.ebaykorea.payback.core.domain.entity.cashback;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import lombok.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @EqualsAndHashCode
@@ -22,5 +24,17 @@ public class Cashback {
       final long orderNo,
       final List<CashbackUnit> cashbackUnits) {
     return new Cashback(orderUnitKey, orderNo, cashbackUnits);
+  }
+
+  public List<CashbackUnit> findApplyCashbackUnits() {
+    return cashbackUnits.stream()
+        .filter(CashbackUnit::isApply)
+        .collect(Collectors.toUnmodifiableList());
+  }
+
+  public List<CashbackPolicy> findApplyCashbackPolicies() {
+    return findApplyCashbackUnits().stream()
+        .map(CashbackUnit::getCashbackPolicy)
+        .collect(Collectors.toUnmodifiableList());
   }
 }

@@ -48,8 +48,8 @@ class CashbackUnitFactorySpec extends Specification {
     where:
     _________________________________________________
     desc | 결과 | _ | _
-    "판매자캐시백" | [SellerCashback_생성(amount: 10L, rate: 1L)] | _ | _
-    "판매자캐시백_복수할인" | [SellerCashback_생성(amount: 9L, basisAmount: 900L, rate: 1L)] | _ | _
+    "판매자캐시백" | [SellerCashback_생성(amount: 10L, saveRate: 1L)] | _ | _
+    "판매자캐시백_복수할인" | [SellerCashback_생성(amount: 9L, basisAmount: 900L, saveRate: 1L)] | _ | _
     "판매자,아이템캐시백" | [SellerCashback_생성(), ItemCashback_생성(isSmilePay: true)] | _ | _
     "(판매자,아이템캐시백)_복수할인" | [SellerCashback_생성(basisAmount: 900L), ItemCashback_생성(basisAmount: 900L, isSmilePay: true)] | _ | _
     "판매자,아이템캐시백_false" | [SellerCashback_생성(), ItemCashback_생성(isSmilePay: false)] | _ | _

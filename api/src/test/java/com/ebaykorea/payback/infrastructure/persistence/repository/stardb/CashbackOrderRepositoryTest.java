@@ -30,20 +30,20 @@ public class CashbackOrderRepositoryTest {
     final var result = cashbackOrderRepository.findById(cashbackOrderEntity);
 
     assertNotEquals(Optional.empty(), result);
-    assertEquals(cashbackOrderEntity.getBuyOrderNo(), result.get().getBuyOrderNo());
+    assertEquals(cashbackOrderEntity.getOrderNo(), result.get().getOrderNo());
   }
 
   private CashbackOrderEntity buildCashbackOrderEntity() {
     final var nowDate = Timestamp.from(Instant.now());
     return CashbackOrderEntity.builder()
-        .buyOrderNo(1L)
+        .orderNo(1L)
         .cashbackType("I")
         .tradeCd("SV")
-        .cashbackMoney(BigDecimal.TEN)
-        .cashbackBasisMoney(BigDecimal.TEN)
-        .gdNo("gdNo")
+        .amount(BigDecimal.TEN)
+        .basisAmount(BigDecimal.TEN)
+        .itemNo("gdNo")
         .packNo(1L)
-        .custNo("custNo")
+        .buyerNo("custNo")
         .userKey("userKey")
         .tradeStatus("T")
         .useEnableDt(nowDate)

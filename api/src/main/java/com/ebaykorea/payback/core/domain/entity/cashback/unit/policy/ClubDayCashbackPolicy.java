@@ -20,8 +20,8 @@ public class ClubDayCashbackPolicy extends CashbackPolicy {
       final String name,
       final String subType,
       final String payType,
-      final BigDecimal rate,
-      final BigDecimal cashbackMaxLimitMoney,
+      final BigDecimal saveRate,
+      final BigDecimal maxLimitMoney,
       final BigDecimal clubDayMaxSaveMoney,
       final BigDecimal clubDayMaxSaveRate
   ) {
@@ -31,8 +31,8 @@ public class ClubDayCashbackPolicy extends CashbackPolicy {
         name,
         subType,
         payType,
-        rate,
-        cashbackMaxLimitMoney
+        saveRate,
+        maxLimitMoney
     );
     this.clubDayMaxSaveMoney = clubDayMaxSaveMoney;
     this.clubDayMaxSaveRate = clubDayMaxSaveRate;

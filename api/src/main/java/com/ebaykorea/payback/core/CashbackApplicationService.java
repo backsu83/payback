@@ -1,10 +1,11 @@
 package com.ebaykorea.payback.core;
 
+import com.ebaykorea.payback.core.factory.PayCashbackCreator;
 import com.ebaykorea.payback.core.gateway.OrderGateway;
 import com.ebaykorea.payback.core.gateway.PaymentGateway;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
-import com.ebaykorea.payback.core.repository.CashbackRepository;
+import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.core.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,9 @@ public class CashbackApplicationService {
   private final RewardGateway rewardGateway;
 
   private final MemberService memberService;
+  private final PayCashbackCreator payCashbackCreator;
 
-  private final CashbackRepository cashbackRepository;
+  private final PayCashbackRepository payCashbackRepository;
 
   public void setCashback(final String txKey, final String orderKey) {
     //주문 정보
@@ -38,7 +40,7 @@ public class CashbackApplicationService {
     //결제 정보
     final var paymentRecord = paymentGateway.getPaymentRecord(order.getPaySeq());
     //상품 스냅샷 정보
-    final var itemSnapshot = orderGateway.getItemSnapshot(order.findItemSnapshotKeys());
+    final var itemSnapshots = orderGateway.getItemSnapshot(order.findItemSnapshotKeys());
 
     //TODO 판매자 캐시백은 적립해야함
     if (!paymentRecord.hasMainPaymentAmount()) {
@@ -50,14 +52,16 @@ public class CashbackApplicationService {
     final var rewardCashbackPolicies = rewardGateway.getCashbackPolicies(
         order,
         paymentRecord,
-        itemSnapshot.getItemSnapshotMap(),
+        itemSnapshots.getItemSnapshotMap(),
         orderKeyMap.orderUnitKeyMap());
 
-    //final var cashbacks = Cashbacks.of(); // TODO
+    final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
 
-    //4. cashbacks validation?
+    //payCashback validation?
+    //TODO 중복체크
 
-    //5. cashbacks 저장
-    //cashbackRepository.save(cashbacks);
+    //TODO smilecard api 호출
+    //payCashback 저장
+    payCashbackRepository.save(payCashback);
   }
 }

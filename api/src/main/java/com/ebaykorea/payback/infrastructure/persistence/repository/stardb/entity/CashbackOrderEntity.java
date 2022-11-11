@@ -19,7 +19,7 @@ public class CashbackOrderEntity {
 
     @Id
     @Column(name = "BUY_ORDER_NO")
-    private long buyOrderNo;
+    private long orderNo;
 
     @Id
     @Column(name = "CASHBACK_TYPE")
@@ -30,19 +30,19 @@ public class CashbackOrderEntity {
     private String tradeCd;
 
     @Column(name = "CASHBACK_MONEY")
-    private BigDecimal cashbackMoney;
+    private BigDecimal amount;
 
     @Column(name = "CASHBACK_BASIS_MONEY")
-    private BigDecimal cashbackBasisMoney;
+    private BigDecimal basisAmount;
 
     @Column(name = "GD_NO")
-    private String gdNo;
+    private String itemNo;
 
     @Column(name = "PACK_NO")
     private long packNo;
 
     @Column(name = "CUST_NO")
-    private String custNo;
+    private String buyerNo;
 
     @Column(name = "USER_KEY")
     private String userKey;

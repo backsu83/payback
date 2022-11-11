@@ -19,8 +19,8 @@ public enum CashbackType {
   ChargePay(5, "A"),
   ClubDay(6, "D");
 
-  private Integer code;
-  private String dbCode;
+  private final Integer code;
+  private final String dbCode;
 
   private static transient Map<Integer, CashbackType> map = PaybackEnums.reverseMap(CashbackType.class, CashbackType::getCode);
 

@@ -9,8 +9,6 @@ import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.ebaykorea.payback.core.domain.constant.OrderSiteType.Gmarket;
-
 @Service
 @RequiredArgsConstructor
 public class PayCashbackCreator {
@@ -28,7 +26,6 @@ public class PayCashbackCreator {
     return PayCashback.of(
         keyMap.getTxKey(),
         keyMap.getPackNo(),
-        Gmarket, //TODO: repository에서 고정값으로 넣어주어도 될듯
         order.getOrderDate(),
         member,
         cashbackCreator.createCashbacks(keyMap, order, member, payment, itemSnapshots, rewardCashbackPolicies),
