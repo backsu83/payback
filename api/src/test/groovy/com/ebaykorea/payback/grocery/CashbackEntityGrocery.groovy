@@ -3,6 +3,7 @@ package com.ebaykorea.payback.grocery
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderDetailEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderMemberEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity
 import com.ebaykorea.payback.util.PaybackTimestamps
 
@@ -53,7 +54,7 @@ class CashbackEntityGrocery {
   }
 
   static def CashbackOrderDetailEntity_생성(Map map = [:]) {
-    new CashbackOrderDetailEntity().tap{
+    new CashbackOrderDetailEntity().tap {
       orderNo = (map.orderNo ?: 1L) as long
       itemAmount = (map.itemAmount ?: 0L) as BigDecimal
       sellerAmount = (map.sellerAmount ?: 0L) as BigDecimal
@@ -70,6 +71,21 @@ class CashbackEntityGrocery {
       chargePayRewardClub = (map.chargePayRewardClub ?: 0L) as BigDecimal
       clubDayAmount = (map.clubDayAmount ?: 0L) as BigDecimal
       clubDayApplyYn = (map.clubDayApplyYn ?: "N") as String
+    }
+  }
+
+  static def CashbackOrderMemberEntity_생성(Map map = [:]) {
+    new CashbackOrderMemberEntity().tap {
+      packNo = (map.packNo ?: 1L) as Long
+      buyerNo = (map.buyerNo ?: "buyerNo") as String
+      regSite = (map.regSite ?: null) as String
+      payType = (map.payType ?: null) as String
+      memberGrade = (map.memberGrade ?: null) as String
+      clubCheckYn = (map.clubCheckYn ?: "N") as String
+      insOprt = (map.insOprt ?: "buyerNo") as String
+      insDate = (map.insDate ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
+      updOprt = (map.updOprt ?: "buyerNo") as String
+      updDate = (map.updDate ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
     }
   }
 }

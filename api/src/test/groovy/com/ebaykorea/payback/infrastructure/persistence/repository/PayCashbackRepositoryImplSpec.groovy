@@ -2,10 +2,12 @@ package com.ebaykorea.payback.infrastructure.persistence.repository
 
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderDetailEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderMemberEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.mapper.ChargePayPolicyEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.mapper.ClubDayPolicyEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.mapper.DefaultCashbackPolicyEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderDetailRepository
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderMemberRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderPolicyRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderRepository
 import com.ebaykorea.payback.util.support.Conditioner
@@ -26,12 +28,14 @@ class PayCashbackRepositoryImplSpec extends Specification {
   def cashbackOrderRepository = Stub(CashbackOrderRepository)
   def cashbackOrderPolicyRepository = Stub(CashbackOrderPolicyRepository)
   def cashbackOrderDetailRepository = Stub(CashbackOrderDetailRepository)
-  def cashbackOrderEntityMapper = Mappers.getMapper(CashbackOrderEntityMapper)
+  def cashbackOrderMemberRepository = Stub(CashbackOrderMemberRepository)
 
+  def cashbackOrderEntityMapper = Mappers.getMapper(CashbackOrderEntityMapper)
   def chargePayPolicyEntityMapper = Mappers.getMapper(ChargePayPolicyEntityMapper)
   def clubDayPolicyEntityMapper = Mappers.getMapper(ClubDayPolicyEntityMapper)
   def defaultCashbackPolicyEntityMapper = Mappers.getMapper(DefaultCashbackPolicyEntityMapper)
   def cashbackOrderDetailEntityMapper = Mappers.getMapper(CashbackOrderDetailEntityMapper)
+  def cashbackOrderMemberEntityMapper = Mappers.getMapper(CashbackOrderMemberEntityMapper)
 
   def conditioner = Conditioner.of([
       chargePayPolicyEntityMapper,
@@ -43,9 +47,11 @@ class PayCashbackRepositoryImplSpec extends Specification {
       cashbackOrderRepository,
       cashbackOrderPolicyRepository,
       cashbackOrderDetailRepository,
+      cashbackOrderMemberRepository,
       cashbackOrderEntityMapper,
       conditioner,
-      cashbackOrderDetailEntityMapper
+      cashbackOrderDetailEntityMapper,
+      cashbackOrderMemberEntityMapper
   )
 
   //TODO

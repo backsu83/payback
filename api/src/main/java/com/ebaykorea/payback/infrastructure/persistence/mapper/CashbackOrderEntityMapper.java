@@ -2,14 +2,9 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
-import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderDetailEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderMemberEntity;
-
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.ebaykorea.payback.util.PaybackBooleans;
@@ -24,11 +19,6 @@ import org.mapstruct.ReportingPolicy;
     imports = {PaybackTimestamps.class, PaybackBooleans.class}
 )
 public interface CashbackOrderEntityMapper {
-
-  default String mapIsClub(Club club) {
-    return Objects.isNull(club) ? "N" : "Y";
-  }
-
 
   default List<CashbackOrderEntity> map(final PayCashback payCashback, final Cashback cashback, final List<CashbackUnit> cashbackUnits) {
     return cashbackUnits.stream()
@@ -49,22 +39,4 @@ public interface CashbackOrderEntityMapper {
   @Mapping(constant = "10", target = "tradeStatus")
   @Mapping(constant = "G", target = "siteType")
   CashbackOrderEntity map(PayCashback payCashback, Cashback cashback, CashbackUnit cashbackUnit);
-
-  //TODO
-//  @Mapping(source = "packNo", target = "packNo")
-//  @Mapping(source = "member.buyerNo", target = "buyerNo")
-//  @Mapping(source = "member.club.partnerId", target = "regSite" , ignore = true)
-//  @Mapping(source = "member.club.payCycleType", target = "payType", ignore = true)
-//  @Mapping(source = "member.club.membershipGrade", target = "memberGrade", ignore = true)
-//  @Mapping(source = "member.club", target = "clubCheckYn")
-//  @Mapping(source = "member.buyerNo", target = "insOprt")
-//  @Mapping(source = "orderDate", target = "insDate")
-//  @Mapping(source = "member.buyerNo", target = "updOprt")
-//  @Mapping(source = "orderDate", target = "updDate")
-//  CashbackOrderMemberEntity mapToMember(PayCashback payCashback);
-
-
-  //CashbackOrderDetailEntity mapToDetail(PayCashback payCashback , Cashback cashback);
-
-
 }

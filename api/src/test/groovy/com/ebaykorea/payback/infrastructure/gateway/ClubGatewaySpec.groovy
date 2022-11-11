@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.ClubApiGrocery.clubDataDto_생성
-import static com.ebaykorea.payback.grocery.ClubGrocery.club_생성
+import static com.ebaykorea.payback.grocery.ClubGrocery.Club_생성
 
 class ClubGatewaySpec extends Specification {
     def clubApiClient = Stub(ClubApiClient)
@@ -24,6 +24,6 @@ class ClubGatewaySpec extends Specification {
 
         where:
         desc | response | expectResult
-        "Dto 변환"  | clubDataDto_생성() | Optional.of(club_생성())
+        "Dto 변환"  | clubDataDto_생성() | Optional.of(Club_생성())
     }
 }
