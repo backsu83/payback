@@ -106,7 +106,7 @@ public class RewardGatewayImpl implements RewardGateway {
       final CashbackRewardResponseDto cashbackRewardResponse) {
     return cashbackRewardResponse.getGoods().stream()
         .flatMap(good -> good.getCashbackInfo().stream()
-            .map(cashbackInfo -> rewardGatewayMapper.map(good, cashbackInfo)))
+            .map(cashbackInfo -> rewardGatewayMapper.map(good, cashbackInfo, good.getNSPCashbackInfo())))
         .collect(Collectors.toUnmodifiableList());
   }
 

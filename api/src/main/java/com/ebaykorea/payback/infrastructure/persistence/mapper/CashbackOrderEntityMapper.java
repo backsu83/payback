@@ -36,7 +36,7 @@ public interface CashbackOrderEntityMapper {
         .collect(Collectors.toUnmodifiableList());
   }
 
-  @Mapping(source = "cashbackUnit.type.dbCode", target = "cashbackType")
+  @Mapping(expression = "java(cashbackUnit.getCashbackType().getDbCode())", target = "cashbackType")
   @Mapping(source = "payCashback.member.buyerNo", target = "buyerNo")
   @Mapping(source = "payCashback.member.userKey", target = "userKey")
   @Mapping(expression = "java(PaybackTimestamps.from(cashbackUnit.getUseEnableDate()))", target = "useEnableDt")

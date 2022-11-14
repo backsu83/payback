@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
 
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntityId;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
@@ -22,7 +21,7 @@ public class CashbackOrderPolicyRepository {
           @SaturnProcedureParameter(name = "CASHBACK_POLICY_NO", sqlType = Types.BIGINT)
       }
   )
-  public Optional<CashbackOrderPolicyEntity> findById(final CashbackOrderPolicyEntityId id) {
+  public Optional<CashbackOrderPolicyEntity> findById(final CashbackOrderPolicyEntity id) {
     return Optional.empty();
   }
 

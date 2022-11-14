@@ -29,7 +29,6 @@ public class ChargePayCashbackCreator {
       final RewardBackendCashbackPolicy rewardBackendCashbackPolicy) {
     return new ChargePayCashback(
         itemSnapshot.getItemNo(),
-        rewardCashbackPolicy.getCashbackCd(),
         itemSnapshot.toShopType(),
         cashbackAmount,
         basisAmount,

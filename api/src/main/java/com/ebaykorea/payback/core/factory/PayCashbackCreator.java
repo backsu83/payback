@@ -24,7 +24,6 @@ public class PayCashbackCreator {
       final RewardCashbackPolicies rewardCashbackPolicies
   ) {
     return PayCashback.of(
-        keyMap.getTxKey(),
         keyMap.getPackNo(),
         order.getOrderDate(),
         member,

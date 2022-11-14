@@ -17,7 +17,6 @@ public class ClubDayCashback extends CashbackUnit {
 
   public ClubDayCashback(
       final String itemNo,
-      final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
@@ -28,12 +27,16 @@ public class ClubDayCashback extends CashbackUnit {
   ) {
     super(
         itemNo,
-        type,
         shopType,
         amount,
         basisAmount,
         useEnableDate,
         CashbackApplyStrategy.clubDayCashbackStrategy(amount, isSmilePay, isClubMember),
         cashbackPolicy);
+  }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.ClubDay;
   }
 }

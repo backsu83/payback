@@ -42,8 +42,8 @@ class CashbackUnitFactorySpec extends Specification {
     def result = cashbackFactory.createCashbackUnits(
         TestConstant.ORDER_DATE, OrderUnitKey_생성(), OrderUnit_생성(), 회원, 결제, 상품, 복수할인금액, 리워드정책)
 
-    result.collect { [it.itemNo, it.type, it.shopType, it.amount, it.basisAmount, it.useEnableDate, it.apply, it.cashbackPolicy] }
-        == 결과.collect { [it.itemNo, it.type, it.shopType, it.amount, it.basisAmount, it.useEnableDate, it.apply, it.cashbackPolicy] }
+    result.collect { [it.itemNo, it.getCashbackType(), it.shopType, it.amount, it.basisAmount, it.useEnableDate, it.apply, it.cashbackPolicy] }
+        == 결과.collect { [it.itemNo, it.getCashbackType(), it.shopType, it.amount, it.basisAmount, it.useEnableDate, it.apply, it.cashbackPolicy] }
 
     where:
     _________________________________________________

@@ -19,7 +19,6 @@ public class ChargePayCashback extends CashbackUnit {
 
   public ChargePayCashback(
       final String itemNo,
-      final CashbackType type,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
@@ -29,7 +28,6 @@ public class ChargePayCashback extends CashbackUnit {
       final CashbackPolicy cashbackPolicy) {
     super(
         itemNo,
-        type,
         shopType,
         amount,
         basisAmount,
@@ -39,4 +37,15 @@ public class ChargePayCashback extends CashbackUnit {
 
     this.clubAmount = clubAmount;
   }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.ChargePay;
+  }
+
+  @Override
+  public BigDecimal getClubAmount() {
+    return clubAmount;
+  }
+
 }

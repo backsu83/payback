@@ -6,7 +6,6 @@ import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPol
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.ChargePayCashbackPolicy;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity;
 import com.ebaykorea.payback.util.PaybackTimestamps;
-import com.ebaykorea.payback.util.support.Conditioner;
 import com.ebaykorea.payback.util.support.Precondition;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

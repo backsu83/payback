@@ -32,7 +32,6 @@ public class ClubDayCashbackCreator {
   ) {
     return new ClubDayCashback(
         itemSnapshot.getItemNo(),
-        rewardCashbackPolicy.getCashbackCd(),
         itemSnapshot.toShopType(),
         cashbackAmount,
         basisAmount,
