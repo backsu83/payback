@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
 import java.util.List;
@@ -16,7 +17,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(
     componentModel = "spring",
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
-    imports = {PaybackTimestamps.class, PaybackBooleans.class}
+    imports = {PaybackTimestamps.class}
 )
 public interface CashbackOrderEntityMapper {
 
@@ -30,7 +31,7 @@ public interface CashbackOrderEntityMapper {
   @Mapping(source = "payCashback.member.buyerNo", target = "buyerNo")
   @Mapping(source = "payCashback.member.userKey", target = "userKey")
   @Mapping(expression = "java(PaybackTimestamps.from(cashbackUnit.getUseEnableDate()))", target = "useEnableDt")
-  @Mapping(expression = "java(PaybackBooleans.toYN(payCashback.getMember().isSmileClubMember()))", target = "smileClubYn")
+  @Mapping(source = "payCashback.member", target = "smileClubYn")
   @Mapping(source = "cashbackUnit.shopType.code", target = "shopType")
   @Mapping(source = "payCashback.member.buyerNo", target = "regId")
   @Mapping(expression = "java(PaybackTimestamps.from(payCashback.getOrderDate()))", target = "regDt")
@@ -39,4 +40,8 @@ public interface CashbackOrderEntityMapper {
   @Mapping(constant = "10", target = "tradeStatus")
   @Mapping(constant = "G", target = "siteType")
   CashbackOrderEntity map(PayCashback payCashback, Cashback cashback, CashbackUnit cashbackUnit);
+
+  default String mapToSmileClubYn(final Member member) {
+    return PaybackBooleans.toYN(member.isSmileClubMember());
+  }
 }

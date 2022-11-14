@@ -5,14 +5,8 @@ import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderDetailEntityMapper;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderEntityMapper;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderMemberEntityMapper;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackPolicyEntityMapper;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderDetailRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderMemberRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderPolicyRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderRepository;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.*;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.*;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity;
 import com.ebaykorea.payback.util.support.Conditioner;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +45,9 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
           saveCashbackDetail(payCashback, cashback);
         });
 
-    //TODO smilecard_cashback
-
+    //cashback_order_member
     saveCashbackMember(payCashback);
+
   }
 
   private void saveCashbackUnits(final PayCashback payCashback, final Cashback cashback, final List<CashbackUnit> cashbackUnits) {
@@ -69,6 +63,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
   List<CashbackOrderPolicyEntity> mapToPolicies(final PayCashback payCashback, final Cashback cashback, final List<CashbackPolicy> cashbackPolicies) {
     return cashbackPolicies.stream()
         .map(policy -> {
+          //cashbackPolicy type(@Precondition)에 맞는 매퍼를 가져 옵니다
           final var policyEntityMapper = cashbackPolicyEntityMapperConditioner.get(policy);
           return policyEntityMapper.map(payCashback, cashback, policy);
         })
@@ -84,5 +79,4 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
     final var cashbackOrderMemberEntity = cashbackOrderMemberEntityMapper.map(payCashback);
     cashbackOrderMemberRepository.save(cashbackOrderMemberEntity);
   }
-
 }
