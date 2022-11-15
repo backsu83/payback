@@ -3,6 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper;
 import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderDetailEntity;
 import com.ebaykorea.payback.util.PaybackBooleans;
 import com.ebaykorea.payback.util.PaybackTimestamps;
@@ -23,7 +24,7 @@ public interface CashbackOrderDetailEntityMapper {
   @Mapping(expression = "java(cashback.getClubAmount(CashbackType.SmilePay))", target = "clubAmount")
   @Mapping(expression = "java(PaybackBooleans.toYN(cashback.isApplyBy(CashbackType.Item)))", target = "itemCashbackApplyYn")
   @Mapping(expression = "java(PaybackBooleans.toYN(cashback.isApplyBy(CashbackType.SmilePay)))", target = "payCashbackApplyYn")
-  @Mapping(expression = "java(PaybackBooleans.toYN(payCashback.getMember().isSmileClubMember()))", target = "clubCashbackApplyYn")
+  @Mapping(source = "payCashback.member", target = "clubCashbackApplyYn")
   @Mapping(expression = "java(cashback.getCashbackAmount(CashbackType.ChargePay))", target = "chargePayReward")
   @Mapping(expression = "java(cashback.getClubAmount(CashbackType.ChargePay))", target = "chargePayRewardClub")
   @Mapping(expression = "java(cashback.getCashbackAmount(CashbackType.ClubDay))", target = "clubDayAmount")
@@ -34,4 +35,7 @@ public interface CashbackOrderDetailEntityMapper {
   @Mapping(expression = "java(PaybackTimestamps.from(payCashback.getOrderDate()))", target = "chgDt")
   CashbackOrderDetailEntity map(PayCashback payCashback, Cashback cashback);
 
+  default String mapToSmileClubYn(final Member member) {
+    return PaybackBooleans.toYN(member.isSmileClubMember());
+  }
 }

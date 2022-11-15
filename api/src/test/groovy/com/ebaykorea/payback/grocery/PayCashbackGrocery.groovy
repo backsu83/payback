@@ -6,6 +6,7 @@ import com.ebaykorea.payback.core.domain.entity.cashback.Cashback
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback
+import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCardCashback
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit
 
 import java.time.Instant
@@ -30,20 +31,12 @@ class PayCashbackGrocery {
     )
   }
 
-//  TODO
-//  static def SmileCardCashback_생성(Map map = [:]) {
-//    new SmileCardCashback(
-//        (map.orderNo ?: 1L) as long,
-//        (map.itemNo ?: "itemNo1") as String,
-//        (map.type ?: CashbackType.Unknown) as CashbackType,
-//        (map.shopType ?: ShopType.Unknown) as ShopType,
-//        (map.amount ?: 1000L) as BigDecimal,
-//        (map.basisAmount ?: 1000L) as BigDecimal,
-//        (map.useEnableDate ?: TestConstant.USE_ENABLE_DATE) as Instant,
-//        (map.t2t3Cashback ?: 1000L) as BigDecimal,
-//        (map.t2t3CashbackApply) as boolean,
-//        (map.smileCardType ?: "itemNo1") as String
-//    )
-//  }
-
+  static def SmileCardCashback_생성(Map map = [:]) {
+    SmileCardCashback.of(
+        (map.cashbackAmount ?: 1000L) as BigDecimal,
+        (map.isSmileCard ?: false) as boolean,
+        (map.isFreeInstallment ?: false) as boolean,
+        (map.t2t3Cashbacks ?: []) as List<T2T3SmileCardCashback>
+    )
+  }
 }
