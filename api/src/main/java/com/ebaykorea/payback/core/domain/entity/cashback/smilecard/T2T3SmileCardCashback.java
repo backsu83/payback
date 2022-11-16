@@ -1,5 +1,8 @@
 package com.ebaykorea.payback.core.domain.entity.cashback.smilecard;
 
+import static com.ebaykorea.payback.core.domain.constant.ShopType.SmileDelivery;
+import static com.ebaykorea.payback.core.domain.constant.ShopType.SmileFresh;
+
 import com.ebaykorea.payback.core.domain.constant.ShopType;
 import com.ebaykorea.payback.core.domain.constant.SmileCardType;
 import lombok.*;
@@ -10,8 +13,6 @@ import java.math.BigDecimal;
 public class T2T3SmileCardCashback {
   long orderNo;
   ShopType shopType;
-  boolean isSmileDelivery;
-  boolean isSmileFresh;
   BigDecimal amount;
   BigDecimal basisAmount;
   SmileCardType smileCardType;
@@ -20,8 +21,6 @@ public class T2T3SmileCardCashback {
   public static T2T3SmileCardCashback of(
       final long orderNo,
       final ShopType shopType,
-      final boolean isSmileDelivery,
-      final boolean isSmileFresh,
       final BigDecimal amount,
       final BigDecimal basisAmount,
       final SmileCardType smileCardType,
@@ -30,8 +29,6 @@ public class T2T3SmileCardCashback {
     return new T2T3SmileCardCashback(
         orderNo,
         shopType,
-        isSmileDelivery,
-        isSmileFresh,
         amount,
         basisAmount,
         smileCardType,
@@ -41,16 +38,12 @@ public class T2T3SmileCardCashback {
   private T2T3SmileCardCashback(
       final long orderNo,
       final ShopType shopType,
-      final boolean isSmileDelivery,
-      final boolean isSmileFresh,
       final BigDecimal amount,
       final BigDecimal basisAmount,
       final SmileCardType smileCardType,
       final SmileCardCashbackApplyStrategy strategy) {
     this.orderNo = orderNo;
     this.shopType = shopType;
-    this.isSmileDelivery = isSmileDelivery;
-    this.isSmileFresh = isSmileFresh;
     this.amount = amount;
     this.basisAmount = basisAmount;
     this.smileCardType = smileCardType;
@@ -59,5 +52,12 @@ public class T2T3SmileCardCashback {
 
   public boolean isApply() {
     return strategy.isApply();
+  }
+
+  public boolean isSmileDelivery() {
+    return shopType == SmileDelivery;
+  }
+  public boolean isSmileFresh() {
+    return shopType == SmileFresh;
   }
 }

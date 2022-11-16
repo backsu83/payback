@@ -51,7 +51,6 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
     //cashback_order_member
     saveCashbackMember(payCashback);
 
-    //TODO smilecard_cashback
     saveSmileCardCashback(payCashback , payCashback.getSmileCardCashback());
   }
 
