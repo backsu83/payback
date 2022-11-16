@@ -21,21 +21,21 @@ class SmileCardCashbackCreaotrSpec extends Specification {
     expect:
     def result = smileCardCashbackCreator.createSmileCardCashback(키맵, 주문, 결제, 상품, 정책)
     result.collect {
-      [it.cashbackAmount, it.apply,
-       it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
+      [it.cashbackAmount, it.t2t3CashbackAmount , it.apply, it.applyT2T3, it.shopType,
+       it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.isSmileDelivery, it.isSmileFresh, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
     } == 결과.collect {
-      [it.cashbackAmount, it.apply,
-       it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
+      [it.cashbackAmount, it.t2t3CashbackAmount , it.apply, it.applyT2T3, it.shopType,
+       it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.isSmileDelivery, it.isSmileFresh, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
     }
-
+    println result.shopType
     where:
     _________________________________________________
     desc | 결과 | _ | _
     "기본" | SmileCardCashback_생성() | _ | _
     "T0" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true) | _ | _
     "T1" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true) | _ | _
-    "T2_값없음" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, t2t3Cashbacks: [T2T3SmileCardCashback_생성(smileCardType: SmileCardType.T2, isT2T3: true)]) | _ | _
-    "T2" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, t2t3Cashbacks: [T2T3SmileCardCashback_생성(amount: 100L, smileCardType: SmileCardType.T2, isT2T3: true)]) | _ | _
+    "T2_값없음" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, isT2T3SmileCard: true, t2t3Cashbacks: [T2T3SmileCardCashback_생성(smileCardType: SmileCardType.T2, isT2T3: true)]) | _ | _
+    "T2" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, isT2T3SmileCard : true , t2t3Cashbacks: [T2T3SmileCardCashback_생성(amount: 100L, smileCardType: SmileCardType.T2, isT2T3: true)]) | _ | _
     _________________________________________________
     키맵 | 주문 | 결제 | 상품
     KeyMap_생성() | Order_생성() | 스마일페이_Payment_생성() | ItemSnapshots_생성(itemSnapshots: ItemSnapshot_생성())

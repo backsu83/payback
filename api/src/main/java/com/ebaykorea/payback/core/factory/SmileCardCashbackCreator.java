@@ -32,6 +32,7 @@ public class SmileCardCashbackCreator {
     return SmileCardCashback.of(
         smileCardCashbackAmount,
         payment.isSmileCard(),
+        payment.isT2T3SmileCard(),
         payment.isFreeInstallment(),
         t2t3Cashbacks
     );
@@ -57,6 +58,8 @@ public class SmileCardCashbackCreator {
           return T2T3SmileCardCashback.of(
               entry.getValue().getPolicyKey(),
               itemSnapshot.toShopType(),
+              itemSnapshot.isSmileDelivery(),
+              itemSnapshot.isSmileFresh(),
               entry.getValue().getCashbackAmount(),
               orderUnit.orderUnitPriceExcludingCouponPrice(),
               payment.toSmileCardType(),

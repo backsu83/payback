@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
@@ -24,11 +25,13 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
   private final CashbackOrderPolicyRepository cashbackOrderPolicyRepository;
   private final CashbackOrderDetailRepository cashbackOrderDetailRepository;
   private final CashbackOrderMemberRepository cashbackOrderMemberRepository;
+  private final SmilecardCashbackOrderRepository smilecardCashbackOrderRepository;
 
   private final CashbackOrderEntityMapper cashbackOrderEntityMapper;
   private final Conditioner<CashbackPolicyEntityMapper> cashbackPolicyEntityMapperConditioner;
   private final CashbackOrderDetailEntityMapper cashbackOrderDetailEntityMapper;
   private final CashbackOrderMemberEntityMapper cashbackOrderMemberEntityMapper;
+  private final SmilecardCashbackOrderEntityMapper smilecardCashbackOrderEntityMapper;
 
   @Transactional
   @Override
@@ -49,7 +52,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
     saveCashbackMember(payCashback);
 
     //TODO smilecard_cashback
-
+    saveSmileCardCashback(payCashback , payCashback.getSmileCardCashback());
   }
 
   private void saveCashbackUnits(final PayCashback payCashback, final Cashback cashback, final List<CashbackUnit> cashbackUnits) {
@@ -80,5 +83,10 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
   private void saveCashbackMember(final PayCashback payCashback) {
     final var cashbackOrderMemberEntity = cashbackOrderMemberEntityMapper.map(payCashback);
     cashbackOrderMemberRepository.save(cashbackOrderMemberEntity);
+  }
+
+  private void saveSmileCardCashback(final PayCashback payCashback , final SmileCardCashback smileCardCashback) {
+    final var smilecardCashbackOrderEntity = smilecardCashbackOrderEntityMapper.map(payCashback , smileCardCashback);
+    smilecardCashbackOrderRepository.save(smilecardCashbackOrderEntity);
   }
 }
