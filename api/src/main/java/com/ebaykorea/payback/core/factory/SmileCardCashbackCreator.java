@@ -35,7 +35,6 @@ public class SmileCardCashbackCreator {
         payment.isFreeInstallment(),
         t2t3Cashbacks
     );
-
   }
 
   private List<T2T3SmileCardCashback> createT2T3SmileCardCashbacks(
