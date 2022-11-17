@@ -21,10 +21,10 @@ class SmileCardCashbackCreaotrSpec extends Specification {
     expect:
     def result = smileCardCashbackCreator.createSmileCardCashback(키맵, 주문, 결제, 상품, 정책)
     result.collect {
-      [it.cashbackAmount, it.apply, it.applyT2T3, it.shopType,
+      [it.cashbackAmount, it.apply, it.toShopType(),
        it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
     } == 결과.collect {
-      [it.cashbackAmount, it.apply, it.applyT2T3, it.shopType,
+      [it.cashbackAmount, it.apply, it.toShopType(),
        it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
     }
 
