@@ -56,12 +56,12 @@ public class CashbackApplicationService {
         orderKeyMap.orderUnitKeyMap());
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
-
     //payCashback validation?
     //TODO 중복체크
 
     //TODO smilecard api 호출
     //payCashback 저장
     payCashbackRepository.save(payCashback);
+    rewardGateway.saveCardT2T3Cashback(orderKeyMap , payCashback.getSmileCardCashback());
   }
 }

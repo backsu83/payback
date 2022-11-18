@@ -1,15 +1,21 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType
+import com.ebaykorea.payback.core.domain.constant.ShopType
+import com.ebaykorea.payback.core.domain.constant.SmileCardType
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.AddSmileCardT2T3CashbackRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseReturn
 import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper
+import com.ebaykorea.payback.infrastructure.persistence.redis.support.GsonUtils
+import com.google.gson.Gson
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshot_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.KeyMap_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnitKey_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnit_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.Order_생성
@@ -19,11 +25,14 @@ import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackInfoDto_생
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRequestDataDto_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackResponseDataDto_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRewardBackendResponseDto_생성
+import static com.ebaykorea.payback.grocery.RewardApiGrocery.T2T3Cashback_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.CashbackRewardGoodRequestDto_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardBackendCashbackPolicy_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicies_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicy_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardT2T3SmileCardCashbackPolicy_생성
+import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardCashback_생성
+import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.T2T3SmileCardCashback_생성
 
 class RewardGatewaySpec extends Specification {
   def rewardApiClient = Stub(RewardApiClient)
@@ -83,5 +92,24 @@ class RewardGatewaySpec extends Specification {
     상품 | 키 | expectResult
     ["itemSnapshotKey1": ItemSnapshot_생성()] | ["orderUnitKey1": OrderUnitKey_생성()] | [CashbackRewardGoodRequestDto_생성()]
     ["itemSnapshotKey1": ItemSnapshot_생성()] | ["orderUnitKey1": OrderUnitKey_생성(), "orderUnitKey2": OrderUnitKey_생성(orderUnitKey: "orderUnitKey2", buyOrderNo: 2L)] | [CashbackRewardGoodRequestDto_생성(), CashbackRewardGoodRequestDto_생성(key: "2")]
+  }
+
+  def "buildT2T3 맵핍이 정상인지 확인한다"() {
+
+    expect:
+    def result=  rewardGatewayImpl.buildT2T3(keyMap , smileCardCashback)
+    result == expectResult
+
+    where:
+    _________________________________________________
+    desc | keyMap | expectResult
+    "T2T3스마일카드 캐시백_true" | KeyMap_생성() | [T2T3Cashback_생성()]
+    "T2T3스마일카드 캐시백_false (금액)" | KeyMap_생성() | []
+    "T2T3스마일카드 캐시백_false (isT2T3)" | KeyMap_생성() | []
+    _________________________________________________
+    smileCardCashback | _
+    SmileCardCashback_생성(t2t3Cashbacks: [T2T3SmileCardCashback_생성(amount: 1000L ,smileCardType: SmileCardType.T2 ,isT2T3: true , shopType: ShopType.SmileDelivery)]) | _
+    SmileCardCashback_생성(t2t3Cashbacks: [T2T3SmileCardCashback_생성(amount: 0L ,smileCardType: SmileCardType.T2 ,isT2T3: true , shopType: ShopType.SmileDelivery)]) | _
+    SmileCardCashback_생성(t2t3Cashbacks: [T2T3SmileCardCashback_생성(amount: 1000L ,smileCardType: SmileCardType.Unknown ,isT2T3: false , shopType: ShopType.SmileDelivery)]) | _
   }
 }

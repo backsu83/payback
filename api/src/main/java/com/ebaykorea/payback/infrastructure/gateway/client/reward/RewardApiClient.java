@@ -43,6 +43,6 @@ public interface RewardApiClient {
       value = "Cashback/v1/FE/Reward/Order/AddSmileCardT2T3Cashback",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  RewardBaseReturn saveCardT2T3Cashback(@RequestBody final AddSmileCardT2T3CashbackRequestDto request);
+  Optional<RewardBaseReturn> saveCardT2T3Cashback(@RequestBody final AddSmileCardT2T3CashbackRequestDto request);
 
 }
