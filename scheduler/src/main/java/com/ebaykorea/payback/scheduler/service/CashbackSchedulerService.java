@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class CashbackSchedulerService {
   public List<CashbackCheckerDto> findNoSaveCashbackKeys() {
     return cashbackCheckerRepository.findOrderkeyAndTxkey()
         .stream()
-        .filter(entity -> StringUtils.isNotEmpty(entity.getOrderKey()) && StringUtils.isNotEmpty(entity.getTxKey()))
+        .filter(entity -> StringUtils.hasLength(entity.getOrderKey()) && StringUtils.hasLength(entity.getTxKey()))
         .map(cashbackCheckerMapper::map)
         .collect(Collectors.toList());
   }
