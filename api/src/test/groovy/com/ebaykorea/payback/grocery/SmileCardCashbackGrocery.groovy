@@ -14,7 +14,6 @@ class SmileCardCashbackGrocery {
         (map.t2t3Cashbacks ?: []) as List<T2T3SmileCardCashback>
     )
   }
-
   static def T2T3SmileCardCashback_생성(Map map = [:]) {
     T2T3SmileCardCashback.of(
         (map.orderNo ?: 1L) as long,
@@ -26,4 +25,5 @@ class SmileCardCashbackGrocery {
         (map.isFreeInstallment ?: false) as boolean
     )
   }
+
 }

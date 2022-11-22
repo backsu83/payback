@@ -93,7 +93,7 @@ class CashbackEntityGrocery {
   static def SmilecardCashbackOrderEntity_생성(Map map = [:]) {
     new SmilecardCashbackOrderEntity().tap {
       packNo = (map.packNo ?: 1L) as Long
-      cashbackAmount = (map.cashbackAmount ?: 0L) as BigDecimal
+      cashbackAmount = (map.cashbackAmount ?: 1000L) as BigDecimal
       applyYn = (map.applyYn ?: "N") as String
       regId = (map.regId ?: "buyerNo") as String
       regDt = (map.regDt ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
@@ -101,7 +101,7 @@ class CashbackEntityGrocery {
       chgDt = (map.chgDt ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
       t2t3CashbackAmount = (map.t2t3CashbackAmount ?: 0L) as BigDecimal
       t2t3ApplyYn = (map.t2t3ApplyYn ?: "N") as String
-      itemType = (map.itemType ?: "") as String
+      itemType = (map.itemType ?: null) as String
     }
   }
 }
