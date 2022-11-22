@@ -18,5 +18,4 @@ public interface RewardGateway {
       Map<String, ItemSnapshot> itemSnapshotMap,
       Map<String, OrderUnitKey> orderUnitKeyMap);
 
-  void saveCardT2T3Cashback(KeyMap keyMap , SmileCardCashback smileCardCashback);
 }

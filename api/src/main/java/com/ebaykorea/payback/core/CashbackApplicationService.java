@@ -59,9 +59,7 @@ public class CashbackApplicationService {
     //payCashback validation?
     //TODO 중복체크
 
-    //TODO smilecard api 호출
     //payCashback 저장
     payCashbackRepository.save(payCashback);
-    rewardGateway.saveCardT2T3Cashback(orderKeyMap , payCashback.getSmileCardCashback());
   }
 }

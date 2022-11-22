@@ -6,16 +6,26 @@ import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCash
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.*;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.*;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderDetailEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderMemberEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackPolicyEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.SmilecardCashbackOrderEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.SmilecardT2T3CashbackEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderDetailRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderMemberRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderPolicyRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.SmilecardCashbackOrderRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.SmilecardT2T3CashbackRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity;
 import com.ebaykorea.payback.util.support.Conditioner;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +36,14 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
   private final CashbackOrderDetailRepository cashbackOrderDetailRepository;
   private final CashbackOrderMemberRepository cashbackOrderMemberRepository;
   private final SmilecardCashbackOrderRepository smilecardCashbackOrderRepository;
+  private final SmilecardT2T3CashbackRepository smilecardT2T3CashbackRepository;
 
   private final CashbackOrderEntityMapper cashbackOrderEntityMapper;
   private final Conditioner<CashbackPolicyEntityMapper> cashbackPolicyEntityMapperConditioner;
   private final CashbackOrderDetailEntityMapper cashbackOrderDetailEntityMapper;
   private final CashbackOrderMemberEntityMapper cashbackOrderMemberEntityMapper;
   private final SmilecardCashbackOrderEntityMapper smilecardCashbackOrderEntityMapper;
+  private final SmilecardT2T3CashbackEntityMapper smilecardT2T3CashbackEntityMapper;
 
   @Transactional
   @Override
@@ -51,7 +63,11 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
     //cashback_order_member
     saveCashbackMember(payCashback);
 
+    //smilecard_cash
     saveSmileCardCashback(payCashback , payCashback.getSmileCardCashback());
+
+    //smilecard_t2t3_cashback_info
+    saveSmileCardT2T3Cashback(payCashback , payCashback.getSmileCardCashback());
   }
 
   private void saveCashbackUnits(final PayCashback payCashback, final Cashback cashback, final List<CashbackUnit> cashbackUnits) {
@@ -87,5 +103,18 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
   private void saveSmileCardCashback(final PayCashback payCashback , final SmileCardCashback smileCardCashback) {
     final var smilecardCashbackOrderEntity = smilecardCashbackOrderEntityMapper.map(payCashback , smileCardCashback);
     smilecardCashbackOrderRepository.save(smilecardCashbackOrderEntity);
+  }
+
+  private void saveSmileCardT2T3Cashback(final PayCashback payCashback , final SmileCardCashback smileCardCashback) {
+    final var smilecardT2T3CashbackEntities = mapToT2T3Cashback(payCashback, smileCardCashback);
+    smilecardT2T3CashbackEntities.forEach(smilecardT2T3CashbackRepository::save);
+  }
+
+  public List<SmilecardT2T3CashbackEntity> mapToT2T3Cashback(final PayCashback payCashback , final SmileCardCashback smileCardCashback) {
+    return smileCardCashback.getT2t3Cashbacks()
+        .stream()
+        .filter(f -> f.isApply())
+        .map(t3SmileCardCashback -> smilecardT2T3CashbackEntityMapper.map(payCashback , t3SmileCardCashback))
+        .collect(Collectors.toUnmodifiableList());
   }
 }

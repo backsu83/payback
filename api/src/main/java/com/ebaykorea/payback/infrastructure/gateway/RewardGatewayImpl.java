@@ -1,8 +1,9 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
-import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.GATEWAY_002;
+import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
+
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
-import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
@@ -12,24 +13,21 @@ import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.T2T3Cashback;
-import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
-
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodRequestDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardResponseDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse;
+import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.GATEWAY_002;
-import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -128,27 +126,4 @@ public class RewardGatewayImpl implements RewardGateway {
         .collect(Collectors.toUnmodifiableList());
   }
 
-
-  @Override
-  public void saveCardT2T3Cashback(final KeyMap keyMap , final SmileCardCashback smileCardCashback) {
-    List<T2T3Cashback> t2T3Cashbacks = buildT2T3(keyMap, smileCardCashback);
-    if(!CollectionUtils.isEmpty(t2T3Cashbacks)) {
-      Optional.ofNullable(
-              rewardApiClient.saveCardT2T3Cashback(AddSmileCardT2T3CashbackRequestDto.builder()
-                  .smileCardT2T3CashbackList(t2T3Cashbacks)
-                  .build()))
-          .filter(Optional::isPresent)
-          .map(Optional::get)
-          .orElseThrow(() -> new PaybackException(GATEWAY_002, "saveCardT2T3Cashback 실패"));
-    }
-  }
-
-  List<T2T3Cashback> buildT2T3(final KeyMap keyMap , final SmileCardCashback smileCardCashback) {
-    return smileCardCashback.getT2t3Cashbacks()
-        .stream()
-        .filter(f -> f.isApply())
-        .map(t3SmileCardCashback ->
-            rewardGatewayMapper.map(keyMap , t3SmileCardCashback))
-        .collect(Collectors.toUnmodifiableList());
-  }
 }
