@@ -1,8 +1,6 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType
-import com.ebaykorea.payback.core.domain.constant.OrderSiteType
-import com.ebaykorea.payback.core.domain.constant.SmileCardType
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*
 
 class RewardApiGrocery {
@@ -98,21 +96,4 @@ class RewardApiGrocery {
     }
   }
 
-  static def AddSmileCardT2T3CashbackRequestDto_생성(Map map = [:]) {
-    new AddSmileCardT2T3CashbackRequestDto().tap {
-      smileCardT2T3CashbackList = (map.smileCardT2T3CashbackList ?: []) as List<T2T3Cashback>
-    }
-  }
-
-  static def T2T3Cashback_생성(Map map = [:]) {
-    new T2T3Cashback().tap {
-      siteCode = (map.siteCode ?: OrderSiteType.Gmarket) as OrderSiteType
-      packNo = (map.packNo ?: 1L) as Long
-      buyOrderNo = (map.buyOrderNo ?: 1L) as Long
-      smileCardType = (map.smileCardType ?: SmileCardType.T2) as SmileCardType
-      itemPrice = (map.itemPrice ?: 1000L) as BigDecimal
-      t2T3CashbackAmnt = (map.t2T3CashbackAmnt ?: 1000L) as BigDecimal
-      itemType = (map.itemType ?: "SD") as String
-    }
-  }
 }
