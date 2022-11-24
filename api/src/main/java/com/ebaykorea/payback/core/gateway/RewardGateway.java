@@ -14,4 +14,5 @@ public interface RewardGateway {
       Payment payment,
       Map<String, ItemSnapshot> itemSnapshotMap,
       Map<String, OrderUnitKey> orderUnitKeyMap);
+
 }

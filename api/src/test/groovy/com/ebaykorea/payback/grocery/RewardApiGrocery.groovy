@@ -1,15 +1,7 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackInfoDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodRequestDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodResponseDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardResponseDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.ClubDayCashbackInfoDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.ItemCashbackInfoDto
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.NspCashbackInfoDto
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*
 
 class RewardApiGrocery {
   static def CashbackRequestDataDto_생성(Map map = [:]) {
@@ -103,4 +95,5 @@ class RewardApiGrocery {
       clubDayCashbackMoney = (map.clubDayCashbackMoney ?: 0) as Integer
     }
   }
+
 }

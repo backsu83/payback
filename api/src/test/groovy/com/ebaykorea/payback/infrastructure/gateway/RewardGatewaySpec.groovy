@@ -1,7 +1,10 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType
+import com.ebaykorea.payback.core.domain.constant.ShopType
+import com.ebaykorea.payback.core.domain.constant.SmileCardType
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
+
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseReturn
@@ -10,6 +13,7 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshot_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.KeyMap_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnitKey_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnit_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.Order_생성
@@ -24,6 +28,8 @@ import static com.ebaykorea.payback.grocery.RewardGrocery.RewardBackendCashbackP
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicies_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicy_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardT2T3SmileCardCashbackPolicy_생성
+import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardCashback_생성
+import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.T2T3SmileCardCashback_생성
 
 class RewardGatewaySpec extends Specification {
   def rewardApiClient = Stub(RewardApiClient)

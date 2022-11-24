@@ -6,8 +6,11 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderMemberEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardCashbackOrderEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity
 import com.ebaykorea.payback.util.PaybackTimestamps
 
+import javax.persistence.Column
+import javax.persistence.Id
 import java.sql.Timestamp
 
 class CashbackEntityGrocery {
@@ -101,6 +104,22 @@ class CashbackEntityGrocery {
       chgDt = (map.chgDt ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
       t2t3CashbackAmount = (map.t2t3CashbackAmount ?: 0L) as BigDecimal
       t2t3ApplyYn = (map.t2t3ApplyYn ?: "N") as String
+      itemType = (map.itemType ?: null) as String
+    }
+  }
+
+  static def SmilecardT2T3CashbackEntity_생성(Map map = [:]) {
+    new SmilecardT2T3CashbackEntity().tap {
+      packNo = (map.packNo ?: 1L) as Long
+      orderNo = (map.orderNo ?: 1L) as Long
+      itemPrice = (map.itemPrice ?: 1000L) as BigDecimal
+      t2t3CashbackAmount = (map.t2t3CashbackAmount ?: 1000L) as BigDecimal
+      smileCardType = (map.smileCardType ?: "") as String
+      siteCode = (map.siteCode ?: "") as String
+      insDate = (map.insDate ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
+      updDate = (map.updDate ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
+      insOprt = (map.insOprt ?: "buyerNo") as String
+      updOprt = (map.updOprt ?: "buyerNo") as String
       itemType = (map.itemType ?: null) as String
     }
   }

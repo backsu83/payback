@@ -33,16 +33,4 @@ public interface RewardApiClient {
   )
   Optional<RewardBaseResponse<List<CashbackRewardBackendResponseDto>>> getCashbackRewardBackend(@RequestBody final CashbackRewardRequestDto request);
 
-  /**
-   * 스마일카드 T2T3 캐시백 저장
-   * @param request CartCashbackSaveRequestDto
-   * @return RewardResponseDto 결과
-   */
-  @RequestMapping(
-      method = RequestMethod.POST,
-      value = "Cashback/v1/FE/Reward/Order/AddSmileCardT2T3Cashback",
-      produces = MediaType.APPLICATION_JSON_VALUE
-  )
-  RewardBaseReturn saveCardT2T3Cashback(@RequestBody final AddSmileCardT2T3CashbackRequestDto request);
-
 }
