@@ -1,4 +1,4 @@
-description = "api"
+description = "consumer"
 
 dependencies {
 
@@ -11,12 +11,7 @@ dependencies {
   implementation "io.github.resilience4j:resilience4j-retry:${resilience4jVersion}"
   implementation "io.github.resilience4j:resilience4j-annotations:${resilience4jVersion}"
 
-  //swagger2
-  implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
-  implementation "io.springfox:springfox-swagger2:2.9.2"
-  implementation "io.springfox:springfox-swagger-ui:2.9.2"
-
-  //mssql (saturnProceduer)
-  implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
-  implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
+  //kafka
+  implementation "org.springframework.kafka:spring-kafka:${kafkaVersion}"
+  testImplementation "org.springframework.kafka:spring-kafka-test:${kafkaVersion}"
 }
