@@ -7,6 +7,7 @@ import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.CashbackEntityGrocery.SmilecardT2T3CashbackEntity_생성
 import static com.ebaykorea.payback.grocery.PayCashbackGrocery.*
+import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.T2T3SmileCardCashback_생성
 
 class SmilecardT2T3CashbackEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SmilecardT2T3CashbackEntityMapper)

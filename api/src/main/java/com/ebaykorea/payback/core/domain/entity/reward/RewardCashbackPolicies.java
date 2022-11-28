@@ -5,6 +5,7 @@ import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.groupingBy;
 
 import java.math.BigDecimal;
@@ -21,10 +22,16 @@ public class RewardCashbackPolicies {
   Map<Long, RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicyMap;
 
   String useEnableDate;
-  /** 스마일카드(T0) 사용할 경우 적립예정금액 */
+  /**
+   * 스마일카드(T0) 사용할 경우 적립예정금액
+   */
   BigDecimal smileCardCashbackAmount;
-  /** 뉴스마일카드(T1,T2,T3) 사용할 경우 적립예정금액 */
+  /**
+   * 뉴스마일카드(T1,T2,T3) 사용할 경우 적립예정금액
+   */
   BigDecimal newSmileCardCashbackAmount;
+
+  public static RewardCashbackPolicies EMPTY = RewardCashbackPolicies.of(emptyList(), emptyList(), emptyList(), null, BigDecimal.ZERO, BigDecimal.ZERO);
 
   public static RewardCashbackPolicies of(
       final List<RewardCashbackPolicy> cashbackPolicies,
@@ -83,7 +90,7 @@ public class RewardCashbackPolicies {
 
   public List<RewardCashbackPolicy> findRewardCashbackPolicies(final long policyKey) {
     return Optional.ofNullable(cashbackPolicyMap.get(policyKey))
-        .orElse(Collections.emptyList());
+        .orElse(emptyList());
   }
 
   public Optional<RewardBackendCashbackPolicy> findBackendRewardCashbackPolicy(final long policyKey) {
