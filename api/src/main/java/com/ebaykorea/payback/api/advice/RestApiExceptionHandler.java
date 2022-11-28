@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.api.advice;
 
-import com.ebaykorea.payback.api.dto.common.ErrorResponse;
+import com.ebaykorea.payback.api.dto.common.CommonExceptionResponse;
+import com.ebaykorea.payback.core.exception.PaybackException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    public ErrorResponse responseBody(Exception ex , HttpStatus status) {
-        ErrorResponse response = new ErrorResponse(status.name(), ex.getMessage());
-        return response;
-    }
-
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex,
@@ -28,14 +24,30 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-        return ResponseEntity.ok(responseBody(ex , status));
+        CommonExceptionResponse response = CommonExceptionResponse.builder()
+            .exceptionMessage(ex.getLocalizedMessage())
+            .exceptionCode(status.name())
+            .build();
+        return new ResponseEntity<>(response, status);
     }
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+    public ResponseEntity<CommonExceptionResponse> handleException(Exception ex) {
         log.error(ex.getLocalizedMessage(), ex);
-        ErrorResponse errorResponse = new ErrorResponse("INTERNAL_SERVER_ERROR", ex.getLocalizedMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        CommonExceptionResponse response = CommonExceptionResponse.builder()
+            .exceptionMessage(ex.getLocalizedMessage())
+            .exceptionCode(HttpStatus.INTERNAL_SERVER_ERROR.name())
+            .build();
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(value = {PaybackException.class})
+    public ResponseEntity<CommonExceptionResponse> handlePaybackException(PaybackException ex) {
+        log.error(ex.getLocalizedMessage(), ex);
+        CommonExceptionResponse response = CommonExceptionResponse.builder()
+            .exceptionMessage(ex.getMessage())
+            .exceptionCode(ex.getCode().name())
+            .build();
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

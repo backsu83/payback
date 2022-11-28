@@ -1,12 +1,13 @@
 package com.ebaykorea.payback.api.advice;
 
-import com.ebaykorea.payback.api.dto.common.ApiResponse;
-import com.ebaykorea.payback.api.dto.common.ErrorResponse;
+import com.ebaykorea.payback.api.dto.common.CommonResponse;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -26,10 +27,16 @@ public class ApiResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                   ServerHttpRequest request,
                                   ServerHttpResponse response
     ) {
-        if(body instanceof ErrorResponse) {
-            ErrorResponse errorResponse = (ErrorResponse) body;
-            return ApiResponse.error(errorResponse);
+        HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
+        if(body instanceof CommonResponse) {
+            ((CommonResponse<?>) body).setCode(servletResponse.getStatus());
+            return body;
+        } else {
+            CommonResponse result = CommonResponse.builder()
+                .code(servletResponse.getStatus())
+                .data(body)
+                .build();
+            return result;
         }
-        return ApiResponse.success(body);
     }
 }
