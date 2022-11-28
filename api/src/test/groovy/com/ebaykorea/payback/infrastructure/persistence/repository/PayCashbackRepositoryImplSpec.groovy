@@ -74,7 +74,6 @@ class PayCashbackRepositoryImplSpec extends Specification {
       smilecardT2T3CashbackEntityMapper
   )
 
-  //TODO
   def "저장 호출이 잘 되는지 확인"() {
     when:
     repository.save(payCashback)
