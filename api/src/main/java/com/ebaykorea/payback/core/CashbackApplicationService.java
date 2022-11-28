@@ -1,5 +1,11 @@
 package com.ebaykorea.payback.core;
 
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
+import com.ebaykorea.payback.core.domain.entity.order.Buyer;
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
+import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.factory.PayCashbackCreator;
 import com.ebaykorea.payback.core.gateway.OrderGateway;
 import com.ebaykorea.payback.core.gateway.PaymentGateway;
@@ -9,6 +15,9 @@ import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.core.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -31,29 +40,25 @@ public class CashbackApplicationService {
       return;
     }
 
-    //TODO: 동시성 고려 (applicationService 레이어에서는 동시성 처리를 하지 않고 도메인 서비스나 gateway에서 할수있도록 고려해보자)
-    //TODO: applicationService 레이어에서 gateway와 repository를 호출하는것이 맞을지 고민
-    //회원 정보
-    final var member = memberService.getMember(order.getBuyer());
     //주문 키 매핑 정보
-    final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
+    final var orderKeyMapFuture = getKeyMapAsync(txKey, orderKey);
     //결제 정보
-    final var paymentRecord = paymentGateway.getPaymentRecord(order.getPaySeq());
+    final var paymentRecordFuture = getPaymentRecordAsync(order.getPaySeq());
     //상품 스냅샷 정보
-    final var itemSnapshots = orderGateway.getItemSnapshot(order.findItemSnapshotKeys());
+    final var itemSnapshotsFuture = getItemSnapshotAsync(order.findItemSnapshotKeys());
+    //회원 정보
+    final var memberFuture = getMemberAsync(order.getBuyer());
 
-    //TODO 판매자 캐시백은 적립해야함
-    if (!paymentRecord.hasMainPaymentAmount()) {
-      return;
-    }
-
+    final var orderKeyMap = orderKeyMapFuture.join();
+    final var paymentRecord = paymentRecordFuture.join();
+    final var itemSnapshots = itemSnapshotsFuture.join();
 
     //리워드 캐시백 정책 조회
-    final var rewardCashbackPolicies = rewardGateway.getCashbackPolicies(
-        order,
-        paymentRecord,
-        itemSnapshots.getItemSnapshotMap(),
-        orderKeyMap.orderUnitKeyMap());
+    final var rewardCashbackPolicies = paymentRecord.hasMainPaymentAmount() ? //주 결제수단 금액이 있는 경우에만 정책 조회
+        rewardGateway.getCashbackPolicies(order, paymentRecord, itemSnapshots.getItemSnapshotMap(), orderKeyMap.orderUnitKeyMap()) :
+        RewardCashbackPolicies.EMPTY;
+
+    final var member = memberFuture.join();
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
     //payCashback validation?
@@ -61,5 +66,18 @@ public class CashbackApplicationService {
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
+  }
+
+  private CompletableFuture<KeyMap> getKeyMapAsync(final String txKey, final String orderKey) {
+    return CompletableFuture.supplyAsync(() -> transactionGateway.getKeyMap(txKey, orderKey));
+  }
+  private CompletableFuture<Payment> getPaymentRecordAsync(final Long paySeq) {
+    return CompletableFuture.supplyAsync(() -> paymentGateway.getPaymentRecord(paySeq));
+  }
+  private CompletableFuture<ItemSnapshots> getItemSnapshotAsync(final List<String> itemSnapshotKeys) {
+    return CompletableFuture.supplyAsync(() -> orderGateway.getItemSnapshot(itemSnapshotKeys));
+  }
+  private CompletableFuture<Member> getMemberAsync(final Buyer buyer) {
+    return CompletableFuture.supplyAsync(() -> memberService.getMember(buyer));
   }
 }

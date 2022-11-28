@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @EqualsAndHashCode
@@ -49,5 +50,12 @@ public class PayCashback {
   private void validate() {
 
   }
+
+  public boolean hasSmileCardCashback() {
+    return Optional.ofNullable(smileCardCashback)
+        .map(s -> s.isApply() || s.isApplyT2T3())
+        .orElse(false);
+  }
+
 
 }
