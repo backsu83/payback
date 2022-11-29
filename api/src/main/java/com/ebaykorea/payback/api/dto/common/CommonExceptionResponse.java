@@ -2,16 +2,21 @@ package com.ebaykorea.payback.api.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponseDto<T> {
+public class CommonExceptionResponse {
 
-    private boolean success;
-    private T data;
-    private ErrorResponse error;
+  String exceptionMessage;
+  String exceptionCode;
+  Object exceptionInfo;
+
 }
