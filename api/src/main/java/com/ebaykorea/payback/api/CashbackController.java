@@ -1,11 +1,14 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
-import com.ebaykorea.payback.api.dto.common.CashbackResponse;
+import com.ebaykorea.payback.api.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.CashbackApplicationService;
+import com.ebaykorea.payback.core.domain.constant.PaybackMessageType;
+import com.ebaykorea.payback.core.exception.PaybackException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +30,7 @@ public class CashbackController {
    * @return
    */
   @PostMapping("/cashbacks")
-  public CashbackResponse saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
+  public CommonResponse saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
     return applicationService.setCashback(request.getTxKey(), request.getOrderKey());
   }
 }

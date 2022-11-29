@@ -1,12 +1,12 @@
 package com.ebaykorea.payback.core.domain.entity.cashback.member;
 
-import java.util.Optional;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_004;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_013;
 
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.util.PaybackStrings;
-import lombok.*;
-
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
+import java.util.Optional;
+import lombok.Value;
 
 @Value
 public class Member {
@@ -48,13 +48,13 @@ public class Member {
 
   private void validate() {
     if (PaybackStrings.isBlank(buyerNo)) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "buyerNo 값이 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_004 , "buyerNo");
     }
     if (PaybackStrings.isBlank(buyerId)) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "buyerId 값이 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_004 , "buyerId");
     }
     if (!member) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "회원이 아니면 캐시백 적립을 할 수 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_013);
     }
   }
 

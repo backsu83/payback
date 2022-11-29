@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.core.domain.entity.order;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_004;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_008;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_010;
 import static com.ebaykorea.payback.util.PaybackCollections.*;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackObjects.orElse;
@@ -83,16 +85,16 @@ public class Order {
   // 불변식
   private void validate() {
     if (orElse(paySeq, 0L) == 0L) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "paySeq 값이 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_004 , "paySeq");
     }
     if (buyer == null) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "buyer는 null일 수 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_008 , "buyer");
     }
     if (orderDate == null) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "orderDate는 null일 수 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_008 , "orderDate");
     }
     if (isEmpty(orderUnits)) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "orderUnits 정보가 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_010 , "orderUnits");
     }
   }
 

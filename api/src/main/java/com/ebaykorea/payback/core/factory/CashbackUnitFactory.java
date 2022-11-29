@@ -1,25 +1,31 @@
 package com.ebaykorea.payback.core.factory;
 
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_010;
+import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
+
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.*;
-import com.ebaykorea.payback.core.domain.entity.order.*;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
+import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
+import com.ebaykorea.payback.core.domain.entity.order.OrderUnit;
+import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.core.factory.impl.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
+import com.ebaykorea.payback.core.factory.impl.ChargePayCashbackCreator;
+import com.ebaykorea.payback.core.factory.impl.ClubDayCashbackCreator;
+import com.ebaykorea.payback.core.factory.impl.DefaultCashbackCreator;
+import com.ebaykorea.payback.core.factory.impl.ItemCashbackCreator;
+import com.ebaykorea.payback.core.factory.impl.SellerCashbackCreator;
+import com.ebaykorea.payback.core.factory.impl.SmilePayCashbackCreator;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.FACTORY_001;
-import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -85,7 +91,7 @@ public class CashbackUnitFactory {
               final var basisAmount = orderUnit.orderUnitPrice(bundleDiscountPrice);
 
               final var backendCashbackPolicy = rewardCashbackPolicies.findBackendRewardCashbackPolicy(policy.getPolicyKey())
-                  .orElseThrow(() -> new PaybackException(FACTORY_001, "backendCashbackPolicy가 없습니다"));
+                  .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_010, "backendCashbackPolicy"));
 
               return createCashbackUnit(
                   useEnableDate,
