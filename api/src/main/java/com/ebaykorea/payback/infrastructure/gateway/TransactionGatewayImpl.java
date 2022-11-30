@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.GATEWAY_002;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.API_GATEWAY_002;
 
 
 @Service
@@ -30,7 +30,7 @@ public class TransactionGatewayImpl implements TransactionGateway {
         .map(KeyMapResponseDto::getOrders)
         .orElse(Collections.emptyList());
     final var firstKeyMap = keyMaps.stream().findFirst()
-        .orElseThrow(() -> new PaybackException(GATEWAY_002, "값 없음"));
+        .orElseThrow(() -> new PaybackException(API_GATEWAY_002, "값 없음"));
 
     final var orderUnitKeys = keyMaps.stream()
         .map(transactionGatewayMapper::mapToOrderUnitKey)

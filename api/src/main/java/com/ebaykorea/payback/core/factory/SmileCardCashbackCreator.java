@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.FACTORY_001;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_002;
 
 @Service
 public class SmileCardCashbackCreator {
@@ -47,11 +47,11 @@ public class SmileCardCashbackCreator {
     return rewardCashbackPolicies.getSmileCardCashbackPolicyMap().entrySet().stream()
         .map(entry -> {
           final var orderUnitKey = keyMap.findByOrderNo(entry.getKey())
-              .orElseThrow(() -> new PaybackException(FACTORY_001, "orderUnitKey를 찾을 수 없습니다"));
+              .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnitKey"));
           final var orderUnit = order.findOrderUnitBy(orderUnitKey.getOrderUnitKey())
-              .orElseThrow(() -> new PaybackException(FACTORY_001, "orderUnit을 찾을 수 없습니다"));
+              .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnit"));
           final var itemSnapshot = itemSnapshots.findBy(orderUnit.getItemSnapshotKey())
-              .orElseThrow(() -> new PaybackException(FACTORY_001, "itemSnapshot을 찾을 수 없습니다"));
+              .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "itemSnapshot"));
 
           return T2T3SmileCardCashback.of(
               entry.getValue().getPolicyKey(),

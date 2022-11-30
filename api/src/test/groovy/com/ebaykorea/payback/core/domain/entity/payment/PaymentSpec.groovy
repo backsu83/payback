@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.core.domain.entity.payment
 
 import com.ebaykorea.payback.core.domain.constant.InstallmentType
+import com.ebaykorea.payback.core.domain.constant.PaybackMessageType
 import com.ebaykorea.payback.core.exception.PaybackException
-import com.ebaykorea.payback.core.exception.PaybackExceptionCode
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.PaymentGrocery.기본_Payment_생성
@@ -33,6 +33,6 @@ class PaymentSpec extends Specification {
 
     then:
     def e = thrown(PaybackException)
-    e.code == PaybackExceptionCode.DOMAIN_ENTITY_001.ordinal()
+    e.code == PaybackMessageType.DOMAIN_ENTITY_011
   }
 }

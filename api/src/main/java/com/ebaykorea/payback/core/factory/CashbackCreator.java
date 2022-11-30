@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.core.factory;
 
+import com.ebaykorea.payback.core.domain.constant.PaybackMessageType;
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.FACTORY_001;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_002;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +34,9 @@ public class CashbackCreator {
     return order.getOrderUnits().stream()
         .map(orderUnit -> {
           final var orderUnitKey = keyMap.findBy(orderUnit.getOrderUnitKey())
-              .orElseThrow(() -> new PaybackException(FACTORY_001, "orderUnitKey를 찾을 수 없습니다"));
+              .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002 , "orderUnitKey"));
           final var itemSnapshot = itemSnapshots.findBy(orderUnit.getItemSnapshotKey())
-              .orElseThrow(() -> new PaybackException(FACTORY_001, "itemSnapshot을 찾을 수 없습니다"));
+              .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002 , "itemSnapshot"));
           final var bundleDiscountPrice = order.getBundleDiscountPrice(orderUnit.getOrderUnitKey());
 
           //주문단위(주문번호)별 캐시백 목록

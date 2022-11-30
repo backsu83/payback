@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.GATEWAY_002;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.API_GATEWAY_002;
 import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
 
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
@@ -64,7 +64,7 @@ public class RewardGatewayImpl implements RewardGateway {
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .orElseThrow(() -> new PaybackException(GATEWAY_002, "getCashbackReward 실패")));
+            .orElseThrow(() -> new PaybackException(API_GATEWAY_002, "getCashbackReward 실패")));
   }
 
   private CompletableFuture<List<CashbackRewardBackendResponseDto>> getCashbackBackendRewardAsync(final CashbackRewardRequestDto request) {
@@ -72,7 +72,7 @@ public class RewardGatewayImpl implements RewardGateway {
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .orElseThrow(() -> new PaybackException(GATEWAY_002, "getCashbackRewardBackend 실패")));
+            .orElseThrow(() -> new PaybackException(API_GATEWAY_002, "getCashbackRewardBackend 실패")));
   }
 
 

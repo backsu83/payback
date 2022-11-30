@@ -1,17 +1,15 @@
 package com.ebaykorea.payback.core.domain.entity.payment;
 
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_011;
+import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
+import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
+
 import com.ebaykorea.payback.core.domain.constant.SmileCardType;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.util.PaybackStrings;
-import lombok.*;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
-import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
-import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
+import lombok.Value;
 
 @Value
 public class Payment {
@@ -60,7 +58,7 @@ public class Payment {
 
   private void validate() {
     if (!hasMainPaymentMethod() && !hasSubPaymentMethods()) {
-      throw new PaybackException(DOMAIN_ENTITY_001, "결제수단이 없습니다");
+      throw new PaybackException(DOMAIN_ENTITY_011);
     }
   }
 

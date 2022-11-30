@@ -1,16 +1,12 @@
 package com.ebaykorea.payback.core.domain.entity.order;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
-import static com.ebaykorea.payback.util.PaybackCollections.isEmpty;
+import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_001;
 import static com.ebaykorea.payback.util.PaybackCollections.toMapBy;
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toUnmodifiableMap;
 
+import com.ebaykorea.payback.core.exception.PaybackException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import com.ebaykorea.payback.core.exception.PaybackException;
 import lombok.Value;
 
 @Value
