@@ -53,7 +53,7 @@ public class PaybackBatchService {
       }
     });
 
-    List<PaybackResponseDto> paybackResult = CompletableFuture.allOf(
+    final var paybackResult = CompletableFuture.allOf(
         taskList.toArray(new CompletableFuture[taskList.size()]))
         .thenApply(Void -> taskList.stream()
             .map(CompletableFuture::join)
