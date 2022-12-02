@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.payment;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_011;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_011;
 import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
 import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
 

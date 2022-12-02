@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.core;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_013;
+
+import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_INVALID_TARGET;
 
 import com.ebaykorea.payback.api.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
@@ -40,7 +41,7 @@ public class CashbackApplicationService {
     final var order = orderGateway.getOrder(orderKey);
     if (!order.isForCashback()) {
       //TODO: 뭔가 기록을 하거나 void가 아닌 리턴값등으로 구분이 되어야 할거같다
-      return CommonResponse.success(DOMAIN_ENTITY_013);
+      return CommonResponse.success(CASHBACK_INVALID_TARGET);
     }
 
     //주문 키 매핑 정보
