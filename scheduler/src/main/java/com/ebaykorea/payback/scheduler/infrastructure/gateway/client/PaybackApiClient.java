@@ -1,5 +1,7 @@
-package com.ebaykorea.payback.scheduler.client;
+package com.ebaykorea.payback.scheduler.infrastructure.gateway.client;
 
+import com.ebaykorea.payback.scheduler.infrastructure.gateway.dto.PaybackRequestDto;
+import com.ebaykorea.payback.scheduler.infrastructure.gateway.dto.PaybackResponseDto;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -18,5 +20,5 @@ public interface PaybackApiClient {
       value = "/api/cashbacks",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Optional<Void> saveCashbacks(final @RequestBody PaybackRequestDto request);
+  PaybackResponseDto saveCashbacks(final @RequestBody PaybackRequestDto request);
 }
