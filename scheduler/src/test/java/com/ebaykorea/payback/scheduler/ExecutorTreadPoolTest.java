@@ -1,15 +1,23 @@
 package com.ebaykorea.payback.scheduler;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.concurrent.ExecutorService;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
+@Slf4j
 @SpringBootTest
 public class ExecutorTreadPoolTest {
 
@@ -22,16 +30,6 @@ public class ExecutorTreadPoolTest {
         throw new RuntimeException(e);
       }
     };
-  }
-
-  // threadPool를 종료하고 모든 작업이 끝날 때까지 기다린다.
-  private void shutDownTerminated(ExecutorService executorService) {
-    try {
-      executorService.shutdown();
-      executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Test
@@ -51,7 +49,36 @@ public class ExecutorTreadPoolTest {
     assertThat(poolSize).isEqualTo(10);
     assertThat(queueSize).isEqualTo(90);
 
-    shutDownTerminated(threadPoolExecutor);
+    try {
+      threadPoolExecutor.shutdown();
+      threadPoolExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 
+  @Test
+  void testCompletableFutureAllOf() {
+
+    List<CompletableFuture> futures = Lists.newArrayList();
+
+    IntStream.range(0,10).forEach(i -> {
+      futures.add(CompletableFuture.supplyAsync(() -> {
+        log.info("task-{}" , i);
+        return "task-" + i;
+      }));
+    });
+
+    final var join = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]))
+        .thenApply(s -> {
+          List<Object> result = futures.stream()
+              .filter(f-> Objects.nonNull(f))
+              .map(pageContentFuture -> pageContentFuture.join())
+              .collect(Collectors.toList());
+          return result;
+        }).join();
+
+    assertTrue(join.size() == 10);
+    assertTrue(join.stream().anyMatch(s->s.equals("task-1")));
+  }
 }

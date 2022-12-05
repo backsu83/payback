@@ -1,14 +1,16 @@
 package com.ebaykorea.payback.scheduler.domain.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class PaybackBatchRecord {
 
   private String orderKey;
   private String txKey;
-  private int responseCode;
+  private Long responseCode;
   private String messageCode;
   private String status;
-  private int retryCount;
+  private Long retryCount;
 }

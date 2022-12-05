@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class CashbackOrderBatchEntity {
 
   public static final String FIND_BY_KEYS = "stardb.dbo.UPGMKT_Payback_CashbackOrderBatch_Select";
+  public static final String UPDATE_STATUS = "stardb.dbo.UPGMKT_Payback_CashbackOrderBatch_Update";
 
   @Column(name = "ORDER_KEY")
   private String orderKey;

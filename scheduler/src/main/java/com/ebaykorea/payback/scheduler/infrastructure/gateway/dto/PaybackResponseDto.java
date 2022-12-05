@@ -15,8 +15,10 @@ public class PaybackResponseDto {
   private String message;
 
   @Data
+  @Builder
   @JsonInclude(Include.NON_NULL)
   public static class Body {
-    private String messageCode;
+    private String orderKey;
+    private String txKey;
   }
 }
