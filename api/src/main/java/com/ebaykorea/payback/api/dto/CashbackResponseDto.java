@@ -9,4 +9,8 @@ import lombok.Data;
 public class CashbackResponseDto {
   private String orderKey;
   private String txKey;
+
+  public static CashbackResponseDto of(String orderKey , String txKey) {
+    return new CashbackResponseDto(orderKey , txKey);
+  }
 }

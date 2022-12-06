@@ -41,10 +41,7 @@ public class CashbackApplicationService {
   public CommonResponse setCashback(final String txKey, final String orderKey) {
     //주문 정보
     final var order = orderGateway.getOrder(orderKey);
-    final var cashbackResponseDto = CashbackResponseDto.builder()
-        .orderKey(orderKey)
-        .txKey(txKey)
-        .build();
+    final var cashbackResponseDto = CashbackResponseDto.of(orderKey,txKey);
 
     if (!order.isForCashback()) {
       //TODO: 뭔가 기록을 하거나 void가 아닌 리턴값등으로 구분이 되어야 할거같다
