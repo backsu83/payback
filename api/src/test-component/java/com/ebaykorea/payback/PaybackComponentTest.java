@@ -1,6 +1,7 @@
 package com.ebaykorea.payback;
 
 import com.ebaykorea.payback.api.CashbackController;
+import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_CREATED;
 import static com.ebaykorea.payback.support.TestConstants.HOVERFLY_FILE;
 import static com.ebaykorea.payback.support.TestConstants.HOVERFLY_ROOT;
 import static io.specto.hoverfly.junit5.api.HoverflySimulate.SourceType.FILE;
@@ -73,6 +75,8 @@ public class PaybackComponentTest {
   void saveCashback() {
     final var result = cashbackController.saveCashbacks(new SaveCashbackRequestDto(txKey, orderKey));
 
-    assertEquals(result.getMessage(), HttpStatus.CREATED.name());
+    assertEquals(CASHBACK_CREATED.name(), result.getMessage());
+    assertEquals(0, result.getCode());
+    assertEquals(CashbackResponseDto.of(txKey, orderKey), result.getData());
   }
 }
