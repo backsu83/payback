@@ -17,8 +17,8 @@ public class FakeRepositorySaveAspect {
   /**
    * repository 내 save 메서드가 실행 되면, save 구현체를 실행하지 않고 리턴합니다.
    */
-  @Around("execution(* com.ebaykorea.payback.infrastructure.persistence.repository.PaybackSqlRepository.save(*))")
-  public void process() {
-
-  }
+//  @Around("execution(* com.ebaykorea.payback.infrastructure.persistence.repository.PaybackSqlRepository.save(*))")
+//  public void process() {
+//
+//  }
 }
