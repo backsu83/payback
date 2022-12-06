@@ -1,9 +1,10 @@
 package com.ebaykorea.payback.api.dto.common;
 
-import com.ebaykorea.payback.core.domain.constant.PaybackMessageType;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Data
@@ -26,28 +27,13 @@ public class CommonResponse<T> {
         this.data = data;
     }
 
-    public CommonResponse(T data) {
+    public CommonResponse(String message, T data) {
+        this.message = message;
         this.data = data;
     }
 
-    public CommonResponse(String message) {
-        this.message = message;
-    }
-
-    public CommonResponse(HttpStatus httpStatus) {
-        this.message = httpStatus.name();
-    }
-
-    public static CommonResponse success(PaybackMessageType paybackMessageType) {
-        return new CommonResponse(paybackMessageType.getMessage());
-    }
-
-    public static CommonResponse success() {
-        return new CommonResponse(HttpStatus.OK);
-    }
-
-    public static CommonResponse create() {
-        return new CommonResponse(HttpStatus.CREATED);
+    public static <T> CommonResponse<T> success(ResponseMessageType responseMessageType, T body) {
+        return new CommonResponse(responseMessageType.name() , body);
     }
 
 }

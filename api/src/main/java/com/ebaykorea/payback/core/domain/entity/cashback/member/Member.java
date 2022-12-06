@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.cashback.member;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_004;
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_013;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_004;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_013;
 
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.util.PaybackStrings;

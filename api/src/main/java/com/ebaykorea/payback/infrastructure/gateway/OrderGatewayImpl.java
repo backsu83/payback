@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.API_GATEWAY_002;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
 
 @Service
 @RequiredArgsConstructor

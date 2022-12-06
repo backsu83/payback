@@ -1,11 +1,11 @@
-package com.ebaykorea.payback.core.domain.constant;
+package com.ebaykorea.payback.core.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PaybackMessageType {
+public enum PaybackExceptionCode {
 
   DOMAIN_ENTITY_001("불변식 오류: {0}"),
   DOMAIN_ENTITY_002("{0}를 찾을 수 없습니다"),

@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.factory;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_010;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_010;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;

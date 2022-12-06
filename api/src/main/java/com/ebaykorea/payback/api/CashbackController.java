@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.api;
 
+import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
 import com.ebaykorea.payback.api.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.CashbackApplicationService;
@@ -27,7 +28,7 @@ public class CashbackController {
    * @return
    */
   @PostMapping("/cashbacks")
-  public CommonResponse saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
+  public CommonResponse<CashbackResponseDto> saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
     return applicationService.setCashback(request.getTxKey(), request.getOrderKey());
   }
 }

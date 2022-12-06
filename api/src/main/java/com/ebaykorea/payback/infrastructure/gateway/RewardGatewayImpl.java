@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.API_GATEWAY_002;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
 import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
 
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
