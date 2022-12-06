@@ -41,12 +41,14 @@ public class CashbackApplicationService {
   public CommonResponse setCashback(final String txKey, final String orderKey) {
     //주문 정보
     final var order = orderGateway.getOrder(orderKey);
+    final var cashbackResponseDto = CashbackResponseDto.builder()
+        .orderKey(orderKey)
+        .txKey(txKey)
+        .build();
+
     if (!order.isForCashback()) {
       //TODO: 뭔가 기록을 하거나 void가 아닌 리턴값등으로 구분이 되어야 할거같다
-      return CommonResponse.success(CASHBACK_INVALID_TARGET , CashbackResponseDto.builder()
-          .orderKey(orderKey)
-          .txKey(txKey)
-          .build());
+      return CommonResponse.success(CASHBACK_INVALID_TARGET , cashbackResponseDto);
     }
 
     //주문 키 매핑 정보
@@ -75,10 +77,7 @@ public class CashbackApplicationService {
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
-    return CommonResponse.success(CASHBACK_CREATED , CashbackResponseDto.builder()
-        .orderKey(orderKey)
-        .txKey(txKey)
-        .build());
+    return CommonResponse.success(CASHBACK_CREATED , cashbackResponseDto);
   }
 
   private CompletableFuture<KeyMap> getKeyMapAsync(final String txKey, final String orderKey) {
