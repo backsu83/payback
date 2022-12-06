@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.scheduler.domain.service
 
-import com.ebaykorea.payback.scheduler.domain.entity.PaybackBatchRecord
+import com.ebaykorea.payback.scheduler.domain.entity.ProcessType
 import com.ebaykorea.payback.scheduler.domain.mapper.PaybackBatchRecordMapper
 import com.ebaykorea.payback.scheduler.infrastructure.repository.CashbackOrderBatchRepository
 import com.ebaykorea.payback.scheduler.infrastructure.repository.entity.CashbackOrderBatchEntity
@@ -20,13 +20,6 @@ class PaybackBatchRepositoryTest extends Specification {
   def "GetRenacords"() {
 
     given:
-    def records = [PaybackBatchRecord.builder()
-                           .orderKey("orderKey1")
-                           .txKey("teKey1")
-                           .retryCount(0L)
-                           .status("TARGET")
-                           .build()]
-
     def targets = [CashbackOrderBatchEntity.builder()
                           .orderKey("orderKey1")
                           .txKey("teKey1")
@@ -39,17 +32,28 @@ class PaybackBatchRepositoryTest extends Specification {
                           .updDate(Timestamp.from(Instant.now()))
                           .updOprt("test")
                           .build()]
-
-    cashbackOrderBatchRepository.findNoCompleted() >> targets
-
-
     when:
     paybackBatchRepository.getRecords()
 
     then:
-    1 * cashbackOrderBatchRepository.findNoCompleted()
+    1 * cashbackOrderBatchRepository.findNoCompleted() >> targets
   }
 
   def "UpdateStatus"() {
+
+    when:
+    paybackBatchRepository.updateStatus(
+            "orderKey" ,
+            "txKey" ,
+            ProcessType.COMPLETED ,
+            0L)
+
+    then:
+    1 * cashbackOrderBatchRepository.updateSatus(
+            "orderKey" ,
+            "txKey" ,
+            "COMPLETED" ,
+            0L ,
+            "paybackScheduler")
   }
 }
