@@ -40,7 +40,7 @@
       "request" : {
         "path" : [ {
           "matcher" : "exact",
-          "value" : "/v1/snapshot/item/items?snapshotKeys=162ccb0d38400200hd2mhgk"
+          "value" : "/v1/snapshot/item/items"
         } ],
         "method" : [ {
           "matcher" : "exact",
@@ -53,7 +53,13 @@
         "scheme" : [ {
           "matcher" : "exact",
           "value" : "http"
-        } ]
+        } ],
+        "query" : {
+          "snapshotKeys": [{
+            "matcher" : "exact",
+            "value": "162ccb0d38400200hd2mhgk"
+          }]
+        }
       },
       "response" : {
         "status" : 200,
@@ -104,7 +110,7 @@
       "request" : {
         "path" : [ {
           "matcher" : "exact",
-          "value" : "/v1/key/maps/txKey?fields=orders&order-key=orderKey"
+          "value" : "/v1/key/maps/txKey"
         } ],
         "method" : [ {
           "matcher" : "exact",
@@ -117,7 +123,17 @@
         "scheme" : [ {
           "matcher" : "exact",
           "value" : "http"
-        } ]
+        } ],
+        "query" : {
+          "fields": [{
+            "matcher" : "exact",
+            "value": "orders"
+          }],
+          "order-key": [{
+            "matcher" : "exact",
+            "value": "orderKey"
+          }]
+        }
       },
       "response" : {
         "status" : 200,
@@ -150,7 +166,7 @@
         } ],
         "body" : [ {
           "matcher" : "exact",
-          "value" : "{\"TotalPrice\":10000,\"Goods\":[{\"Key\":\"5408144964\",\"SiteCd\":0,\"GdNo\":\"1100342224\",\"GdlcCd\":\"100000038\",\"GdmcCd\":\"200000773\",\"GdscCd\":\"300008498\",\"ScNo\":\"100605608\",\"IsSmileClub\":false,\"IsSmileDelivery\":false,\"IsSmileFresh\":false,\"Qty\":1,\"Price\":10000,\"marketabilityItemYn\":\"N\"}]}"
+          "value" : "{\"TotalPrice\":10000,\"Goods\":[{\"Key\":\"5408144964\",\"SiteCd\":0,\"GdNo\":\"1100342224\",\"GdlcCd\":\"100000038\",\"GdmcCd\":\"200000773\",\"GdscCd\":\"300008498\",\"ScNo\":\"100605608\",\"IsSmileClub\":false,\"IsSmileDelivery\":true,\"IsSmileFresh\":false,\"Qty\":1,\"Price\":10000,\"MarketabilityItemYn\":\"N\"}]}"
         } ]
       },
       "response" : {
@@ -172,7 +188,7 @@
         } ],
         "method" : [ {
           "matcher" : "exact",
-          "value" : "GET"
+          "value" : "POST"
         } ],
         "destination" : [ {
           "matcher" : "exact",
@@ -184,7 +200,7 @@
         } ],
         "body" : [ {
           "matcher" : "exact",
-          "value" : "{\"TotalPrice\":10000,\"Goods\":[{\"Key\":\"5408144964\",\"SiteCd\":0,\"GdNo\":\"1100342224\",\"GdlcCd\":\"100000038\",\"GdmcCd\":\"200000773\",\"GdscCd\":\"300008498\",\"ScNo\":\"100605608\",\"IsSmileClub\":false,\"IsSmileDelivery\":false,\"IsSmileFresh\":false,\"Qty\":1,\"Price\":10000,\"marketabilityItemYn\":\"N\"}]}"
+          "value" : "{\"TotalPrice\":10000,\"Goods\":[{\"Key\":\"5408144964\",\"SiteCd\":0,\"GdNo\":\"1100342224\",\"GdlcCd\":\"100000038\",\"GdmcCd\":\"200000773\",\"GdscCd\":\"300008498\",\"ScNo\":\"100605608\",\"IsSmileClub\":false,\"IsSmileDelivery\":true,\"IsSmileFresh\":false,\"Qty\":1,\"Price\":10000,\"MarketabilityItemYn\":\"N\"}]}"
         } ]
       },
       "response" : {
@@ -202,7 +218,7 @@
       "request" : {
         "path" : [ {
           "matcher" : "exact",
-          "value" : "/api/smilecash/smileUserKey?custNo=121206632"
+          "value" : "/api/smileCash/smileUserKey"
         } ],
         "method" : [ {
           "matcher" : "exact",
@@ -215,6 +231,16 @@
         "scheme" : [ {
           "matcher" : "exact",
           "value" : "http"
+        } ],
+        "query" : {
+          "custNo": [{
+            "matcher" : "exact",
+            "value": "121206632"
+          }]
+        },
+        "body" : [ {
+          "matcher" : "exact",
+          "value" : ""
         } ]
       },
       "response" : {

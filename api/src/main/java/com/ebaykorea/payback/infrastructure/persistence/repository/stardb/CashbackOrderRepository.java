@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.PaybackSqlRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
@@ -14,9 +13,8 @@ import java.util.Optional;
 
 @Repository
 @SaturnDataSource(name = Gmkt.TIGER_READ)
-public class CashbackOrderRepository implements PaybackSqlRepository<CashbackOrderEntity, CashbackOrderEntity> {
+public class CashbackOrderRepository {
 
-  @Override
   @SaturnProcedure(
       procedureName = CashbackOrderEntity.FIND_BY_ID,
       parameters = {
@@ -29,7 +27,6 @@ public class CashbackOrderRepository implements PaybackSqlRepository<CashbackOrd
     return Optional.empty();
   }
 
-  @Override
   @SaturnProcedure(
       procedureName = CashbackOrderEntity.SAVE,
       parameters = {
