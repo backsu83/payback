@@ -1,11 +1,14 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
 
+import com.ebaykorea.payback.infrastructure.persistence.repository.PaybackSqlRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
 import java.sql.Types;
+import java.util.Optional;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +18,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @SaturnDataSource(name = Gmkt.TIGER_READ)
-public class SmilecardT2T3CashbackRepository {
+public class SmilecardT2T3CashbackRepository implements PaybackSqlRepository<Long, SmilecardT2T3CashbackEntity> {
 
+  @Override
+  public Optional<SmilecardT2T3CashbackEntity> findById(Long aLong) {
+    return Optional.empty();
+  }
+
+  @Override
   @SaturnProcedure(
       procedureName = SmilecardT2T3CashbackEntity.SAVE,
       parameters = {

@@ -20,7 +20,7 @@ public class OrderGatewayImpl implements OrderGateway {
   private final OrderApiClient orderApiClient;
   private final OrderGatewayMapper orderGatewayMapper;
 
-  private static final String ORDER_QUERY_FIELDS = "orderKey,paySeq,orderBase,orderUnits,buyer,bundleDiscounts,tenant";
+  private static final String ORDER_QUERY_FIELDS = "orderKey,paySeq,orderBase,orderUnits,buyer,bundleDiscounts";
 
   @Override
   public Order getOrder(final String orderKey) {

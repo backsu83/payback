@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveCashbackRequestDto {
-  private String orderKey;
   private String txKey;
+  private String orderKey;
 }

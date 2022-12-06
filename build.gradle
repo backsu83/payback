@@ -5,6 +5,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
     id 'idea'
+    id 'org.unbroken-dome.test-sets'        version '4.0.0'
 }
 
 allprojects {
@@ -17,7 +18,6 @@ repositories {
         allowInsecureProtocol = true
     }
     mavenCentral()
-
 }
 
 bootJar {
@@ -40,7 +40,7 @@ subprojects {
     }
 
     ext {
-        set("saturnStarterVersion", "2.4.15-SNAPSHOT")
+        set("saturnStarterVersion", "2.4.15")
         set("mapstructVersion", "1.4.2.Final")
         set("lombokVersion", "1.18.24")
         set("springCloudVersion", '2020.0.5')
@@ -81,6 +81,8 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        failFast = true
+        maxParallelForks = (int) (Runtime.runtime.availableProcessors() / 2 + 1)
     }
 
     clean {

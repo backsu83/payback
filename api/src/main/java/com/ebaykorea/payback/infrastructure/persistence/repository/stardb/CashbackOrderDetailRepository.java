@@ -1,18 +1,22 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
 
+import com.ebaykorea.payback.infrastructure.persistence.repository.PaybackSqlRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderDetailEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
+
 import java.sql.Types;
 import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
 @SaturnDataSource(name = Gmkt.TIGER_READ)
-public class CashbackOrderDetailRepository {
+public class CashbackOrderDetailRepository implements PaybackSqlRepository<Long, CashbackOrderDetailEntity> {
 
+  @Override
   @SaturnProcedure(
       procedureName = CashbackOrderDetailEntity.FIND_BY_ID,
       parameters = {
@@ -23,6 +27,7 @@ public class CashbackOrderDetailRepository {
     return Optional.empty();
   }
 
+  @Override
   @SaturnProcedure(
       procedureName = CashbackOrderDetailEntity.SAVE,
       parameters = {
@@ -48,6 +53,6 @@ public class CashbackOrderDetailRepository {
       },
       throwEx = true //입력 실패시 exception 발생
   )
-  public void save(final CashbackOrderDetailEntity cashbackOrderDetailEntity) {
+  public void save( CashbackOrderDetailEntity cashbackOrderDetailEntity) {
   }
 }
