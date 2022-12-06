@@ -2,6 +2,7 @@ package com.ebaykorea.payback.core;
 
 
 import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_CREATED;
+import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_DUPLICATIED;
 import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_INVALID_TARGET;
 
 import com.ebaykorea.payback.api.dto.CashbackResponseDto;
@@ -70,7 +71,11 @@ public class CashbackApplicationService {
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
     //payCashback validation?
-    //TODO 중복체크
+
+    //캐시백 중복 체크
+    if(payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
+      return CommonResponse.success(CASHBACK_DUPLICATIED , cashbackResponseDto);
+    }
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);

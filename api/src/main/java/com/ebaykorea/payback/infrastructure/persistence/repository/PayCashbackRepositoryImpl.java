@@ -6,6 +6,7 @@ import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCash
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCardCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderDetailEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderEntityMapper;
@@ -22,6 +23,7 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.Smilec
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity;
 import com.ebaykorea.payback.util.support.Conditioner;
+import com.ebaykorea.payback.core.exception.PaybackException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +74,15 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
       //smilecard_t2t3_cashback_info
       saveSmileCardT2T3Cashback(payCashback, payCashback.getSmileCardCashback());
     }
+  }
+
+  @Override
+  public boolean isDuplicatedCashback(KeyMap keyMap) {
+  return !keyMap.getOrderUnitKeys()
+      .stream()
+      .filter(unit-> cashbackOrderDetailRepository.findById(unit.getBuyOrderNo()).isPresent())
+      .collect(Collectors.toList())
+      .isEmpty();
   }
 
   private void saveCashbackUnits(final PayCashback payCashback, final Cashback cashback, final List<CashbackUnit> cashbackUnits) {
