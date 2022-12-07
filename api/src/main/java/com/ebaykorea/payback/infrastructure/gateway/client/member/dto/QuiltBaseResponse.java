@@ -1,10 +1,13 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.member.dto;
 
-import lombok.Value;
+import lombok.*;
 
 import java.util.Optional;
 
-@Value
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuiltBaseResponse<T> {
   int resultCode;
   String message;

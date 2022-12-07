@@ -42,11 +42,10 @@ public class CashbackApplicationService {
   public CommonResponse setCashback(final String txKey, final String orderKey) {
     //주문 정보
     final var order = orderGateway.getOrder(orderKey);
-    final var cashbackResponseDto = CashbackResponseDto.of(orderKey,txKey);
+    final var cashbackResponseDto = CashbackResponseDto.of(txKey, orderKey);
 
     if (!order.isForCashback()) {
-      //TODO: 뭔가 기록을 하거나 void가 아닌 리턴값등으로 구분이 되어야 할거같다
-      return CommonResponse.success(CASHBACK_INVALID_TARGET , cashbackResponseDto);
+      return CommonResponse.success(CASHBACK_INVALID_TARGET, cashbackResponseDto);
     }
 
     //주문 키 매핑 정보
@@ -75,19 +74,20 @@ public class CashbackApplicationService {
     final var member = memberFuture.join();
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
-    //payCashback validation?
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
-    return CommonResponse.success(CASHBACK_CREATED , cashbackResponseDto);
+    return CommonResponse.success(CASHBACK_CREATED, cashbackResponseDto);
   }
 
   private CompletableFuture<Payment> getPaymentRecordAsync(final Long paySeq) {
     return CompletableFuture.supplyAsync(() -> paymentGateway.getPaymentRecord(paySeq));
   }
+
   private CompletableFuture<ItemSnapshots> getItemSnapshotAsync(final List<String> itemSnapshotKeys) {
     return CompletableFuture.supplyAsync(() -> orderGateway.getItemSnapshot(itemSnapshotKeys));
   }
+
   private CompletableFuture<Member> getMemberAsync(final Buyer buyer) {
     return CompletableFuture.supplyAsync(() -> memberService.getMember(buyer));
   }
