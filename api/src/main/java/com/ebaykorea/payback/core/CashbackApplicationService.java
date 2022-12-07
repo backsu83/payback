@@ -2,6 +2,7 @@ package com.ebaykorea.payback.core;
 
 
 import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_CREATED;
+import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_DUPLICATIED;
 import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_INVALID_TARGET;
 
 import com.ebaykorea.payback.api.dto.CashbackResponseDto;
@@ -49,7 +50,13 @@ public class CashbackApplicationService {
     }
 
     //주문 키 매핑 정보
-    final var orderKeyMapFuture = getKeyMapAsync(txKey, orderKey);
+    final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
+
+    //캐시백 중복 체크
+    if(payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
+      return CommonResponse.success(CASHBACK_DUPLICATIED , cashbackResponseDto);
+    }
+
     //결제 정보
     final var paymentRecordFuture = getPaymentRecordAsync(order.getPaySeq());
     //상품 스냅샷 정보
@@ -57,7 +64,6 @@ public class CashbackApplicationService {
     //회원 정보
     final var memberFuture = getMemberAsync(order.getBuyer());
 
-    final var orderKeyMap = orderKeyMapFuture.join();
     final var paymentRecord = paymentRecordFuture.join();
     final var itemSnapshots = itemSnapshotsFuture.join();
 
@@ -70,16 +76,12 @@ public class CashbackApplicationService {
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
     //payCashback validation?
-    //TODO 중복체크
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
     return CommonResponse.success(CASHBACK_CREATED , cashbackResponseDto);
   }
 
-  private CompletableFuture<KeyMap> getKeyMapAsync(final String txKey, final String orderKey) {
-    return CompletableFuture.supplyAsync(() -> transactionGateway.getKeyMap(txKey, orderKey));
-  }
   private CompletableFuture<Payment> getPaymentRecordAsync(final Long paySeq) {
     return CompletableFuture.supplyAsync(() -> paymentGateway.getPaymentRecord(paySeq));
   }
