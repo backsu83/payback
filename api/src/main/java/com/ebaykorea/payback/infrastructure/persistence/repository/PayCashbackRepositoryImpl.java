@@ -7,6 +7,7 @@ import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCard
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
+import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderDetailEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderEntityMapper;
@@ -23,9 +24,9 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.Smilec
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity;
 import com.ebaykorea.payback.util.support.Conditioner;
-import com.ebaykorea.payback.core.exception.PaybackException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -78,11 +79,10 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
 
   @Override
   public boolean isDuplicatedCashback(KeyMap keyMap) {
-  return !keyMap.getOrderUnitKeys()
-      .stream()
-      .filter(unit-> cashbackOrderDetailRepository.findById(unit.getBuyOrderNo()).isPresent())
-      .collect(Collectors.toList())
-      .isEmpty();
+    return keyMap.getOrderUnitKeys().stream()
+        .map(OrderUnitKey::getBuyOrderNo)
+        .map(cashbackOrderDetailRepository::findById)
+        .anyMatch(Optional::isPresent);
   }
 
   private void saveCashbackUnits(final PayCashback payCashback, final Cashback cashback, final List<CashbackUnit> cashbackUnits) {
