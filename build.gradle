@@ -82,7 +82,7 @@ subprojects {
     test {
         useJUnitPlatform()
         failFast = true
-        maxParallelForks = (int) (Runtime.runtime.availableProcessors() / 2 + 1)
+        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
     }
 
     clean {
