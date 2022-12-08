@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.api.dto.common;
+package com.ebaykorea.payback.core.domain.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.api.advice;
 
-import com.ebaykorea.payback.api.dto.common.CommonExceptionResponse;
+import com.ebaykorea.payback.api.dto.common.CommonExceptionResponseDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +24,7 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-        CommonExceptionResponse response = CommonExceptionResponse.builder()
+        CommonExceptionResponseDto response = CommonExceptionResponseDto.builder()
             .exceptionMessage(ex.getLocalizedMessage())
             .exceptionCode(status.name())
             .build();
@@ -32,9 +32,9 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<CommonExceptionResponse> handleException(Exception ex) {
+    public ResponseEntity<CommonExceptionResponseDto> handleException(Exception ex) {
         log.error(ex.getLocalizedMessage(), ex);
-        CommonExceptionResponse response = CommonExceptionResponse.builder()
+        CommonExceptionResponseDto response = CommonExceptionResponseDto.builder()
             .exceptionMessage(ex.getLocalizedMessage())
             .exceptionCode(HttpStatus.INTERNAL_SERVER_ERROR.name())
             .build();
@@ -42,9 +42,9 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {PaybackException.class})
-    public ResponseEntity<CommonExceptionResponse> handlePaybackException(PaybackException ex) {
+    public ResponseEntity<CommonExceptionResponseDto> handlePaybackException(PaybackException ex) {
         log.error(ex.getLocalizedMessage(), ex);
-        CommonExceptionResponse response = CommonExceptionResponse.builder()
+        CommonExceptionResponseDto response = CommonExceptionResponseDto.builder()
             .exceptionMessage(ex.getMessage())
             .exceptionCode(ex.getCode().name())
             .build();

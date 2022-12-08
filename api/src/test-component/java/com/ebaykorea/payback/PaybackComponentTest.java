@@ -8,18 +8,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.specto.hoverfly.junit5.HoverflyExtension;
 import io.specto.hoverfly.junit5.api.HoverflyConfig;
 import io.specto.hoverfly.junit5.api.HoverflySimulate;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_CREATED;
+import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
 import static com.ebaykorea.payback.support.TestConstants.HOVERFLY_FILE;
 import static com.ebaykorea.payback.support.TestConstants.HOVERFLY_ROOT;
 import static io.specto.hoverfly.junit5.api.HoverflySimulate.SourceType.FILE;
@@ -27,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
+@Disabled //TODO: 임시
 @HoverflySimulate(
     config = @HoverflyConfig(
         proxyLocalHost = true
