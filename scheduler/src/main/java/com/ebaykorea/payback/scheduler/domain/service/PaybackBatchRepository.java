@@ -25,6 +25,7 @@ public class PaybackBatchRepository {
         .stream()
         .filter(f-> Objects.nonNull(f))
         .map(paybackBatchRecordMapper::map)
+        .limit(1000)
         .collect(Collectors.toList());
   }
 

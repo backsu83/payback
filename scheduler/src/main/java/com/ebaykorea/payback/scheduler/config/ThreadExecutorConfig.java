@@ -19,9 +19,9 @@ public class ThreadExecutorConfig {
         .build();
     ThreadPoolExecutor threadUnit = new ThreadPoolExecutor(
         10,
-        10,
+        20,
         6000, TimeUnit.MILLISECONDS,
-        new LinkedBlockingQueue<>(100)
+        new LinkedBlockingQueue<>(1000)
     );
     threadUnit.setThreadFactory(namedThreadFactory);
     return threadUnit;

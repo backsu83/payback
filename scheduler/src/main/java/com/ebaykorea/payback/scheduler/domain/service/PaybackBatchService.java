@@ -31,23 +31,25 @@ public class PaybackBatchService {
     final List<CompletableFuture<PaybackResponseDto>> paybacksFuture = Lists.newArrayList();
     final var records = paybackBatchRepository.getRecords();
     if(isEmpty(records)) {
-        return;
+      log.info("scheduler - cashback not found records");
+      return;
     }
 
     records.stream()
-        .filter(f->!f.getStatus().equals(COMPLETED) && f.getRetryCount() <= 3)
+        .filter(f-> f.getRetryCount() <= 3)
         .forEach( unit-> {
       final var request = PaybackRequestDto.builder()
           .orderKey(unit.getOrderKey())
           .txKey(unit.getTxKey())
           .build();
 
-      try {
-        paybacksFuture.add(CompletableFuture.supplyAsync(() -> paybackApiClient.saveCashbacks(request), taskExecutor));
-      } catch (Exception ex) {
-        fail(unit.getOrderKey() , unit.getOrderKey(), unit.getRetryCount());
-        log.error("scheduler fail to payback api orderKey:{} error:{}", unit.getOrderKey(), ex.getLocalizedMessage());
-      }
+      paybacksFuture.add(CompletableFuture
+          .supplyAsync(() -> paybackApiClient.saveCashbacks(request), taskExecutor)
+          .exceptionally(ex -> {
+            fail(unit.getOrderKey() , unit.getOrderKey(), unit.getRetryCount());
+            log.error("scheduler - fail to payback api orderKey:{} error:{}", unit.getOrderKey(), ex.getLocalizedMessage());
+            return null;
+          }));
     });
 
     final var paybacks = CompletableFuture.allOf(

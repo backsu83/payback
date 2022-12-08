@@ -14,7 +14,7 @@ public class PaybackScheduler {
 
   private final PaybackBatchService paybackSchedulerService;
 
-  @Scheduled(initialDelay = 10 , fixedDelay = 60 , timeUnit = TimeUnit.MINUTES)
+  @Scheduled(initialDelay = 10 , fixedDelay = 10 , timeUnit = TimeUnit.MINUTES)
   public void init() {
     log.info("scheduler start ...");
     paybackSchedulerService.updateRecords();
