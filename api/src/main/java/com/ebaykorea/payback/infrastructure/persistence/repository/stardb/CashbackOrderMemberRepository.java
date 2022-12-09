@@ -23,7 +23,6 @@ public class CashbackOrderMemberRepository {
     return Optional.empty();
   }
 
-
   @SaturnProcedure(
       procedureName = CashbackOrderMemberEntity.SAVE,
       parameters = {

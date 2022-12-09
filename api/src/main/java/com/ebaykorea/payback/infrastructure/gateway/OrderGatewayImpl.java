@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.API_GATEWAY_002;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class OrderGatewayImpl implements OrderGateway {
   private final OrderApiClient orderApiClient;
   private final OrderGatewayMapper orderGatewayMapper;
 
-  private static final String ORDER_QUERY_FIELDS = "orderKey,paySeq,orderBase,orderUnits,buyer,bundleDiscounts,tenant";
+  private static final String ORDER_QUERY_FIELDS = "orderKey,paySeq,orderBase,orderUnits,buyer,bundleDiscounts";
 
   @Override
   public Order getOrder(final String orderKey) {

@@ -34,7 +34,8 @@ import static com.ebaykorea.payback.grocery.PayCashbackGrocery.Cashback_생성
 import static com.ebaykorea.payback.grocery.PayCashbackGrocery.PayCashback_생성
 import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardCashback_생성
 import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.T2T3SmileCardCashback_생성
-
+import static com.ebaykorea.payback.grocery.CashbackEntityGrocery.CashbackOrderDetailEntity_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.KeyMap_생성
 
 class PayCashbackRepositoryImplSpec extends Specification {
   def cashbackOrderRepository = Mock(CashbackOrderRepository)
@@ -132,5 +133,20 @@ class PayCashbackRepositoryImplSpec extends Specification {
     [CashbackOrderPolicyEntity_생성(type: "P", policyNo: 1L, subType: "P", saveRate: 1L, maxLimitMoney: 0L)] | _ | _
     [CashbackOrderPolicyEntity_생성(type: "A", policyNo: 1L, subType: "P", maxLimitMoney: 0L, chargePaySaveRate: 1L, chargePayClubSaveRate: 2L, chargePayMaxMoney: 3L, chargePayClubMaxMoney: 4L)] | _ | _
     [CashbackOrderPolicyEntity_생성(type: "D", policyNo: 1L, subType: "P", maxLimitMoney: 0L, clubDayMaxSaveMoney: 1L, clubDayMaxSaveRate: 2L)] | _ | _
+  }
+
+  def "isDuplicatedCashback 중복 조회 확인"() {
+    when:
+    cashbackOrderDetailRepository.findById(_ as Long) >> condition
+
+    then:
+    def result = repository.isDuplicatedCashback(KeyMap_생성())
+    result == expectedResult
+
+    where:
+    _________________________________________________
+    desc | condition | expectedResult
+    "조회 데이터가 있을 경우" | Optional.of(CashbackOrderDetailEntity_생성()) | true
+    "조회 테이터가 없을 경우" | Optional.empty() | false
   }
 }

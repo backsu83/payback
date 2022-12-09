@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
+
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.API_GATEWAY_002;
 
 
 @Service

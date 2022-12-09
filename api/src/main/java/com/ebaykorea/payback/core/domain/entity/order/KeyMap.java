@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_001;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
 import static com.ebaykorea.payback.util.PaybackCollections.orEmpty;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 import static java.util.function.Function.identity;

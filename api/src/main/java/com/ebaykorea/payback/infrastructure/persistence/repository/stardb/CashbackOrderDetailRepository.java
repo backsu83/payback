@@ -5,8 +5,10 @@ import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
+
 import java.sql.Types;
 import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -48,6 +50,6 @@ public class CashbackOrderDetailRepository {
       },
       throwEx = true //입력 실패시 exception 발생
   )
-  public void save(final CashbackOrderDetailEntity cashbackOrderDetailEntity) {
+  public void save( CashbackOrderDetailEntity cashbackOrderDetailEntity) {
   }
 }

@@ -29,7 +29,7 @@ public class ApiResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     ) {
         HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
         if(body instanceof CommonResponse) {
-            ((CommonResponse<?>) body).setCode(servletResponse.getStatus());
+            ((CommonResponse) body).setCode(servletResponse.getStatus());
             return body;
         } else {
             CommonResponse result = CommonResponse.builder()

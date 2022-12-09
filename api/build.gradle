@@ -1,5 +1,17 @@
 description = "api"
 
+apply plugin: 'org.unbroken-dome.test-sets'
+
+testSets {
+  componentTest {
+    dirName = 'test-component'
+  }
+}
+
+tasks.withType(Test) {
+  useJUnitPlatform()
+}
+
 dependencies {
 
   //openfeign
@@ -19,4 +31,9 @@ dependencies {
   //mssql (saturnProceduer)
   implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
   implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
+
+  //component test
+  componentTestImplementation sourceSets.test.output
+  componentTestImplementation 'io.specto:hoverfly-java-junit5:0.14.3'
+  componentTestImplementation 'org.springframework.boot:spring-boot-starter-aop'
 }

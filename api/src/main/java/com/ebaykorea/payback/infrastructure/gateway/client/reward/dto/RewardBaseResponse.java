@@ -6,7 +6,10 @@ import lombok.*;
 
 import java.util.Optional;
 
-@Value
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.UpperCamelCaseStrategy.class)
 public class RewardBaseResponse<T> {
 

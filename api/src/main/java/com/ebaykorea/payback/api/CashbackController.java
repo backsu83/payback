@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.api;
 
+import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
 import com.ebaykorea.payback.api.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.CashbackApplicationService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Tag(name = "리워드 조회", description = "리워드 조회 테스트")
@@ -27,8 +30,10 @@ public class CashbackController {
    * @return
    */
   @PostMapping("/cashbacks")
-  public CommonResponse saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
-    return applicationService.setCashback(request.getTxKey(), request.getOrderKey());
+  public CommonResponse<CashbackResponseDto> saveCashbacks(final @Valid @RequestBody SaveCashbackRequestDto request) {
+    final var responseMessageType = applicationService.setCashback(request.getTxKey(), request.getOrderKey());
+
+    return CommonResponse.success(responseMessageType, CashbackResponseDto.of(request.getTxKey(), request.getOrderKey()));
   }
 }
 

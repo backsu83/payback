@@ -21,7 +21,7 @@ public class SmilecardCashbackOrderRepository {
           @SaturnProcedureParameter(name = "PACK_NO", sqlType = Types.BIGINT)
       }
   )
-  public Optional<SmilecardCashbackOrderEntity> findById(final long packNo) {
+  public Optional<SmilecardCashbackOrderEntity> findById(final Long packNo) {
     return Optional.empty();
   }
 

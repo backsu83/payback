@@ -6,10 +6,6 @@ import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
 import java.sql.Types;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 

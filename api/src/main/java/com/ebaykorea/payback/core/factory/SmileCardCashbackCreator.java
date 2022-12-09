@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.core.factory;
 
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
+
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCardCashback;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ebaykorea.payback.core.domain.constant.PaybackMessageType.DOMAIN_ENTITY_002;
 
 @Service
 public class SmileCardCashbackCreator {
