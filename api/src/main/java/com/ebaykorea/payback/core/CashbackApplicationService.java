@@ -1,16 +1,14 @@
 package com.ebaykorea.payback.core;
 
 
-import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_CREATED;
-import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_DUPLICATIED;
-import static com.ebaykorea.payback.api.dto.common.ResponseMessageType.CASHBACK_INVALID_TARGET;
+import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
+import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_DUPLICATIED;
+import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_INVALID_TARGET;
 
-import com.ebaykorea.payback.api.dto.CashbackResponseDto;
-import com.ebaykorea.payback.api.dto.common.CommonResponse;
+import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.order.Buyer;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
-import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.factory.PayCashbackCreator;
@@ -39,21 +37,20 @@ public class CashbackApplicationService {
 
   private final PayCashbackRepository payCashbackRepository;
 
-  public CommonResponse setCashback(final String txKey, final String orderKey) {
+  public ResponseMessageType setCashback(final String txKey, final String orderKey) {
     //주문 정보
     final var order = orderGateway.getOrder(orderKey);
-    final var cashbackResponseDto = CashbackResponseDto.of(txKey, orderKey);
 
     if (!order.isForCashback()) {
-      return CommonResponse.success(CASHBACK_INVALID_TARGET, cashbackResponseDto);
+      return CASHBACK_INVALID_TARGET;
     }
 
     //주문 키 매핑 정보
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
 
     //캐시백 중복 체크
-    if(payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
-      return CommonResponse.success(CASHBACK_DUPLICATIED , cashbackResponseDto);
+    if (payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
+      return CASHBACK_DUPLICATIED;
     }
 
     //결제 정보
@@ -77,7 +74,8 @@ public class CashbackApplicationService {
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
-    return CommonResponse.success(CASHBACK_CREATED, cashbackResponseDto);
+
+    return CASHBACK_CREATED;
   }
 
   private CompletableFuture<Payment> getPaymentRecordAsync(final Long paySeq) {

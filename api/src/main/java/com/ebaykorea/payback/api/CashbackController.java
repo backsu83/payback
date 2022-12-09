@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Slf4j
 @Tag(name = "리워드 조회", description = "리워드 조회 테스트")
 @RestController
@@ -28,8 +30,10 @@ public class CashbackController {
    * @return
    */
   @PostMapping("/cashbacks")
-  public CommonResponse<CashbackResponseDto> saveCashbacks(final @RequestBody SaveCashbackRequestDto request) {
-    return applicationService.setCashback(request.getTxKey(), request.getOrderKey());
+  public CommonResponse<CashbackResponseDto> saveCashbacks(final @Valid @RequestBody SaveCashbackRequestDto request) {
+    final var responseMessageType = applicationService.setCashback(request.getTxKey(), request.getOrderKey());
+
+    return CommonResponse.success(responseMessageType, CashbackResponseDto.of(request.getTxKey(), request.getOrderKey()));
   }
 }
 
