@@ -95,3 +95,11 @@ saturn:
     domainGroup: gmkt
     domain: gmkt.reward.api
     host: http://devmoafw.ebaykorea.com
+
+###################################################
+# Fusion - Common Configurations - DO NOT EDIT
+###################################################
+spring.profiles: fusion
+spring.profiles.include: >
+  enablemetrics,
+  jsonlogging
