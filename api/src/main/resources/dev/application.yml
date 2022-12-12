@@ -15,10 +15,6 @@ spring:
       format_sql: true
       inspect_stacktrace: true
       naming_physical_strategy: org.hibernate.boot.entity.naming.PhysicalNamingStrategyStandardImpl  #naming.physical-strategy
-  redis:
-    host: localhost
-    port: 6379
-    timeout: 1
 
 logging:
   pattern:
