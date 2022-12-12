@@ -4,6 +4,7 @@ import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
 import com.ebaykorea.payback.api.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.CashbackApplicationService;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 @Tag(name = "리워드 조회", description = "리워드 조회 테스트")
 @RestController
 @RequiredArgsConstructor
+@Api(value = "CashbackController")
 @RequestMapping("/api")
 public class CashbackController {
 
