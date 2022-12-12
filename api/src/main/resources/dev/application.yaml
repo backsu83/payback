@@ -94,6 +94,7 @@ management:
     export.prometheus.enabled: true
     cache.instrument: true
     web.server.auto-time-requests: false
+
 ---
 ###################################################
 # Fusion - Common Configurations - DO NOT EDIT
