@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.scheduler.domain.service
 
-import com.ebaykorea.payback.scheduler.config.ThreadExecutorConfig
 import com.ebaykorea.payback.scheduler.service.entity.PaybackBatchRecord
 import com.ebaykorea.payback.scheduler.service.entity.ProcessType
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient
@@ -8,20 +7,19 @@ import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto
 import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto
 import com.ebaykorea.payback.scheduler.repository.PaybackBatchRepository
 import com.ebaykorea.payback.scheduler.service.PaybackBatchService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
-import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
-@SpringBootTest
+
 class PaybackBatchServiceTest extends Specification {
-
-  @Autowired
-  ExecutorService taskExecutor
 
   def paybackBatchRepository = Mock(PaybackBatchRepository)
   def paybackApiClient = Stub(PaybackApiClient)
-  def paybackBatchService = new PaybackBatchService(paybackBatchRepository, paybackApiClient, taskExecutor)
+  def paybackBatchService = new PaybackBatchService(
+          paybackBatchRepository,
+          paybackApiClient,
+          Executors.newFixedThreadPool(2)
+  )
 
   def "UpdateRecords"() {
     given:
