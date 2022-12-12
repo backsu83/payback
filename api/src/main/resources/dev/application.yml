@@ -69,17 +69,21 @@ resilience4j.timelimiter:
 ###################################################
 # Common Management Configurations - DO NOT EDIT
 ###################################################
+---
+spring.profiles: enablemetrics
+
 management:
   server.port: 8089
   endpoints.web.exposure.include: "*"
   endpoint.health.show-details: ALWAYS
   health:
-    db.enabled: false
+    db.enabled: true
     redis.enabled: false
   metrics:
     export.prometheus.enabled: true
     cache.instrument: true
-    web.server.request.auto-time.enable: false
+    web.server.auto-time-requests: false
+---
 
 ###################################################
 # MoA Configurations
