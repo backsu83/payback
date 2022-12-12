@@ -29,6 +29,6 @@ public class CashbackOrderBatchRepository {
           @SaturnProcedureParameter(name = "UPD_OPRT", sqlType = Types.VARCHAR, scale = 50)
       }
   )
-  public void updateSatus(String orderKey, String txKey, String processType, Long retryCount , String updOprt) {
+  public void updateStatus(String orderKey, String txKey, String processType, Long retryCount , String updOprt) {
   }
 }

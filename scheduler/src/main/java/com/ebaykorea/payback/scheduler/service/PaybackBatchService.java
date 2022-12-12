@@ -4,10 +4,11 @@ import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.COMPLET
 import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.FAIL;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
-import com.ebaykorea.payback.scheduler.repository.PaybackBatchRepository;
+import com.ebaykorea.payback.scheduler.repository.CashbackOrderBatchRepository;
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto;
 import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto;
+import com.ebaykorea.payback.scheduler.service.mapper.PaybackBatchRecordMapper;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Objects;
@@ -22,15 +23,21 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PaybackBatchService {
-
-  private final PaybackBatchRepository paybackBatchRepository;
+  public static final String updOprt = "paybackScheduler";
+  private final CashbackOrderBatchRepository cashbackOrderBatchRepository;
+  private final PaybackBatchRecordMapper paybackBatchRecordMapper;
   private final PaybackApiClient paybackApiClient;
   private final ExecutorService taskExecutor;
 
   public void updateRecords() {
 
     final List<CompletableFuture<PaybackResponseDto>> paybacksFuture = Lists.newArrayList();
-    final var records = paybackBatchRepository.getRecords();
+    final var records = cashbackOrderBatchRepository.findNoCompleted()
+        .stream()
+        .filter(f-> Objects.nonNull(f))
+        .map(paybackBatchRecordMapper::map)
+        .collect(Collectors.toList());
+
     if(isEmpty(records)) {
       log.info("scheduler - cashback not found records");
       return;
@@ -48,7 +55,10 @@ public class PaybackBatchService {
           .supplyAsync(() -> paybackApiClient.saveCashbacks(request), taskExecutor)
           .exceptionally(ex -> {
             fail(unit.getOrderKey() , unit.getTxKey(), unit.getRetryCount());
-            log.error("scheduler - fail to payback api orderKey:{} error:{}", unit.getOrderKey(), ex.getLocalizedMessage());
+            log.error("scheduler - fail to payback api orderKey:{} / txKey:{} / error:{}",
+                unit.getOrderKey(),
+                unit.getTxKey(),
+                ex.getLocalizedMessage());
             return null;
           }));
     });
@@ -67,11 +77,16 @@ public class PaybackBatchService {
     paybacks.stream()
         .filter(f->Objects.nonNull(f))
         .map(o->o.getData())
-        .forEach(unit-> paybackBatchRepository.updateStatus(unit.getOrderKey() , unit.getTxKey(), COMPLETED , 0L));
+        .forEach(unit-> cashbackOrderBatchRepository.updateStatus(
+            unit.getOrderKey() ,
+            unit.getTxKey(),
+            COMPLETED.name() ,
+            0L, updOprt)
+        );
   }
 
   public void fail(String orderKey , String txKey , long retryCount) {
     final var count = retryCount + 1L;
-    paybackBatchRepository.updateStatus(orderKey , txKey, FAIL , count);
+    cashbackOrderBatchRepository.updateStatus(orderKey , txKey, FAIL.name() , count, updOprt);
   }
 }
