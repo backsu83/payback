@@ -1,14 +1,16 @@
 package com.ebaykorea.payback.scheduler.domain.service
 
-import com.ebaykorea.payback.scheduler.domain.entity.PaybackBatchRecord
-import com.ebaykorea.payback.scheduler.domain.entity.ProcessType
-import com.ebaykorea.payback.scheduler.infrastructure.gateway.client.PaybackApiClient
-import com.ebaykorea.payback.scheduler.infrastructure.gateway.dto.PaybackRequestDto
-import com.ebaykorea.payback.scheduler.infrastructure.gateway.dto.PaybackResponseDto
+import com.ebaykorea.payback.scheduler.config.ThreadExecutorConfig
+import com.ebaykorea.payback.scheduler.service.entity.PaybackBatchRecord
+import com.ebaykorea.payback.scheduler.service.entity.ProcessType
+import com.ebaykorea.payback.scheduler.client.PaybackApiClient
+import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto
+import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto
+import com.ebaykorea.payback.scheduler.repository.PaybackBatchRepository
+import com.ebaykorea.payback.scheduler.service.PaybackBatchService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
-
 import java.util.concurrent.ExecutorService
 
 @SpringBootTest
@@ -50,50 +52,15 @@ class PaybackBatchServiceTest extends Specification {
                      .retryCount(0L)
                      .build()
     ]
-
     paybackBatchRepository.getRecords() >> records
-    paybackApiClient.saveCashbacks(_ as PaybackRequestDto) >> response
+    paybackApiClient.saveCashbacks(_ as PaybackRequestDto) >>> response >> {throw new Exception()}
 
     when:
     paybackBatchService.updateRecords()
 
     then:
-    2 * paybackBatchRepository.updateStatus(_ ,_ ,_ ,_ ) >> {}
+    1 * paybackBatchRepository.updateStatus(_ ,_ , ProcessType.COMPLETED , 0L) >> {}
+    1 * paybackBatchRepository.updateStatus(_ ,_ , ProcessType.FAIL , !0L) >> {}
   }
 
-  def "Success"() {
-    given:
-    def paybackResponseDto = [
-            PaybackResponseDto.builder()
-            .code("200")
-            .data(PaybackResponseDto.Body.builder()
-                    .orderKey("orderKey1")
-                    .txKey("teKey1")
-                    .build())
-            .message("CREATED")
-            .build()
-    ]
-
-    when:
-    paybackBatchService.success(paybackResponseDto)
-
-    then:
-    1 * paybackBatchRepository.updateStatus(_ ,_ ,_ ,_ ) >> {}
-  }
-
-  def "Fail"() {
-
-    when:
-    paybackBatchService.fail(
-            "orderkey" ,
-            "txKey" ,
-            0L)
-
-    then:
-    1 * paybackBatchRepository.updateStatus(
-            "orderkey" ,
-            "txKey" ,
-            ProcessType.FAIL ,
-            1L)
-  }
 }

@@ -1,8 +1,8 @@
-package com.ebaykorea.payback.scheduler.domain.mapper;
+package com.ebaykorea.payback.scheduler.service.mapper;
 
 
-import com.ebaykorea.payback.scheduler.domain.entity.PaybackBatchRecord;
-import com.ebaykorea.payback.scheduler.infrastructure.repository.entity.CashbackOrderBatchEntity;
+import com.ebaykorea.payback.scheduler.service.entity.PaybackBatchRecord;
+import com.ebaykorea.payback.scheduler.repository.entity.CashbackOrderBatchEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.infrastructure.repository.entity;
+package com.ebaykorea.payback.scheduler.repository.entity;
 
 import java.sql.Timestamp;
 import javax.persistence.Column;

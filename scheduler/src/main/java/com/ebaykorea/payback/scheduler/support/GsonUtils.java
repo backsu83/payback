@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.util;
+package com.ebaykorea.payback.scheduler.support;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

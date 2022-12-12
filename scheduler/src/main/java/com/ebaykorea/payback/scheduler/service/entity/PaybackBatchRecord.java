@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.domain.entity;
+package com.ebaykorea.payback.scheduler.service.entity;
 
 import lombok.Builder;
 import lombok.Data;

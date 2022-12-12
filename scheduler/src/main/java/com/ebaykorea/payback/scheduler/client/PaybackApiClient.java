@@ -1,8 +1,7 @@
-package com.ebaykorea.payback.scheduler.infrastructure.gateway.client;
+package com.ebaykorea.payback.scheduler.client;
 
-import com.ebaykorea.payback.scheduler.infrastructure.gateway.dto.PaybackRequestDto;
-import com.ebaykorea.payback.scheduler.infrastructure.gateway.dto.PaybackResponseDto;
-import java.util.Optional;
+import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto;
+import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;

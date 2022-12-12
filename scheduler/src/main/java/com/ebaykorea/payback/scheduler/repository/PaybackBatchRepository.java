@@ -1,10 +1,9 @@
-package com.ebaykorea.payback.scheduler.domain.service;
+package com.ebaykorea.payback.scheduler.repository;
 
 
-import com.ebaykorea.payback.scheduler.domain.entity.PaybackBatchRecord;
-import com.ebaykorea.payback.scheduler.domain.entity.ProcessType;
-import com.ebaykorea.payback.scheduler.domain.mapper.PaybackBatchRecordMapper;
-import com.ebaykorea.payback.scheduler.infrastructure.repository.CashbackOrderBatchRepository;
+import com.ebaykorea.payback.scheduler.service.entity.PaybackBatchRecord;
+import com.ebaykorea.payback.scheduler.service.entity.ProcessType;
+import com.ebaykorea.payback.scheduler.service.mapper.PaybackBatchRecordMapper;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -25,7 +24,6 @@ public class PaybackBatchRepository {
         .stream()
         .filter(f-> Objects.nonNull(f))
         .map(paybackBatchRecordMapper::map)
-        .limit(1000)
         .collect(Collectors.toList());
   }
 

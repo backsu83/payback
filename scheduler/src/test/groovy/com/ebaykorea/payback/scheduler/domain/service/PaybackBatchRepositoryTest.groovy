@@ -1,9 +1,10 @@
 package com.ebaykorea.payback.scheduler.domain.service
 
-import com.ebaykorea.payback.scheduler.domain.entity.ProcessType
-import com.ebaykorea.payback.scheduler.domain.mapper.PaybackBatchRecordMapper
-import com.ebaykorea.payback.scheduler.infrastructure.repository.CashbackOrderBatchRepository
-import com.ebaykorea.payback.scheduler.infrastructure.repository.entity.CashbackOrderBatchEntity
+import com.ebaykorea.payback.scheduler.service.entity.ProcessType
+import com.ebaykorea.payback.scheduler.service.mapper.PaybackBatchRecordMapper
+import com.ebaykorea.payback.scheduler.repository.CashbackOrderBatchRepository
+import com.ebaykorea.payback.scheduler.repository.entity.CashbackOrderBatchEntity
+import com.ebaykorea.payback.scheduler.repository.PaybackBatchRepository
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 

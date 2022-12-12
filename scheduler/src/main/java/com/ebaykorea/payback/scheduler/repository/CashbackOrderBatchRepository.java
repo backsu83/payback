@@ -1,16 +1,14 @@
-package com.ebaykorea.payback.scheduler.infrastructure.repository;
+package com.ebaykorea.payback.scheduler.repository;
 
-import com.ebaykorea.payback.scheduler.infrastructure.repository.entity.CashbackOrderBatchEntity;
+import com.ebaykorea.payback.scheduler.repository.entity.CashbackOrderBatchEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
 import com.google.common.collect.Lists;
 import java.sql.Types;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,7 +17,7 @@ public class CashbackOrderBatchRepository {
 
   @SaturnProcedure(procedureName = CashbackOrderBatchEntity.FIND_BY_KEYS)
   public List<CashbackOrderBatchEntity> findNoCompleted() {
-    return Lists.newArrayList();
+    return Collections.emptyList();
   }
 
   @SaturnProcedure(procedureName = CashbackOrderBatchEntity.UPDATE_STATUS,

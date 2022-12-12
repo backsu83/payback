@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.scheduler.crontab;
 
-import com.ebaykorea.payback.scheduler.domain.service.PaybackBatchService;
+import com.ebaykorea.payback.scheduler.service.PaybackBatchService;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

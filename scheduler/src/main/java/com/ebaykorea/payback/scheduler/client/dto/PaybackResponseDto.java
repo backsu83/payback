@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.infrastructure.gateway.dto;
+package com.ebaykorea.payback.scheduler.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

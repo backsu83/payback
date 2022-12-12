@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.util;
+package com.ebaykorea.payback.scheduler.support;
 
 import java.sql.Timestamp;
 import java.time.Instant;

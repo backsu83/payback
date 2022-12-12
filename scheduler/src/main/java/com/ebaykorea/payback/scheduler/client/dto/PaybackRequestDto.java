@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.infrastructure.gateway.dto;
+package com.ebaykorea.payback.scheduler.client.dto;
 
 import lombok.Builder;
 import lombok.Data;
