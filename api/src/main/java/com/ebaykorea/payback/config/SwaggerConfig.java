@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig {
     private ApiInfoProperties apiInfoProperties;
 
@@ -35,10 +36,6 @@ public class SwaggerConfig {
 
         return new Docket(DocumentationType.SWAGGER_2)
             .groupName(apiName)
-            .globalResponseMessage(RequestMethod.GET, getGlobalResponseMessages())
-            .globalResponseMessage(RequestMethod.POST, getGlobalResponseMessages())
-            .globalResponseMessage(RequestMethod.DELETE, getGlobalResponseMessages())
-            .globalResponseMessage(RequestMethod.PATCH, getGlobalResponseMessages())
             .apiInfo(
                 new ApiInfoBuilder()
                     .version(apiVersion)
@@ -50,16 +47,5 @@ public class SwaggerConfig {
             .apis(RequestHandlerSelectors.basePackage(apiInfoProperties.getApiPackage()))
             .paths(PathSelectors.regex(".*?"))
             .build();
-    }
-
-    /** global response : Response HttpStatus Code  */
-    // TODO 아래 global response 메시지 정리하기. 필요한 것이 있으면 추가하고, 필요 없으면 삭제하기.
-    private List<ResponseMessage> getGlobalResponseMessages() {
-        String message409 = String.format("%s or Business Rule Exception", HttpStatus.CONFLICT.getReasonPhrase());
-
-        final List<ResponseMessage> globalResponses = Arrays.asList(
-            new ResponseMessageBuilder().code(HttpStatus.CONFLICT.value()).message(message409).build()
-        );
-        return globalResponses;
     }
 }
