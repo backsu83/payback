@@ -4,7 +4,6 @@ import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
 import com.ebaykorea.payback.api.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.CashbackApplicationService;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,6 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@Api(value = "CashbackController")
 @RequestMapping("/api")
 public class CashbackController {
 
