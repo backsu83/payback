@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.api.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,6 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel
 public class SaveCashbackRequestDto {
   @NotEmpty
   private String txKey;

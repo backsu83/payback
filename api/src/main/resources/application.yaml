@@ -71,6 +71,17 @@ resilience4j.timelimiter:
 #      queueCapacity: 50
 
 ###################################################
+# MoA Configurations
+###################################################
+saturn:
+  groupId: com.ebaykorea
+  artifactId: payback
+  moa:
+    domainGroup: gmkt
+    domain: gmkt.reward.api
+    host: http://devmoafw.ebaykorea.com
+
+###################################################
 # Common Management Configurations - DO NOT EDIT
 ###################################################
 management:
@@ -83,15 +94,4 @@ management:
   metrics:
     export.prometheus.enabled: true
     cache.instrument: true
-    web.server.requst.autotime.enable: false
-
-###################################################
-# MoA Configurations
-###################################################
-saturn:
-  groupId: com.ebaykorea
-  artifactId: payback
-  moa:
-    domainGroup: gmkt
-    domain: gmkt.reward.api
-    host: http://devmoafw.ebaykorea.com
+    web.server.request.auto-time.enable: false
