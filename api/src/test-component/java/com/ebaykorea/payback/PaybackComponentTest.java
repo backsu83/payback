@@ -91,10 +91,14 @@ public class PaybackComponentTest {
     when(cashbackOrderRepository.findByPackNo(anyLong()))
         .thenReturn(List.of(
             CashbackOrderEntity.builder()
-            .cashbackType("I")
-            .amount(BigDecimal.valueOf(2295L))
-            .useEnableDt(Timestamp.valueOf("2023-01-04 00:00:00.0"))
-            .build()));
+                .cashbackType("I")
+                .amount(BigDecimal.valueOf(2295L))
+                .itemNo("1100439676")
+                .buyerNo("132870993")
+                .tradeStatus("30")
+                .smileClubYn("Y")
+                .useEnableDt(Timestamp.valueOf("2023-01-04 00:00:00.0"))
+                .build()));
 
     final var result = cashbackController.getSavedCashbacks(null, txKey, orderKey);
     final var expected = getExpectResult();
