@@ -8,6 +8,8 @@ import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -25,6 +27,16 @@ public class CashbackOrderRepository {
   )
   public Optional<CashbackOrderEntity> findById(final CashbackOrderEntity id) {
     return Optional.empty();
+  }
+
+  @SaturnProcedure(
+      procedureName = CashbackOrderEntity.FIND_BY_PACKNO,
+      parameters = {
+          @SaturnProcedureParameter(name = "PACK_NO", sqlType = Types.BIGINT)
+      }
+  )
+  public List<CashbackOrderEntity> findByPackNo(final long packNo) {
+    return Collections.emptyList();
   }
 
   @SaturnProcedure(

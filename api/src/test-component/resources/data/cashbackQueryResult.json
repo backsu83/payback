@@ -1,0 +1,10 @@
+{
+  "totalCashbackAmount": 2295,
+  "cashbackOrders": [
+    {
+      "amount": 2295,
+      "cashbackType": "I",
+      "useEnableDate": 1672758000
+    }
+  ]
+}

@@ -4,6 +4,8 @@ import com.ebaykorea.payback.api.CashbackController;
 import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.*;
+import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
+import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.specto.hoverfly.junit5.HoverflyExtension;
 import io.specto.hoverfly.junit5.api.HoverflyConfig;
@@ -11,17 +13,25 @@ import io.specto.hoverfly.junit5.api.HoverflySimulate;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
+
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
-import static com.ebaykorea.payback.support.TestConstants.HOVERFLY_FILE;
-import static com.ebaykorea.payback.support.TestConstants.HOVERFLY_ROOT;
+import static com.ebaykorea.payback.support.TestConstants.*;
 import static io.specto.hoverfly.junit5.api.HoverflySimulate.SourceType.FILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @HoverflySimulate(
     config = @HoverflyConfig(
@@ -52,11 +62,16 @@ public class PaybackComponentTest {
   @MockBean
   SmilecardT2T3CashbackRepository smilecardT2T3CashbackRepository;
 
+  @Value("classpath:" + CASHBACK_QUERY_FILE)
+  Resource resourceFile;
+
   private static final String txKey = "txKey";
   private static final String orderKey = "orderKey";
 
   @BeforeAll
   void setup() {
+    when(cashbackOrderRepository.findByPackNo(anyLong()))
+        .thenReturn(List.of(getCashbackOrderEntity()));
     doNothing().when(cashbackOrderDetailRepository).save(any());
     doNothing().when(cashbackOrderMemberRepository).save(any());
     doNothing().when(cashbackOrderPolicyRepository).save(any());
@@ -75,4 +90,31 @@ public class PaybackComponentTest {
     assertEquals(0, result.getCode());
     assertEquals(CashbackResponseDto.of(txKey, orderKey), result.getData());
   }
+
+  @Test
+  @DisplayName("캐시백 조회가 성공한다")
+  void getCashbacks() {
+
+    final var result = cashbackController.getSavedCashbacks(null, txKey, orderKey);
+    final var expected = getJson();
+
+    assertEquals(expected, result);
+  }
+
+  private CashbackOrderEntity getCashbackOrderEntity() {
+    return CashbackOrderEntity.builder()
+        .cashbackType("I")
+        .amount(BigDecimal.valueOf(2295L))
+        .useEnableDt(Timestamp.valueOf("2023-01-04 00:00:00.0"))
+        .build();
+  }
+
+  private SavedCashbackQueryResult getJson() {
+    try {
+      return objectMapper.readValue(new ClassPathResource(CASHBACK_QUERY_FILE).getFile(), SavedCashbackQueryResult.class);
+    } catch (Exception ex) {
+      return null;
+    }
+  }
+
 }
