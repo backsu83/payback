@@ -29,9 +29,7 @@ import static com.ebaykorea.payback.support.TestConstants.*;
 import static io.specto.hoverfly.junit5.api.HoverflySimulate.SourceType.FILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @HoverflySimulate(
     config = @HoverflyConfig(
@@ -68,22 +66,18 @@ public class PaybackComponentTest {
   private static final String txKey = "txKey";
   private static final String orderKey = "orderKey";
 
-  @BeforeAll
-  void setup() {
-    when(cashbackOrderRepository.findByPackNo(anyLong()))
-        .thenReturn(List.of(getCashbackOrderEntity()));
+  @Test
+  @Transactional
+  @DisplayName("캐시백 적립이 성공한다")
+  void saveCashback() {
+
     doNothing().when(cashbackOrderDetailRepository).save(any());
     doNothing().when(cashbackOrderMemberRepository).save(any());
     doNothing().when(cashbackOrderPolicyRepository).save(any());
     doNothing().when(cashbackOrderRepository).save(any());
     doNothing().when(smilecardCashbackOrderRepository).save(any());
     doNothing().when(smilecardT2T3CashbackRepository).save(any());
-  }
 
-  @Test
-  @Transactional
-  @DisplayName("캐시백 적립이 성공한다")
-  void saveCashback() {
     final var result = cashbackController.saveCashbacks(new SaveCashbackRequestDto(txKey, orderKey));
 
     assertEquals(CASHBACK_CREATED.name(), result.getMessage());
@@ -94,22 +88,21 @@ public class PaybackComponentTest {
   @Test
   @DisplayName("캐시백 조회가 성공한다")
   void getCashbacks() {
+    when(cashbackOrderRepository.findByPackNo(anyLong()))
+        .thenReturn(List.of(
+            CashbackOrderEntity.builder()
+            .cashbackType("I")
+            .amount(BigDecimal.valueOf(2295L))
+            .useEnableDt(Timestamp.valueOf("2023-01-04 00:00:00.0"))
+            .build()));
 
     final var result = cashbackController.getSavedCashbacks(null, txKey, orderKey);
-    final var expected = getJson();
+    final var expected = getExpectResult();
 
     assertEquals(expected, result);
   }
 
-  private CashbackOrderEntity getCashbackOrderEntity() {
-    return CashbackOrderEntity.builder()
-        .cashbackType("I")
-        .amount(BigDecimal.valueOf(2295L))
-        .useEnableDt(Timestamp.valueOf("2023-01-04 00:00:00.0"))
-        .build();
-  }
-
-  private SavedCashbackQueryResult getJson() {
+  private SavedCashbackQueryResult getExpectResult() {
     try {
       return objectMapper.readValue(new ClassPathResource(CASHBACK_QUERY_FILE).getFile(), SavedCashbackQueryResult.class);
     } catch (Exception ex) {
