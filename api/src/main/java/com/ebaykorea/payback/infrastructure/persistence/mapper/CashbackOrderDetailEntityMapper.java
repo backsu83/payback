@@ -25,7 +25,7 @@ public interface CashbackOrderDetailEntityMapper {
   @Mapping(expression = "java(PaybackBooleans.toYN(cashback.isApplyBy(CashbackType.Item)))", target = "itemCashbackApplyYn")
   @Mapping(expression = "java(PaybackBooleans.toYN(cashback.isApplyBy(CashbackType.SmilePay)))", target = "payCashbackApplyYn")
   @Mapping(source = "payCashback.member", target = "clubCashbackApplyYn")
-  @Mapping(expression = "java(cashback.getCashbackAmount(CashbackType.ChargePay))", target = "chargePayReward")
+  @Mapping(expression = "java(cashback.getNonClubAmount(CashbackType.ChargePay))", target = "chargePayReward")
   @Mapping(expression = "java(cashback.getClubAmount(CashbackType.ChargePay))", target = "chargePayRewardClub")
   @Mapping(expression = "java(cashback.getCashbackAmount(CashbackType.ClubDay))", target = "clubDayAmount")
   @Mapping(expression = "java(PaybackBooleans.toYN(cashback.isApplyBy(CashbackType.ClubDay)))", target = "clubDayApplyYn")

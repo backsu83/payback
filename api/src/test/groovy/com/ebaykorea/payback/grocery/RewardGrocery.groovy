@@ -28,6 +28,9 @@ class RewardGrocery {
         .payRate((map.payRate ?: 0L) as BigDecimal)
         .payMaxMoney((map.payMaxMoney ?: 0L) as BigDecimal)
         .cashbackTitle((map.cashbackTitle ?: "cashbackTitle") as String)
+        .clubCashbackAmount((map.clubCashbackAmount ?: 0L) as BigDecimal)
+        .autoChargeAmount((map.autoChargeAmount ?: 0L) as BigDecimal)
+        .autoChargeClubAmount((map.autoChargeClubAmount ?: 0L) as BigDecimal)
         .build()
   }
 

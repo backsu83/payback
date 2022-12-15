@@ -16,6 +16,7 @@ import java.time.Instant;
 public class ChargePayCashback extends CashbackUnit {
 
   private final BigDecimal clubAmount;
+  private final BigDecimal nonClubAmount;
 
   public ChargePayCashback(
       final String itemNo,
@@ -24,6 +25,7 @@ public class ChargePayCashback extends CashbackUnit {
       final BigDecimal basisAmount,
       final Instant useEnableDate,
       final BigDecimal clubAmount,
+      final BigDecimal nonClubAmount,
       final boolean isChargePay,
       final CashbackPolicy cashbackPolicy) {
     super(
@@ -36,6 +38,7 @@ public class ChargePayCashback extends CashbackUnit {
         cashbackPolicy);
 
     this.clubAmount = clubAmount;
+    this.nonClubAmount = nonClubAmount;
   }
 
   @Override
@@ -46,6 +49,11 @@ public class ChargePayCashback extends CashbackUnit {
   @Override
   public BigDecimal getClubAmount() {
     return clubAmount;
+  }
+
+  @Override
+  public BigDecimal getNonClubAmount() {
+    return nonClubAmount;
   }
 
 }
