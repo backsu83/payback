@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class CashbackOrderEntity {
     public static final String FIND_BY_ID = "stardb.dbo.UPGMKT_Payback_CashbackOrder_Select";
+    public static final String FIND_BY_PACKNO = "stardb.dbo.UPGMKT_Payback_CashbackOrder_SelectByPackNo";
     public static final String SAVE = "stardb.dbo.UPGMKT_Payback_CashbackOrder_Insert";
 
     @Id
