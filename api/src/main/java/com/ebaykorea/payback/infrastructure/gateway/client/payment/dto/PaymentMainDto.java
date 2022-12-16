@@ -22,9 +22,5 @@ public class PaymentMainDto {
      * 소분류코드
      */
     String smallCode;
-    /**
-     * 결제 인증 seq
-     */
-//    long payAuthSeq;
 
 }

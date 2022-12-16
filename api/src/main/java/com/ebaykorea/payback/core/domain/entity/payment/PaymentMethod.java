@@ -34,7 +34,8 @@ public class PaymentMethod {
 
   // 캐시 충전 여부
   public boolean isChargePay() {
-    return hasSmallCode(SmilePayReCharge);
+    //캐시 충전은 mediumCode값이 NewSmilePayCMS값으로 넘어옵니다
+    return isSmilePay() && hasSmallCode(SmilePayReCharge);
   }
 
   public boolean isSmileCard() {

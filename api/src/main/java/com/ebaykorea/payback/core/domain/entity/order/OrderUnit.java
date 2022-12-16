@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.order;
 
-import static com.ebaykorea.payback.core.domain.constant.BasisMoneyRate.BASIS_MONEY_RATE;
+import static com.ebaykorea.payback.core.domain.constant.PaybackConstants.BASIS_MONEY_RATE;
 import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackObjects.orElse;
