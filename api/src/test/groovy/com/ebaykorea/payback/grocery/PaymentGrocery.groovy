@@ -29,7 +29,7 @@ class PaymentGrocery {
 
   static def 카드_Payment_생성(Map map = [:]) {
     기본_Payment_생성(
-        mainPaymentMethod: paymentMethod_생성(mediumCode: PaymentCode.PaymentMethodMediumCode.CreditCard),
+        mainPaymentMethod: paymentMethod_생성(mediumCode: PaymentCode.PaymentMethodMediumCode.CreditCard, smallCode: "1"),
         card: card_생성(map)
     )
   }

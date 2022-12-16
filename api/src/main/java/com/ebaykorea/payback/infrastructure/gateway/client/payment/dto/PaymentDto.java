@@ -27,7 +27,5 @@ public class PaymentDto {
     List<PaymentSubDto> subPaymentMethods;
     /** 인증 정보 */
     PaymentAuthDto authentications;
-    /** 메타 */
-//    MetaDto meta;
 
 }

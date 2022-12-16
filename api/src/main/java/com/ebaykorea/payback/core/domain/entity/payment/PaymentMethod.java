@@ -29,7 +29,7 @@ public class PaymentMethod {
 
   // 스마일페이 여부
   public boolean isSmilePay() {
-    return hasMediumCode(NewSmilePayCard, NewSmilePayCMS, NewSmilePayMobile);
+    return hasMediumCode(NewSmilePayCard, NewSmilePayCMS, NewSmilePayMobile) || isChargePay();
   }
 
   // 캐시 충전 여부
