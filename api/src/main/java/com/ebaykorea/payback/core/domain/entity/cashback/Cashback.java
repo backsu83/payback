@@ -59,6 +59,12 @@ public class Cashback {
         .collect(summarizing());
   }
 
+  public BigDecimal getNonClubAmount(final CashbackType cashbackType) {
+    return cashbackUnitStreamByCashbackType(cashbackType)
+        .map(CashbackUnit::getNonClubAmount)
+        .collect(summarizing());
+  }
+
   public boolean isApplyBy(final CashbackType cashbackType) {
     return cashbackUnitStreamByCashbackType(cashbackType)
         .map(CashbackUnit::isApply)

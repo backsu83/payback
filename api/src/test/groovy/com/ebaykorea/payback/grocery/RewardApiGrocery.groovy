@@ -49,7 +49,7 @@ class RewardApiGrocery {
       ifSmileClubCashbackAmount = (map.ifSmileClubCashbackAmount ?: 0) as Integer
       cashbackInfo = (map.cashbackInfo ?: [CashbackInfoDto_생성()]) as List<CashbackInfoDto>
       itemCashbackInfo = (map.itemCashbackInfo ?: null) as ItemCashbackInfoDto
-      NSPCashbackInfo = (map.NSPCashbackInfo ?: null) as NspCashbackInfoDto
+      NSPCashbackInfo = (map.NSPCashbackInfo ?: NspCashbackInfoDto_생성()) as NspCashbackInfoDto
       ifSmileCardT2T3CashbackAmount = (map.ifSmileCardT2T3CashbackAmount ?: 0) as Integer
       clubDayCashbackInfo = (map.clubDayCashbackInfo ?: null) as ClubDayCashbackInfoDto
     }
@@ -66,6 +66,15 @@ class RewardApiGrocery {
       cashbackTitle = (map.cashbackTitle ?: "cashbackTitle") as String
       etcTitle = (map.etcTitle ?: "etcTitle") as String
       etcContent = (map.etcContent ?: "etcContent") as String
+    }
+  }
+
+  static def NspCashbackInfoDto_생성(Map map = [:]) {
+    new NspCashbackInfoDto().tap {
+      payAmount = (map.payAmount ?: 0) as Integer
+      clubAmount = (map.clubAmount ?: 0) as Integer
+      autoChargeAmount = (map.autoChargeAmount ?: 0) as Integer
+      autoChargeClubAmount = (map.autoChargeClubAmount ?: 0) as Integer
     }
   }
 

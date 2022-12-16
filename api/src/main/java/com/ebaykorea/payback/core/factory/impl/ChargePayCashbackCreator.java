@@ -33,7 +33,8 @@ public class ChargePayCashbackCreator {
         cashbackAmount,
         basisAmount,
         useEnableDate,
-        BigDecimal.ZERO, //TODO
+        rewardCashbackPolicy.getAutoChargeClubAmount(),
+        rewardCashbackPolicy.getAutoChargeAmount(),
         payment.isChargePayment(),
         createCashbackPolicy(rewardCashbackPolicy, rewardBackendCashbackPolicy)
     );

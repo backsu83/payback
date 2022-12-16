@@ -34,6 +34,10 @@ public abstract class CashbackUnit implements CashbackTarget {
     return BigDecimal.ZERO;
   }
 
+  public BigDecimal getNonClubAmount() {
+    return BigDecimal.ZERO;
+  }
+
   public boolean is(final CashbackType cashbackType) {
     return this.getCashbackType() == cashbackType;
   }
