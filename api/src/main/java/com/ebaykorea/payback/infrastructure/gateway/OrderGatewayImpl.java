@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
@@ -30,11 +31,8 @@ public class OrderGatewayImpl implements OrderGateway {
   }
 
   @Override
-  public ItemSnapshots getItemSnapshot(final List<String> itemSnapshotKeys) {
-    final var itemSnapshots = orderApiClient.findItemSnapshots(itemSnapshotKeys).stream()
-        .map(orderGatewayMapper::map)
-        .collect(Collectors.toUnmodifiableList());
-
-    return ItemSnapshots.of(itemSnapshots);
+  public CompletableFuture<ItemSnapshots> getItemSnapshotAsync(final List<String> itemSnapshotKeys) {
+    return CompletableFuture.supplyAsync(() -> orderApiClient.findItemSnapshots(itemSnapshotKeys))
+        .thenApply(itemSnapshots -> ItemSnapshots.of(orderGatewayMapper.map(itemSnapshots)));
   }
 }

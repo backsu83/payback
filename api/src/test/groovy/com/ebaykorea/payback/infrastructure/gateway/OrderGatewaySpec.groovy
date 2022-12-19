@@ -49,8 +49,9 @@ class OrderGatewaySpec extends Specification {
     orderApiClient.findItemSnapshots(_ as List<String>) >> response
 
     expect:
-    def result = orderGatewayImpl.getItemSnapshot(List.of("itemSnapshotKey1"))
+    def resultAsync = orderGatewayImpl.getItemSnapshotAsync(List.of("itemSnapshotKey1"))
 
+    def result = resultAsync.join()
     result != null
     result == expectResult
 

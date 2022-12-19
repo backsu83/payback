@@ -4,8 +4,9 @@ import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface OrderGateway {
   Order getOrder(String orderKey);
-  ItemSnapshots getItemSnapshot(List<String> itemSnapshotKey);
+  CompletableFuture<ItemSnapshots> getItemSnapshotAsync(List<String> itemSnapshotKey);
 }

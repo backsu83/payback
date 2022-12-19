@@ -17,7 +17,11 @@ public class MemberService {
   private final ClubGateway clubGateway;
   private final UserGateway userGateway;
 
-  public Member getMember(final Buyer buyer) {
+  public CompletableFuture<Member> getMemberAsync(final Buyer buyer) {
+    return CompletableFuture.supplyAsync(() -> getMember(buyer));
+  }
+
+  Member getMember(final Buyer buyer) {
     final var clubAsync = getClubAsync(buyer.getBuyerNo());
     final var userKeyAsync = getUserKeyAsync(buyer.getBuyerNo());
 
