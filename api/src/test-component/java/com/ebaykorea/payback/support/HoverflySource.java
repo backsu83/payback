@@ -410,7 +410,7 @@ public class HoverflySource {
                   + "}")
           )),
 
-      service(matches("http://quilt-overmind-dev.gmarket.co.kr"))
+      service(matches("https://quilt-overmind-dev.gmarket.co.kr"))
           .get(startsWith("/api/smilecash/smileUserKey"))
           .willReturn(success().body(
               json("{\n"
