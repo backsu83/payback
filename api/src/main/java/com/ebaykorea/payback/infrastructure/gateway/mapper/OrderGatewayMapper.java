@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,8 @@ public interface OrderGatewayMapper {
   OrderItem map(OrderItemDto source);
 
   BundleDiscount map(BundleDiscountDto source);
+
+  List<ItemSnapshot> map(List<ItemSnapshotDto> source);
 
   @Mapping(source = "source.itemType", target = "isMoneyCategory", qualifiedByName = "mapIsMoneyCategory")
   @Mapping(source = "source.itemType", target = "isSmileDelivery", qualifiedByName = "mapIsSmileDelivery")

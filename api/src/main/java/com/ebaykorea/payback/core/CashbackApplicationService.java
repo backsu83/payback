@@ -2,14 +2,10 @@ package com.ebaykorea.payback.core;
 
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
-import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_DUPLICATIED;
+import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_DUPLICATED;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_INVALID_TARGET;
 
 import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
-import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
-import com.ebaykorea.payback.core.domain.entity.order.Buyer;
-import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
-import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.factory.PayCashbackCreator;
 import com.ebaykorea.payback.core.gateway.OrderGateway;
@@ -20,9 +16,6 @@ import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.core.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -50,15 +43,15 @@ public class CashbackApplicationService {
 
     //캐시백 중복 체크
     if (payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
-      return CASHBACK_DUPLICATIED;
+      return CASHBACK_DUPLICATED;
     }
 
     //결제 정보
-    final var paymentRecordFuture = getPaymentRecordAsync(order.getPaySeq());
+    final var paymentRecordFuture = paymentGateway.getPaymentRecordAsync(order.getPaySeq());
     //상품 스냅샷 정보
-    final var itemSnapshotsFuture = getItemSnapshotAsync(order.findItemSnapshotKeys());
+    final var itemSnapshotsFuture = orderGateway.getItemSnapshotAsync(order.findItemSnapshotKeys());
     //회원 정보
-    final var memberFuture = getMemberAsync(order.getBuyer());
+    final var memberFuture = memberService.getMemberAsync(order.getBuyer());
 
     final var paymentRecord = paymentRecordFuture.join();
     final var itemSnapshots = itemSnapshotsFuture.join();
@@ -76,17 +69,5 @@ public class CashbackApplicationService {
     payCashbackRepository.save(payCashback);
 
     return CASHBACK_CREATED;
-  }
-
-  private CompletableFuture<Payment> getPaymentRecordAsync(final Long paySeq) {
-    return CompletableFuture.supplyAsync(() -> paymentGateway.getPaymentRecord(paySeq));
-  }
-
-  private CompletableFuture<ItemSnapshots> getItemSnapshotAsync(final List<String> itemSnapshotKeys) {
-    return CompletableFuture.supplyAsync(() -> orderGateway.getItemSnapshot(itemSnapshotKeys));
-  }
-
-  private CompletableFuture<Member> getMemberAsync(final Buyer buyer) {
-    return CompletableFuture.supplyAsync(() -> memberService.getMember(buyer));
   }
 }
