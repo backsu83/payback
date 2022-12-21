@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface QuiltApiClient {
   @RequestMapping(
       method = RequestMethod.GET,
-      value = "/smileCash/smileUserKey",
+      value = "/smilecash/smileUserKey",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
   Optional<QuiltBaseResponse<String>> findUserKey(@RequestParam("custNo") final String custNo);

@@ -36,4 +36,4 @@ apis:
   transaction:
     url: "http://transaction-api-av.gmarket.co.kr/v1"
   quilt:
-    url: "http://quilt-overmind.gmarket.co.kr/api"
+    url: "https://quilt-overmind.gmarket.co.kr/api"
