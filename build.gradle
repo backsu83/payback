@@ -94,3 +94,8 @@ subprojects {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+task copyJars(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar) }
+    into "$buildDir/libs"
+}
