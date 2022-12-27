@@ -35,7 +35,3 @@ dependencies {
   componentTestImplementation 'io.specto:hoverfly-java-junit5:0.14.3'
   componentTestImplementation 'org.springframework.boot:spring-boot-starter-aop'
 }
-
-tasks.withType(Jar) {
-  destinationDirectory = file("$rootDir/build/libs")
-}

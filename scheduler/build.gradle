@@ -15,7 +15,3 @@ dependencies {
   implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
   implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
 }
-
-tasks.withType(Jar) {
-  destinationDirectory = file("$rootDir/build/libs")
-}
