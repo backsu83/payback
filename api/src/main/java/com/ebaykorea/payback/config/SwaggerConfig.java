@@ -1,13 +1,12 @@
 package com.ebaykorea.payback.config;
 
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class SwaggerConfig {
     private static final String API_NAME = "Payback API";
     private static final String API_VERSION = "1.0.0";
@@ -15,13 +14,13 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        Info info = new Info()
-                .title(API_NAME)
-                .version(API_VERSION)
-                .description(API_DESCRIPTION);
+        final var info = new Info()
+            .title(API_NAME)
+            .version(API_VERSION)
+            .description(API_DESCRIPTION);
 
         return new OpenAPI()
-                .components(new Components())
-                .info(info);
+            .components(new Components())
+            .info(info);
     }
 }

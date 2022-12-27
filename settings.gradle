@@ -6,6 +6,7 @@ pluginManagement {
 }
 
 rootProject.name = 'payback'
-include 'core'
 include 'api'
+include 'scheduler'
+include 'consumer'
 
