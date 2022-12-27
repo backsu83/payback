@@ -77,8 +77,8 @@ saturn:
   groupId: com.ebaykorea
   artifactId: payback
   moa:
-    domainGroup: gmkt
-    domain: gmkt.reward.api
+    domainGroup: payreward
+    domain: payback.api
     host: http://devmoafw.ebaykorea.com
 
 ###################################################
