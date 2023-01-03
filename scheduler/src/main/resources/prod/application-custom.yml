@@ -14,8 +14,9 @@ saturn:
     userName: daemon_app
     tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
 
+#TODO paybackapi 도메인 생성 필요
 apis:
   payback:
-    url: "http://payback-api-dev.gmarket.co.kr"
+    url: "http://payback-api.gmarket.co.kr"
 
 payback.dcm.access.enable: true
