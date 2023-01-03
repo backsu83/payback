@@ -37,7 +37,6 @@ public class ItemCashbackCreator {
   private CashbackPolicy createCashbackPolicy(final RewardCashbackPolicy rewardCashbackPolicy) {
     return new ItemCashbackPolicy(
         rewardCashbackPolicy.getCashbackSeq(),
-        rewardCashbackPolicy.getCashbackCd(),
         rewardCashbackPolicy.getCashbackTitle(),
         null,
         rewardCashbackPolicy.getPayType(),

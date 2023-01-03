@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 @ToString(callSuper = true)
 public class DefaultCashbackPolicy extends CashbackPolicy {
 
+  private final CashbackType type;
+
   public DefaultCashbackPolicy(
       final long policyNo,
       final CashbackType type,
@@ -23,12 +25,17 @@ public class DefaultCashbackPolicy extends CashbackPolicy {
   ) {
     super(
         policyNo,
-        type,
         name,
         subType,
         payType,
         saveRate,
         maxLimitMoney
     );
+    this.type = type;
+  }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return this.type;
   }
 }

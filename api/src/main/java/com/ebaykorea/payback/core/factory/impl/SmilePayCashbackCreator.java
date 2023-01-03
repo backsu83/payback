@@ -39,7 +39,6 @@ public class SmilePayCashbackCreator {
   private CashbackPolicy createCashbackPolicy(final RewardCashbackPolicy rewardCashbackPolicy) {
     return new SmilePayCashbackPolicy(
         rewardCashbackPolicy.getCashbackSeq(),
-        rewardCashbackPolicy.getCashbackCd(),
         rewardCashbackPolicy.getCashbackTitle(),
         CashbackPayType.FixRate.getCode(),
         rewardCashbackPolicy.getPayType(),

@@ -16,7 +16,6 @@ public class ClubDayCashbackPolicy extends CashbackPolicy {
 
   public ClubDayCashbackPolicy(
       final long policyNo,
-      final CashbackType type,
       final String name,
       final String subType,
       final String payType,
@@ -27,7 +26,6 @@ public class ClubDayCashbackPolicy extends CashbackPolicy {
   ) {
     super(
         policyNo,
-        type,
         name,
         subType,
         payType,
@@ -36,5 +34,10 @@ public class ClubDayCashbackPolicy extends CashbackPolicy {
     );
     this.clubDayMaxSaveMoney = clubDayMaxSaveMoney;
     this.clubDayMaxSaveRate = clubDayMaxSaveRate;
+  }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.ClubDay;
   }
 }

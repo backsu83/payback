@@ -14,7 +14,6 @@ public class SmilePayCashbackPolicy extends CashbackPolicy {
 
   public SmilePayCashbackPolicy(
       final long policyNo,
-      final CashbackType type,
       final String name,
       final String subType,
       final String payType,
@@ -23,12 +22,16 @@ public class SmilePayCashbackPolicy extends CashbackPolicy {
   ) {
     super(
         policyNo,
-        type,
         name,
         subType,
         payType,
         saveRate,
         maxLimitMoney
     );
+  }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.SmilePay;
   }
 }

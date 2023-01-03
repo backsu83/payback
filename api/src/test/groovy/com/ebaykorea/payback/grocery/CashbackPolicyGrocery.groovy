@@ -12,7 +12,6 @@ class CashbackPolicyGrocery {
   static def SellerCashbackPolicy_생성(Map map =[:]) {
     new SellerCashbackPolicy(
         (map.policyNo ?: 0L) as long,
-        (map.type ?: CashbackType.Seller) as CashbackType,
         (map.name ?: "판매자 제공 적립") as String,
         (map.subType ?: null) as String,
         (map.payType ?: "P") as String,
@@ -24,7 +23,6 @@ class CashbackPolicyGrocery {
   static def ItemCashbackPolicy_생성(Map map = [:]) {
     new ItemCashbackPolicy(
         (map.policyNo ?: 1L) as long,
-        (map.type ?: CashbackType.Item) as CashbackType,
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: null) as String,
         (map.payType ?: "P") as String,
@@ -36,7 +34,6 @@ class CashbackPolicyGrocery {
   static def SmilePayCashbackPolicy_생성(Map map = [:]) {
     new SmilePayCashbackPolicy(
         (map.policyNo ?: 1L) as long,
-        (map.type ?: CashbackType.SmilePay) as CashbackType,
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: "P") as String,
         (map.payType ?: "P") as String,
@@ -48,7 +45,6 @@ class CashbackPolicyGrocery {
   static def ChargePayCashbackPolicy_생성(Map map = [:]) {
     new ChargePayCashbackPolicy(
         (map.policyNo ?: 1L) as long,
-        (map.type ?: CashbackType.ChargePay) as CashbackType,
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: "P") as String,
         (map.payType ?: "P") as String,
@@ -64,7 +60,6 @@ class CashbackPolicyGrocery {
   static def ClubDayCashbackPolicy_생성(Map map = [:]) {
     new ClubDayCashbackPolicy(
         (map.policyNo ?: 1L) as long,
-        (map.type ?: CashbackType.ClubDay) as CashbackType,
         (map.name ?: "cashbackTitle") as String,
         (map.subType ?: "P") as String,
         (map.payType ?: "P") as String,
