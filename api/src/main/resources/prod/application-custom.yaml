@@ -37,3 +37,5 @@ apis:
     url: "http://transaction-api.gmarket.co.kr/v1"
   quilt:
     url: "https://quilt-overmind.gmarket.co.kr/api"
+
+payback.dcm.access.enable: true

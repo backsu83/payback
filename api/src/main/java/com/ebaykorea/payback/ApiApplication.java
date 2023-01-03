@@ -12,7 +12,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableMoA
-@EnableSaturnDataSource
 @EnableFeignClients
 @SpringBootApplication
 @EnableConfigurationProperties({
