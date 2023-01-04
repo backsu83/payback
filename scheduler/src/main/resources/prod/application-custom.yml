@@ -14,18 +14,9 @@ saturn:
     userName: daemon_app
     tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
 
+#TODO paybackapi 도메인 생성 필요
 apis:
-  reward:
-    url: "http://rewardservice-dev.gmarket.co.kr"
-  order:
-    url: "http://order-api-dev.gmarket.co.kr/v1"
-  club:
-    url: "https://clubapi-dev.gmarket.co.kr"
-  payment:
-    url: "http://payment-api-dev.gmarket.co.kr"
-  transaction:
-    url: "http://transaction-api-dev.gmarket.co.kr/v1"
-  quilt:
-    url: "https://quilt-overmind-dev.gmarket.co.kr/api"
+  payback:
+    url: "http://payback-api.gmarket.co.kr"
 
 payback.dcm.access.enable: true

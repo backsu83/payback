@@ -10,13 +10,13 @@ pipeline {
         stage('Build') {
             steps {
                 sh './gradlew clean'
-                sh './gradlew build --daemon --configure-on-demand --parallel --build-cache -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"'
+                sh './gradlew build --daemon --configure-on-demand --parallel --build-cache -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8" -Dhttps.proxyHost=proxydev.gmarket.co.kr -Dhttps.proxyPort=8080'
             }
         }
 
         stage('Unit Test') {
             steps {
-                sh './gradlew --continue test -d'
+                sh './gradlew --continue test -d --parallel'
             }
         }
 
