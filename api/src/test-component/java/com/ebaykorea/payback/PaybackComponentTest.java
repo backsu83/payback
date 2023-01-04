@@ -14,6 +14,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
@@ -38,7 +40,8 @@ import static org.mockito.Mockito.*;
     source = @HoverflySimulate.Source(value = HOVERFLY_ROOT + HOVERFLY_FILE, type = FILE), //외부 api 결과를 resource/hoverfly/hoverfly-stubs에 정의 되어 있는 값들을 리턴하도록
     enableAutoCapture = true)
 @ExtendWith(HoverflyExtension.class)
-@SpringBootTest
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@SpringBootTest(properties = {"payback.dcm.access.enable=false"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PaybackComponentTest {
 
@@ -67,7 +70,6 @@ public class PaybackComponentTest {
   private static final String orderKey = "orderKey";
 
   @Test
-  @Transactional
   @DisplayName("캐시백 적립이 성공한다")
   void saveCashback() {
 
