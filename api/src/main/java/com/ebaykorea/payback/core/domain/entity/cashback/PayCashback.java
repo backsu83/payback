@@ -51,11 +51,17 @@ public class PayCashback {
 
   }
 
-  public boolean hasSmileCardCashback() {
+  // 적용여부와 관계없이 스마일카드 캐시백 금액이 있는지 여부
+  public boolean hasSmileCardCashbackAmount() {
+    return Optional.ofNullable(smileCardCashback)
+        .map(SmileCardCashback::hasSmileCardCashbackAmount)
+        .orElse(false);
+  }
+
+  // 적용 가능한 스마일카드 캐시백 여부
+  public boolean isSmileCardCashbackApplicable() {
     return Optional.ofNullable(smileCardCashback)
         .map(s -> s.isApply() || s.isApplyT2T3())
         .orElse(false);
   }
-
-
 }
