@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.redis.support;
+package com.ebaykorea.payback.util.support;
 
 import com.ebaykorea.payback.util.PaybackDateTimes;
 import com.google.gson.*;
