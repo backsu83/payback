@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardCashbackOrderEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
@@ -26,7 +25,7 @@ public class SmilecardCashbackOrderRepository {
   }
 
   @SaturnProcedure(
-      procedureName = CashbackOrderEntity.SAVE,
+      procedureName = SmilecardCashbackOrderEntity.SAVE,
       parameters = {
           @SaturnProcedureParameter(name = "PACK_NO", sqlType = Types.BIGINT),
           @SaturnProcedureParameter(name = "SMILECARD_CASHBACK_AMOUNT", sqlType = Types.DECIMAL),

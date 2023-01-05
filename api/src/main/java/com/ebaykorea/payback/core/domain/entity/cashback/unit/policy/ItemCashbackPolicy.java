@@ -14,7 +14,6 @@ public class ItemCashbackPolicy extends CashbackPolicy {
 
   public ItemCashbackPolicy(
       final long policyNo,
-      final CashbackType type,
       final String name,
       final String subType,
       final String payType,
@@ -22,12 +21,16 @@ public class ItemCashbackPolicy extends CashbackPolicy {
       final BigDecimal maxLimitMoney) {
     super(
         policyNo,
-        type,
         name,
         subType,
         payType,
         saveRate,
         maxLimitMoney
     );
+  }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.Item;
   }
 }

@@ -45,7 +45,6 @@ public class ChargePayCashbackCreator {
       final RewardBackendCashbackPolicy rewardBackendCashbackPolicy) {
     return new ChargePayCashbackPolicy(
         rewardCashbackPolicy.getCashbackSeq(),
-        rewardCashbackPolicy.getCashbackCd(),
         rewardCashbackPolicy.getCashbackTitle(),
         CashbackPayType.FixRate.getCode(),
         rewardCashbackPolicy.getPayType(),

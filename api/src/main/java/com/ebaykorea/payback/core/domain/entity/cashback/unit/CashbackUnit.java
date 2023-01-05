@@ -15,7 +15,7 @@ import java.time.Instant;
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
-public abstract class CashbackUnit implements CashbackTarget {
+public abstract class CashbackUnit implements CashbackUnitKind {
 
   private final String itemNo;
   private final ShopType shopType;

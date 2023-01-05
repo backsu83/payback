@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.cashback.unit.policy;
 
-import com.ebaykorea.payback.core.domain.constant.CashbackType;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnitKind;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,9 +12,8 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
-public abstract class CashbackPolicy {
+public abstract class CashbackPolicy implements CashbackUnitKind {
   long policyNo;
-  CashbackType type;
   String name;
   String subType;
   String payType;

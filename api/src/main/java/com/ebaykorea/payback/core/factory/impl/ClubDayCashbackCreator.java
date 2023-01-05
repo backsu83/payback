@@ -47,7 +47,6 @@ public class ClubDayCashbackCreator {
       final RewardBackendCashbackPolicy rewardBackendCashbackPolicy) {
     return new ClubDayCashbackPolicy(
         rewardCashbackPolicy.getCashbackSeq(),
-        rewardCashbackPolicy.getCashbackCd(),
         rewardCashbackPolicy.getCashbackTitle(),
         CashbackPayType.FixRate.getCode(),
         rewardCashbackPolicy.getPayType(),

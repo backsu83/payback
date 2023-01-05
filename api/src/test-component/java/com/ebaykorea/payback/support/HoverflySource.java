@@ -7,7 +7,7 @@ import static io.specto.hoverfly.junit.dsl.HttpBodyConverter.json;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.*;
 
-//TODO
+//TODO: 현재는 아래 내용을 사용하고 있지 않고 resources/hoverfly/hoverfly-stubs.json을 사용 중
 public class HoverflySource {
   public static SimulationSource source = SimulationSource.dsl(
       service(matches("http://order-api-dev.gmarket.co.kr"))

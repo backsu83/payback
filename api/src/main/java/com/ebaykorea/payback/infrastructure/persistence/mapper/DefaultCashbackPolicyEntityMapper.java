@@ -30,7 +30,7 @@ public abstract class DefaultCashbackPolicyEntityMapper implements CashbackPolic
     return mapToPolicy(payCashback, cashback, policy);
   }
 
-  @Mapping(source = "policy.type.dbCode", target = "type")
+  @Mapping(source = "policy.cashbackType.dbCode", target = "type")
   @Mapping(source = "payCashback.member.buyerNo", target = "regId")
   @Mapping(expression = "java(PaybackTimestamps.from(payCashback.getOrderDate()))", target = "regDt")
   abstract CashbackOrderPolicyEntity mapToPolicy(PayCashback payCashback, Cashback cashback, CashbackPolicy policy);

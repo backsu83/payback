@@ -15,7 +15,7 @@ import java.time.Instant;
 @ToString(callSuper = true)
 public class DefaultCashback extends CashbackUnit {
 
-  private CashbackType type;
+  private final CashbackType type;
 
   public DefaultCashback(
       final String itemNo,

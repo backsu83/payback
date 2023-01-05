@@ -1,8 +1,11 @@
 package com.ebaykorea.payback.core.domain.entity.cashback.smilecard;
 
+import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 
 import com.ebaykorea.payback.core.domain.constant.ShopType;
+import com.ebaykorea.payback.util.PaybackDecimals;
+import com.ebaykorea.payback.util.PaybackNumbers;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -50,6 +53,10 @@ public class SmileCardCashback {
     boolean isSmileDelivery = t2t3Cashbacks.stream().anyMatch(T2T3SmileCardCashback::isSmileDelivery);
     boolean isSmileFresh = t2t3Cashbacks.stream().anyMatch(T2T3SmileCardCashback::isSmileFresh);
     return isSmileDelivery ? ShopType.SmileDelivery : isSmileFresh ? ShopType.SmileFresh : ShopType.Unknown;
+  }
+
+  public boolean hasSmileCardCashbackAmount() {
+    return isGreaterThanZero(cashbackAmount) || isGreaterThanZero(sumT2T3Amount());
   }
 
   public boolean isApply() {
