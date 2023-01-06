@@ -3,6 +3,7 @@ package com.ebaykorea.payback.infrastructure.gateway.client.club;
 import com.ebaykorea.payback.infrastructure.gateway.client.club.dto.ClubBaseResponseDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.club.dto.ClubDataDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 )
 public interface ClubApiClient {
 
+    @Retry(name = "retryApi")
     @RequestMapping(
             method = RequestMethod.GET,
             value = "/member/gmkt/{cust-no}/synopsis",
