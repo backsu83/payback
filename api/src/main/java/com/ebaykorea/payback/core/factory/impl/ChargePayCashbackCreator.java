@@ -51,8 +51,8 @@ public class ChargePayCashbackCreator {
         rewardCashbackPolicy.getPayRate(),
         rewardCashbackPolicy.getPayMaxMoney(),
         orZero(rewardBackendCashbackPolicy.getChargePayRewardRate()),
-        orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getChargePayRewardMaxMoney())),
         orZero(rewardBackendCashbackPolicy.getChargePayRewardClubRate()),
+        orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getChargePayRewardMaxMoney())),
         orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getChargePayRewardClubMaxMoney()))
     );
   }
