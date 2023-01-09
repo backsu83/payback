@@ -2,7 +2,7 @@ package com.ebaykorea.payback.infrastructure.gateway;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
 import com.ebaykorea.payback.core.gateway.ClubGateway;
-import com.ebaykorea.payback.infrastructure.persistence.redis.support.GsonUtils;
+import com.ebaykorea.payback.util.support.GsonUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

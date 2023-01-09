@@ -30,6 +30,8 @@ dependencies {
   implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
   implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
 
+  testImplementation 'com.tngtech.archunit:archunit:1.0.1'
+
   //component test
   componentTestImplementation sourceSets.test.output
   componentTestImplementation 'io.specto:hoverfly-java-junit5:0.14.3'
