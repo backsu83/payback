@@ -26,6 +26,7 @@ public interface RewardApiClient {
   )
   Optional<RewardBaseResponse<CashbackRewardResponseDto>> getCashbackReward(@RequestBody final CashbackRewardRequestDto request);
 
+  @Retry(name = "retryApi")
   @RequestMapping(
       method = RequestMethod.POST,
       value = "api/Read/V2/CashbackRewardBackend",

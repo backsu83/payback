@@ -48,23 +48,16 @@ feign:
       enabled: true
 
 # Resilience4j Configurations
-# 설정관련 - https://sabarada.tistory.com/206
-resilience4j.timelimiter:
-  configs:
-    default:
-      timeoutDuration: 3s
-      cancelRunningFuture: true
-  instances:
-    retryApi:
-      baseConfig: default
-      timeoutDuration: 900ms
-
-#resilience4j.thread-pool-bulkhead:
-#  configs:
-#    default:
-#      coreThreadPoolSize: 25
-#      maxThreadPoolSize: 25
-#      queueCapacity: 50
+# 설정관련 - https://wiki.ebaykorea.com/display/ANNA/Resilience4j
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 3
+        waitDuration: 500
+    instances:
+      retryApi: # retry name
+        baseConfig: default
 
 ###################################################
 # MoA Configurations
@@ -75,13 +68,13 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.api
-    host: http://devmoafw.ebaykorea.com
+    host: http://moafw2.ebaykorea.com/bulk
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
 ###################################################
 management:
-  server.port: 8089
+  server.port: 8081
   endpoints.web.exposure.include: "*"
   endpoint.health.show-details: ALWAYS
   health:
