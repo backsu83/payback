@@ -13,7 +13,7 @@ saturn:
       appName: PAYREWARD_APP
       userName: payback_app
       tenant: gmarket #개발: gmarketdev, 운영: gmarket
-
+ 
 ###################################################
 # DCM Configurations
 ###################################################
