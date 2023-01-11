@@ -25,7 +25,7 @@ ebay.kr.dcm:
     connectionName: tiger
   hikariCp:
     minimumIdle: 1
-  krb5.conf: "/etc/config/krb5.conf"
+  krb5.conf: "/usr/app/config/krb5.conf"
   login.config: "/etc/config/login.conf"
 
 apis:
