@@ -63,8 +63,8 @@ public class ClubDayCashbackCreator {
               policy.getPayType(),
               policy.getPayRate(),
               policy.getPayMaxMoney(),
+              orZero(BigDecimal.valueOf(maybeBackendPolicy.map(RewardBackendCashbackPolicy::getClubDaySaveMaxMoney).orElse(0), 0)),
               orZero(maybeBackendPolicy.map(RewardBackendCashbackPolicy::getClubDayPayRate).orElse(ZERO)),
-              orZero(BigDecimal.valueOf(maybeBackendPolicy.map(RewardBackendCashbackPolicy::getClubDaySaveMaxMoney).orElse(0), 0))
           );
         })
         .collect(Collectors.toUnmodifiableList());
