@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -24,7 +25,7 @@ public class SmilePayCashback extends CashbackUnit {
       final BigDecimal basisAmount,
       final Instant useEnableDate,
       final boolean isSmilePay,
-      final CashbackPolicy cashbackPolicy,
+      final List<CashbackPolicy> cashbackPolicies,
       final BigDecimal clubAmount
       ) {
     super(
@@ -34,7 +35,7 @@ public class SmilePayCashback extends CashbackUnit {
         basisAmount,
         useEnableDate,
         CashbackApplyStrategy.cashbackAvailableStrategy(amount, isSmilePay),
-        cashbackPolicy);
+        cashbackPolicies);
     this.clubAmount = clubAmount;
   }
 

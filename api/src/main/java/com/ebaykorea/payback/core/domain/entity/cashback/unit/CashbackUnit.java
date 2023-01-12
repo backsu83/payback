@@ -10,6 +10,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode
@@ -23,7 +24,7 @@ public abstract class CashbackUnit implements CashbackUnitKind {
   private final BigDecimal basisAmount;
   private final Instant useEnableDate;
   private final CashbackApplyStrategy cashbackApplyStrategy;
-  private final CashbackPolicy cashbackPolicy;
+  private final List<CashbackPolicy> cashbackPolicies;
 
   //캐시백 적용여부
   public boolean isApply() {

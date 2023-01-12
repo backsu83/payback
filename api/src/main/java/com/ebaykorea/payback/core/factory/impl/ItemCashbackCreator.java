@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ItemCashbackCreator {
@@ -21,7 +23,7 @@ public class ItemCashbackCreator {
       ItemSnapshot itemSnapshot,
       BigDecimal cashbackAmount,
       BigDecimal basisAmount,
-      RewardCashbackPolicy rewardCashbackPolicy
+      List<RewardCashbackPolicy> rewardCashbackPolicies
   ) {
     return new ItemCashback(
         itemSnapshot.getItemNo(),
@@ -30,18 +32,19 @@ public class ItemCashbackCreator {
         basisAmount,
         useEnableDate,
         payment.isSmilePayPayment(),
-        createCashbackPolicy(rewardCashbackPolicy)
+        createCashbackPolicies(rewardCashbackPolicies)
     );
   }
 
-  private CashbackPolicy createCashbackPolicy(final RewardCashbackPolicy rewardCashbackPolicy) {
-    return new ItemCashbackPolicy(
-        rewardCashbackPolicy.getCashbackSeq(),
-        rewardCashbackPolicy.getCashbackTitle(),
-        null,
-        rewardCashbackPolicy.getPayType(),
-        rewardCashbackPolicy.getPayRate(),
-        rewardCashbackPolicy.getPayMaxMoney()
-    );
+  private List<CashbackPolicy> createCashbackPolicies(final List<RewardCashbackPolicy> rewardCashbackPolicies) {
+    return rewardCashbackPolicies.stream()
+        .map(policy -> new ItemCashbackPolicy(
+            policy.getCashbackSeq(),
+            policy.getCashbackTitle(),
+            null,
+            policy.getPayType(),
+            policy.getPayRate(),
+            policy.getPayMaxMoney()))
+        .collect(Collectors.toUnmodifiableList());
   }
 }

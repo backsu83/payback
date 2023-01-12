@@ -1,8 +1,9 @@
 package com.ebaykorea.payback.core.factory;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_010;
+import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
+import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
@@ -12,7 +13,6 @@ import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
-import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.factory.impl.ChargePayCashbackCreator;
 import com.ebaykorea.payback.core.factory.impl.ClubDayCashbackCreator;
 import com.ebaykorea.payback.core.factory.impl.DefaultCashbackCreator;
@@ -22,6 +22,7 @@ import com.ebaykorea.payback.core.factory.impl.SmilePayCashbackCreator;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -82,29 +83,31 @@ public class CashbackUnitFactory {
       final BigDecimal bundleDiscountPrice,
       final RewardCashbackPolicies rewardCashbackPolicies) {
 
-    return rewardCashbackPolicies
-        .findRewardCashbackPolicies(orderUnitKey.getBuyOrderNo()) //주문 단위에 해당하는 캐시백 정책만을 가져옵니다
+    return rewardCashbackPolicies.findRewardCashbackPolicyMapByCashbackType(orderUnitKey.getBuyOrderNo()) //주문 단위에 해당하는 캐시백 정책만을 가져옵니다
+        .entrySet()
         .stream()
-        .map(policy -> {
-              final var useEnableDate = rewardCashbackPolicies.toUseEnableDate(orderDate);
-              final var cashbackAmount = rewardCashbackPolicies.getCashbackAmount(policy.getPolicyKey(), policy.getCashbackCd());
-              final var basisAmount = orderUnit.orderUnitPrice(bundleDiscountPrice);
+        .map(entry -> {
+          final var useEnableDate = rewardCashbackPolicies.toUseEnableDate(orderDate);
+          final var cashbackAmount = entry.getValue().stream()
+              .map(RewardCashbackPolicy::getCashbackAmount)
+              .map(BigDecimal::valueOf)
+              .collect(summarizing());
+          final var basisAmount = orderUnit.orderUnitPrice(bundleDiscountPrice);
 
-              final var backendCashbackPolicy = rewardCashbackPolicies.findBackendRewardCashbackPolicy(policy.getPolicyKey())
-                  .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_010, "backendCashbackPolicy"));
+          final var backendCashbackPolicyMap = rewardCashbackPolicies.findRewardBackendCashbackPolicyMap(orderUnitKey.getBuyOrderNo());
 
-              return createCashbackUnit(
-                  useEnableDate,
-                  member,
-                  payment,
-                  itemSnapshot,
-                  cashbackAmount,
-                  basisAmount,
-                  policy,
-                  backendCashbackPolicy
-              );
-            }
-        );
+          return createCashbackUnit(
+              useEnableDate,
+              member,
+              payment,
+              itemSnapshot,
+              cashbackAmount,
+              basisAmount,
+              entry.getKey(),
+              entry.getValue(),
+              backendCashbackPolicyMap
+          );
+        });
   }
 
   CashbackUnit createCashbackUnit(
@@ -114,10 +117,11 @@ public class CashbackUnitFactory {
       final ItemSnapshot itemSnapshot,
       final BigDecimal cashbackAmount,
       final BigDecimal basisAmount,
-      final RewardCashbackPolicy rewardCashbackPolicy,
-      final RewardBackendCashbackPolicy backendCashbackPolicy) {
+      final CashbackType cashbackType,
+      final List<RewardCashbackPolicy> rewardCashbackPolicies,
+      final Map<Long, List<RewardBackendCashbackPolicy>> backendCashbackPolicyMap) {
 
-    switch (rewardCashbackPolicy.getCashbackCd()) {
+    switch (cashbackType) {
       case Item:
         return itemCashbackCreator.createItemCashback(
             useEnableDate,
@@ -125,7 +129,7 @@ public class CashbackUnitFactory {
             itemSnapshot,
             cashbackAmount,
             basisAmount,
-            rewardCashbackPolicy
+            rewardCashbackPolicies
         );
 
       case SmilePay:
@@ -135,7 +139,7 @@ public class CashbackUnitFactory {
             itemSnapshot,
             cashbackAmount,
             basisAmount,
-            rewardCashbackPolicy
+            rewardCashbackPolicies
         );
       case ChargePay:
         return chargePayCashbackCreator.create(
@@ -144,8 +148,8 @@ public class CashbackUnitFactory {
             itemSnapshot,
             cashbackAmount,
             basisAmount,
-            rewardCashbackPolicy,
-            backendCashbackPolicy
+            rewardCashbackPolicies,
+            backendCashbackPolicyMap
         );
       case ClubDay:
         return clubDayCashbackCreator.create(
@@ -155,17 +159,18 @@ public class CashbackUnitFactory {
             itemSnapshot,
             cashbackAmount,
             basisAmount,
-            rewardCashbackPolicy,
-            backendCashbackPolicy
+            rewardCashbackPolicies,
+            backendCashbackPolicyMap
         );
       default:
         //TODO: 기록이나 로깅이 필요할거 같음
         return defaultCashbackCreator.create(
+            cashbackType,
             useEnableDate,
             itemSnapshot,
             cashbackAmount,
             basisAmount,
-            rewardCashbackPolicy
+            rewardCashbackPolicies
         );
     }
   }
