@@ -23,4 +23,5 @@ class UserGatewaySpec extends Specification {
     "결과코드_비정상_값없음" | 1    | ""        | Optional.empty()
 
   }
+
 }

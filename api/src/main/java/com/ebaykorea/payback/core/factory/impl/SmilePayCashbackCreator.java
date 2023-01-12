@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 
 @Component
 public class SmilePayCashbackCreator {
@@ -22,7 +26,7 @@ public class SmilePayCashbackCreator {
       final ItemSnapshot itemSnapshot,
       final BigDecimal cashbackAmount,
       final BigDecimal basisAmount,
-      final RewardCashbackPolicy rewardCashbackPolicy
+      final List<RewardCashbackPolicy> rewardCashbackPolicies
   ) {
     return new SmilePayCashback(
         itemSnapshot.getItemNo(),
@@ -31,20 +35,22 @@ public class SmilePayCashbackCreator {
         basisAmount,
         useEnableDate,
         payment.isSmilePayPayment(),
-        createCashbackPolicy(rewardCashbackPolicy),
-        rewardCashbackPolicy.getClubCashbackAmount()
+        createCashbackPolicies(rewardCashbackPolicies),
+        rewardCashbackPolicies.stream().map(RewardCashbackPolicy::getClubCashbackAmount).collect(summarizing())
     );
   }
 
-  private CashbackPolicy createCashbackPolicy(final RewardCashbackPolicy rewardCashbackPolicy) {
-    return new SmilePayCashbackPolicy(
-        rewardCashbackPolicy.getCashbackSeq(),
-        rewardCashbackPolicy.getCashbackTitle(),
-        CashbackPayType.FixRate.getCode(),
-        rewardCashbackPolicy.getPayType(),
-        rewardCashbackPolicy.getPayRate(),
-        rewardCashbackPolicy.getPayMaxMoney()
-    );
+  private List<CashbackPolicy> createCashbackPolicies(final List<RewardCashbackPolicy> rewardCashbackPolicies) {
+    return rewardCashbackPolicies.stream()
+        .map(policy -> new SmilePayCashbackPolicy(
+            policy.getCashbackSeq(),
+            policy.getCashbackTitle(),
+            CashbackPayType.FixRate.getCode(),
+            policy.getPayType(),
+            policy.getPayRate(),
+            policy.getPayMaxMoney()
+        ))
+        .collect(Collectors.toUnmodifiableList());
   }
 
 }

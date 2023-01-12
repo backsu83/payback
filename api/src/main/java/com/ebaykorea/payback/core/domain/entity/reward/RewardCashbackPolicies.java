@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.reward;
 
 import static com.ebaykorea.payback.util.PaybackCollections.toMapBy;
-import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
@@ -18,7 +17,7 @@ import lombok.Value;
 @Value
 public class RewardCashbackPolicies {
   Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap;
-  Map<Long, RewardBackendCashbackPolicy> backendCashbackPolicyMap;
+  Map<Long, List<RewardBackendCashbackPolicy>> backendCashbackPolicyMap;
   Map<Long, RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicyMap;
 
   String useEnableDate;
@@ -42,7 +41,7 @@ public class RewardCashbackPolicies {
       final BigDecimal newSmileCardCashbackAmount) {
     return new RewardCashbackPolicies(
         cashbackPolicies.stream().collect(groupingBy(RewardCashbackPolicy::getPolicyKey)),
-        backendCashbackPolicies.stream().collect(toMapBy(RewardBackendCashbackPolicy::getPolicyKey)),
+        backendCashbackPolicies.stream().collect(groupingBy(RewardBackendCashbackPolicy::getPolicyKey)),
         smileCardCashbackPolicies.stream().collect(toMapBy(RewardT2T3SmileCardCashbackPolicy::getPolicyKey)),
         useEnableDate,
         smileCardCashbackAmount,
@@ -51,7 +50,7 @@ public class RewardCashbackPolicies {
 
   private RewardCashbackPolicies(
       final Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap,
-      final Map<Long, RewardBackendCashbackPolicy> backendCashbackPolicyMap,
+      final Map<Long, List<RewardBackendCashbackPolicy>> backendCashbackPolicyMap,
       final Map<Long, RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicyMap,
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
@@ -70,14 +69,9 @@ public class RewardCashbackPolicies {
 
   }
 
-  //정책이 여러개 등록될 경우를 고려하여 key 및 타입별 캐시백 금액을 Sum한 형태로 가져옵니다
-  //TODO: https://jira.ebaykorea.com/browse/RWD-971 확인 필요
-  public BigDecimal getCashbackAmount(final long policyKey, final CashbackType cashbackType) {
+  public Map<CashbackType, List<RewardCashbackPolicy>> findRewardCashbackPolicyMapByCashbackType(final long policyKey) {
     return findRewardCashbackPolicies(policyKey).stream()
-        .filter(p -> p.getCashbackCd() == cashbackType)
-        .map(RewardCashbackPolicy::getCashbackAmount)
-        .map(BigDecimal::valueOf)
-        .collect(summarizing());
+        .collect(groupingBy(RewardCashbackPolicy::getCashbackCd));
   }
 
   public Instant toUseEnableDate(final Instant orderDate) {
@@ -88,12 +82,18 @@ public class RewardCashbackPolicies {
     }
   }
 
-  public List<RewardCashbackPolicy> findRewardCashbackPolicies(final long policyKey) {
+  private List<RewardCashbackPolicy> findRewardCashbackPolicies(final long policyKey) {
     return Optional.ofNullable(cashbackPolicyMap.get(policyKey))
         .orElse(emptyList());
   }
 
-  public Optional<RewardBackendCashbackPolicy> findBackendRewardCashbackPolicy(final long policyKey) {
-    return Optional.ofNullable(backendCashbackPolicyMap.get(policyKey));
+  private List<RewardBackendCashbackPolicy> findRewardBackendCashbackPolicies(final long policyKey) {
+    return Optional.ofNullable(backendCashbackPolicyMap.get(policyKey))
+        .orElse(emptyList());
+  }
+
+  public Map<Long, List<RewardBackendCashbackPolicy>> findRewardBackendCashbackPolicyMap(final long policyKey) {
+    return findRewardBackendCashbackPolicies(policyKey).stream()
+        .collect(groupingBy(RewardBackendCashbackPolicy::getCashbackSeq));
   }
 }

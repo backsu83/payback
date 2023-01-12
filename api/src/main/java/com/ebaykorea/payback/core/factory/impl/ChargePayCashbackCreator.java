@@ -13,8 +13,14 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import static com.ebaykorea.payback.core.domain.constant.CashbackType.ChargePay;
 import static com.ebaykorea.payback.util.PaybackDecimals.orZero;
+import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
+import static java.math.BigDecimal.ZERO;
 
 @Component
 public class ChargePayCashbackCreator {
@@ -25,35 +31,43 @@ public class ChargePayCashbackCreator {
       final ItemSnapshot itemSnapshot,
       final BigDecimal cashbackAmount,
       final BigDecimal basisAmount,
-      final RewardCashbackPolicy rewardCashbackPolicy,
-      final RewardBackendCashbackPolicy rewardBackendCashbackPolicy) {
+      final List<RewardCashbackPolicy> rewardCashbackPolicies,
+      final Map<Long, List<RewardBackendCashbackPolicy>> rewardBackendPolicyMap) {
     return new ChargePayCashback(
         itemSnapshot.getItemNo(),
         itemSnapshot.toShopType(),
         cashbackAmount,
         basisAmount,
         useEnableDate,
-        rewardCashbackPolicy.getAutoChargeClubAmount(),
-        rewardCashbackPolicy.getAutoChargeAmount(),
+        rewardCashbackPolicies.stream().map(RewardCashbackPolicy::getAutoChargeClubAmount).collect(summarizing()),
+        rewardCashbackPolicies.stream().map(RewardCashbackPolicy::getAutoChargeAmount).collect(summarizing()),
         payment.isChargePayment(),
-        createCashbackPolicy(rewardCashbackPolicy, rewardBackendCashbackPolicy)
+        createCashbackPolicies(rewardCashbackPolicies, rewardBackendPolicyMap)
     );
   }
 
-  private CashbackPolicy createCashbackPolicy(
-      final RewardCashbackPolicy rewardCashbackPolicy,
-      final RewardBackendCashbackPolicy rewardBackendCashbackPolicy) {
-    return new ChargePayCashbackPolicy(
-        rewardCashbackPolicy.getCashbackSeq(),
-        rewardCashbackPolicy.getCashbackTitle(),
-        CashbackPayType.FixRate.getCode(),
-        rewardCashbackPolicy.getPayType(),
-        rewardCashbackPolicy.getPayRate(),
-        rewardCashbackPolicy.getPayMaxMoney(),
-        orZero(rewardBackendCashbackPolicy.getChargePayRewardRate()),
-        orZero(rewardBackendCashbackPolicy.getChargePayRewardClubRate()),
-        orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getChargePayRewardMaxMoney())),
-        orZero(BigDecimal.valueOf(rewardBackendCashbackPolicy.getChargePayRewardClubMaxMoney()))
-    );
+  private List<CashbackPolicy> createCashbackPolicies(
+      final List<RewardCashbackPolicy> rewardCashbackPolicies,
+      final Map<Long, List<RewardBackendCashbackPolicy>> rewardBackendPolicyMap) {
+    return rewardCashbackPolicies.stream()
+        .map(policy -> {
+          final var maybeBackendPolicy = rewardBackendPolicyMap.get(policy.getCashbackSeq()).stream()
+              .filter(backendPolicy -> backendPolicy.getCashbackCode() == ChargePay)
+              .findAny();
+
+          return new ChargePayCashbackPolicy(
+              policy.getCashbackSeq(),
+              policy.getCashbackTitle(),
+              CashbackPayType.FixRate.getCode(),
+              policy.getPayType(),
+              policy.getPayRate(),
+              policy.getPayMaxMoney(),
+              orZero(maybeBackendPolicy.map(RewardBackendCashbackPolicy::getChargePayRewardRate).orElse(ZERO)),
+              orZero(maybeBackendPolicy.map(RewardBackendCashbackPolicy::getChargePayRewardClubRate).orElse(ZERO)),
+              orZero(BigDecimal.valueOf(maybeBackendPolicy.map(RewardBackendCashbackPolicy::getChargePayRewardMaxMoney).orElse(0))),
+              orZero(BigDecimal.valueOf(maybeBackendPolicy.map(RewardBackendCashbackPolicy::getChargePayRewardClubMaxMoney).orElse(0)))
+          );
+        })
+        .collect(Collectors.toUnmodifiableList());
   }
 }
