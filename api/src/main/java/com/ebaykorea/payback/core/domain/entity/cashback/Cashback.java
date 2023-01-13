@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
-import static java.util.stream.Collectors.groupingBy;
 
 @Getter
 @EqualsAndHashCode
