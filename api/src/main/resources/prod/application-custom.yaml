@@ -9,24 +9,14 @@ saturn:
       version:
         major: "v1"
         full: "v1.0.0"
-    datasource:
-      appName: PAYREWARD_APP
-      userName: payback_app
-      tenant: gmarket #개발: gmarketdev, 운영: gmarket
-
-###################################################
-# DCM Configurations
-###################################################
-ebay.kr.dcm:
-  serviceUrl: "https://dcmservice.gmarket.co.kr/api/connection/%s/%s/?%s"
-  applicationName: PAYREWARD_APP
-  datasources:
-    name: tigerDataSource
-    connectionName: tiger
-  hikariCp:
-    minimumIdle: 1
-  krb5.conf: "/etc/config/krb5.conf"
-  login.config: "/etc/config/login.conf"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: payback_app
+    tenant: gmarket #개발: gmarketdev, 운영: gmarket
+    configs:
+      - beanName: "tiger_readDataSource"
+        hikariCp:
+          minimumIdle: 1
 
 apis:
   reward:
