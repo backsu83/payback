@@ -75,6 +75,12 @@ public class Cashback {
         .collect(summarizing());
   }
 
+  public BigDecimal getPayAmount(final CashbackType cashbackType) {
+    return cashbackUnitStreamByCashbackType(cashbackType)
+        .map(CashbackUnit::getPayAmount)
+        .collect(summarizing());
+  }
+
   public BigDecimal getNonClubAmount(final CashbackType cashbackType) {
     return cashbackUnitStreamByCashbackType(cashbackType)
         .map(CashbackUnit::getNonClubAmount)

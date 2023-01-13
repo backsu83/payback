@@ -24,6 +24,8 @@ public class RewardCashbackPolicy {
   BigDecimal payMaxMoney;
   /** 캐시백타이틀 */
   String cashbackTitle;
+  /** 스마일페이 캐시백  */
+  BigDecimal payCashbackAmount;
   /** 클럽인경우 스마일페이 캐시백  */
   BigDecimal clubCashbackAmount;
   /** 스마일캐시선불충전 캐시백 */
