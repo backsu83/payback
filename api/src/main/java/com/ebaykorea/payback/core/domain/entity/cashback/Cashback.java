@@ -41,7 +41,7 @@ public class Cashback {
   }
 
   private void validate() {
-    //TODO cashbackUnits에 동일한 캐시백 타입이 두개 이상 존재 할 수 없다
+    //cashbackUnits에 동일한 캐시백 타입이 두개 이상 존재 할 수 없다
     final var hasMoreThanOneCashbackType = cashbackUnits.stream().collect(groupingBy(CashbackUnit::getCashbackType))
         .entrySet().stream()
         .anyMatch(entry -> entry.getValue().size() > 1);
