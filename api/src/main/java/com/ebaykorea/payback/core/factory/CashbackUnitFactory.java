@@ -68,7 +68,7 @@ public class CashbackUnitFactory {
     return sellerCashbackCreator.create(
         getDefaultEnableDate(orderDate),
         itemSnapshot,
-        orderUnit.orderUnitPrice(bundleDiscountPrice, itemSnapshot.getBuyerMileageRate()),
+        orderUnit.orderUnitPrice(bundleDiscountPrice, itemSnapshot.getBuyerMileageRate() , orderUnit.getOrderItem().getQuantity()),
         orderUnit.orderUnitPrice(bundleDiscountPrice)
     );
   }
