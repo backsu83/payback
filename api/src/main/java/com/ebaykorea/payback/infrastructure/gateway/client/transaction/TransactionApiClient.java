@@ -1,9 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.transaction;
 
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
-import com.ebaykorea.payback.infrastructure.gateway.client.transaction.dto.KeyMapDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.transaction.dto.KeyMapResponseDto;
-import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +18,6 @@ import java.util.Optional;
 )
 public interface TransactionApiClient {
 
-  @Retry(name = "retryApi")
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/key/maps/{tx-key}",
