@@ -113,13 +113,13 @@ class PayCashbackRepositoryImplSpec extends Specification {
 
   def "CashbackOrderPolicyEntity 변환이 잘되는지 확인"() {
     expect:
-    def result = repository.mapToPolicies(payCashback, cashback, cashback.findAppliedCashbackPolicies())
+    def result = repository.mapToPolicies(payCashback, cashback, cashback.findCashbackPolicies())
     result == expectResult
 
     where:
     _________________________________________________
     desc | payCashback | cashback
-    "적용대상이 아닐 경우 미생성" | PayCashback_생성() | Cashback_생성(cashbackUnits: [ItemCashback_생성(), SellerCashback_생성(), SmilePayCashback_생성(), ChargePayCashback_생성(), ClubDayCashback_생성()])
+    "적용대상이 아니어도 생성" | PayCashback_생성() | Cashback_생성(cashbackUnits: [ItemCashback_생성(), SellerCashback_생성(), SmilePayCashback_생성(), ChargePayCashback_생성(), ClubDayCashback_생성()])
     "아이템캐시백" | PayCashback_생성() | Cashback_생성(cashbackUnits: [ItemCashback_생성(isSmilePay: true, maxLimitMoney: 1L)])
     "판매자캐시백" | PayCashback_생성() | Cashback_생성(cashbackUnits: [SellerCashback_생성(amount: 1000L)])
     "스마일페이캐시백" | PayCashback_생성() | Cashback_생성(cashbackUnits: [SmilePayCashback_생성(isSmilePay: true, saveRate: 1L)])
@@ -127,7 +127,7 @@ class PayCashbackRepositoryImplSpec extends Specification {
     "클럽데이캐시백" | PayCashback_생성() | Cashback_생성(cashbackUnits: [ClubDayCashback_생성(isSmilePay: true, isClubMember: true, clubDayMaxSaveMoney: 1L, clubDayMaxSaveRate: 2L)])
     _________________________________________________
     expectResult | _ | _
-    [] | _ | _
+    [CashbackOrderPolicyEntity_생성(policyNo: 1L, maxLimitMoney: 0L), CashbackOrderPolicyEntity_생성(type: "S", name: "판매자 제공 적립"),CashbackOrderPolicyEntity_생성(type: "P", policyNo: 1L, subType: "P", maxLimitMoney: 0L),CashbackOrderPolicyEntity_생성(type: "A", policyNo: 1L, subType: "P", maxLimitMoney: 0L, chargePaySaveRate: 0, chargePayClubSaveRate: 0, chargePayMaxMoney: 0, chargePayClubMaxMoney: 0),CashbackOrderPolicyEntity_생성(type: "D", policyNo: 1L, subType: "P", maxLimitMoney: 0L, clubDayMaxSaveRate: 0, clubDayMaxSaveMoney: 0)] | _ | _
     [CashbackOrderPolicyEntity_생성(policyNo: 1L, maxLimitMoney: 1L)] | _ | _
     [CashbackOrderPolicyEntity_생성(type: "S", policyNo: 0L, name: "판매자 제공 적립")] | _ | _
     [CashbackOrderPolicyEntity_생성(type: "P", policyNo: 1L, subType: "P", saveRate: 1L, maxLimitMoney: 0L)] | _ | _

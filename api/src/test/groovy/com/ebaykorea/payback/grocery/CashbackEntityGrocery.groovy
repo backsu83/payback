@@ -48,12 +48,12 @@ class CashbackEntityGrocery {
       maxLimitMoney = map.maxLimitMoney as BigDecimal
       regId = (map.regId ?: "buyerNo") as String
       regDt = (map.regDt ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
-      chargePaySaveRate = (map.chargePaySaveRate ?: null) as BigDecimal
-      chargePayClubSaveRate = (map.chargePayClubSaveRate ?: null) as BigDecimal
-      chargePayMaxMoney = (map.chargePayMaxMoney ?: null) as BigDecimal
-      chargePayClubMaxMoney = (map.chargePayClubMaxMoney ?: null) as BigDecimal
-      clubDayMaxSaveRate = (map.clubDayMaxSaveRate ?: null) as BigDecimal
-      clubDayMaxSaveMoney = (map.clubDayMaxSaveMoney ?: null) as BigDecimal
+      chargePaySaveRate = map.chargePaySaveRate as BigDecimal
+      chargePayClubSaveRate = map.chargePayClubSaveRate as BigDecimal
+      chargePayMaxMoney = map.chargePayMaxMoney as BigDecimal
+      chargePayClubMaxMoney = map.chargePayClubMaxMoney as BigDecimal
+      clubDayMaxSaveRate = map.clubDayMaxSaveRate as BigDecimal
+      clubDayMaxSaveMoney = map.clubDayMaxSaveMoney as BigDecimal
     }
   }
 
