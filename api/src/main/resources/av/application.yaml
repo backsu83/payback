@@ -69,6 +69,22 @@ saturn:
     domainGroup: payreward
     domain: payback.api
     host: http://moafw2.ebaykorea.com/bulk
+  application:
+    domain: "payback"
+    tenantid: "gmarket"
+    api-info:
+      name: "payback-api"
+      api-package: "com.ebaykorea.payback.api"
+      version:
+        major: "v1"
+        full: "v1.0.0"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: payback_app
+    tenant: gmarket #개발: gmarketdev, 운영: gmarket
+    configs:
+      hikariCp:
+        minimumIdle: 1
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
