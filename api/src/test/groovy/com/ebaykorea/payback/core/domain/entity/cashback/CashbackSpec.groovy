@@ -15,6 +15,16 @@ class CashbackSpec extends Specification {
     then:
     def e = thrown(PaybackException)
     e.code == PaybackExceptionCode.DOMAIN_ENTITY_001
+  }
 
+  def "서로 다른 Cashback은 동일한 캐시백 타입의 cashbackUnit을 갖을 수 있다"() {
+    when:
+    List.of(
+        Cashback_생성(orderNo: 1L, cashbackUnits: [ItemCashback_생성()]),
+        Cashback_생성(orderNo: 2L, cashbackUnits: [ItemCashback_생성()])
+    )
+    
+    then:
+    noExceptionThrown()
   }
 }
