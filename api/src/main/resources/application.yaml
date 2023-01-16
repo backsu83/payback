@@ -60,7 +60,7 @@ resilience4j:
         baseConfig: default
 
 ###################################################
-# MoA Configurations
+# Saturn Configurations
 ###################################################
 saturn:
   groupId: com.ebaykorea
@@ -69,6 +69,19 @@ saturn:
     domainGroup: payreward
     domain: payback.api
     host: http://devmoafw.ebaykorea.com
+  application:
+    domain: "payback"
+    tenantid: "gmarket"
+    api-info:
+      name: "payback-api"
+      api-package: "com.ebaykorea.payback.api"
+      version:
+        major: "v1"
+        full: "v1.0.0"
+  datasource:
+    appName: PAYBACK_API
+    userName: daemon_app
+    tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
