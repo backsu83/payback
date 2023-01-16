@@ -54,11 +54,13 @@ public class OrderUnit {
         .subtract(orElse(bundleDiscountPrice, BigDecimal.ZERO));
   }
 
-  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal buyerMileageRate) {
+  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal buyerMileageRate, int quantity) {
     return orderUnitPrice(bundleDiscountPrice)
+        .divide(BigDecimal.valueOf(quantity))
         .multiply(buyerMileageRate)
         .multiply(BASIS_MONEY_RATE)
-        .setScale(0, RoundingMode.FLOOR);
+        .setScale(0, RoundingMode.FLOOR)
+        .multiply(BigDecimal.valueOf(quantity));
   }
 
   public BigDecimal itemDiscountPrice() {

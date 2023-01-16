@@ -3,7 +3,6 @@ package com.ebaykorea.payback.infrastructure.gateway.client.order;
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.ItemSnapshotDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.OrderQueryResponseDto;
-import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import java.util.Optional;
 )
 public interface OrderApiClient {
 
-  @Retry(name = "retryApi")
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/orders/{order-key}",
@@ -30,7 +28,6 @@ public interface OrderApiClient {
   Optional<OrderQueryResponseDto> findOrder(@PathVariable(name="order-key") final String orderKey, @RequestParam("fields") final String fields);
 
   // 상품 스냅샷 (추후 주문이 아닌 상품쪽에서 제공 될 수 있음)
-  @Retry(name = "retryApi")
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/snapshot/item/items",

@@ -3,6 +3,7 @@ package com.ebaykorea.payback.core.domain.entity.cashback;
 import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
+import com.ebaykorea.payback.core.exception.PaybackException;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 
 @Getter
@@ -38,7 +40,13 @@ public class Cashback {
   }
 
   private void validate() {
-    //TODO cashbackUnits에 동일한 캐시백 타입이 두개 이상 존재 할 수 없다
+    //cashbackUnits에 동일한 캐시백 타입이 두개 이상 존재 할 수 없다
+    final var hasMoreThanOneCashbackType = cashbackUnits.stream().collect(groupingBy(CashbackUnit::getCashbackType))
+        .entrySet().stream()
+        .anyMatch(entry -> entry.getValue().size() > 1);
+    if (hasMoreThanOneCashbackType) {
+      throw new PaybackException(DOMAIN_ENTITY_001 , "Cashback");
+    }
   }
 
   // 캐시백 적립 대상(isApply=true) 목록
@@ -48,9 +56,9 @@ public class Cashback {
         .collect(Collectors.toUnmodifiableList());
   }
 
-  // 캐시백 적립 대상(isApply=true)의 정책 목록
-  public List<CashbackPolicy> findAppliedCashbackPolicies() {
-    return findAppliedCashbackUnits().stream()
+  // 캐시백 정책 목록
+  public List<CashbackPolicy> findCashbackPolicies() {
+    return cashbackUnits.stream()
         .map(CashbackUnit::getCashbackPolicies)
         .flatMap(Collection::stream)
         .collect(Collectors.toUnmodifiableList());

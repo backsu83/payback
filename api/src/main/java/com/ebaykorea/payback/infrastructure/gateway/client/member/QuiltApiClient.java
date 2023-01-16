@@ -2,7 +2,6 @@ package com.ebaykorea.payback.infrastructure.gateway.client.member;
 
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
 import com.ebaykorea.payback.infrastructure.gateway.client.member.dto.QuiltBaseResponse;
-import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ import java.util.Optional;
     configuration = DefaultFeignConfig.class
 )
 public interface QuiltApiClient {
-  @Retry(name = "retryApi")
+
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/smilecash/smileUserKey",

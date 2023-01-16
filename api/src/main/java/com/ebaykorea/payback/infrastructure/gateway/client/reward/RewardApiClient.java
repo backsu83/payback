@@ -2,7 +2,6 @@ package com.ebaykorea.payback.infrastructure.gateway.client.reward;
 
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
-import io.github.resilience4j.retry.annotation.Retry;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -19,14 +18,12 @@ import java.util.List;
 )
 public interface RewardApiClient {
 
-  @Retry(name = "retryApi")
   @RequestMapping(
       method = RequestMethod.POST,
       value = "/api/Read/V2/CashbackReward"
   )
   Optional<RewardBaseResponse<CashbackRewardResponseDto>> getCashbackReward(@RequestBody final CashbackRewardRequestDto request);
 
-  @Retry(name = "retryApi")
   @RequestMapping(
       method = RequestMethod.POST,
       value = "api/Read/V2/CashbackRewardBackend",
