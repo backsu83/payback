@@ -17,7 +17,7 @@ import java.time.Instant;
 public class SmilePayCashback extends CashbackUnit {
 
   private final BigDecimal clubAmount;
-  private final BigDecimal payAmount;
+  private final BigDecimal nonClubAmount;
 
   public SmilePayCashback(
       final String itemNo,
@@ -28,7 +28,7 @@ public class SmilePayCashback extends CashbackUnit {
       final boolean isSmilePay,
       final List<CashbackPolicy> cashbackPolicies,
       final BigDecimal clubAmount,
-      final BigDecimal payAmount
+      final BigDecimal nonClubAmount
       ) {
     super(
         itemNo,
@@ -39,7 +39,7 @@ public class SmilePayCashback extends CashbackUnit {
         CashbackApplyStrategy.cashbackAvailableStrategy(amount, isSmilePay),
         cashbackPolicies);
     this.clubAmount = clubAmount;
-    this.payAmount = payAmount;
+    this.nonClubAmount = nonClubAmount;
   }
 
   @Override
@@ -54,7 +54,7 @@ public class SmilePayCashback extends CashbackUnit {
 
   @Override
   public BigDecimal getNonClubAmount() {
-    return payAmount;
+    return nonClubAmount;
   }
 
 }
