@@ -36,7 +36,8 @@ public class SmilePayCashbackCreator {
         useEnableDate,
         payment.isSmilePayPayment(),
         createCashbackPolicies(rewardCashbackPolicies),
-        rewardCashbackPolicies.stream().map(RewardCashbackPolicy::getClubCashbackAmount).collect(summarizing())
+        rewardCashbackPolicies.stream().map(RewardCashbackPolicy::getClubCashbackAmount).collect(summarizing()),
+        rewardCashbackPolicies.stream().map(RewardCashbackPolicy::getPayCashbackAmount).collect(summarizing())
     );
   }
 

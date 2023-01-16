@@ -53,7 +53,8 @@ class CashbackUnitGrocery {
         (map.useEnableDate ?: TestConstant.USE_ENABLE_DATE) as Instant,
         (map.isSmilePay) as boolean,
         (map.cashbackPolicy ?: List.of(SmilePayCashbackPolicy_생성(map))) as List<CashbackPolicy>,
-        (map.clubAmount ?: 0L) as BigDecimal
+        (map.clubAmount ?: 0L) as BigDecimal,
+        (map.payAmount ?: 0L) as BigDecimal
     )
   }
 
