@@ -52,6 +52,7 @@ public class SmilePayCashback extends CashbackUnit {
     return clubAmount;
   }
 
+  @Override
   public BigDecimal getNonClubAmount() {
     return payAmount;
   }
