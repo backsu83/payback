@@ -60,7 +60,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
           saveCashbackUnits(payCashback, cashback, cashback.findAppliedCashbackUnits());
 
           //cashback_order_policy
-          saveCashbackPolicies(payCashback, cashback, cashback.findAppliedCashbackPolicies());
+          saveCashbackPolicies(payCashback, cashback, cashback.findCashbackPolicies());
 
           //cashback_order_detail
           saveCashbackDetail(payCashback, cashback);
