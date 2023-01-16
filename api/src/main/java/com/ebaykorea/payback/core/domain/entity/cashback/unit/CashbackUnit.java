@@ -35,10 +35,6 @@ public abstract class CashbackUnit implements CashbackUnitKind {
     return BigDecimal.ZERO;
   }
 
-  public BigDecimal getPayAmount() {
-    return BigDecimal.ZERO;
-  }
-
   public BigDecimal getNonClubAmount() {
     return BigDecimal.ZERO;
   }
