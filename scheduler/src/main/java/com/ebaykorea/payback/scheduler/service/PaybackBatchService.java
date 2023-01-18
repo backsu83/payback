@@ -54,7 +54,7 @@ public class PaybackBatchService {
       paybacksFuture.add(CompletableFuture
           .supplyAsync(() -> paybackApiClient.saveCashbacks(request), taskExecutor)
           .exceptionally(ex -> {
-            fail(unit.getOrderKey() , unit.getTxKey(), unit.getRetryCount());
+            fail(unit.getOrderKey() , unit.getTxKey(), unit.getRetryCount(), ex.getMessage());
             log.error("scheduler - fail to payback api orderKey:{} / txKey:{} / error:{}",
                 unit.getOrderKey(),
                 unit.getTxKey(),
@@ -76,17 +76,17 @@ public class PaybackBatchService {
   public void success(List<PaybackResponseDto> paybacks) {
     paybacks.stream()
         .filter(f->Objects.nonNull(f))
-        .map(o->o.getData())
         .forEach(unit-> cashbackOrderBatchRepository.updateStatus(
-            unit.getOrderKey() ,
-            unit.getTxKey(),
+            unit.getData().getOrderKey() ,
+            unit.getData().getTxKey(),
             COMPLETED.name() ,
-            0L, updOprt)
+            0L,
+            unit.getMessage(), updOprt)
         );
   }
 
-  public void fail(String orderKey , String txKey , long retryCount) {
+  public void fail(String orderKey , String txKey , long retryCount, String message) {
     final var count = retryCount + 1L;
-    cashbackOrderBatchRepository.updateStatus(orderKey , txKey, FAIL.name() , count, updOprt);
+    cashbackOrderBatchRepository.updateStatus(orderKey , txKey, FAIL.name() , count, message, updOprt);
   }
 }
