@@ -45,7 +45,7 @@ class PaybackBatchServiceTest extends Specification {
                     .responseCode(500L)
                     .retryCount(0L)
                     .status("TARGET")
-                    .messageCode(null)
+                    .message(null)
                     .insDate(Timestamp.from(Instant.now()))
                     .insOprt("test")
                     .updDate(Timestamp.from(Instant.now()))
@@ -57,7 +57,7 @@ class PaybackBatchServiceTest extends Specification {
                      .responseCode(500L)
                      .retryCount(0L)
                      .status("TARGET")
-                     .messageCode(null)
+                     .message(null)
                      .insDate(Timestamp.from(Instant.now()))
                      .insOprt("test")
                      .updDate(Timestamp.from(Instant.now()))
@@ -71,8 +71,8 @@ class PaybackBatchServiceTest extends Specification {
     paybackBatchService.updateRecords()
 
     then:
-    1 * cashbackOrderBatchRepository.updateStatus(_ ,_ , ProcessType.COMPLETED.name() , 0L , _) >> {}
-    1 * cashbackOrderBatchRepository.updateStatus(_ ,_ , ProcessType.FAIL.name() , !0L , _) >> {}
+    1 * cashbackOrderBatchRepository.updateStatus(_ ,_ , ProcessType.COMPLETED.name() , 0L, _ , _) >> {}
+    1 * cashbackOrderBatchRepository.updateStatus(_ ,_ , ProcessType.FAIL.name() , !0L , _ , _) >> {}
   }
 
 }

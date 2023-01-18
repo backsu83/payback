@@ -25,8 +25,8 @@ public class CashbackOrderBatchEntity {
   @Column(name = "RSP_CD")
   private Long responseCode;
 
-  @Column(name = "RSP_MSG_CD")
-  private String messageCode;
+  @Column(name = "RSP_MSG")
+  private String message;
 
   @Column(name = "STATUS")
   private String status;
