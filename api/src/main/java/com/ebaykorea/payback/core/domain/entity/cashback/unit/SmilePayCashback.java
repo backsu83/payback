@@ -3,6 +3,7 @@ package com.ebaykorea.payback.core.domain.entity.cashback.unit;
 import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.constant.ShopType;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,6 +17,7 @@ import java.time.Instant;
 public class SmilePayCashback extends CashbackUnit {
 
   private final BigDecimal clubAmount;
+  private final BigDecimal nonClubAmount;
 
   public SmilePayCashback(
       final String itemNo,
@@ -24,8 +26,9 @@ public class SmilePayCashback extends CashbackUnit {
       final BigDecimal basisAmount,
       final Instant useEnableDate,
       final boolean isSmilePay,
-      final CashbackPolicy cashbackPolicy,
-      final BigDecimal clubAmount
+      final List<CashbackPolicy> cashbackPolicies,
+      final BigDecimal clubAmount,
+      final BigDecimal nonClubAmount
       ) {
     super(
         itemNo,
@@ -34,8 +37,9 @@ public class SmilePayCashback extends CashbackUnit {
         basisAmount,
         useEnableDate,
         CashbackApplyStrategy.cashbackAvailableStrategy(amount, isSmilePay),
-        cashbackPolicy);
+        cashbackPolicies);
     this.clubAmount = clubAmount;
+    this.nonClubAmount = nonClubAmount;
   }
 
   @Override
@@ -48,5 +52,9 @@ public class SmilePayCashback extends CashbackUnit {
     return clubAmount;
   }
 
+  @Override
+  public BigDecimal getNonClubAmount() {
+    return nonClubAmount;
+  }
 
 }

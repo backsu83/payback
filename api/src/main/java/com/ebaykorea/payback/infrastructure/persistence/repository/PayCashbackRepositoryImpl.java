@@ -60,7 +60,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
           saveCashbackUnits(payCashback, cashback, cashback.findAppliedCashbackUnits());
 
           //cashback_order_policy
-          saveCashbackPolicies(payCashback, cashback, cashback.findAppliedCashbackPolicies());
+          saveCashbackPolicies(payCashback, cashback, cashback.findCashbackPolicies());
 
           //cashback_order_detail
           saveCashbackDetail(payCashback, cashback);
@@ -69,11 +69,14 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
     //cashback_order_member
     saveCashbackMember(payCashback);
 
-    if (payCashback.hasSmileCardCashback()) {
-      //smilecard_cash
+    if (payCashback.hasSmileCardCashbackAmount()) {
+      //SMILECARD_CASHBACK_ORDER
       saveSmileCardCashback(payCashback, payCashback.getSmileCardCashback());
-      //smilecard_t2t3_cashback_info
-      saveSmileCardT2T3Cashback(payCashback, payCashback.getSmileCardCashback());
+
+      if (payCashback.isSmileCardCashbackApplicable()) {
+        //smilecard_t2t3_cashback_info
+        saveSmileCardT2T3Cashback(payCashback, payCashback.getSmileCardCashback());
+      }
     }
   }
 

@@ -27,7 +27,7 @@ public abstract class ClubDayPolicyEntityMapper implements CashbackPolicyEntityM
     return mapToClubDayPolicy(payCashback, cashback, (ClubDayCashbackPolicy) policy);
   }
 
-  @Mapping(source = "policy.type.dbCode", target = "type")
+  @Mapping(source = "policy.cashbackType.dbCode", target = "type")
   @Mapping(source = "payCashback.member.buyerNo", target = "regId")
   @Mapping(expression = "java(PaybackTimestamps.from(payCashback.getOrderDate()))", target = "regDt")
   abstract CashbackOrderPolicyEntity mapToClubDayPolicy(PayCashback payCashback, Cashback cashback, ClubDayCashbackPolicy policy);

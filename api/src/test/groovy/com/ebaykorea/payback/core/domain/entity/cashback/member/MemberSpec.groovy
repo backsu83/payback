@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.entity.cashback
+package com.ebaykorea.payback.core.domain.entity.cashback.member
 
 import com.ebaykorea.payback.core.exception.PaybackException
 import com.ebaykorea.payback.core.exception.PaybackExceptionCode

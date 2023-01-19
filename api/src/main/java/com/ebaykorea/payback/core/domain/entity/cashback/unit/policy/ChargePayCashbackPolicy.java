@@ -19,7 +19,6 @@ public class ChargePayCashbackPolicy extends CashbackPolicy {
 
   public ChargePayCashbackPolicy(
       final long policyNo,
-      final CashbackType type,
       final String name,
       final String subType,
       final String payType,
@@ -32,7 +31,6 @@ public class ChargePayCashbackPolicy extends CashbackPolicy {
   ) {
     super(
         policyNo,
-        type,
         name,
         subType,
         payType,
@@ -43,5 +41,10 @@ public class ChargePayCashbackPolicy extends CashbackPolicy {
     this.chargePayClubSaveRate = chargePayClubSaveRate;
     this.chargePayMaxMoney = chargePayMaxMoney;
     this.chargePayClubMaxMoney = chargePayClubMaxMoney;
+  }
+
+  @Override
+  public CashbackType getCashbackType() {
+    return CashbackType.ChargePay;
   }
 }

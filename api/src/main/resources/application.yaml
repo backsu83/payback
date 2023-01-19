@@ -15,10 +15,6 @@ spring:
       format_sql: true
       inspect_stacktrace: true
       naming_physical_strategy: org.hibernate.boot.entity.naming.PhysicalNamingStrategyStandardImpl  #naming.physical-strategy
-  redis:
-    host: localhost
-    port: 6379
-    timeout: 1
 
 logging:
   pattern:
@@ -40,8 +36,8 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 5000  # resilience4j timeoutDuration 보다 커야 함.
-      readTimeout: 5000
+      connectTimeout: 3000  # resilience4j timeoutDuration 보다 커야 함.
+      readTimeout: 3000
   compression:
     request:
       enabled: true
@@ -52,26 +48,19 @@ feign:
       enabled: true
 
 # Resilience4j Configurations
-# 설정관련 - https://sabarada.tistory.com/206
-resilience4j.timelimiter:
-  configs:
-    default:
-      timeoutDuration: 3s
-      cancelRunningFuture: true
-  instances:
-    retryApi:
-      baseConfig: default
-      timeoutDuration: 900ms
-
-#resilience4j.thread-pool-bulkhead:
-#  configs:
-#    default:
-#      coreThreadPoolSize: 25
-#      maxThreadPoolSize: 25
-#      queueCapacity: 50
+# 설정관련 - https://wiki.ebaykorea.com/display/ANNA/Resilience4j
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 3
+        waitDuration: 500
+    instances:
+      retryApi: # retry name
+        baseConfig: default
 
 ###################################################
-# MoA Configurations
+# Saturn Configurations
 ###################################################
 saturn:
   groupId: com.ebaykorea
@@ -80,12 +69,25 @@ saturn:
     domainGroup: payreward
     domain: payback.api
     host: http://devmoafw.ebaykorea.com
+  application:
+    domain: "payback"
+    tenantid: "gmarket"
+    api-info:
+      name: "payback-api"
+      api-package: "com.ebaykorea.payback.api"
+      version:
+        major: "v1"
+        full: "v1.0.0"
+  datasource:
+    appName: PAYBACK_API
+    userName: daemon_app
+    tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
 ###################################################
 management:
-  server.port: 8089
+  server.port: 8081
   endpoints.web.exposure.include: "*"
   endpoint.health.show-details: ALWAYS
   health:

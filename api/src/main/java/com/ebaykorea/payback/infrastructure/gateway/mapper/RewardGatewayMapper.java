@@ -39,6 +39,7 @@ public interface RewardGatewayMapper {
 
   @Mapping(expression = "java(Long.valueOf(goods.getKey()))", target = "policyKey")
   @Mapping(source = "nspCashbackInfo.clubAmount", target = "clubCashbackAmount")
+  @Mapping(source = "nspCashbackInfo.payAmount", target = "payCashbackAmount")
   RewardCashbackPolicy map(CashbackRewardGoodResponseDto goods, CashbackInfoDto cashbackInfo, NspCashbackInfoDto nspCashbackInfo);
 
   @Mapping(expression = "java(Long.valueOf(source.getKey()))", target = "policyKey")

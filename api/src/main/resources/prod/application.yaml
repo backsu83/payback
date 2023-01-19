@@ -20,10 +20,10 @@ logging:
   pattern:
     console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
-    root: INFO
+    root: WARN
     com.ebaykorea.saturn: DEBUG
-    MoAAppender: INFO
-    MoALogger: INFO
+    MoAAppender: ERROR
+    MoALogger: ERROR
 
 ###################################################
 # feign Configurations
@@ -48,26 +48,19 @@ feign:
       enabled: true
 
 # Resilience4j Configurations
-# 설정관련 - https://sabarada.tistory.com/206
-resilience4j.timelimiter:
-  configs:
-    default:
-      timeoutDuration: 3s
-      cancelRunningFuture: true
-  instances:
-    retryApi:
-      baseConfig: default
-      timeoutDuration: 900ms
-
-#resilience4j.thread-pool-bulkhead:
-#  configs:
-#    default:
-#      coreThreadPoolSize: 25
-#      maxThreadPoolSize: 25
-#      queueCapacity: 50
+# 설정관련 - https://wiki.ebaykorea.com/display/ANNA/Resilience4j
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 3
+        waitDuration: 500
+    instances:
+      retryApi: # retry name
+        baseConfig: default
 
 ###################################################
-# MoA Configurations
+# Saturn Configurations
 ###################################################
 saturn:
   groupId: com.ebaykorea
@@ -75,13 +68,30 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.api
-    host: http://devmoafw.ebaykorea.com
+    host: http://moafw2.ebaykorea.com/bulk
+  application:
+    domain: "payback"
+    tenantid: "gmarket"
+    api-info:
+      name: "payback-api"
+      api-package: "com.ebaykorea.payback.api"
+      version:
+        major: "v1"
+        full: "v1.0.0"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: payback_app
+    tenant: gmarket #개발: gmarketdev, 운영: gmarket
+    configs:
+      - beanName: "tiger_readDataSource"
+        hikariCp:
+          minimumIdle: 1
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
 ###################################################
 management:
-  server.port: 8089
+  server.port: 8081
   endpoints.web.exposure.include: "*"
   endpoint.health.show-details: ALWAYS
   health:

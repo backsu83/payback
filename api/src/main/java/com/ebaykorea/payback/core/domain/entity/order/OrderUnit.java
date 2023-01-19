@@ -54,7 +54,7 @@ public class OrderUnit {
         .subtract(orElse(bundleDiscountPrice, BigDecimal.ZERO));
   }
 
-  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal buyerMileageRate) {
+  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal buyerMileageRate ) {
     return orderUnitPrice(bundleDiscountPrice)
         .multiply(buyerMileageRate)
         .multiply(BASIS_MONEY_RATE)

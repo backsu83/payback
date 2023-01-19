@@ -16,6 +16,7 @@ import java.util.Optional;
     configuration = DefaultFeignConfig.class
 )
 public interface QuiltApiClient {
+
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/smilecash/smileUserKey",

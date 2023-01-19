@@ -19,6 +19,7 @@ import java.util.Optional;
     configuration = DefaultFeignConfig.class
 )
 public interface OrderApiClient {
+
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/orders/{order-key}",

@@ -17,7 +17,7 @@ public class CashbackRewardBackendResponseDto {
   private String gdNo;
 
   //캐시백 정책번호
-  private Integer cashbackSeq;
+  private Long cashbackSeq;
 
   //캐시백 코드 ( 1 = ItemCashback, 2 = NewSmilePayCashback, 3 = SellerCashback, 4 = CartCashback )
   private CashbackType cashbackCode;

@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-
-import static com.ebaykorea.payback.core.domain.constant.CashbackType.Seller;
+import java.util.List;
 
 @Component
 public class SellerCashbackCreator {
@@ -29,14 +28,13 @@ public class SellerCashbackCreator {
         cashbackAmount,
         basisAmount,
         useEnableDate,
-        createCashbackPolicy(itemSnapshot)
+        List.of(createCashbackPolicy(itemSnapshot))
     );
   }
 
   private CashbackPolicy createCashbackPolicy(final ItemSnapshot itemSnapshot) {
     return new SellerCashbackPolicy(
         SELLER_CASHBACK_POLICY_NO,
-        Seller,
         SELLER_CASHBACK_POLICY_NAME,
         null,
         CashbackPayType.FixRate.getCode(),

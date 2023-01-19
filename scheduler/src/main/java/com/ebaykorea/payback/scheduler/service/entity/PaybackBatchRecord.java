@@ -10,7 +10,7 @@ public class PaybackBatchRecord {
   private String orderKey;
   private String txKey;
   private Long responseCode;
-  private String messageCode;
+  private String message;
   private String status;
   private Long retryCount;
 }

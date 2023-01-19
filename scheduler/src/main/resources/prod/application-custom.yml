@@ -1,6 +1,6 @@
 
 apis:
   payback:
-    url: "http://payback-api-dev.gmarket.co.kr"
+    url: "http://payback-api.gmarket.co.kr"
 
 payback.dcm.access.enable: true

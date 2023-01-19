@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.transaction;
 
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
-import com.ebaykorea.payback.infrastructure.gateway.client.transaction.dto.KeyMapDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.transaction.dto.KeyMapResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -18,6 +17,7 @@ import java.util.Optional;
     configuration = DefaultFeignConfig.class
 )
 public interface TransactionApiClient {
+
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/key/maps/{tx-key}",

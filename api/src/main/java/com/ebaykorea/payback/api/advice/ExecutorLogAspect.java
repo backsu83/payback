@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.api.advice;
 
-import com.ebaykorea.payback.infrastructure.persistence.redis.support.GsonUtils;
+import com.ebaykorea.payback.util.support.GsonUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

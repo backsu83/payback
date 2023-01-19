@@ -28,7 +28,7 @@ class CashbackUnitGrocery {
         (map.amount ?: 0L) as BigDecimal,
         (map.basisAmount ?: 1000L) as BigDecimal,
         (map.useEnableDate ?: TestConstant.ORDER_DATE_ADD_TO_30_DAYS) as Instant,
-        (map.cashbackPolicy ?: SellerCashbackPolicy_생성(map)) as CashbackPolicy
+        (map.cashbackPolicy ?: List.of(SellerCashbackPolicy_생성(map))) as List<CashbackPolicy>
     )
   }
 
@@ -40,7 +40,7 @@ class CashbackUnitGrocery {
         (map.basisAmount ?: 1000L) as BigDecimal,
         (map.useEnableDate ?: TestConstant.USE_ENABLE_DATE) as Instant,
         (map.isSmilePay) as boolean,
-        (map.cashbackPolicy ?: ItemCashbackPolicy_생성(map)) as CashbackPolicy
+        (map.cashbackPolicy ?: List.of(ItemCashbackPolicy_생성(map))) as List<CashbackPolicy>
     )
   }
 
@@ -52,8 +52,9 @@ class CashbackUnitGrocery {
         (map.basisAmount ?: 1000L) as BigDecimal,
         (map.useEnableDate ?: TestConstant.USE_ENABLE_DATE) as Instant,
         (map.isSmilePay) as boolean,
-        (map.cashbackPolicy ?: SmilePayCashbackPolicy_생성(map)) as CashbackPolicy,
-        (map.clubAmount ?: 0L) as BigDecimal
+        (map.cashbackPolicy ?: List.of(SmilePayCashbackPolicy_생성(map))) as List<CashbackPolicy>,
+        (map.clubAmount ?: 0L) as BigDecimal,
+        (map.payAmount ?: 0L) as BigDecimal
     )
   }
 
@@ -67,7 +68,7 @@ class CashbackUnitGrocery {
         (map.clubAmount ?: 0L) as BigDecimal,
         (map.nonClubAmount ?: 1000L) as BigDecimal,
         (map.isChargePay) as boolean,
-        (map.cashbackPolicy ?: ChargePayCashbackPolicy_생성(map)) as CashbackPolicy
+        (map.cashbackPolicy ?: List.of(ChargePayCashbackPolicy_생성(map))) as List<CashbackPolicy>
     )
   }
 
@@ -80,7 +81,7 @@ class CashbackUnitGrocery {
         (map.useEnableDate ?: TestConstant.USE_ENABLE_DATE) as Instant,
         (map.isSmilePay) as boolean,
         (map.isClubMember) as boolean,
-        (map.cashbackPolicy ?: ClubDayCashbackPolicy_생성(map)) as CashbackPolicy
+        (map.cashbackPolicy ?: List.of(ClubDayCashbackPolicy_생성(map))) as List<CashbackPolicy>
     )
   }
 
@@ -92,7 +93,7 @@ class CashbackUnitGrocery {
         (map.amount ?: 1000L) as BigDecimal,
         (map.basisAmount ?: 1000L) as BigDecimal,
         (map.useEnableDate ?: TestConstant.USE_ENABLE_DATE) as Instant,
-        (map.cashbackPolicy ?: DefaultCashbackPolicy_생성(map)) as CashbackPolicy
+        (map.cashbackPolicy ?: List.of(DefaultCashbackPolicy_생성(map))) as List<CashbackPolicy>
     )
   }
 }
