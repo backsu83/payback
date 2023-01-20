@@ -30,7 +30,7 @@ public class PaybackBatchService {
   private final ExecutorService taskExecutor;
 
   public void updateRecords() {
-
+ 
     final List<CompletableFuture<PaybackResponseDto>> paybacksFuture = Lists.newArrayList();
     final var records = cashbackOrderBatchRepository.findNoCompleted()
         .stream()
