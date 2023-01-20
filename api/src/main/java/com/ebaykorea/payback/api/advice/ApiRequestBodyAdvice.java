@@ -22,6 +22,7 @@ import java.lang.reflect.Type;
 public class ApiRequestBodyAdvice extends RequestBodyAdviceAdapter {
   private static final String AFTER_READ_EXCEPTION = "afterBodyRead throws exception when trying to read body";
   private final ObjectMapper objectMapper;
+  private static final Logger moaLogger = LoggerFactory.getLogger("MoALogger");
 
   public ApiRequestBodyAdvice(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
@@ -42,6 +43,7 @@ public class ApiRequestBodyAdvice extends RequestBodyAdviceAdapter {
       span.setTag("http.body", jsonBody);
     } catch (JsonProcessingException e) {
       log.error(AFTER_READ_EXCEPTION, e);
+      moaLogger.error(AFTER_READ_EXCEPTION, e);
     }
 
     return body;
