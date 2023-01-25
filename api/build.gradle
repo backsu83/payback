@@ -22,6 +22,7 @@ dependencies {
   implementation "io.github.resilience4j:resilience4j-feign:${resilience4jVersion}"
   implementation "io.github.resilience4j:resilience4j-retry:${resilience4jVersion}"
   implementation "io.github.resilience4j:resilience4j-annotations:${resilience4jVersion}"
+  implementation "io.opentracing:opentracing-util:0.33.0"
 
   //swagger2
   implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
