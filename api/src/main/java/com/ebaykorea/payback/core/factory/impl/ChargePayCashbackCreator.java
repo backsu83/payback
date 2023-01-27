@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.ebaykorea.payback.core.domain.constant.CashbackType.ChargePay;
+import static com.ebaykorea.payback.core.domain.constant.CashbackType.SmilePay;
 import static com.ebaykorea.payback.util.PaybackDecimals.orZero;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static java.math.BigDecimal.ZERO;
@@ -52,7 +53,7 @@ public class ChargePayCashbackCreator {
     return rewardCashbackPolicies.stream()
         .map(policy -> {
           final var maybeBackendPolicy = rewardBackendPolicyMap.get(policy.getCashbackSeq()).stream()
-              .filter(backendPolicy -> backendPolicy.getCashbackCode() == ChargePay)
+              .filter(backendPolicy -> backendPolicy.getCashbackCode() == SmilePay)//rewardBackend에서 ChargePay 타입으로 넘어오지 않고 SmilePay로만 넘어옴
               .findAny();
 
           return new ChargePayCashbackPolicy(
