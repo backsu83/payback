@@ -29,5 +29,7 @@ public abstract class ChargePayPolicyEntityMapper implements CashbackPolicyEntit
   @Mapping(source = "policy.cashbackType.dbCode", target = "type")
   @Mapping(source = "payCashback.member.buyerNo", target = "regId")
   @Mapping(expression = "java(PaybackTimestamps.from(payCashback.getOrderDate()))", target = "regDt")
+  @Mapping(constant = "0", target = "clubDayMaxSaveRate")
+  @Mapping(constant = "0", target = "clubDayMaxSaveMoney")
   abstract CashbackOrderPolicyEntity mapToChargePayPolicy(PayCashback payCashback, Cashback cashback, ChargePayCashbackPolicy policy);
 }
