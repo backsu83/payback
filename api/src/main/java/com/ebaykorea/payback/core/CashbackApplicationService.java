@@ -14,9 +14,12 @@ import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.core.service.MemberService;
+import com.ebaykorea.payback.util.support.GsonUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CashbackApplicationService {
@@ -64,6 +67,7 @@ public class CashbackApplicationService {
     final var member = memberFuture.join();
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
+    log.info("payCashback : {}" , GsonUtils.toJson(payCashback));
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
