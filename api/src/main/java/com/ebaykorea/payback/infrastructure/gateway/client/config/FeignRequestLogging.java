@@ -63,7 +63,7 @@ public class FeignRequestLogging extends Logger {
 
     @Override
     protected void log(String configKey, String format, Object... args) {
-        log.info(format(configKey, format, args));
+        log.debug(format(configKey, format, args));
     }
 
     protected String format(String configKey, String format, Object... args) {
