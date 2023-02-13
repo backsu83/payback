@@ -24,6 +24,8 @@ logging:
     com.ebaykorea.saturn: DEBUG
     MoAAppender: INFO
     MoALogger: INFO
+    com.ebaykorea.payback.infrastructure.gateway.client: DEBUG
+
 
 ###################################################
 # feign Configurations

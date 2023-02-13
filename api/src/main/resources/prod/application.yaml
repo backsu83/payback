@@ -20,10 +20,12 @@ logging:
   pattern:
     console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
-    root: WARN
-    com.ebaykorea.saturn: INFO
-    MoAAppender: ERROR
-    MoALogger: ERROR
+    root: INFO
+    com.ebaykorea.saturn: DEBUG
+    MoAAppender: INFO
+    MoALogger: INFO
+    com.ebaykorea.payback.infrastructure.gateway.client: DEBUG
+
 
 ###################################################
 # feign Configurations
