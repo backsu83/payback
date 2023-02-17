@@ -45,7 +45,7 @@ feign:
       enabled: true
       mime-types:
         - application/json
-      min-request-size: 2048
+      min-request-size: 8192
     response:
       enabled: true
 
