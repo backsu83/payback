@@ -44,7 +44,7 @@ public class PaybackBatchService {
     }
 
     records.stream()
-        .filter(f-> f.getRetryCount() < 3)
+        .filter(f-> f.getRetryCount() < 10)
         .forEach( unit-> {
       final var request = PaybackRequestDto.builder()
           .orderKey(unit.getOrderKey())
