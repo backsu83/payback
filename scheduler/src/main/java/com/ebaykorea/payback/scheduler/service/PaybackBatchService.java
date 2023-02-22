@@ -71,12 +71,12 @@ public class PaybackBatchService {
     paybacks.stream()
         .filter(Objects::nonNull)
         .forEach(unit -> cashbackOrderBatchRepository.updateStatus(
-        unit.getData().getOrderKey(),
-        unit.getData().getTxKey(),
-        COMPLETED.name(),
-        0L,
-        unit.getMessage(), updOprt)
-    );
+            unit.getData().getOrderKey(),
+            unit.getData().getTxKey(),
+            COMPLETED.name(),
+            0L,
+            unit.getMessage(), updOprt)
+        );
   }
 
   private void fail(String orderKey, String txKey, long retryCount, String message) {
