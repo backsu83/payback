@@ -1,15 +1,14 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository;
 
-import com.ebaykorea.payback.core.repository.SmilePointTradeRepositoryI;
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository;
+import com.ebaykorea.payback.core.repository.SmilePointTradeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SmilePointTradeRepositoryImpl implements SmilePointTradeRepositoryI {
+public class SmilePointRepositoryImpl implements SmilePointTradeRepository {
 
-  private final SmilePointTradeRepository smilePointTradeRepository;
+  private final com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository smilePointTradeRepository;
 
   @Override
   public long save(String custNo,

@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.repository;
 
-public interface SmilePointTradeRepositoryI {
+public interface SmilePointTradeRepository {
   long save(String custNo,
             int point,
             int reasonCode,
@@ -8,7 +8,7 @@ public interface SmilePointTradeRepositoryI {
             String comment,
             int ersNo,
             int eId,
-            int apprStaus,
+            int appStatus,
             int targetType,
             long win_no,
             String sellerId);

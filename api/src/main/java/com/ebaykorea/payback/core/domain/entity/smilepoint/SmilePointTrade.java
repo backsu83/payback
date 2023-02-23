@@ -1,99 +1,81 @@
-package com.ebaykorea.payback.core.domain.entity.cashback;
+package com.ebaykorea.payback.core.domain.entity.smilepoint;
 
-import com.ebaykorea.payback.core.domain.constant.CashbackType;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
-import com.ebaykorea.payback.core.exception.PaybackException;
-import lombok.*;
-
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_001;
-import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
-import static java.util.stream.Collectors.groupingBy;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@Setter
 @EqualsAndHashCode
 @ToString
-public class Cashback {
-  private final long orderNo;
-  /* 주문 단위 별 캐시백 목록 */
-  private final List<CashbackUnit> cashbackUnits;
+public class SmilePointTrade {
+  private long smilePayNo;
 
-  public static Cashback of(
-      final long orderNo,
-      final List<CashbackUnit> cashbackUnits) {
-    return new Cashback(orderNo, cashbackUnits);
-  }
+  private String buyerNo;
 
-  private Cashback(
-      final long orderNo,
-      final List<CashbackUnit> cashbackUnits
-  ) {
-    this.orderNo = orderNo;
-    this.cashbackUnits = cashbackUnits;
+  private int point;
 
-    validate();
-  }
+  private long contrNo;
 
-  private void validate() {
-    //cashbackUnits에 동일한 캐시백 타입이 두개 이상 존재 할 수 없다
-    final var hasMoreThanOneCashbackType = cashbackUnits.stream().collect(groupingBy(CashbackUnit::getCashbackType))
-        .entrySet().stream()
-        .anyMatch(entry -> entry.getValue().size() > 1);
-    if (hasMoreThanOneCashbackType) {
-      throw new PaybackException(DOMAIN_ENTITY_001 , "Cashback");
+  private String comment;
+
+  private int reasonCd;
+
+  private int apprStatus;
+
+  private String apprStatusName;
+  private int targetType;
+
+  private String targetTypeName;
+
+  private String saveType;
+
+  private String errorMsg;
+
+  private String certApprId;
+
+  private String userKey;
+
+  private String regDate;
+
+  private String expireDate;
+
+
+  public String getApprStatusName() {
+    String result = String.valueOf(this.apprStatus);
+    switch (apprStatus) {
+      case 0:
+      case 10:
+      case 20:
+      case 30:
+      case 40:
+        result = "처리중";
+        break;
+      case 50:
+        result = "성공";
+        break;
+      case 90:
+      case 99:
+        result = "실패";
+        break;
     }
+    return result;
   }
 
-  // 캐시백 적립 대상(isApply=true) 목록
-  public List<CashbackUnit> findAppliedCashbackUnits() {
-    return cashbackUnits.stream()
-        .filter(CashbackUnit::isApply)
-        .collect(Collectors.toUnmodifiableList());
+  public String getTargetTypeName() {
+    String result = String.valueOf(this.targetType);
+    switch (targetType) {
+      case 10:
+        result = "API";
+        break;
+      case 20:
+        result = "Batch";
+        break;
+      case 99:
+        result = "ETC";
+        break;
+    }
+    return result;
   }
-
-  // 캐시백 정책 목록
-  public List<CashbackPolicy> findCashbackPolicies() {
-    return cashbackUnits.stream()
-        .map(CashbackUnit::getCashbackPolicies)
-        .flatMap(Collection::stream)
-        .collect(Collectors.toUnmodifiableList());
-  }
-
-  //전체 cashbackUnit 대상중 해당하는 캐시백 타입 대상건
-  private Stream<CashbackUnit> cashbackUnitStreamByCashbackType(final CashbackType cashbackType) {
-    return cashbackUnits.stream()
-        .filter(cashbackUnit -> cashbackUnit.is(cashbackType));
-  }
-
-  public BigDecimal getCashbackAmount(final CashbackType cashbackType) {
-    return cashbackUnitStreamByCashbackType(cashbackType)
-        .map(CashbackUnit::getAmount)
-        .collect(summarizing());
-  }
-
-  public BigDecimal getClubAmount(final CashbackType cashbackType) {
-    return cashbackUnitStreamByCashbackType(cashbackType)
-        .map(CashbackUnit::getClubAmount)
-        .collect(summarizing());
-  }
-
-  public BigDecimal getNonClubAmount(final CashbackType cashbackType) {
-    return cashbackUnitStreamByCashbackType(cashbackType)
-        .map(CashbackUnit::getNonClubAmount)
-        .collect(summarizing());
-  }
-
-  public boolean isApplyBy(final CashbackType cashbackType) {
-    return cashbackUnitStreamByCashbackType(cashbackType)
-        .map(CashbackUnit::isApply)
-        .findAny()
-        .orElse(false);
-  }
-
 }

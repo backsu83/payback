@@ -1,77 +1,130 @@
 package com.ebaykorea.payback.core;
 
 
-import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
-import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_DUPLICATED;
-import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_INVALID_TARGET;
-
-import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
-import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
-import com.ebaykorea.payback.core.factory.PayCashbackCreator;
-import com.ebaykorea.payback.core.gateway.OrderGateway;
-import com.ebaykorea.payback.core.gateway.PaymentGateway;
-import com.ebaykorea.payback.core.gateway.RewardGateway;
-import com.ebaykorea.payback.core.gateway.TransactionGateway;
-import com.ebaykorea.payback.core.repository.PayCashbackRepository;
-import com.ebaykorea.payback.core.service.MemberService;
-import com.ebaykorea.payback.util.support.GsonUtils;
+import com.ebaykorea.payback.core.domain.entity.smilepoint.SmilePointTrade;
+import com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CashbackApplicationService {
-  private final OrderGateway orderGateway;
-  private final PaymentGateway paymentGateway;
-  private final TransactionGateway transactionGateway;
-  private final RewardGateway rewardGateway;
+public class SmilePointApplicationService {
+  private final SmilePointTradeRepository smilePointTradeRepository;
 
-  private final MemberService memberService;
-  private final PayCashbackCreator payCashbackCreator;
+  public long setSmilePoint(String custNo,
+                            int point,
+                            int reasonCode,
+                            long contrNo,
+                            String comment,
+                            int ersNo,
+                            int eId,
+                            int apprStaus,
+                            int targetType,
+                            long winNo,
+                            String sellerId) {
+    return smilePointTradeRepository.save(custNo,
+    point,
+    reasonCode,
+    contrNo,
+    comment,
+    ersNo,
+    eId,
+    apprStaus,
+    targetType,
+    winNo,
+    sellerId);
+  }
 
-  private final PayCashbackRepository payCashbackRepository;
-
-  public ResponseMessageType setCashback(final String txKey, final String orderKey) {
-    //주문 정보
-    final var order = orderGateway.getOrder(orderKey);
-
-    if (!order.isForCashback()) {
-      return CASHBACK_INVALID_TARGET;
+  public SmilePointTrade SelectSmilePointTradeBySmilePayNo(long smilePayNo) {
+    SmilePointTradeEntity result = smilePointTradeRepository.SelectBySmilePayNo(smilePayNo);
+    if (result == null) {
+      return null;
     }
+    SmilePointTrade smilePointTrade = new SmilePointTrade();
+    smilePointTrade.setComment(result.getComment());
+    smilePointTrade.setPoint(result.getPoint());
+    smilePointTrade.setApprStatus(result.getApprStatus());
+    smilePointTrade.setBuyerNo(result.getCustNo());
+    smilePointTrade.setContrNo(result.getContrNo());
+    smilePointTrade.setErrorMsg(result.getErrorMassage());
+    smilePointTrade.setExpireDate(result.getReturnExpireDate());
+    smilePointTrade.setRegDate(result.getRegDt());
+    smilePointTrade.setReasonCd(result.getReasonCode());
+    smilePointTrade.setSmilePayNo(result.getSmilePayNo());
+    smilePointTrade.setTargetType(result.getTargetType());
+    smilePointTrade.setSaveType(result.getServiceType());
+    smilePointTrade.setCertApprId(result.getCertApprId());
+    smilePointTrade.setUserKey(result.getUserKey());
+    return smilePointTrade;
+  }
 
-    //주문 키 매핑 정보
-    final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
-
-    //캐시백 중복 체크
-    if (payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
-      return CASHBACK_DUPLICATED;
+  public List<SmilePointTrade> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo) {
+    List<SmilePointTradeEntity> result = smilePointTradeRepository.SelectByContrNo(buyerNo, contrNo);
+    if (result == null) {
+      return null;
     }
+    if (result.size() < 1) {
+      return null;
+    }
+    List<SmilePointTrade> resultList = new ArrayList<SmilePointTrade>();
+    SmilePointTrade smilePointTrade = new SmilePointTrade();
+    for (SmilePointTradeEntity data : result
+         ) {
+      smilePointTrade.setComment(data.getComment());
+      smilePointTrade.setPoint(data.getPoint());
+      smilePointTrade.setApprStatus(data.getApprStatus());
+      smilePointTrade.setBuyerNo(data.getCustNo());
+      smilePointTrade.setContrNo(data.getContrNo());
+      smilePointTrade.setErrorMsg(data.getErrorMassage());
+      smilePointTrade.setExpireDate(data.getReturnExpireDate());
+      smilePointTrade.setRegDate(data.getRegDt());
+      smilePointTrade.setReasonCd(data.getReasonCode());
+      smilePointTrade.setSmilePayNo(data.getSmilePayNo());
+      smilePointTrade.setTargetType(data.getTargetType());
+      smilePointTrade.setSaveType(data.getServiceType());
+      smilePointTrade.setCertApprId(data.getCertApprId());
+      smilePointTrade.setUserKey(data.getUserKey());
+      resultList.add(smilePointTrade);
+    }
+    return resultList;
+  }
 
-    //결제 정보
-    final var paymentRecordFuture = paymentGateway.getPaymentRecordAsync(order.getPaySeq());
-    //상품 스냅샷 정보
-    final var itemSnapshotsFuture = orderGateway.getItemSnapshotAsync(order.findItemSnapshotKeys());
-    //회원 정보
-    final var memberFuture = memberService.getMemberAsync(order.getBuyer());
-
-    final var paymentRecord = paymentRecordFuture.join();
-    final var itemSnapshots = itemSnapshotsFuture.join();
-
-    //리워드 캐시백 정책 조회
-    final var rewardCashbackPolicies = paymentRecord.hasMainPaymentAmount() ? //주 결제수단 금액이 있는 경우에만 정책 조회
-        rewardGateway.getCashbackPolicies(order, paymentRecord, itemSnapshots.getItemSnapshotMap(), orderKeyMap.orderUnitKeyMap()) :
-        RewardCashbackPolicies.EMPTY;
-
-    final var member = memberFuture.join();
-
-    final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
-    log.info("payCashback : {}" , GsonUtils.toJson(payCashback));
-
-    //payCashback 저장
-    payCashbackRepository.save(payCashback);
-
-    return CASHBACK_CREATED;
+  public List<SmilePointTrade> SelectHistory(String buyerNo, String startDate, String endData, int maxRowCount) {
+    List<SmilePointTradeEntity> result = smilePointTradeRepository.SelectHistory(buyerNo, startDate, endData, maxRowCount);
+    if (result == null) {
+      return null;
+    }
+    if (result.size() < 1) {
+      return null;
+    }
+    List<SmilePointTrade> resultList = new ArrayList<SmilePointTrade>();
+    SmilePointTrade smilePointTrade = new SmilePointTrade();
+    for (SmilePointTradeEntity data : result
+    ) {
+      smilePointTrade.setComment(data.getComment());
+      smilePointTrade.setPoint(data.getPoint());
+      smilePointTrade.setApprStatus(data.getApprStatus());
+      smilePointTrade.setBuyerNo(data.getCustNo());
+      smilePointTrade.setContrNo(data.getContrNo());
+      smilePointTrade.setErrorMsg(data.getErrorMassage());
+      smilePointTrade.setExpireDate(data.getReturnExpireDate());
+      smilePointTrade.setRegDate(data.getRegDt());
+      smilePointTrade.setReasonCd(data.getReasonCode());
+      smilePointTrade.setSmilePayNo(data.getSmilePayNo());
+      smilePointTrade.setTargetType(data.getTargetType());
+      smilePointTrade.setSaveType(data.getServiceType());
+      smilePointTrade.setCertApprId(data.getCertApprId());
+      smilePointTrade.setUserKey(data.getUserKey());
+      resultList.add(smilePointTrade);
+    }
+    return resultList;
   }
 }

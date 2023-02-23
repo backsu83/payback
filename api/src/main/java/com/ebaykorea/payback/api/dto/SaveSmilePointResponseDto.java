@@ -6,11 +6,14 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CashbackResponseDto {
-  private String txKey;
-  private String orderKey;
+public class SaveSmilePointResponseDto<T> {
+  private String returnCode;
+  private String returnMessage;
+  private T data;
 
-  public static CashbackResponseDto of(final String txKey, final String orderKey) {
-    return new CashbackResponseDto(txKey, orderKey);
+  public SaveSmilePointResponseDto(final String returnCode, final String returnMessage, final T data) {
+    this.returnCode = returnCode;
+    this.returnMessage = returnMessage;
+    this.data = data;
   }
 }
