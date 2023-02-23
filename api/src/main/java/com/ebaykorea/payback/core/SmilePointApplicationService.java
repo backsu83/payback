@@ -2,7 +2,7 @@ package com.ebaykorea.payback.core;
 
 
 import com.ebaykorea.payback.core.domain.entity.smilepoint.SmilePointTrade;
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository;
+import com.ebaykorea.payback.core.repository.SmilePointTradeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class SmilePointApplicationService {
                             int targetType,
                             long winNo,
                             String sellerId) {
-    return smilePointTradeRepository.save(custNo,
+    return smilePointTradeRepository.setSmilePoint(custNo,
     point,
     reasonCode,
     contrNo,
@@ -42,7 +42,7 @@ public class SmilePointApplicationService {
   }
 
   public SmilePointTrade SelectSmilePointTradeBySmilePayNo(long smilePayNo) {
-    SmilePointTradeEntity result = smilePointTradeRepository.SelectBySmilePayNo(smilePayNo);
+    SmilePointTradeEntity result = smilePointTradeRepository.SelectSmilePointTradeBySmilePayNo(smilePayNo);
     if (result == null) {
       return null;
     }
@@ -65,7 +65,7 @@ public class SmilePointApplicationService {
   }
 
   public List<SmilePointTrade> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo) {
-    List<SmilePointTradeEntity> result = smilePointTradeRepository.SelectByContrNo(buyerNo, contrNo);
+    List<SmilePointTradeEntity> result = smilePointTradeRepository.SelectSmilePointTradeByContrNo(buyerNo, contrNo);
     if (result == null) {
       return null;
     }
