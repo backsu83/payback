@@ -8,13 +8,14 @@ import com.ebaykorea.payback.scheduler.repository.CashbackOrderBatchRepository;
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto;
 import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto;
-import com.ebaykorea.payback.scheduler.service.mapper.PaybackBatchRecordMapper;
 import com.google.common.collect.Lists;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,27 +26,20 @@ import org.springframework.stereotype.Service;
 public class PaybackBatchService {
   public static final String updOprt = "paybackScheduler";
   private final CashbackOrderBatchRepository cashbackOrderBatchRepository;
-  private final PaybackBatchRecordMapper paybackBatchRecordMapper;
   private final PaybackApiClient paybackApiClient;
   private final ExecutorService taskExecutor;
 
-  public void updateRecords() {
+  public void updateRecords(final Long maxTryCount) {
 
     final List<CompletableFuture<PaybackResponseDto>> paybacksFuture = Lists.newArrayList();
-    final var records = cashbackOrderBatchRepository.findNoCompleted()
-        .stream()
-        .filter(f-> Objects.nonNull(f))
-        .map(paybackBatchRecordMapper::map)
-        .collect(Collectors.toList());
+    final var records = cashbackOrderBatchRepository.findNoCompleted(maxTryCount);
 
-    if(isEmpty(records)) {
+    if (isEmpty(records)) {
       log.info("scheduler - cashback not found records");
       return;
     }
 
-    records.stream()
-        .filter(f-> f.getRetryCount() < 3)
-        .forEach( unit-> {
+    records.forEach(unit -> {
       final var request = PaybackRequestDto.builder()
           .orderKey(unit.getOrderKey())
           .txKey(unit.getTxKey())
@@ -54,7 +48,7 @@ public class PaybackBatchService {
       paybacksFuture.add(CompletableFuture
           .supplyAsync(() -> paybackApiClient.saveCashbacks(request), taskExecutor)
           .exceptionally(ex -> {
-            fail(unit.getOrderKey() , unit.getTxKey(), unit.getRetryCount(), ex.getMessage());
+            fail(unit.getOrderKey(), unit.getTxKey(), unit.getRetryCount(), ex.getMessage());
             log.error("scheduler - fail to payback api orderKey:{} / txKey:{} / error:{}",
                 unit.getOrderKey(),
                 unit.getTxKey(),
@@ -64,7 +58,7 @@ public class PaybackBatchService {
     });
 
     final var paybacks = CompletableFuture.allOf(
-        paybacksFuture.toArray(new CompletableFuture[paybacksFuture.size()]))
+            paybacksFuture.toArray(new CompletableFuture[paybacksFuture.size()]))
         .thenApply(s -> paybacksFuture.stream()
             .map(CompletableFuture::join)
             .collect(Collectors.toList())
@@ -73,20 +67,20 @@ public class PaybackBatchService {
     success(paybacks);
   }
 
-  public void success(List<PaybackResponseDto> paybacks) {
+  private void success(List<PaybackResponseDto> paybacks) {
     paybacks.stream()
-        .filter(f->Objects.nonNull(f))
-        .forEach(unit-> cashbackOrderBatchRepository.updateStatus(
-            unit.getData().getOrderKey() ,
+        .filter(Objects::nonNull)
+        .forEach(unit -> cashbackOrderBatchRepository.updateStatus(
+            unit.getData().getOrderKey(),
             unit.getData().getTxKey(),
-            COMPLETED.name() ,
+            COMPLETED.name(),
             0L,
             unit.getMessage(), updOprt)
         );
   }
 
-  public void fail(String orderKey , String txKey , long retryCount, String message) {
+  private void fail(String orderKey, String txKey, long retryCount, String message) {
     final var count = retryCount + 1L;
-    cashbackOrderBatchRepository.updateStatus(orderKey , txKey, FAIL.name() , count, message, updOprt);
+    cashbackOrderBatchRepository.updateStatus(orderKey, txKey, FAIL.name(), count, message, updOprt);
   }
 }
