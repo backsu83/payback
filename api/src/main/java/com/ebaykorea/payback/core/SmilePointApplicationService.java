@@ -3,7 +3,6 @@ package com.ebaykorea.payback.core;
 
 import com.ebaykorea.payback.core.domain.entity.smilepoint.SmilePointTrade;
 import com.ebaykorea.payback.core.repository.SmilePointTradeRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class SmilePointApplicationService {
   }
 
   public SmilePointTrade SelectSmilePointTradeBySmilePayNo(long smilePayNo) {
-    SmilePointTradeEntity result = smilePointTradeRepository.SelectSmilePointTradeBySmilePayNo(smilePayNo);
+    var result = smilePointTradeRepository.SelectSmilePointTradeBySmilePayNo(smilePayNo);
     if (result == null) {
       return null;
     }
@@ -65,7 +64,7 @@ public class SmilePointApplicationService {
   }
 
   public List<SmilePointTrade> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo) {
-    List<SmilePointTradeEntity> result = smilePointTradeRepository.SelectSmilePointTradeByContrNo(buyerNo, contrNo);
+    var result = smilePointTradeRepository.SelectSmilePointTradeByContrNo(buyerNo, contrNo);
     if (result == null) {
       return null;
     }
@@ -74,7 +73,7 @@ public class SmilePointApplicationService {
     }
     List<SmilePointTrade> resultList = new ArrayList<SmilePointTrade>();
     SmilePointTrade smilePointTrade = new SmilePointTrade();
-    for (SmilePointTradeEntity data : result
+    for (var data : result
          ) {
       smilePointTrade.setComment(data.getComment());
       smilePointTrade.setPoint(data.getPoint());
@@ -96,7 +95,7 @@ public class SmilePointApplicationService {
   }
 
   public List<SmilePointTrade> SelectHistory(String buyerNo, String startDate, String endData, int maxRowCount) {
-    List<SmilePointTradeEntity> result = smilePointTradeRepository.SelectHistory(buyerNo, startDate, endData, maxRowCount);
+    var result = smilePointTradeRepository.SelectHistory(buyerNo, startDate, endData, maxRowCount);
     if (result == null) {
       return null;
     }
@@ -105,7 +104,7 @@ public class SmilePointApplicationService {
     }
     List<SmilePointTrade> resultList = new ArrayList<SmilePointTrade>();
     SmilePointTrade smilePointTrade = new SmilePointTrade();
-    for (SmilePointTradeEntity data : result
+    for (var data : result
     ) {
       smilePointTrade.setComment(data.getComment());
       smilePointTrade.setPoint(data.getPoint());
