@@ -37,6 +37,7 @@ subprojects {
     repositories {
         mavenCentral()
         maven { url "https://prm.ebaykorea.com/nexus/repository/maven-group/" }
+        maven { url "https://prm.ebaykorea.com/nexus/content/repositories/maven-release/"}
     }
 
     ext {
@@ -60,6 +61,8 @@ subprojects {
         //ebaykorea standard core
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-ebaykr:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-moa:${saturnStarterVersion}"
+        //crypto
+        implementation 'com.ebay.korea.security:crypto:5.3.0-SNAPSHOT'
 
         //third party library
         implementation "org.mapstruct:mapstruct:${mapstructVersion}"
@@ -81,10 +84,6 @@ subprojects {
         useJUnitPlatform()
         failFast = true
         maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
-    }
-
-    clean {
-        delete file('src/main/generated')
     }
 }
 
