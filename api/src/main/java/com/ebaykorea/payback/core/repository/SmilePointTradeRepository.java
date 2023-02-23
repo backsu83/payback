@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.core.repository;
 
-import com.ebaykorea.payback.core.domain.entity.smilepoint.SmilePointTrade;
 import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity;
 
 import java.util.List;

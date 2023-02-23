@@ -9,7 +9,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Data
