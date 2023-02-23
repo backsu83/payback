@@ -8,10 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -57,7 +55,7 @@ public class SmilePointApplicationService {
     smilePointTrade.setErrorMsg(result.getErrorMassage());
     smilePointTrade.setExpireDate(result.getReturnExpireDate());
     smilePointTrade.setRegDate(result.getRegDt());
-    smilePointTrade.setReasonCd(result.getReasonCode());
+    smilePointTrade.setReasonCode(result.getReasonCode());
     smilePointTrade.setSmilePayNo(result.getSmilePayNo());
     smilePointTrade.setTargetType(result.getTargetType());
     smilePointTrade.setSaveType(result.getServiceType());
@@ -86,7 +84,7 @@ public class SmilePointApplicationService {
       smilePointTrade.setErrorMsg(data.getErrorMassage());
       smilePointTrade.setExpireDate(data.getReturnExpireDate());
       smilePointTrade.setRegDate(data.getRegDt());
-      smilePointTrade.setReasonCd(data.getReasonCode());
+      smilePointTrade.setReasonCode(data.getReasonCode());
       smilePointTrade.setSmilePayNo(data.getSmilePayNo());
       smilePointTrade.setTargetType(data.getTargetType());
       smilePointTrade.setSaveType(data.getServiceType());
@@ -117,7 +115,7 @@ public class SmilePointApplicationService {
       smilePointTrade.setErrorMsg(data.getErrorMassage());
       smilePointTrade.setExpireDate(data.getReturnExpireDate());
       smilePointTrade.setRegDate(data.getRegDt());
-      smilePointTrade.setReasonCd(data.getReasonCode());
+      smilePointTrade.setReasonCode(data.getReasonCode());
       smilePointTrade.setSmilePayNo(data.getSmilePayNo());
       smilePointTrade.setTargetType(data.getTargetType());
       smilePointTrade.setSaveType(data.getServiceType());

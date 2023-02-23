@@ -31,6 +31,10 @@ public class SmilePointController {
   @PostMapping("/SaveRequest")
   public SmilePointResponseDto SaveSmilePointRequest(final @Valid @RequestBody SaveSmilePointRequestDto request) {
 
+    if (request == null) {
+      return new SmilePointResponseDto("G100","request 누락", null) ;
+    }
+
     if (request.getBuyerNo() == null || request.getBuyerNo() == "") {
       return new SmilePointResponseDto("G100", "BuyerId 누락", -1);
     }
@@ -82,6 +86,9 @@ public class SmilePointController {
    */
   @PostMapping("/StatusBySmilePayNo")
   public SmilePointResponseDto StatusBySmilePayNo(final @Valid @RequestBody SmilePointStatusSmilepayRequestDto request) {
+    if(request.getSmilePayNo() <= 0) {
+      return new SmilePointResponseDto("G100","SmilePayNo 누락", null) ;
+    }
     var result = applicationService.SelectSmilePointTradeBySmilePayNo(request.getSmilePayNo());
     return new SmilePointResponseDto("0000","", result) ;
   }
@@ -94,6 +101,15 @@ public class SmilePointController {
    */
   @PostMapping("/StatusByContrNo")
   public SmilePointResponseDto StatusByContrNo(final @Valid @RequestBody SmilePointStatusContrNoRequestDto request) {
+    if (request == null) {
+      return new SmilePointResponseDto("G100","request 누락", null);
+    }
+    if(request.getBuyerNo() == null  || "".equals(request.getBuyerNo())) {
+      return new SmilePointResponseDto("G100","BuyerNo 누락", null);
+    }
+    if (request.getContrNo() <= 0) {
+      return new SmilePointResponseDto("G101","ContrNo 는 0 이상 입력", null);
+    }
     var result = applicationService.SelectSmilePointTradeByContrNo(request.getBuyerNo(), request.getContrNo());
     return new SmilePointResponseDto("0000","", result) ;
   }
@@ -106,6 +122,22 @@ public class SmilePointController {
    */
   @PostMapping("/History")
   public SmilePointResponseDto History(final @Valid @RequestBody SmilePointHistoryRequestDto request) {
+    if (request == null) {
+      return new SmilePointResponseDto("G100","request 누락", null);
+    }
+    if(request.getBuyerNo() == null  || "".equals(request.getBuyerNo())) {
+      return new SmilePointResponseDto("G100","BuyerNo 누락", null);
+    }
+    if(request.getStartDate() == null  || "".equals(request.getStartDate())) {
+      return new SmilePointResponseDto("G100","Start Date 누락", null);
+    }
+    if(request.getEndDate() == null  || "".equals(request.getEndDate())) {
+      return new SmilePointResponseDto("G100","End Date 누락", null);
+    }
+    if (request.getMaxRowCount() <= 0) {
+      request.setMaxRowCount(1000);
+    }
+
     var result = applicationService.SelectHistory(request.getBuyerNo(), request.getStartDate(), request.getEndDate(), request.getMaxRowCount());
     return new SmilePointResponseDto("0000","", result) ;
   }

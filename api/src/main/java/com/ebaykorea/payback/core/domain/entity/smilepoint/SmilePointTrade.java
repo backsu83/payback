@@ -20,7 +20,7 @@ public class SmilePointTrade {
 
   private String comment;
 
-  private int reasonCd;
+  private int reasonCode;
 
   private int apprStatus;
 
