@@ -41,26 +41,7 @@ public class SmilePointApplicationService {
   }
 
   public SmilePointTrade SelectSmilePointTradeBySmilePayNo(long smilePayNo) {
-    var result = smilePointTradeRepository.SelectSmilePointTradeBySmilePayNo(smilePayNo);
-    if (result == null) {
-      return null;
-    }
-    SmilePointTrade smilePointTrade = new SmilePointTrade();
-    smilePointTrade.setComment(result.getComment());
-    smilePointTrade.setPoint(result.getPoint());
-    smilePointTrade.setApprStatus(result.getApprStatus());
-    smilePointTrade.setBuyerNo(result.getCustNo());
-    smilePointTrade.setContrNo(result.getContrNo());
-    smilePointTrade.setErrorMsg(result.getErrorMassage());
-    smilePointTrade.setExpireDate(result.getReturnExpireDate());
-    smilePointTrade.setRegDate(result.getRegDt());
-    smilePointTrade.setReasonCode(result.getReasonCode());
-    smilePointTrade.setSmilePayNo(result.getSmilePayNo());
-    smilePointTrade.setTargetType(result.getTargetType());
-    smilePointTrade.setSaveType(result.getServiceType());
-    smilePointTrade.setCertApprId(result.getCertApprId());
-    smilePointTrade.setUserKey(result.getUserKey());
-    return smilePointTrade;
+    return smilePointTradeRepository.SelectSmilePointTradeBySmilePayNo(smilePayNo);
   }
 
   public List<SmilePointTrade> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo) {
@@ -71,27 +52,7 @@ public class SmilePointApplicationService {
     if (result.size() < 1) {
       return null;
     }
-    List<SmilePointTrade> resultList = new ArrayList<SmilePointTrade>();
-    SmilePointTrade smilePointTrade = new SmilePointTrade();
-    for (var data : result
-         ) {
-      smilePointTrade.setComment(data.getComment());
-      smilePointTrade.setPoint(data.getPoint());
-      smilePointTrade.setApprStatus(data.getApprStatus());
-      smilePointTrade.setBuyerNo(data.getCustNo());
-      smilePointTrade.setContrNo(data.getContrNo());
-      smilePointTrade.setErrorMsg(data.getErrorMassage());
-      smilePointTrade.setExpireDate(data.getReturnExpireDate());
-      smilePointTrade.setRegDate(data.getRegDt());
-      smilePointTrade.setReasonCode(data.getReasonCode());
-      smilePointTrade.setSmilePayNo(data.getSmilePayNo());
-      smilePointTrade.setTargetType(data.getTargetType());
-      smilePointTrade.setSaveType(data.getServiceType());
-      smilePointTrade.setCertApprId(data.getCertApprId());
-      smilePointTrade.setUserKey(data.getUserKey());
-      resultList.add(smilePointTrade);
-    }
-    return resultList;
+    return result;
   }
 
   public List<SmilePointTrade> SelectHistory(String buyerNo, String startDate, String endData, int maxRowCount) {
@@ -102,26 +63,6 @@ public class SmilePointApplicationService {
     if (result.size() < 1) {
       return null;
     }
-    List<SmilePointTrade> resultList = new ArrayList<SmilePointTrade>();
-    SmilePointTrade smilePointTrade = new SmilePointTrade();
-    for (var data : result
-    ) {
-      smilePointTrade.setComment(data.getComment());
-      smilePointTrade.setPoint(data.getPoint());
-      smilePointTrade.setApprStatus(data.getApprStatus());
-      smilePointTrade.setBuyerNo(data.getCustNo());
-      smilePointTrade.setContrNo(data.getContrNo());
-      smilePointTrade.setErrorMsg(data.getErrorMassage());
-      smilePointTrade.setExpireDate(data.getReturnExpireDate());
-      smilePointTrade.setRegDate(data.getRegDt());
-      smilePointTrade.setReasonCode(data.getReasonCode());
-      smilePointTrade.setSmilePayNo(data.getSmilePayNo());
-      smilePointTrade.setTargetType(data.getTargetType());
-      smilePointTrade.setSaveType(data.getServiceType());
-      smilePointTrade.setCertApprId(data.getCertApprId());
-      smilePointTrade.setUserKey(data.getUserKey());
-      resultList.add(smilePointTrade);
-    }
-    return resultList;
+    return result;
   }
 }

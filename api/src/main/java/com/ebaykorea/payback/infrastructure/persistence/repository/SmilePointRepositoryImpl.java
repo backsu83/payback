@@ -1,7 +1,8 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository;
 
+import com.ebaykorea.payback.core.domain.entity.smilepoint.SmilePointTrade;
 import com.ebaykorea.payback.core.repository.SmilePointTradeRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.SmilePointTradeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SmilePointRepositoryImpl implements SmilePointTradeRepository {
+
+  private final SmilePointTradeMapper smilePointTradeMapper;
 
   private final com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository smilePointTradeRepository;
 
@@ -29,17 +32,20 @@ public class SmilePointRepositoryImpl implements SmilePointTradeRepository {
   }
 
   @Override
-  public SmilePointTradeEntity SelectSmilePointTradeBySmilePayNo(long smilePayNo) {
-    return smilePointTradeRepository.SelectBySmilePayNo(smilePayNo);
+  public SmilePointTrade SelectSmilePointTradeBySmilePayNo(long smilePayNo) {
+    var result = smilePointTradeRepository.SelectBySmilePayNo(smilePayNo);
+    return smilePointTradeMapper.map(result);
   }
 
   @Override
-  public List<SmilePointTradeEntity> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo) {
-    return smilePointTradeRepository.SelectByContrNo(buyerNo, contrNo);
+  public List<SmilePointTrade> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo) {
+    var result = smilePointTradeRepository.SelectByContrNo(buyerNo, contrNo);
+    return smilePointTradeMapper.map(result);
   }
 
   @Override
-  public List<SmilePointTradeEntity> SelectHistory(String buyerNo, String startDate, String endData, int maxRowCount) {
-    return smilePointTradeRepository.SelectHistory(buyerNo, startDate, endData, maxRowCount);
+  public List<SmilePointTrade> SelectHistory(String buyerNo, String startDate, String endData, int maxRowCount) {
+    var result =  smilePointTradeRepository.SelectHistory(buyerNo, startDate, endData, maxRowCount);
+    return smilePointTradeMapper.map(result);
   }
 }

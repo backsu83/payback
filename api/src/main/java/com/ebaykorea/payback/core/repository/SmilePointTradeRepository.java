@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.repository;
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity;
+import com.ebaykorea.payback.core.domain.entity.smilepoint.SmilePointTrade;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ public interface SmilePointTradeRepository {
                             int targetType,
                             long winNo,
                             String sellerId);
-  SmilePointTradeEntity SelectSmilePointTradeBySmilePayNo(long smilePayNo);
+  SmilePointTrade SelectSmilePointTradeBySmilePayNo(long smilePayNo);
 
-  List<SmilePointTradeEntity> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo);
+  List<SmilePointTrade> SelectSmilePointTradeByContrNo(String buyerNo, long contrNo);
 
-  List<SmilePointTradeEntity> SelectHistory(String buyerNo, String startDate, String endData, int maxRowCount);
+  List<SmilePointTrade> SelectHistory(String buyerNo, String startDate, String endData, int maxRowCount);
 }
