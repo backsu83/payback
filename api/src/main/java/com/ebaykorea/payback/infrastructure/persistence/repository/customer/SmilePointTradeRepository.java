@@ -13,8 +13,7 @@ import java.util.List;
 
 
 @Repository
-@RequiredArgsConstructor
-@SaturnDataSource(name = Gmkt.TIGER_WRITE)
+@SaturnDataSource(name = Gmkt.TIGER_READ)
 public class SmilePointTradeRepository {
 
     @SaturnProcedure(

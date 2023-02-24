@@ -80,9 +80,6 @@ saturn:
       - beanName: "tiger_readDataSource"
         hikariCp:
           minimumIdle: 1
-      - beanName: "tiger_writeDataSource"
-        hikariCp:
-          minimumIdle: 1
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
