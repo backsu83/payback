@@ -5,6 +5,7 @@ import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
@@ -12,6 +13,7 @@ import java.util.List;
 
 
 @Repository
+@RequiredArgsConstructor
 @SaturnDataSource(name = Gmkt.TIGER_WRITE)
 public class SmilePointTradeRepository {
 
