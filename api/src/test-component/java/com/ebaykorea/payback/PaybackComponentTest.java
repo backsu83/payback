@@ -3,6 +3,7 @@ package com.ebaykorea.payback;
 import com.ebaykorea.payback.api.CashbackController;
 import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
+import com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.*;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
@@ -62,6 +63,8 @@ public class PaybackComponentTest {
   SmilecardCashbackOrderRepository smilecardCashbackOrderRepository;
   @MockBean
   SmilecardT2T3CashbackRepository smilecardT2T3CashbackRepository;
+  @MockBean
+  SmilePointTradeRepository smilePointTradeRepository;
 
   @Value("classpath:" + CASHBACK_QUERY_FILE)
   Resource resourceFile;
