@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Repository
-@SaturnDataSource(name = Gmkt.TIGER_WRITE)
+@SaturnDataSource(name = Gmkt.TIGER_READ)
 public class SmilePointTradeRepository {
 
     @SaturnProcedure(
