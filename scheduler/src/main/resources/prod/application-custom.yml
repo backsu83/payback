@@ -4,3 +4,9 @@ apis:
     url: "http://payback-api.gmarket.co.kr"
 
 payback.dcm.access.enable: true
+
+com.ebaykorea.payback.scheduler:
+  data:
+    initialDelay: 10 #TimeUnit.MINUTES
+    fixedDelay: 10 #TimeUnit.MINUTES
+    maxTryCount: 5

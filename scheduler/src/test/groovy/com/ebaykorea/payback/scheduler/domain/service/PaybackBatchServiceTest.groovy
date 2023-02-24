@@ -8,7 +8,7 @@ import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto
 import com.ebaykorea.payback.scheduler.repository.entity.CashbackOrderBatchEntity
 
 import com.ebaykorea.payback.scheduler.service.PaybackBatchService
-import com.ebaykorea.payback.scheduler.service.mapper.PaybackBatchRecordMapper
+
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 import java.util.concurrent.Executors
@@ -19,10 +19,8 @@ class PaybackBatchServiceTest extends Specification {
 
   def cashbackOrderBatchRepository = Mock(CashbackOrderBatchRepository)
   def paybackApiClient = Stub(PaybackApiClient)
-  def paybackBatchRecordMapper = Mappers.getMapper(PaybackBatchRecordMapper)
   def paybackBatchService = new PaybackBatchService(
           cashbackOrderBatchRepository,
-          paybackBatchRecordMapper,
           paybackApiClient,
           Executors.newFixedThreadPool(2)
   )
@@ -64,11 +62,11 @@ class PaybackBatchServiceTest extends Specification {
                      .updOprt("test")
                      .build()
     ]
-    cashbackOrderBatchRepository.findNoCompleted() >> records
+    cashbackOrderBatchRepository.findNoCompleted(_ as Long) >> records
     paybackApiClient.saveCashbacks(_ as PaybackRequestDto) >>> response >> {throw new Exception()}
 
     when:
-    paybackBatchService.updateRecords()
+    paybackBatchService.updateRecords(5L)
 
     then:
     1 * cashbackOrderBatchRepository.updateStatus(_ ,_ , ProcessType.COMPLETED.name() , 0L, _ , _) >> {}
