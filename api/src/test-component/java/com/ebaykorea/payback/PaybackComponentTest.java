@@ -41,7 +41,7 @@ import static org.mockito.Mockito.*;
     enableAutoCapture = true)
 @ExtendWith(HoverflyExtension.class)
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-@SpringBootTest(properties = {"payback.dcm.access.enable=false"})
+@SpringBootTest(properties = {"payback.dcm.access.enable=true"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PaybackComponentTest {
 
