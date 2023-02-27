@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class SmilePointTradeQueryData {
+public class SmilePointTradeQueryResult {
   private long smilePayNo;
 
   private String buyerNo;
