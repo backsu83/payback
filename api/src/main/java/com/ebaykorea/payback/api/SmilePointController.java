@@ -1,7 +1,8 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.*;
-import com.ebaykorea.payback.core.SmilePointApplicationService;
+import com.ebaykorea.payback.infrastructure.persistence.repository.SmilePointRepository;
+import com.ebaykorea.payback.infrastructure.query.SmilePointTradeQuery;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,8 @@ import javax.validation.Valid;
 @RequestMapping("/SmilePoint")
 public class SmilePointController {
 
-  private final SmilePointApplicationService applicationService;
-
+  private final SmilePointRepository smilePointRepository;
+  private final SmilePointTradeQuery smilePointTradeQuery;
 
   /**
    * 스마일 포인트 적립 요청
@@ -47,7 +48,7 @@ public class SmilePointController {
 
     long smilePayNo = 0;
     try{
-      smilePayNo = applicationService.setSmilePoint(
+      smilePayNo = smilePointRepository.setSmilePoint(
               request.getBuyerNo(),
               request.getPointAmount(),
               request.getReasonCode(),
@@ -89,7 +90,7 @@ public class SmilePointController {
     if(request.getSmilePayNo() <= 0) {
       return new SmilePointResponseDto("G100","SmilePayNo 누락", null) ;
     }
-    var result = applicationService.SelectSmilePointTradeBySmilePayNo(request.getSmilePayNo());
+    var result = smilePointTradeQuery.getSmilePointTradeBySmilePayNo(request.getSmilePayNo());
     return new SmilePointResponseDto("0000","", result) ;
   }
 
@@ -110,7 +111,7 @@ public class SmilePointController {
     if (request.getContrNo() <= 0) {
       return new SmilePointResponseDto("G101","ContrNo 는 0 이상 입력", null);
     }
-    var result = applicationService.SelectSmilePointTradeByContrNo(request.getBuyerNo(), request.getContrNo());
+    var result = smilePointTradeQuery.findSmilePointTradesByContrNo(request.getBuyerNo(), request.getContrNo());
     return new SmilePointResponseDto("0000","", result) ;
   }
 
@@ -138,7 +139,7 @@ public class SmilePointController {
       request.setMaxRowCount(1000);
     }
 
-    var result = applicationService.SelectHistory(request.getBuyerNo(), request.getStartDate(), request.getEndDate(), request.getMaxRowCount());
+    var result = smilePointTradeQuery.findHistories(request.getBuyerNo(), request.getStartDate(), request.getEndDate(), request.getMaxRowCount());
     return new SmilePointResponseDto("0000","", result) ;
   }
 }

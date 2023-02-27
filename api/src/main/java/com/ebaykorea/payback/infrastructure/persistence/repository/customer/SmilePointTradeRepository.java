@@ -5,11 +5,12 @@ import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -56,8 +57,8 @@ public class SmilePointTradeRepository {
             },
             throwEx = true //입력 실패시 exception 발생
     )
-    public SmilePointTradeEntity SelectBySmilePayNo(long smilePayNo) {
-        return null;
+    public Optional<SmilePointTradeEntity> findBySmilePayNo(long smilePayNo) {
+        return Optional.empty();
     }
 
     @SaturnProcedure(
@@ -68,8 +69,8 @@ public class SmilePointTradeRepository {
             },
             throwEx = true //입력 실패시 exception 발생
     )
-    public List<SmilePointTradeEntity> SelectByContrNo(String buyerNo, long contrNo) {
-        return null;
+    public List<SmilePointTradeEntity> findByContrNo(String buyerNo, long contrNo) {
+        return Collections.emptyList();
     }
 
     @SaturnProcedure(
@@ -82,7 +83,7 @@ public class SmilePointTradeRepository {
             },
             throwEx = true //입력 실패시 exception 발생
     )
-    public List<SmilePointTradeEntity> SelectHistory(String buyerNo, String startDate, String endDate, int maxRowCount) {
-        return null;
+    public List<SmilePointTradeEntity> findHistories(String buyerNo, String startDate, String endDate, int maxRowCount) {
+        return Collections.emptyList();
     }
 }
