@@ -4,20 +4,29 @@ import com.ebaykorea.payback.scheduler.service.PaybackBatchService;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class PaybackScheduler {
 
   private final PaybackBatchService paybackSchedulerService;
+  private final Long maxTryCount;
 
-  @Scheduled(initialDelay = 10 , fixedDelay = 10 , timeUnit = TimeUnit.MINUTES)
+  public PaybackScheduler(
+      final PaybackBatchService paybackSchedulerService,
+      @Value("${com.ebaykorea.payback.scheduler.data.maxTryCount:5}")final Long maxTryCount
+  ) {
+    this.paybackSchedulerService = paybackSchedulerService;
+    this.maxTryCount = maxTryCount;
+  }
+
+  @Scheduled(initialDelayString = "${com.ebaykorea.payback.scheduler.data.initialDelay}" , fixedDelayString = "${com.ebaykorea.payback.scheduler.data.fixedDelay}" , timeUnit = TimeUnit.MINUTES)
   public void init() {
     log.info("scheduler start ...");
-    paybackSchedulerService.updateRecords();
+    paybackSchedulerService.updateRecords(maxTryCount);
   }
 
 }

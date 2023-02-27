@@ -15,8 +15,11 @@ import org.springframework.stereotype.Repository;
 @SaturnDataSource(name = Gmkt.TIGER_READ)
 public class CashbackOrderBatchRepository {
 
-  @SaturnProcedure(procedureName = CashbackOrderBatchEntity.FIND_BY_KEYS)
-  public List<CashbackOrderBatchEntity> findNoCompleted() {
+  @SaturnProcedure(procedureName = CashbackOrderBatchEntity.FIND_BY_KEYS,
+      parameters = {
+          @SaturnProcedureParameter(name = "MAX_TRY_CNT", sqlType = Types.BIGINT)
+      })
+  public List<CashbackOrderBatchEntity> findNoCompleted(final Long maxTryCnt) {
     return Collections.emptyList();
   }
 
