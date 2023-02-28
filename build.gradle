@@ -46,6 +46,7 @@ subprojects {
         set("springCloudVersion", "2021.0.5")
         set('resilience4jVersion', "1.7.0")
         set("springSpockVersion", "2.3-groovy-4.0")
+        set("kafkaVersion", "2.7.10")
         set('mssql-jdbc.version', "9.4.1.jre11")
     }
 
