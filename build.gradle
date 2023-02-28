@@ -37,7 +37,6 @@ subprojects {
     repositories {
         mavenCentral()
         maven { url "https://prm.ebaykorea.com/nexus/repository/maven-group/" }
-        maven { url "https://prm.ebaykorea.com/nexus/content/repositories/maven-release/"}
     }
 
     ext {
@@ -59,8 +58,14 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
         //ebaykorea standard core
-        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-ebaykr:${saturnStarterVersion}"
+        //ebaykr-moa 및 logback-moa 의존성은 com.ebaykorea.saturn:saturn-spring-boot-starter-moa 의존성으로 대체
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-moa:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-web:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-jpa:${saturnStarterVersion}"
+        runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+
         //crypto
         implementation 'com.ebay.korea.security:crypto:5.3.0-SNAPSHOT'
 
@@ -84,6 +89,10 @@ subprojects {
         useJUnitPlatform()
         failFast = true
         maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    }
+
+    clean {
+        delete file('src/main/generated')
     }
 }
 
