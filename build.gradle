@@ -1,7 +1,7 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'org.springframework.boot' version '2.4.13'
+    id 'org.springframework.boot' version '2.7.6'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
     id 'idea'
@@ -40,13 +40,14 @@ subprojects {
     }
 
     ext {
-        set("saturnStarterVersion", "2.4.15")
+        set("saturnStarterVersion", "2.7.0-SNAPSHOT")
         set("mapstructVersion", "1.4.2.Final")
         set("lombokVersion", "1.18.24")
-        set("springCloudVersion", '2020.0.5')
+        set("springCloudVersion", "2021.0.5")
         set('resilience4jVersion', "1.7.0")
         set("springSpockVersion", "2.3-groovy-4.0")
         set("kafkaVersion", "2.7.10")
+        set('mssql-jdbc.version', "9.4.1.jre11")
     }
 
     dependencies {
@@ -54,12 +55,20 @@ subprojects {
         implementation platform(SpringBootPlugin.BOM_COORDINATES)
         implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation "org.springframework.boot:spring-boot-starter-cache"
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation "org.springframework.data:spring-data-commons"
 
         //ebaykorea standard core
-        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-ebaykr:${saturnStarterVersion}"
+        //ebaykr-moa 및 logback-moa 의존성은 com.ebaykorea.saturn:saturn-spring-boot-starter-moa 의존성으로 대체
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-moa:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-web:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-jpa:${saturnStarterVersion}"
+        runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+
 
         //third party library
         implementation "org.mapstruct:mapstruct:${mapstructVersion}"
