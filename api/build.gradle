@@ -26,11 +26,6 @@ dependencies {
 
   //swagger2
   implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
-
-  //mssql (saturnProceduer)
-  implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
-  implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
-
   testImplementation 'com.tngtech.archunit:archunit:1.0.1'
 
   //component test

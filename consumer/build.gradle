@@ -12,6 +12,6 @@ dependencies {
   implementation "io.github.resilience4j:resilience4j-annotations:${resilience4jVersion}"
 
   //kafka
-  implementation "org.springframework.kafka:spring-kafka:${kafkaVersion}"
-  testImplementation "org.springframework.kafka:spring-kafka-test:${kafkaVersion}"
+  implementation "org.springframework.kafka:spring-kafka"
+  testImplementation "org.springframework.kafka:spring-kafka-test"
 }
