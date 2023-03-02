@@ -131,13 +131,14 @@ public class PaybackComponentTest {
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(PATTERN_FORMAT)
       .withZone(ZoneId.systemDefault());
   @Nested
+  @Disabled("현재 정상적으로 통과를 하나, 내부 로직이 실제 데이터와 많은 의존성이 있어(ex: 실제 주문 데이터, 유저키 존재 여부 등) 추후 테스트가 정상적으로 동작 되지 않을 수 있음")
+  @SpringBootTest
   class SmilePoint {
     @Autowired
     SmilePointController smilePointController;
     @Autowired
     SmilePointTradeRepository smilePointTradeRepository;
 
-    @Disabled("현재 정상적으로 통과를 하나, 내부 로직이 실제 데이터와 많은 의존성이 있어(ex: 실제 주문 데이터, 유저키 존재 여부 등) 추후 테스트가 정상적으로 동작 되지 않을 수 있음")
     @Test
     @Transactional //Test 실행 후 내부에서 입력된 데이터는 롤백 됨
     public void smilePointTest() {
