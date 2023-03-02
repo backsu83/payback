@@ -38,13 +38,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PaybackComponentTest {
-  @Autowired
-  ObjectMapper objectMapper;
-
   @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
   @HoverflySimulate(
       config = @HoverflyConfig(
           proxyLocalHost = true
@@ -57,6 +53,9 @@ public class PaybackComponentTest {
   class Cashback {
     @Autowired
     CashbackController cashbackController;
+    @Autowired
+    ObjectMapper objectMapper;
+
     @MockBean
     CashbackOrderDetailRepository cashbackOrderDetailRepository;
     @MockBean
@@ -132,6 +131,7 @@ public class PaybackComponentTest {
       .withZone(ZoneId.systemDefault());
   @Nested
   @Disabled("현재 정상적으로 통과를 하나, 내부 로직이 실제 데이터와 많은 의존성이 있어(ex: 실제 주문 데이터, 유저키 존재 여부 등) 추후 테스트가 정상적으로 동작 되지 않을 수 있음")
+  @SpringBootTest
   class SmilePoint {
     @Autowired
     SmilePointController smilePointController;
