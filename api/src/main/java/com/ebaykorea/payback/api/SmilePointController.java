@@ -30,23 +30,23 @@ public class SmilePointController {
    * @return
    */
   @PostMapping("/SaveRequest")
-  public SmilePointResponseDto SaveSmilePointRequest(final @Valid @RequestBody SaveSmilePointRequestDto request) {
+  public SmilePointResponseDto saveSmilePointRequest(final @Valid @RequestBody SaveSmilePointRequestDto request) {
 
     if (request == null) {
       return new SmilePointResponseDto("G100","request 누락", null) ;
     }
 
     if (request.getBuyerNo() == null || request.getBuyerNo() == "") {
-      return new SmilePointResponseDto("G100", "BuyerId 누락", -1);
+      return new SmilePointResponseDto("G100", "BuyerId 누락", -1L);
     }
     if (request.getPointAmount() <= 0) {
-      return new SmilePointResponseDto("G100", "Point Amount 누락", -1);
+      return new SmilePointResponseDto("G100", "Point Amount 누락", -1L);
     }
     if (request.getReasonCode() <= 0) {
-      return new SmilePointResponseDto("G100", "ReasonCode 누락", -1);
+      return new SmilePointResponseDto("G100", "ReasonCode 누락", -1L);
     }
 
-    long smilePayNo = 0;
+    long smilePayNo = 0L;
     try{
       smilePayNo = smilePointRepository.setSmilePoint(
               request.getBuyerNo(),
@@ -66,14 +66,14 @@ public class SmilePointController {
 
     }
 
-    if (smilePayNo == -6) {
-      return new SmilePointResponseDto("G401", "유저 키 정보 없음", -1);
+    if (smilePayNo == -6L) {
+      return new SmilePointResponseDto("G401", "유저 키 정보 없음", -1L);
     }
-    if (smilePayNo == -1) {
-      return new SmilePointResponseDto("G500", "서비스 내부 문제로 처리 에러 발생", -1);
+    if (smilePayNo == -1L) {
+      return new SmilePointResponseDto("G500", "서비스 내부 문제로 처리 에러 발생", -1L);
     }
-    if (smilePayNo == -99) {
-      return new SmilePointResponseDto("G101", "ReasonCode 존재하지 않음", -1);
+    if (smilePayNo == -99L) {
+      return new SmilePointResponseDto("G101", "ReasonCode 존재하지 않음", -1L);
     }
 
     return new SmilePointResponseDto("0000", "", smilePayNo);
@@ -86,7 +86,7 @@ public class SmilePointController {
    * @return
    */
   @PostMapping("/StatusBySmilePayNo")
-  public SmilePointResponseDto StatusBySmilePayNo(final @Valid @RequestBody SmilePointStatusSmilepayRequestDto request) {
+  public SmilePointResponseDto statusBySmilePayNo(final @Valid @RequestBody SmilePointStatusSmilepayRequestDto request) {
     if(request.getSmilePayNo() <= 0) {
       return new SmilePointResponseDto("G100","SmilePayNo 누락", null) ;
     }
@@ -101,7 +101,7 @@ public class SmilePointController {
    * @return
    */
   @PostMapping("/StatusByContrNo")
-  public SmilePointResponseDto StatusByContrNo(final @Valid @RequestBody SmilePointStatusContrNoRequestDto request) {
+  public SmilePointResponseDto statusByContrNo(final @Valid @RequestBody SmilePointStatusContrNoRequestDto request) {
     if (request == null) {
       return new SmilePointResponseDto("G100","request 누락", null);
     }
@@ -122,7 +122,7 @@ public class SmilePointController {
    * @return
    */
   @PostMapping("/History")
-  public SmilePointResponseDto History(final @Valid @RequestBody SmilePointHistoryRequestDto request) {
+  public SmilePointResponseDto history(final @Valid @RequestBody SmilePointHistoryRequestDto request) {
     if (request == null) {
       return new SmilePointResponseDto("G100","request 누락", null);
     }
