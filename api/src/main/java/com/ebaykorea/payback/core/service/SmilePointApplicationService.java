@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core;
+package com.ebaykorea.payback.core.service;
 
 
 import com.ebaykorea.payback.core.domain.entity.smilepoint.SmilePointTrade;
@@ -26,8 +26,7 @@ public class SmilePointApplicationService {
                             int targetType,
                             long winNo,
                             String sellerId) {
-    return smilePointTradeRepository.setSmilePoint(custNo,
-    point,
+    return smilePointTradeRepository.setSmilePoint(custNo, point,
     reasonCode,
     contrNo,
     comment,

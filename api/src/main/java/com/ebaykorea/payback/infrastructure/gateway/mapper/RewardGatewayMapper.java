@@ -6,6 +6,7 @@ import com.ebaykorea.payback.core.domain.entity.order.OrderUnit;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackInfoDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto;
@@ -49,4 +50,9 @@ public interface RewardGatewayMapper {
   @Mapping(source = "ifSmileCardT2T3CashbackAmount", target = "cashbackAmount")
   RewardT2T3SmileCardCashbackPolicy map(CashbackRewardGoodResponseDto source);
 
+  @Mapping(source = "key", target = "orderNo")
+  @Mapping(source = "ssgPointInfo.ssgPointExpectSaveAmount", target = "pointExpectSaveAmount")
+  @Mapping(source = "ssgPointInfo.isSsgPoint", target = "isSsgPoint")
+  @Mapping(source = "ssgPointInfo.ssgPointExpectSaveDate", target = "expectSaveDate")
+  RewardSsgPointPolicy mapToSsgPolicy(CashbackRewardGoodResponseDto source);
 }

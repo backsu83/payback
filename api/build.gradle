@@ -28,6 +28,9 @@ dependencies {
   implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
   testImplementation 'com.tngtech.archunit:archunit:1.0.1'
 
+  //caffeine cache
+  implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
+
   //component test
   componentTestImplementation sourceSets.test.output
   componentTestImplementation 'io.specto:hoverfly-java-junit5:0.14.3'

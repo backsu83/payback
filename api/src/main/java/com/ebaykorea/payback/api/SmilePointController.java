@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.*;
-import com.ebaykorea.payback.core.SmilePointApplicationService;
+import com.ebaykorea.payback.core.service.SmilePointApplicationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

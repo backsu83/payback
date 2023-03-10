@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core;
+package com.ebaykorea.payback.core.service;
 
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;

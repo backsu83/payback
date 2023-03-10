@@ -15,8 +15,12 @@ public enum PaybackExceptionCode {
   DOMAIN_ENTITY_011("결제수단이 없습니다"),
   DOMAIN_ENTITY_013("캐시백 적립을 할 수 없습니다"),
 
+  DOMAIN_SSG_ENTITY_001("포인트 정책 조회 실패"),
+  DOMAIN_SSG_ENTITY_002("주문 금액 조회 실패"),
+
   API_GATEWAY_001("처리 실패 : {0}"),
-  API_GATEWAY_002("API 조회 : {0}");
+  API_GATEWAY_002("API 조회 : {0}"),
+  API_GATEWAY_003("카드 번호 조회 실패 : {0}");
 
   private final String message;
 }

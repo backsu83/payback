@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 
 public class CryptoAES256Test {
 
-  public static String alg = "AES/CBC/PKCS5Padding";
-  private final String key = "abcdefghabcdefghabcdefghabcdefgh"; // 32byte
-  private String iv = "0123456789abcdef"; // 16byte
+  public static final String alg = "AES/CBC/PKCS5Padding";
+  private static final String key = "831A667A8A3015F85FF5824DCDFD4C58"; // 32byte
+  private static final String iv = "7552B56514CCA47A"; // 16byte
 
   @Test
   void cryptText() throws Exception {
@@ -19,14 +19,13 @@ public class CryptoAES256Test {
   }
 
   // 암호화
-  void encryptAES256(String text) throws Exception {
+  public static String encryptAES256(final String text) throws Exception {
     Cipher cipher = Cipher.getInstance(alg);
     SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
     IvParameterSpec ivParamSpec = new IvParameterSpec(iv.getBytes());
     cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParamSpec);
-
     byte[] encrypted = cipher.doFinal(text.getBytes("UTF-8"));
-    System.out.println(Base64.getEncoder().encodeToString(encrypted));
+    return Base64.getEncoder().encodeToString(encrypted);
   }
 
   // 복호화
