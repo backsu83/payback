@@ -13,11 +13,8 @@ allprojects {
 }
 
 repositories {
-    maven {
-        url "https://prm.ebaykorea.com/nexus/repository/maven-group/"
-        allowInsecureProtocol = true
-    }
-    mavenCentral()
+    maven { url "https://prm.ebaykorea.com/nexus/repository/maven-group/" }
+    maven { url "https://plugins.gradle.org/m2/" }
 }
 
 bootJar {
@@ -39,13 +36,14 @@ subprojects {
     targetCompatibility = 11
 
     repositories {
-        mavenCentral()
         maven { url "https://prm.ebaykorea.com/nexus/repository/maven-group/"
             metadataSources {
                 mavenPom()
                 artifact()
             }
         }
+        maven { url "https://plugins.gradle.org/m2/" }
+        mavenCentral()
     }
 
     ext {
