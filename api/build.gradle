@@ -2,6 +2,14 @@ description = "api"
 
 apply plugin: 'org.unbroken-dome.test-sets'
 
+tasks.withType(Jar) {
+  destinationDirectory = file("$rootDir/build/libs")
+}
+
+jar {
+  enabled = false
+}
+
 testSets {
   componentTest {
     dirName = 'test-component'
