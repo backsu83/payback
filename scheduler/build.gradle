@@ -1,5 +1,13 @@
 description = "scheduler"
 
+tasks.withType(Jar) {
+  destinationDirectory = file("$rootDir/build/libs")
+}
+
+jar {
+  enabled = false
+}
+
 dependencies {
 
   //openfeign
@@ -11,7 +19,4 @@ dependencies {
   implementation "io.github.resilience4j:resilience4j-retry:${resilience4jVersion}"
   implementation "io.github.resilience4j:resilience4j-annotations:${resilience4jVersion}"
 
-  //mssql
-  implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
-  implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
 }

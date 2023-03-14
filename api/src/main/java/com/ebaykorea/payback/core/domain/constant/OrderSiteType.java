@@ -11,19 +11,26 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 public enum OrderSiteType {
-  Unknown(null, ""),
-  Gmarket(0, "G"),
-  G9(1, "G9"), //TODO: retire 대상
-  G9Short(9, "9"); //TODO: retire 대상
+  Unknown(null, "" , ""),
+  Gmarket(0, "G" , "GMK"),
+  Auction(1, "A" , "AUC");
 
   private final Integer code;
   private final String shortCode;
+  private final String ticker;
 
   private static transient Map<Integer, OrderSiteType> map = PaybackEnums.reverseMap(OrderSiteType.class, OrderSiteType::getCode);
 
   @JsonCreator
   public static OrderSiteType forValue(Integer value) {
     return map.getOrDefault(value, Unknown);
+  }
+
+  @JsonCreator
+  public static OrderSiteType from(String siteType) {
+    return PaybackEnums
+        .reverseMap(OrderSiteType.class, OrderSiteType::getShortCode)
+        .getOrDefault(siteType, Unknown);
   }
 
   @JsonValue
