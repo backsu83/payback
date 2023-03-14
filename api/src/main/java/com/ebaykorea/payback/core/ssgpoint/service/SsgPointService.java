@@ -1,11 +1,11 @@
 package com.ebaykorea.payback.core.ssgpoint.service;
 
-import com.ebaykorea.payback.api.dto.SaveSsgPointRequest;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
+import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.dto.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import com.google.common.collect.Lists;
 import java.time.Instant;
@@ -22,7 +22,7 @@ public class SsgPointService {
   private final SsgPointStateDelegate ssgPointStateDelegate;
   private final SsgPointRepository ssgPointRepository;
 
-  public List<SsgPointTargetResponseDto> setSsgPoint(SaveSsgPointRequest request) {
+  public List<SsgPointTargetResponseDto> setSsgPoint(SaveSsgPointRequestDto request) {
 
     final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
     final var ssgPointUnit = SsgPointUnit.of(request.getOrderNo(),

@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.mapper.dto;
+package com.ebaykorea.payback.core.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;

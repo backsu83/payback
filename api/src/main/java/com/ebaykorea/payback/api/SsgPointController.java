@@ -2,8 +2,9 @@ package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.SaveSsgPointRequest;
 import com.ebaykorea.payback.api.dto.common.CommonResponse;
+import com.ebaykorea.payback.api.dto.mapper.SsgPointRequestMapper;
 import com.ebaykorea.payback.core.ssgpoint.service.SsgPointService;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.dto.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.infrastructure.query.SsgTokenQuery;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -26,6 +27,7 @@ public class SsgPointController {
 
  private final SsgPointService ssgPointService;
  private final SsgTokenQuery ssgTokenQuery;
+ private final SsgPointRequestMapper requestMapper;
 
   @Cacheable(cacheNames = "COMMON_KEY", key = "#name")
   @GetMapping("/ssgpoint/auth-token")
@@ -35,7 +37,7 @@ public class SsgPointController {
 
   @PostMapping("/ssgpoint/save")
   public List<SsgPointTargetResponseDto> saveSsgPoint(final @Valid @RequestBody SaveSsgPointRequest saveSsgPointRequest) {
-   return ssgPointService.setSsgPoint(saveSsgPointRequest);
+   return ssgPointService.setSsgPoint(requestMapper.map(saveSsgPointRequest));
   }
 
   @PostMapping("/ssgpoint/cancel")

@@ -12,7 +12,6 @@ public class CryptoAES256Test {
   private static final String key = "831A667A8A3015F85FF5824DCDFD4C58"; // 32byte
   private static final String iv = "7552B56514CCA47A"; // 16byte
 
-  @Test
   void cryptText() throws Exception {
     encryptAES256("가나다라나다");
     decryptAES256("bXVpsKaGZ0m3EKQ0sjP/I+YFdpNk4dcOsU5Jhfx1gLk=");

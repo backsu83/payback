@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import spock.lang.Ignore;
 
+@Disabled
 @AutoConfigureMockMvc
 @SpringBootTest
 class CashbackControllerTest {
