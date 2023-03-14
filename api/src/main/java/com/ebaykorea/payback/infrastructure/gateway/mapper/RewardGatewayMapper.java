@@ -50,7 +50,7 @@ public interface RewardGatewayMapper {
   @Mapping(source = "ifSmileCardT2T3CashbackAmount", target = "cashbackAmount")
   RewardT2T3SmileCardCashbackPolicy map(CashbackRewardGoodResponseDto source);
 
-  @Mapping(source = "key", target = "orderNo")
+  @Mapping(source = "key", target = "policyKey")
   @Mapping(source = "ssgPointInfo.ssgPointExpectSaveAmount", target = "pointExpectSaveAmount")
   @Mapping(source = "ssgPointInfo.isSsgPoint", target = "isSsgPoint")
   @Mapping(source = "ssgPointInfo.ssgPointExpectSaveDate", target = "expectSaveDate")

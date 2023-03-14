@@ -37,4 +37,5 @@ public class SsgPoint
   ) {
     return new SsgPoint(packNo, buyerId, orderDate, orderSiteType, ssgPointUnits);
   }
+
 }

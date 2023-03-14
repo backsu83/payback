@@ -59,20 +59,13 @@ public class RewardGatewayImpl implements RewardGateway {
         toRewardCashbackPolicies(cashbackRewardResponse),
         toRewardBackendCashbackPolicies(cashbackRewardBackendsResponse),
         toRewardSmileCardCashbackPolicy(cashbackRewardResponse),
+        toRewardSsgPointPolicy(cashbackRewardResponse),
         cashbackRewardResponse.getUseEnableDate(),
         BigDecimal.valueOf(cashbackRewardResponse.getIfSmileCardCashbackAmount()),
         BigDecimal.valueOf(cashbackRewardResponse.getIfNewSmileCardCashbackAmount()));
   }
 
-  @Override
-  public List<RewardSsgPointPolicy> getSsgPointPolicies(Order order,
-      Payment payment,
-      Map<String, ItemSnapshot> itemSnapshotMap,
-      Map<String, OrderUnitKey> orderUnitKeyMap
-  ) {
-    final var request = toCashbackRewardRequestDto(order, payment, itemSnapshotMap, orderUnitKeyMap);
-    final var cashbackRewardResponseFuture = getCashbackRewardAsync(request);
-    final var cashbackRewardResponse = cashbackRewardResponseFuture.join();
+  public List<RewardSsgPointPolicy> toRewardSsgPointPolicy(final CashbackRewardResponseDto cashbackRewardResponse) {
     return cashbackRewardResponse.getGoods()
         .stream()
         .map(goods -> rewardGatewayMapper.mapToSsgPolicy(goods))

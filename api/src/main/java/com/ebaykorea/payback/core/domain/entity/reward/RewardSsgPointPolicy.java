@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 public class RewardSsgPointPolicy {
-  private long orderNo;
+  private long policyKey;
   private BigDecimal pointExpectSaveAmount;
   private Boolean isSsgPoint;
   private String expectSaveDate;

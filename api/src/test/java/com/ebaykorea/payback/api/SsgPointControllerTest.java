@@ -24,15 +24,17 @@ class SsgPointControllerTest {
 
   @Test
   @DisplayName("API 테스트")
-  void setSsgPoint() throws Exception {
+  void saveSsgPointAuction() throws Exception {
 
     String requestJson = "{\n"
-        + "  \"orderNo\": \"16642afa8ac004004b7p7gk\",\n"
-        + "  \"txKey\": \"16642afa39800100w459dgk\",\n"
-        + "  \"packNo\": \"123\",\n"
-        + "  \"buyerId\": \"123\",\n"
-        + "  \"siteType\": \"G\",\n"
-        + "  \"tradeType\": \"S\"\n"
+        + "  \"packNo\": \"12345677888\",\n"
+        + "  \"orderNo\": \"12345677889\",\n"
+        + "  \"buyerId\": \"buyerId\",\n"
+        + "  \"siteType\": \"A\",\n"
+        + "  \"tradeType\": \"SD\",\n"
+        + "  \"payAmount\": \"1000\",\n"
+        + "  \"orderDate\": \"2022-10-17T09:35:24.00Z\",\n"
+        + "  \"scheduleDate\": \"2023-10-17T09:35:24.00Z\"\n"
         + "}";
 
     MockHttpServletRequestBuilder requestBuilder = post("/api/ssgpoint/save")

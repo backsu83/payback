@@ -17,9 +17,4 @@ public interface RewardGateway {
       Map<String, ItemSnapshot> itemSnapshotMap,
       Map<String, OrderUnitKey> orderUnitKeyMap);
 
-  List<RewardSsgPointPolicy> getSsgPointPolicies(
-      Order order,
-      Payment payment,
-      Map<String, ItemSnapshot> itemSnapshotMap,
-      Map<String, OrderUnitKey> orderUnitKeyMap);
 }

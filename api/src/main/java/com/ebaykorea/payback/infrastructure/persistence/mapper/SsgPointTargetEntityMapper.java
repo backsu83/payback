@@ -16,16 +16,15 @@ import org.mapstruct.ReportingPolicy;
 public interface SsgPointTargetEntityMapper {
 
   @Mapping(source = "unit.orderNo", target = "orderNo")
-  @Mapping(source = "point.orderSiteType.shortCode", target = "siteType")
-  @Mapping(source = "unit.pointTradeType.code", target = "tradeType")
   @Mapping(expression = "java(unit.getTransactionNo())", target = "trcNo")
   @Mapping(expression = "java(unit.getTradeNo())", target = "tradeNo")
   @Mapping(expression = "java(unit.getReceiptNo(mapToOrderSiteType()))", target = "receiptNo")
-  @Mapping(source = "unit.scheduleDate", target = "scheduleDate")
-  @Mapping(source = "unit.pointStatus.code", target = "pointStatus")
+  @Mapping(source = "point.orderSiteType.shortCode", target = "siteType")
+  @Mapping(source = "unit.pointStatus.pointStatusType.code", target = "pointStatus")
+  @Mapping(source = "unit.pointStatus.pointTradeType.code", target = "tradeType")
   @Mapping(source = "unit.payAmount", target = "payAmount")
   @Mapping(source = "unit.saveAmount", target = "saveAmount")
-  @Mapping(source = "unit.pointToken", target = "pointToken")
+  @Mapping(source = "unit.scheduleDate", target = "scheduleDate")
   SsgPointTargetEntity map(SsgPoint point, SsgPointUnit unit);
 
   SsgPointTargetResponseDto mapToSsgTarget(SsgPointTargetEntity entity);

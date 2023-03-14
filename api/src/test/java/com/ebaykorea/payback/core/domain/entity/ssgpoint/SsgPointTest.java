@@ -12,9 +12,12 @@ class SsgPointTest {
 
   @Test
   void ssgPointReceiptNoTest() {
+
     SsgPointUnit gmksave = SsgPointUnit.builder()
         .orderNo(13092892548L)
-        .pointTradeType(PointTradeType.Save)
+        .pointStatus(SsgPointStatus.builder()
+            .pointTradeType(PointTradeType.Save)
+            .build())
         .build();
 
     String receiptNo = gmksave.getReceiptNo("GMK");
@@ -28,7 +31,9 @@ class SsgPointTest {
   void ssgPointTradeNoTest() {
     SsgPointUnit gmksave = SsgPointUnit.builder()
         .orderNo(13092892548L)
-        .pointTradeType(PointTradeType.Save)
+        .pointStatus(SsgPointStatus.builder()
+            .pointTradeType(PointTradeType.Save)
+            .build())
         .build();
 
     String tradeNo = gmksave.getTradeNo();
@@ -40,7 +45,9 @@ class SsgPointTest {
   void ssgPointTransactionNoTest() {
     SsgPointUnit gmksave = SsgPointUnit.builder()
         .orderNo(13092892548L)
-        .pointTradeType(PointTradeType.Save)
+        .pointStatus(SsgPointStatus.builder()
+            .pointTradeType(PointTradeType.Save)
+            .build())
         .build();
 
     String transactionNo = gmksave.getTransactionNo();

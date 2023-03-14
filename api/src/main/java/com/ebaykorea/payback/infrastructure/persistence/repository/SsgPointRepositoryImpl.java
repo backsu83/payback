@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SsgPointRepositoryImpl implements SsgPointRepository {
 
-  private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
   private final SsgPointTargetRepository ssgPointTargetRepository;
   private final SsgPointTargetEntityMapper ssgPointTargetEntityMapper;
 
@@ -28,13 +27,14 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   public List<SsgPointTargetResponseDto> save(SsgPoint ssgPoint) {
     List<SsgPointTargetResponseDto> sspointTargetList = Lists.newArrayList();
     ssgPoint.getSsgPointUnits().stream()
+        .filter(SsgPointUnit::getIsPolicy)
         .forEach(unit->{
-          sspointTargetList.add(saveSsgPiontUnit(ssgPoint , unit));
+          sspointTargetList.add(saveSsgTarget(ssgPoint , unit));
     });
     return sspointTargetList;
   }
 
-  private SsgPointTargetResponseDto saveSsgPiontUnit(final SsgPoint ssgPoint ,final SsgPointUnit ssgPointUnit) {
+  private SsgPointTargetResponseDto saveSsgTarget(final SsgPoint ssgPoint ,final SsgPointUnit ssgPointUnit) {
     final var ssgPointTargetEntity = ssgPointTargetEntityMapper.map(ssgPoint, ssgPointUnit);
     return ssgPointTargetEntityMapper.mapToSsgTarget(ssgPointTargetRepository.save(ssgPointTargetEntity));
   }
