@@ -4,8 +4,8 @@ package com.ebaykorea.payback.consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.ebaykorea.payback.consumer.domain.OrderCompletedEvent;
-import com.ebaykorea.payback.consumer.listener.OrderCompletedEventListener;
+import com.ebaykorea.payback.consumer.event.OrderCreatedEvent;
+import com.ebaykorea.payback.consumer.listener.OrderCreatedEventListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Test;
@@ -40,14 +40,14 @@ public class EmbeddedKafkaIntegrationTest {
   KafkaTemplate kafkaTemplate;
 
   @Autowired
-  OrderCompletedEventListener consumer;
+  OrderCreatedEventListener consumer;
 
   public static final String TOPIC = "bz_carbon_order_completed_gmkt";
 
   @Test
   void testKafkaTopic() throws Exception {
 
-    OrderCompletedEvent event = OrderCompletedEvent.builder()
+    OrderCreatedEvent event = OrderCreatedEvent.builder()
         .orderKey("orderKey")
         .txKey("txKey")
         .build();
@@ -59,9 +59,9 @@ public class EmbeddedKafkaIntegrationTest {
 
     var record = KafkaTestUtils.getSingleRecord(consumer, TOPIC, 10000);
     var eventMessage = (new StringJsonMessageConverter()).toMessage(
-        record, null, null, OrderCompletedEvent.class
+        record, null, null, OrderCreatedEvent.class
     );
-    var consumedEvent = (OrderCompletedEvent) eventMessage.getPayload();
+    var consumedEvent = (OrderCreatedEvent) eventMessage.getPayload();
 
     assertEquals(event.getOrderKey() , consumedEvent.getOrderKey());
     assertEquals(event.getTxKey() , consumedEvent.getTxKey());

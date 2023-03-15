@@ -58,7 +58,5 @@ public class KafkaConfig implements KafkaListenerConfigurer {
   public void configureKafkaListeners(KafkaListenerEndpointRegistrar registrar) {
     registrar.setValidator(this.validator);
   }
-
-  //TODO 에러 핸들링을 통한 deadletter 발행
 }
 

@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.consumer.domain;
+package com.ebaykorea.payback.consumer.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.consumer.domain;
+package com.ebaykorea.payback.consumer.event;
 
 import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderCompletedEvent {
+public class OrderCreatedEvent {
 
   /** 주문 Key */
   @NotEmpty(message = "orderKey is empty")
