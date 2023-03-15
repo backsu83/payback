@@ -52,6 +52,7 @@ class RewardApiGrocery {
       NSPCashbackInfo = (map.NSPCashbackInfo ?: NspCashbackInfoDto_생성()) as NspCashbackInfoDto
       ifSmileCardT2T3CashbackAmount = (map.ifSmileCardT2T3CashbackAmount ?: 0) as Integer
       clubDayCashbackInfo = (map.clubDayCashbackInfo ?: null) as ClubDayCashbackInfoDto
+      ssgPointInfo = (map.ssgPointInfo ?: null) as SsgPointInfoDto
     }
   }
 

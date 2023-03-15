@@ -19,6 +19,7 @@ public class RewardCashbackPolicies {
   Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap;
   Map<Long, List<RewardBackendCashbackPolicy>> backendCashbackPolicyMap;
   Map<Long, RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicyMap;
+  Map<Long, RewardSsgPointPolicy> ssgPointPolicyMap;
 
   String useEnableDate;
   /**
@@ -30,12 +31,13 @@ public class RewardCashbackPolicies {
    */
   BigDecimal newSmileCardCashbackAmount;
 
-  public static RewardCashbackPolicies EMPTY = RewardCashbackPolicies.of(emptyList(), emptyList(), emptyList(), null, BigDecimal.ZERO, BigDecimal.ZERO);
+  public static RewardCashbackPolicies EMPTY = RewardCashbackPolicies.of(emptyList(), emptyList(), emptyList(), emptyList(), null, BigDecimal.ZERO, BigDecimal.ZERO);
 
   public static RewardCashbackPolicies of(
       final List<RewardCashbackPolicy> cashbackPolicies,
       final List<RewardBackendCashbackPolicy> backendCashbackPolicies,
       final List<RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicies,
+      final List<RewardSsgPointPolicy> ssgPointPolicies,
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
@@ -43,6 +45,7 @@ public class RewardCashbackPolicies {
         cashbackPolicies.stream().collect(groupingBy(RewardCashbackPolicy::getPolicyKey)),
         backendCashbackPolicies.stream().collect(groupingBy(RewardBackendCashbackPolicy::getPolicyKey)),
         smileCardCashbackPolicies.stream().collect(toMapBy(RewardT2T3SmileCardCashbackPolicy::getPolicyKey)),
+        ssgPointPolicies.stream().collect(toMapBy(RewardSsgPointPolicy::getPolicyKey)),
         useEnableDate,
         smileCardCashbackAmount,
         newSmileCardCashbackAmount);
@@ -52,12 +55,14 @@ public class RewardCashbackPolicies {
       final Map<Long, List<RewardCashbackPolicy>> cashbackPolicyMap,
       final Map<Long, List<RewardBackendCashbackPolicy>> backendCashbackPolicyMap,
       final Map<Long, RewardT2T3SmileCardCashbackPolicy> smileCardCashbackPolicyMap,
+      final Map<Long, RewardSsgPointPolicy> ssgPointPolicyMap,
       final String useEnableDate,
       final BigDecimal smileCardCashbackAmount,
       final BigDecimal newSmileCardCashbackAmount) {
     this.cashbackPolicyMap = cashbackPolicyMap;
     this.backendCashbackPolicyMap = backendCashbackPolicyMap;
     this.smileCardCashbackPolicyMap = smileCardCashbackPolicyMap;
+    this.ssgPointPolicyMap = ssgPointPolicyMap;
     this.useEnableDate = useEnableDate;
     this.smileCardCashbackAmount = smileCardCashbackAmount;
     this.newSmileCardCashbackAmount = newSmileCardCashbackAmount;

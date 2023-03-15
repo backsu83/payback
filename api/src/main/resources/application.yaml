@@ -14,7 +14,7 @@ spring:
       show_sql: true
       format_sql: true
       inspect_stacktrace: true
-      naming_physical_strategy: org.hibernate.boot.entity.naming.PhysicalNamingStrategyStandardImpl  #naming.physical-strategy
+      naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
 
 logging:
   pattern:
@@ -81,7 +81,7 @@ saturn:
 # Common Management Configurations - DO NOT EDIT
 ###################################################
 management:
-  server.port: 8081
+  server.port: 8082
   endpoints.web.exposure.include: "*"
   endpoint.health.show-details: ALWAYS
   health:

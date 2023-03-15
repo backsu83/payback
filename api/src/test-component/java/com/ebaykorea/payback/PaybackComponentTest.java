@@ -1,8 +1,10 @@
 package com.ebaykorea.payback;
 
 import com.ebaykorea.payback.api.CashbackController;
+import com.ebaykorea.payback.api.SsgPointController;
 import com.ebaykorea.payback.api.dto.CashbackResponseDto;
 import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
+import com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.*;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
@@ -47,6 +49,10 @@ public class PaybackComponentTest {
 
   @Autowired
   CashbackController cashbackController;
+
+  @Autowired
+  SsgPointController ssgPointController;
+
   @Autowired
   ObjectMapper objectMapper;
 
@@ -62,12 +68,15 @@ public class PaybackComponentTest {
   SmilecardCashbackOrderRepository smilecardCashbackOrderRepository;
   @MockBean
   SmilecardT2T3CashbackRepository smilecardT2T3CashbackRepository;
+  @MockBean
+  SmilePointTradeRepository smilePointTradeRepository;
 
   @Value("classpath:" + CASHBACK_QUERY_FILE)
   Resource resourceFile;
 
   private static final String txKey = "txKey";
   private static final String orderKey = "orderKey";
+
 
   @Test
   @DisplayName("캐시백 적립이 성공한다")
@@ -114,6 +123,22 @@ public class PaybackComponentTest {
     } catch (Exception ex) {
       return null;
     }
+  }
+
+  private static final Long packNo = 5085547185L;
+  private static final String siteType = "G";
+  private static final String tradeType = "S";
+
+  private static final String PATTERN_FORMAT = "yyyy-MM-dd";
+
+
+  @Test
+  @DisplayName("신세계 포인트 조회")
+  void getSsgPoint() {
+    final var result = ssgPointController.getSsgPoint(packNo, siteType, tradeType);
+
+    assertEquals(1000, result.getSsgPointSaveAmount());
+    assertEquals( "2023-02-24", result.getSsgPointSaveExpectDate());
   }
 
 }

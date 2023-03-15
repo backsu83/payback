@@ -2,6 +2,7 @@ package com.ebaykorea.payback.core.service
 
 import com.ebaykorea.payback.core.gateway.ClubGateway
 import com.ebaykorea.payback.core.gateway.UserGateway
+import com.ebaykorea.payback.core.service.MemberService
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.ClubGrocery.Club_생성

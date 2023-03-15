@@ -12,5 +12,9 @@ apis:
     url: "http://transaction-api-dev.gmarket.co.kr/v1"
   quilt:
     url: "https://quilt-overmind-dev.gmarket.co.kr/api"
+  smileclub:
+    url: "http://smileclubapi-dev.gmarket.co.kr"
+  ssgpoint:
+    url: "https://devauthapi.shinsegaepoint.com"
 
 payback.dcm.access.enable: true

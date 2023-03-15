@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
 
