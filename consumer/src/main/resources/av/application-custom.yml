@@ -1,5 +1,5 @@
 
-kafka.consumer.concurrency.order.created: 25 #dev: POD 2개 가정시 25
+kafka.consumer.concurrency.order.created: 25
 
 payback:
   topic:

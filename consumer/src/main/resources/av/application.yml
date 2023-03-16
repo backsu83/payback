@@ -13,7 +13,7 @@ spring:
       group-id: payback-group
       auto-offset-reset: latest
       enable-auto-commit: true
-      bootstrap-servers: satbroker-01-kafka-dev-staturn:9092,satbroker-02-kafka-dev-staturn:9092,satbroker-03-kafka-dev-staturn:9092,satbroker-04-kafka-dev-staturn:9092,satbroker-05-kafka-dev-staturn:9092
+      bootstrap-servers: SaBrokerStg01em:9092,SaBrokerStg02em:9092,SaBrokerStg03em:9092
 
 logging:
   pattern:
