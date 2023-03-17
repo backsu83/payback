@@ -4,7 +4,7 @@ import lombok.Value;
 
 @Value
 public class SsgPointPayMethod {
-  private String payType;
-  private String amount;
-  private String gubun;
+  String payType;
+  String amount;
+  String gubun;
 }

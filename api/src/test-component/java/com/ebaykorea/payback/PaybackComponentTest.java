@@ -1,8 +1,8 @@
 package com.ebaykorea.payback;
 
 import com.ebaykorea.payback.api.CashbackController;
-import com.ebaykorea.payback.api.dto.CashbackResponseDto;
-import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
+import com.ebaykorea.payback.core.dto.CashbackResponseDto;
+import com.ebaykorea.payback.core.dto.SaveCashbackRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.*;
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
@@ -21,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

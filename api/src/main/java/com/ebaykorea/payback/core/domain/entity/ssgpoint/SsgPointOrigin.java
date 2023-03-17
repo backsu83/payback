@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class SsgPointCard {
-
-  String cardNo;
+public class SsgPointOrigin {
+  String orgReceiptNo;
+  String orgApproveId;
 }

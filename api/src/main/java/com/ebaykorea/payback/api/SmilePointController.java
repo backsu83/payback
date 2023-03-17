@@ -1,6 +1,10 @@
 package com.ebaykorea.payback.api;
 
-import com.ebaykorea.payback.api.dto.*;
+import com.ebaykorea.payback.core.dto.SaveSmilePointRequestDto;
+import com.ebaykorea.payback.core.dto.SmilePointHistoryRequestDto;
+import com.ebaykorea.payback.core.dto.SmilePointResponseDto;
+import com.ebaykorea.payback.core.dto.SmilePointStatusContrNoRequestDto;
+import com.ebaykorea.payback.core.dto.SmilePointStatusSmilepayRequestDto;
 import com.ebaykorea.payback.core.service.SmilePointApplicationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

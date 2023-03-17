@@ -10,11 +10,11 @@ import lombok.Value;
 @Builder
 public class SsgPoint
 {
-  private final Long packNo;
-  private final String buyerId;
-  private final Instant orderDate;
-  private final OrderSiteType orderSiteType;
-  private final List<SsgPointUnit> ssgPointUnits;
+  Long packNo;
+  String buyerId;
+  Instant orderDate;
+  OrderSiteType orderSiteType;
+  List<SsgPointUnit> ssgPointUnits;
 
   private SsgPoint(final long packNo,
       final String buyerId,

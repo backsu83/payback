@@ -3,6 +3,7 @@ package com.ebaykorea.payback.core.domain.constant;
 import com.ebaykorea.payback.util.PaybackEnums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,22 +20,16 @@ public enum OrderSiteType {
   private final String shortCode;
   private final String ticker;
 
-  private static transient Map<Integer, OrderSiteType> map = PaybackEnums.reverseMap(OrderSiteType.class, OrderSiteType::getCode);
+  private static transient Map<String, OrderSiteType> map = PaybackEnums.reverseMap(OrderSiteType.class, OrderSiteType::getShortCode);
 
   @JsonCreator
-  public static OrderSiteType forValue(Integer value) {
+  public static OrderSiteType forValue(String value) {
     return map.getOrDefault(value, Unknown);
   }
 
-  @JsonCreator
-  public static OrderSiteType from(String siteType) {
-    return PaybackEnums
-        .reverseMap(OrderSiteType.class, OrderSiteType::getShortCode)
-        .getOrDefault(siteType, Unknown);
+  @JsonValue
+  public String toValue() {
+    return this.shortCode;
   }
 
-  @JsonValue
-  public Integer toValue() {
-    return this.code;
-  }
 }

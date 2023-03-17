@@ -3,6 +3,7 @@ package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 import com.ebaykorea.payback.util.PaybackDateTimes;
 import com.google.common.base.Strings;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Value;
@@ -11,40 +12,40 @@ import lombok.Value;
 @Builder
 public class SsgPointUnit {
 
-  private Long orderNo;
-  private BigDecimal payAmount;
-  private BigDecimal saveAmount;
-  private String scheduleDate;
-  private SsgPointPayMethod ssgPointPayMethod;
-  private Boolean isPolicy;
-  private SsgPointStatus pointStatus;
+  Long orderNo;
+  BigDecimal payAmount;
+  BigDecimal saveAmount;
+  Instant scheduleDate;
+  Boolean isPolicy;
+  SsgPointStatus pointStatus;
+  SsgPointOrigin pointOrigin;
 
   private SsgPointUnit(final Long orderNo,
       final BigDecimal payAmount,
       final BigDecimal saveAmount,
-      final String scheduleDate,
-      final SsgPointPayMethod ssgPointPayMethod,
+      final Instant scheduleDate,
       final Boolean isPolicy,
-      final SsgPointStatus pointStatus
-  ) {
+      final SsgPointStatus pointStatus,
+      final SsgPointOrigin pointOrigin) {
     this.orderNo = orderNo;
     this.payAmount = payAmount;
     this.saveAmount = saveAmount;
     this.scheduleDate = scheduleDate;
-    this.ssgPointPayMethod = ssgPointPayMethod;
     this.isPolicy = isPolicy;
     this.pointStatus = pointStatus;
+    this.pointOrigin = pointOrigin;
   }
 
   public static SsgPointUnit of(final Long orderNo,
       final BigDecimal payAmount,
       final BigDecimal saveAmount,
-      final String scheduleDate,
-      final SsgPointPayMethod ssgPointPayMethod,
+      final Instant scheduleDate,
       final Boolean isPolicy,
-      final SsgPointStatus pointState
+      final SsgPointStatus pointState,
+      final SsgPointOrigin pointOrigin
   ) {
-    return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, ssgPointPayMethod, isPolicy, pointState);
+    return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, pointState,
+        pointOrigin);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리

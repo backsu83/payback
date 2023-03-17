@@ -34,10 +34,10 @@ public class SsgPointUnitCreater {
           return SsgPointUnit.of(orderUnitKey.getBuyOrderNo(),
               orderUnit.getOrderItem().orderItemPrice(),
               orderUnit.getOrderItem().orderItemPrice(), // ssg api 대체
-              now().toString(), // ssgPointPolicy.getExpectSaveDate()
-              null,
+              now(), // ssgPointPolicy.getExpectSaveDate()
               isPolicy,
-              ssgPointStatus);
+              ssgPointStatus,
+              null);
         })
         .collect(Collectors.toUnmodifiableList());
     return ssgpoint;

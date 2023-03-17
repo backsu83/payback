@@ -9,8 +9,8 @@ import lombok.Value;
 @Builder
 public class SsgPointStatus {
 
-  private PointStatusType pointStatusType;
-  private PointTradeType pointTradeType;
-  private String smileClubCardType;
+  PointStatusType pointStatusType;
+  PointTradeType pointTradeType;
+  String smileClubCardType;
 
 }

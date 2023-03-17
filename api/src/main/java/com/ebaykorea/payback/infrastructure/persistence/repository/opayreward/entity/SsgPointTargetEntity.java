@@ -95,7 +95,7 @@ public class SsgPointTargetEntity extends BaseEntity {
   private String adminCancelYn;
 
   @Column(name = "TRY_COUNT")
-  private String tryCount;
+  private Long tryCount;
 
 
 }
