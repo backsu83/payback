@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.api.dto.common;
+package com.ebaykorea.payback.core.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

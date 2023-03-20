@@ -3,7 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.SsgPointCancedDto;
+import com.ebaykorea.payback.core.dto.SsgPointDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEntityMapper;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
@@ -42,7 +42,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   @Transactional(readOnly = true)
   @Override
-  public SsgPointCancedDto findByPointStatus(final long orderNo, final OrderSiteType siteType) {
+  public SsgPointDto findByPointStatus(final long orderNo, final OrderSiteType siteType) {
     final var ssgPointTargetEntity = ssgPointTargetRepositorySupport.findByPointStatus(orderNo, siteType);
     return ssgPointTargetEntityMapper.mapToPointCancel(ssgPointTargetEntity);
   }

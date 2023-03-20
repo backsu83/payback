@@ -3,7 +3,7 @@ package com.ebaykorea.payback.api;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SSGPOINT_CANCELED;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SSGPOINT_CREATED;
 
-import com.ebaykorea.payback.api.dto.common.CommonResponse;
+import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
 import com.ebaykorea.payback.core.ssgpoint.service.SsgPointService;

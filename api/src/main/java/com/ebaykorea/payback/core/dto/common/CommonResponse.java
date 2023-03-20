@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.api.dto.common;
+package com.ebaykorea.payback.core.dto.common;
 
 import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.fasterxml.jackson.annotation.JsonInclude;

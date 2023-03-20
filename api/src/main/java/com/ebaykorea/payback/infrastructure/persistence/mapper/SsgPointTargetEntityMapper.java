@@ -2,11 +2,10 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.SsgPointCancedDto;
+import com.ebaykorea.payback.core.dto.SsgPointDto;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.util.PaybackInstants;
-import com.ebaykorea.payback.util.PaybackTimestamps;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -36,5 +35,5 @@ public interface SsgPointTargetEntityMapper {
 
   SsgPointTargetResponseDto mapToSsgTarget(SsgPointTargetEntity entity);
 
-  SsgPointCancedDto mapToPointCancel(SsgPointTargetEntity entity);
+  SsgPointDto mapToPointCancel(SsgPointTargetEntity entity);
 }

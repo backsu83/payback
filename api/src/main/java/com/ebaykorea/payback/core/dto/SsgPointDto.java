@@ -5,7 +5,7 @@ import java.time.Instant;
 import lombok.Data;
 
 @Data
-public class SsgPointCancedDto {
+public class SsgPointDto {
   private Long orderNo;
   private String buyerId;
   private String siteType;

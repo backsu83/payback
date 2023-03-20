@@ -1,0 +1,13 @@
+
+apis:
+  smileclub:
+    url: "http://smileclubapi-dev.gmarket.co.kr"
+  ssgpoint:
+    url: "https://devauthapi.shinsegaepoint.com"
+
+payback.dcm.access.enable: true
+#spring.jpa.hibernate.default_schema: O_PAYREWARD
+spring:
+  batch:
+    jdbc:
+      table-prefix: O_PAYREWARD.BATCH_
