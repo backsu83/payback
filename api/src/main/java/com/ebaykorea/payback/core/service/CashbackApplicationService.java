@@ -81,7 +81,7 @@ public class CashbackApplicationService {
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
-    ssgPointRepository.save(ssgPoint);
+    //ssgPointRepository.save(ssgPoint);
 
     return CASHBACK_CREATED;
   }
