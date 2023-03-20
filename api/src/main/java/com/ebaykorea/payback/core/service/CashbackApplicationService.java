@@ -75,9 +75,9 @@ public class CashbackApplicationService {
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
     log.info("domain entity payCashback : {}" , GsonUtils.toJson(payCashback));
 
-    final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
-    final var ssgPoint = ssgPointCreater.create(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState.site(), pointState.ready());
-    log.info("domain entity ssgPoint: {}" , GsonUtils.toJsonPretty(ssgPoint));
+    //final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
+    //final var ssgPoint = ssgPointCreater.create(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState.site(), pointState.ready());
+    //log.info("domain entity ssgPoint: {}" , GsonUtils.toJsonPretty(ssgPoint));
 
     //payCashback 저장
     payCashbackRepository.save(payCashback);
