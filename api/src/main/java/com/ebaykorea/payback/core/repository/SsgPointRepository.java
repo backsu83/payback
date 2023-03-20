@@ -10,5 +10,7 @@ public interface SsgPointRepository {
 
   List<SsgPointTargetResponseDto> save(SsgPoint ssgPoint);
 
-  SsgPointCancedDto findByPointStatus(long orderNo , OrderSiteType siteType);
+  SsgPointCancedDto findByPointStatusReady(long orderNo ,
+      String buyerId,
+      OrderSiteType siteType);
 }

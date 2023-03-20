@@ -1,5 +1,8 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
+import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackDateTimes.TIME_STRING_FORMATTER;
+
 import com.ebaykorea.payback.util.PaybackDateTimes;
 import com.google.common.base.Strings;
 import java.math.BigDecimal;
@@ -52,7 +55,7 @@ public class SsgPointUnit {
   public String getReceiptNo(final String ticker) {
     return new StringBuilder()
         .append(ticker)
-        .append(LocalDateTime.now().format(PaybackDateTimes.LOCAL_DATE_TIME_STRING_FORMATTER))
+        .append(DATE_TIME_STRING_FORMATTER.format(Instant.now()))
         .append(pointStatus.getTradeType().getCode())
         .append(String.valueOf(orderNo).substring(String.valueOf(orderNo).length()-4))
         .toString();
@@ -73,7 +76,7 @@ public class SsgPointUnit {
     String transactionNo = new StringBuilder()
         .append(pointStatus.getTradeType().getCode())
         .append(orderNo)
-        .append(LocalDateTime.now().format(PaybackDateTimes.LOCAL_DATE_STRING_FORMATTER))
+        .append(TIME_STRING_FORMATTER.format(Instant.now()))
         .toString();
     return Strings.padEnd(transactionNo,20 , '0');
   }

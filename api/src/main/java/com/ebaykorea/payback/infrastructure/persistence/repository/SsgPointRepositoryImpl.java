@@ -42,8 +42,8 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   @Transactional(readOnly = true)
   @Override
-  public SsgPointCancedDto findByPointStatus(final long orderNo, final OrderSiteType siteType) {
-    final var ssgPointTargetEntity = ssgPointTargetRepositorySupport.findByPointStatus(orderNo, siteType);
+  public SsgPointCancedDto findByPointStatusReady(final long orderNo, final String buyerId , final OrderSiteType siteType) {
+    final var ssgPointTargetEntity = ssgPointTargetRepositorySupport.findByPointStatusReady(orderNo, buyerId, siteType);
     return ssgPointTargetEntityMapper.mapToPointCancel(ssgPointTargetEntity);
   }
 }

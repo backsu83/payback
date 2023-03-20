@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.core.ssgpoint.service;
 
-import static com.ebaykorea.payback.util.PaybackDateTimes.LOCAL_DATE_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
 
@@ -15,7 +14,6 @@ import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import com.google.common.collect.Lists;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +50,9 @@ public class SsgPointService {
 
   public List<SsgPointTargetResponseDto> cancelPoint(final CancelSsgPointRequestDto request) {
     //적립데이터 조회
-    final var entity =  ssgPointRepository.findByPointStatus(request.getOrderNo() , request.getSiteType());
+    final var entity =  ssgPointRepository.findByPointStatusReady(request.getOrderNo() ,
+        request.getBuyerId(),
+        request.getSiteType());
 
     //취소
     if(Objects.nonNull(entity)) {
