@@ -31,7 +31,7 @@ public class SsgPointController {
  private final SsgPointService ssgPointService;
  private final SsgTokenQuery ssgTokenQuery;
 
-  @Cacheable(cacheNames = "COMMON_KEY", key = "#name")
+
   @GetMapping("/ssgpoint/auth-token")
   public String getApiToken() {
     return ssgTokenQuery.getSsgAuthToken();

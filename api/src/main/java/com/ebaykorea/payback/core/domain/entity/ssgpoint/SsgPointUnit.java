@@ -53,7 +53,7 @@ public class SsgPointUnit {
     return new StringBuilder()
         .append(ticker)
         .append(LocalDateTime.now().format(PaybackDateTimes.LOCAL_DATE_TIME_STRING_FORMATTER))
-        .append(pointStatus.getPointTradeType().getCode())
+        .append(pointStatus.getTradeType().getCode())
         .append(String.valueOf(orderNo).substring(String.valueOf(orderNo).length()-4))
         .toString();
   }
@@ -61,7 +61,7 @@ public class SsgPointUnit {
   //S or C +주문번호(16진수) + padding
   public String getTradeNo() {
     String tradeNo = new StringBuilder()
-        .append(pointStatus.getPointTradeType().getCode())
+        .append(pointStatus.getTradeType().getCode())
         .append(Long.toHexString(Long.valueOf(orderNo)))
         .toString()
         .toUpperCase();
@@ -71,7 +71,7 @@ public class SsgPointUnit {
   //S or C +주문번호 + MMDDHH + padding
   public String getTransactionNo() {
     String transactionNo = new StringBuilder()
-        .append(pointStatus.getPointTradeType().getCode())
+        .append(pointStatus.getTradeType().getCode())
         .append(orderNo)
         .append(LocalDateTime.now().format(PaybackDateTimes.LOCAL_DATE_STRING_FORMATTER))
         .toString();
