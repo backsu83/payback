@@ -11,6 +11,7 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,11 @@ public class SsgPointUnitCreater {
         .map(entry -> {
           final var orderUnitKey = keyMap.findBy(entry.getOrderUnitKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnitKey"));
-          final var isPolicy = policies.get(orderUnitKey.getBuyOrderNo()).getIsSsgPoint();
+          var isPolicy = false;
+          if(policies.containsKey(orderUnitKey.getBuyOrderNo())) {
+            isPolicy = policies.get(orderUnitKey.getBuyOrderNo()).getIsSsgPoint();
+          }
+
           final var orderUnit = order.findOrderUnitBy(entry.getOrderUnitKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnit"));
 
@@ -42,6 +47,4 @@ public class SsgPointUnitCreater {
         .collect(Collectors.toUnmodifiableList());
     return ssgpoint;
   }
-
-
 }
