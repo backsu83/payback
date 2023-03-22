@@ -35,7 +35,7 @@ public class SsgPointService {
     final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
     final var ssgPointUnit = SsgPointUnit.of(request.getOrderNo(),
         request.getPayAmount(),
-        request.getPayAmount(), //ssg point api 호출
+        request.getSaveAmount(), //ssg point api 호출
         DATE_TIME_FORMATTER.parse(request.getScheduleDate() , Instant::from),
         true,
         ssgPointStrategy.ready(),
