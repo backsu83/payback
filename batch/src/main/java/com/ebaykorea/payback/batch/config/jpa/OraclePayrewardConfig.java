@@ -21,15 +21,17 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class OraclePayrewardConfig extends HibernateAdapterFactory {
 
-  public final static String ENTITY_PACKAGE_NAME = "com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity";
-  public final static String REPOSITORY_PACKAGE_NAME = "com.ebaykorea.payback.infrastructure.persistence.repository.opayreward";
+  public final static String ENTITY_PACKAGE_NAME = "com.ebaykorea.payback.batch.repository.opayreward.entity";
+  public final static String REPOSITORY_PACKAGE_NAME = "com.ebaykorea.payback.batch.repository.opayreward";
 
   @Bean
+  @Primary
   public LocalContainerEntityManagerFactoryBean opayrewrdJpaEntityManagerFactory(@Qualifier("o_payrewardDataSource") DataSource datasource) {
     return getJpaEntityManagerFactory(datasource, ENTITY_PACKAGE_NAME);
   }
 
   @Bean
+  @Primary
   public PlatformTransactionManager opayrewardJpaTransactionManager(@Qualifier("o_payrewardDataSource") DataSource datasource) {
     return new JpaTransactionManager(opayrewrdJpaEntityManagerFactory(datasource).getObject());
   }

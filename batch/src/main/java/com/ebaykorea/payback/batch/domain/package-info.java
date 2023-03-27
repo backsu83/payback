@@ -1,1 +1,0 @@
-package com.ebaykorea.payback.batch.domain;

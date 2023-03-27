@@ -19,7 +19,7 @@ public class GsonUtils {
     private static JsonSerializer<LocalDateTime> jsonSerializer = new JsonSerializer<LocalDateTime>() {
         @Override
         public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
-            return new JsonPrimitive(PaybackDateTimes.LOCAL_DATE_TIME_FORMATTER.format(localDateTime));
+            return new JsonPrimitive(PaybackDateTimes.DATE_TIME_FORMATTER.format(localDateTime));
         }
     };
 

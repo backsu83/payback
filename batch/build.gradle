@@ -22,9 +22,6 @@ dependencies {
   //batch
   implementation 'org.springframework.boot:spring-boot-starter-batch'
 
-//  //local test
-  implementation 'com.h2database:h2'
-
   //caffeine cache
   implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
 

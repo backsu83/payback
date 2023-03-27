@@ -23,7 +23,6 @@ public class SsgPointEarnRequest {
   private String doByid;
   private String add_gb;
   private String cardNo;
-  private String cino;
   private String inputFlg;
   private String brchId;
   private String recptNo;

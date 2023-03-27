@@ -12,6 +12,7 @@ spring:
   profiles:
     include: custom
   jpa:
+    open-in-view: false
     hibernate:
       show_sql: true
       format_sql: true

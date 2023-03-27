@@ -39,6 +39,16 @@ public class CryptoArcheAuthTest {
   }
 
   @Test
+  void encryptAuctionAes() throws Exception {
+    String message = "가나다라 ㄱ힣 ABCD 1234 !@#$%^&*()_+";
+    Cipher cipher = Cipher.getInstance("auction-aes"); // gmarket | auction | auction-aes
+    cipher.init(Cipher.ENCRYPT_MODE, "test-keys", "private-info-key"); // "login-key" | "api-key" | "ssn-key" | "credit-card-key" | "private-info-key" | "cookie-key" | "auction-key" | "gmarket-key" | "smilepay-key"
+    String result = cipher.doFinal(message);
+    System.out.println(String.format("auction-aes-enc-result[%s]", result));
+  }
+
+
+  @Test
   void decryptAuction() throws Exception {
     String message = "7UeDe7OqEHuZMY13LDQx4NUiOAfVShT3qXvGtf/1GhnDm786baq3HFsrwzGpnVmV";
     Cipher cipher = Cipher.getInstance("auction"); // gmarket | auction | auction-aes
@@ -47,14 +57,6 @@ public class CryptoArcheAuthTest {
     System.out.println(String.format("auction-result[%s]", result));
   }
 
-  @Test
-  void encryptAuctionAes() throws Exception {
-    String message = "가나다라 ㄱ힣 ABCD 1234 !@#$%^&*()_+";
-    Cipher cipher = Cipher.getInstance("auction-aes"); // gmarket | auction | auction-aes
-    cipher.init(Cipher.ENCRYPT_MODE, "test-keys", "private-info-key"); // "login-key" | "api-key" | "ssn-key" | "credit-card-key" | "private-info-key" | "cookie-key" | "auction-key" | "gmarket-key" | "smilepay-key"
-    String result = cipher.doFinal(message);
-    System.out.println(String.format("auction-aes-enc-result[%s]", result));
-  }
 
   @Test
   void decryptAuctionAes() throws Exception {

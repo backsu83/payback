@@ -2,6 +2,8 @@ package com.ebaykorea.payback.batch.util;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -31,4 +33,20 @@ public class PaybackInstants {
     return Instant.now().atZone(SEOUL).toInstant();
   }
 
+  public static Instant startOfDay() {
+    LocalDateTime startOfDay = LocalDateTime.ofInstant(Instant.now() , SEOUL).with(LocalTime.MIN);
+    Instant startInstant = startOfDay.atZone(SEOUL).toInstant();
+    return startInstant;
+  }
+
+  public static Instant endOfDay() {
+    LocalDateTime endOfDay = LocalDateTime.ofInstant(Instant.now() , SEOUL).with(LocalTime.MAX);
+    Instant endInstant = endOfDay.atZone(SEOUL).toInstant();
+    return endInstant;
+  }
+
+  public static String getDateTimeForString(final String dateFormat) {
+    return DateTimeFormatter.ofPattern(dateFormat)
+        .withZone(ZoneId.of("Asia/Seoul")).format(now());
+  }
 }
