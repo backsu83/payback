@@ -28,7 +28,7 @@ public class SsgPointCreater {
   ) {
     return SsgPoint.of(
         keyMap.getPackNo(),
-        order.getBuyer().getBuyerId(),
+        order.getBuyer().getBuyerNo(),
         order.getOrderDate(),
         orderSiteType,
         ssgPointCreater.create(ssgPointPolicies, order, keyMap, ssgPointStatus)

@@ -11,6 +11,4 @@ public class SsgPointStatus {
 
   PointStatusType statusType;
   PointTradeType tradeType;
-  String clientId;
-  String apiKey;
 }

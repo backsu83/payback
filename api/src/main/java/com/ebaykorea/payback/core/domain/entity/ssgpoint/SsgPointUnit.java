@@ -2,12 +2,10 @@ package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
 import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackDateTimes.TIME_STRING_FORMATTER;
-
-import com.ebaykorea.payback.util.PaybackDateTimes;
+import static com.ebaykorea.payback.util.PaybackInstants.now;
 import com.google.common.base.Strings;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Value;
 
@@ -22,6 +20,8 @@ public class SsgPointUnit {
   Boolean isPolicy;
   SsgPointStatus pointStatus;
   SsgPointOrigin pointOrigin;
+
+  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), false, null, null);
 
   private SsgPointUnit(final Long orderNo,
       final BigDecimal payAmount,

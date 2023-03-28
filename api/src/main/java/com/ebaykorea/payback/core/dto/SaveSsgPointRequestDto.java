@@ -38,6 +38,10 @@ public class SaveSsgPointRequestDto {
   @NotNull
   private BigDecimal payAmount;
 
+  @Schema(description = "상품금액")
+  @NotNull
+  private BigDecimal saveAmount;
+
   @Schema(description = "주문일" , format = "yyyy-MM-dd'T'HH:mm:ss'Z'")
   @NotBlank
   private String orderDate;

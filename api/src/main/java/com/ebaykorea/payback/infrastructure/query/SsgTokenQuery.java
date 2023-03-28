@@ -26,19 +26,21 @@ public class SsgTokenQuery {
   @Cacheable(cacheNames = "COMMON_KEY", key = "#name")
   public String getSsgAuthToken() {
     SsgTokenEntity entity = ssgTokenRepository.findTopByExpireDateAfterOrderByExpireDateDesc(now());
-    if(Objects.nonNull(entity)) {
-      return entity.getTokenKey();
-    } else {
-      final var authInfo = ssgPointStateDelegate.find(OrderSiteType.Gmarket).auth();
-      final var tokenInfo = ssgPointApiClient.getAuthToken(
-              SsgPointAuthTokenRequestDto.builder()
-                      .clientId(authInfo.getClientId())
-                      .apiKey(authInfo.getApiKey())
-                      .build()
-      );
-      saveSsgAuthToken(tokenInfo.getTokenId());
-      return tokenInfo.getTokenId();
-    }
+    return entity.getTokenKey();
+
+//    if(Objects.nonNull(entity)) {
+//    }
+//    else {
+//      final var authInfo = ssgPointStateDelegate.find(OrderSiteType.Gmarket).auth();
+//      final var tokenInfo = ssgPointApiClient.getAuthToken(
+//              SsgPointAuthTokenRequestDto.builder()
+//                      .clientId(authInfo.getClientId())
+//                      .apiKey(authInfo.getApiKey())
+//                      .build()
+//      );
+//      saveSsgAuthToken(tokenInfo.getTokenId());
+//      return tokenInfo.getTokenId();
+//    }
   }
 
   @Transactional

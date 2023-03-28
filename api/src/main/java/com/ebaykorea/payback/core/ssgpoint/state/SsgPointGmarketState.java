@@ -32,12 +32,4 @@ public class SsgPointGmarketState implements SsgPointState {
         .tradeType(PointTradeType.Cancel)
         .build();
   }
-
-  @Override
-  public SsgPointAuth auth() {
-    return SsgPointAuth.builder()
-            .clientId("49E615F309BC23C5CA7E4603E2036977")
-            .apiKey("E320844B8E294F3E8D69395737C8B194")
-            .build();
-  }
 }

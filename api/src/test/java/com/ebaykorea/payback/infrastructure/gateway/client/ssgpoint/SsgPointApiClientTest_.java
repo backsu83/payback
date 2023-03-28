@@ -34,24 +34,24 @@ public class SsgPointApiClientTest_ {
 
     @Test
     void getExpectPointAmount() {
-        var auth = ssgPointStateDelegate.find(OrderSiteType.Gmarket).auth();
-        var request = SsgPointExpectPointRequestDto.builder()
-                .clientId(auth.getClientId())
-                .apiKey(auth.getApiKey())
-                .tokenId("40560ed0230370f720124610190396f375abf10b904c")
-                .pntNoAddProdAmt(BigDecimal.ZERO)
-                .totAmt(BigDecimal.valueOf(1000L))
-                .brchId("B200042500")
-                .reqTrcNo("GMK230319091952S7268")
-                .payinfo(Lists.newArrayList(SsgPointPayInfoDto.builder()
-                        .payGb("00")
-                        .payType("A00011")
-                        .payAmt(BigDecimal.valueOf(1000L))
-                        .build()))
-                .build();
-        var result = ssgPointApiClient.getExpectPoint(request);
-        System.out.println(GsonUtils.toJsonPretty(request));
-        System.out.println(GsonUtils.toJsonPretty(result));
+//        var auth = ssgPointStateDelegate.find(OrderSiteType.Gmarket).auth();
+//        var request = SsgPointExpectPointRequestDto.builder()
+//                .clientId(auth.getClientId())
+//                .apiKey(auth.getApiKey())
+//                .tokenId("40560ed0230370f720124610190396f375abf10b904c")
+//                .pntNoAddProdAmt(BigDecimal.ZERO)
+//                .totAmt(BigDecimal.valueOf(1000L))
+//                .brchId("B200042500")
+//                .reqTrcNo("GMK230319091952S7268")
+//                .payinfo(Lists.newArrayList(SsgPointPayInfoDto.builder()
+//                        .payGb("00")
+//                        .payType("A00011")
+//                        .payAmt(BigDecimal.valueOf(1000L))
+//                        .build()))
+//                .build();
+//        var result = ssgPointApiClient.getExpectPoint(request);
+//        System.out.println(GsonUtils.toJsonPretty(request));
+//        System.out.println(GsonUtils.toJsonPretty(result));
     }
 
 

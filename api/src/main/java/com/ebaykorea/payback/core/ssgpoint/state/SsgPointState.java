@@ -20,5 +20,4 @@ public interface SsgPointState {
    */
   SsgPointStatus cancel();
 
-  SsgPointAuth auth();
 }
