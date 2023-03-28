@@ -14,7 +14,7 @@ class SsgPointTargetRepositorySupportTest {
 
   @Test
   void name() {
-    var result = ssgPointTargetRepositorySupport.findByStatusReady2();
+    var result = ssgPointTargetRepositorySupport.findByStatusReadyBy();
     System.out.println(GsonUtils.toJsonPretty(result));
   }
 }

@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.batch.util;
 
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -21,5 +22,4 @@ public class PaybackDateTimes {
 
   public static final DateTimeFormatter DATE_TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormatForString)
       .withZone(ZoneId.of("Asia/Seoul"));
-
 }

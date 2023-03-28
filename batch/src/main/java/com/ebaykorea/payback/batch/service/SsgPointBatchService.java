@@ -38,21 +38,16 @@ public class SsgPointBatchService {
   public void earn(final SsgPointProcesserDto item) {
     final var authInfo = authProperties.getGmarket();
     System.out.println("authInfo: " + GsonUtils.toJsonPretty(authInfo));
-    try {
       //임시 테스트 Key (지마켓용)
       final var cardNo = "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=";
 //      final var tokenId = getSsgAuthToken(authInfo.getClientId() , authInfo.getApiKey());
       final var tokenId = "e7aceb052303931b27164a791815b3694d75251b5d8b";
-      var request = ssgPointProcesserMapper.map(item , authInfo , tokenId , cardNo);
+      var request = ssgPointProcesserMapper.mapToEarnRequest(item , authInfo , tokenId , cardNo);
 //      ssgPointApiClient.earnPoint(request);
       System.out.println("earn request: " + GsonUtils.toJsonPretty(request));
       final var resultEarn = ssgPointApiClient.earnPoint(request);
-      System.out.println("earn result: " + GsonUtils.toJsonPretty(resultEarn));
+//      System.out.println("earn result: " + GsonUtils.toJsonPretty(resultEarn));
 
-    } catch (Exception ex) {
-      //TODO 실패경우 DB 상태값 변경 - FAIL
-      throw new PaybackException(DOMAIN_SSG_ENTITY_004);
-    }
   }
 
   public String getCardNo(final String buyerId) {

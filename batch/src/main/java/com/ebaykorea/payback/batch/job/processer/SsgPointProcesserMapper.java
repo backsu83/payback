@@ -45,9 +45,9 @@ public interface SsgPointProcesserMapper {
   @Mapping(source = "entity.tradeNo", target = "tradeNo")
   @Mapping(constant = "APITRN0121", target = "msgText")
   @Mapping(constant = "200020", target = "tradeGbCd")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeForString(\"yyyyMMdd\"))", target = "busiDt")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeForString(\"MMdd\"))", target = "tradeGentdDt")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeForString(\"HHmmss\"))", target = "tradeGentdTm")
+  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMdd\"))", target = "busiDt")
+  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"MMdd\"))", target = "tradeGentdDt")
+  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"HHmmss\"))", target = "tradeGentdTm")
   @Mapping(constant = "0000", target = "tradeGentdStcd")
   @Mapping(constant = "0000", target = "tradeGentdPosno")
   @Mapping(constant = "000000", target = "doByid")
@@ -55,9 +55,9 @@ public interface SsgPointProcesserMapper {
   @Mapping(source = "cardNo", target = "cardNo")
   @Mapping(constant = "0000", target = "recptSeq")
   @Mapping(expression = "java(BigDecimal.valueOf(0L))", target = "pntNoAddProdAmt")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeForString(\"yyyyMMddHHmmss\"))", target = "orgSaleTradeNo")
+  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMddHHmmss\"))", target = "orgSaleTradeNo")
   @Mapping(source = "entity.payAmount" , target = "payInfo" , qualifiedByName = "mapToPayInfo")
-  SsgPointEarnRequest map(SsgPointProcesserDto entity , Gmarket properties , String tokenId , String cardNo);
+  SsgPointEarnRequest mapToEarnRequest(SsgPointProcesserDto entity , Gmarket properties , String tokenId , String cardNo);
 
   @Named("mapToPayInfo")
   default List<SsgPointPayInfo> mapToPayInfo(BigDecimal payAmount) {

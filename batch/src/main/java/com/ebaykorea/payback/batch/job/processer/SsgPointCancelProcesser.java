@@ -13,7 +13,7 @@ public class SsgPointCancelProcesser implements ItemProcessor<SsgPointProcesserD
   private final SsgPointBatchService ssgPointBatchService;
 
   @Override
-  public SsgPointProcesserDto process(final SsgPointProcesserDto item) throws Exception {
+  public SsgPointProcesserDto process(final SsgPointProcesserDto item) {
     ssgPointBatchService.earn(item);
     return item;
   }

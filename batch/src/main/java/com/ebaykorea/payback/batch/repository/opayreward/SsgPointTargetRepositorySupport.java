@@ -7,6 +7,7 @@ import static com.ebaykorea.payback.batch.util.PaybackInstants.startOfDay;
 
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
+import com.ebaykorea.payback.batch.util.PaybackInstants;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -33,11 +34,12 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         );
   }
 
-  public List<SsgPointTargetEntity> findByStatusReady2() {
+  public List<SsgPointTargetEntity> findByStatusReadyBy() {
     return factory.select(ssgPointTargetEntity)
         .from(ssgPointTargetEntity)
-        .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()))
-        .limit(1) //임시
+        .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.scheduleDate.between(startOfDay() , endOfDay())
+        )
         .fetch();
   }
 }

@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.batch.domain;
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointPayInfo;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType;

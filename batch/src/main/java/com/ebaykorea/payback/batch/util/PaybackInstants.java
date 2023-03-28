@@ -45,7 +45,7 @@ public class PaybackInstants {
     return endInstant;
   }
 
-  public static String getDateTimeForString(final String dateFormat) {
+  public static String getDateTimeFormatBy(final String dateFormat) {
     return DateTimeFormatter.ofPattern(dateFormat)
         .withZone(ZoneId.of("Asia/Seoul")).format(now());
   }

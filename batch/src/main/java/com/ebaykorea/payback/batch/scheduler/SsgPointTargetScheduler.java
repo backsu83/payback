@@ -21,7 +21,7 @@ public class SsgPointTargetScheduler {
 
   // 테스트용 5초마다
   // 운영 09:30~23:30
-  @Scheduled(cron = "50 * * * * *")
+  @Scheduled(cron = "5 * * * * *")
 //  @Scheduled(cron = "0 0 10 * * *")
   public void runJob() {
     String now = LocalDateTime.now()
@@ -31,7 +31,7 @@ public class SsgPointTargetScheduler {
 
     try {
       log.debug("jobLauncher start...");
-      jobLauncher.run(jobConfig.ssgpointJob(), jobParameters);
+      jobLauncher.run(jobConfig.ssgpointTargetJob(), jobParameters);
     } catch (JobExecutionException e) {
 //      System.out.println("e.getMessage() = " + e.getMessage());
       // TODO: add job exeception

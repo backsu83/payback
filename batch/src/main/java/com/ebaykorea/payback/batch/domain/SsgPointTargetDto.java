@@ -5,7 +5,7 @@ import java.time.Instant;
 import lombok.Data;
 
 @Data
-public class SsgPoint {
+public class SsgPointTargetDto {
 
   private Long orderNo;
   private String buyerId;
