@@ -20,7 +20,7 @@ public interface SsgPointTargetEntityMapper {
   @Mapping(source = "unit.orderNo", target = "orderNo")
   @Mapping(expression = "java(unit.getTransactionNo())", target = "trcNo")
   @Mapping(expression = "java(unit.getTradeNo())", target = "tradeNo")
-  @Mapping(expression = "java(unit.getReceiptNo(point.getOrderSiteType().getTicker()))", target = "receiptNo")
+  @Mapping(expression = "java(unit.getReceiptNo(point.getOrderSiteType().getTicker() , point.getOrderDate()))", target = "receiptNo")
   @Mapping(source = "point.orderSiteType.shortCode", target = "siteType")
   @Mapping(source = "unit.pointStatus.pointStatusType.code", target = "pointStatus")
   @Mapping(source = "unit.pointStatus.pointTradeType.code", target = "tradeType")

@@ -1,7 +1,10 @@
 package com.ebaykorea.payback.util;
 
+import static com.ebaykorea.payback.util.PaybackDateTimes.dateTimeFormatForString;
+
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -31,4 +34,7 @@ public class PaybackInstants {
     return Instant.now().atZone(SEOUL).toInstant();
   }
 
+  public static String toStringBy(final Instant datetime) {
+    return LocalDateTime.ofInstant(datetime ,SEOUL).format(DateTimeFormatter.ofPattern("yyMMddHHmmss"));
+  }
 }

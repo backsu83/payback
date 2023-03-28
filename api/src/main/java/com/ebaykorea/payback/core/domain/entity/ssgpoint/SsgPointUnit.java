@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
+import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.util.PaybackDateTimes;
+import com.ebaykorea.payback.util.PaybackInstants;
 import com.google.common.base.Strings;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -49,10 +51,10 @@ public class SsgPointUnit {
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리
-  public String getReceiptNo(final String ticker) {
+  public String getReceiptNo(final String ticker, final Instant orderDate) {
     return new StringBuilder()
         .append(ticker)
-        .append(LocalDateTime.now().format(PaybackDateTimes.LOCAL_DATE_TIME_STRING_FORMATTER))
+        .append(PaybackInstants.toStringBy(orderDate))
         .append(pointStatus.getPointTradeType().getCode())
         .append(String.valueOf(orderNo).substring(String.valueOf(orderNo).length()-4))
         .toString();
@@ -60,12 +62,11 @@ public class SsgPointUnit {
 
   //S or C +주문번호(16진수) + padding
   public String getTradeNo() {
-    String tradeNo = new StringBuilder()
-        .append(pointStatus.getPointTradeType().getCode())
-        .append(Long.toHexString(Long.valueOf(orderNo)))
-        .toString()
-        .toUpperCase();
-    return Strings.padEnd(tradeNo,10 , '0');
+    final var sb = new StringBuilder();
+    if(pointStatus.getPointTradeType() == PointTradeType.Save) sb.append("10");
+    if(pointStatus.getPointTradeType() == PointTradeType.Cancel) sb.append("20");
+    sb.append(orderNo);
+    return sb.substring(0,10);
   }
 
   //S or C +주문번호 + MMDDHH + padding
