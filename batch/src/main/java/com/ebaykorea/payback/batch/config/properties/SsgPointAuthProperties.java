@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties("ssgpoint.auth")
+@ConfigurationProperties("ssgpoint.auth-info")
 public class SsgPointAuthProperties {
 
   private Gmarket gmarket;
@@ -18,6 +18,7 @@ public class SsgPointAuthProperties {
   @Getter
   @Setter
   public static class Gmarket {
+    private String memberKey;
     private String clientId;
     private String apiKey;
     private String encryptKey;
@@ -28,6 +29,7 @@ public class SsgPointAuthProperties {
   @Getter
   @Setter
   public static class Auction {
+    private String memberKey;
     private String clientId;
     private String apiKey;
     private String encryptKey;

@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.batch;
 
 import com.ebaykorea.payback.batch.config.properties.ApiInfoProperties;
-import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties;
 import com.ebaykorea.saturn.datasource.EnableSaturnDataSource;
 import com.ebaykorea.saturn.moa.EnableMoA;
 import lombok.extern.slf4j.Slf4j;

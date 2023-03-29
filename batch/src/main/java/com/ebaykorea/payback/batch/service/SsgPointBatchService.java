@@ -2,17 +2,19 @@ package com.ebaykorea.payback.batch.service;
 
 import static com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode.API_GATEWAY_002;
 import static com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode.API_GATEWAY_003;
-import static com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode.DOMAIN_SSG_ENTITY_004;
 import static com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode.DOMAIN_SSG_ENTITY_005;
 import static com.ebaykorea.payback.batch.util.PaybackInstants.now;
 
 import com.ebaykorea.payback.batch.config.client.smileclub.SmileClubApiClient;
 import com.ebaykorea.payback.batch.config.client.ssgpoint.SsgPointApiClient;
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointAuthTokenRequest;
-import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties;
+import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
+import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.exception.PaybackException;
-import com.ebaykorea.payback.batch.job.processer.SsgPointProcesserMapper;
+import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcesserMapper;
+import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper;
+import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgTokenRepository;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgTokenEntity;
 import com.ebaykorea.payback.batch.util.support.CryptoAES256;
@@ -23,6 +25,7 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -32,33 +35,46 @@ public class SsgPointBatchService {
   private final SsgPointApiClient ssgPointApiClient;
   private final SmileClubApiClient smileClubApiClient;
   private final SsgTokenRepository ssgTokenRepository;
-  private final SsgPointProcesserMapper ssgPointProcesserMapper;
-  private final SsgPointAuthProperties authProperties;
+  private final SsgPointEarnProcesserMapper ssgPointEarnProcesserMapper;
+  private final SsgPointCancelProcesserMapper ssgPointCancelProcesserMapper;
+  private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
 
-  public void earn(final SsgPointProcesserDto item) {
-    final var authInfo = authProperties.getGmarket();
-    System.out.println("authInfo: " + GsonUtils.toJsonPretty(authInfo));
+
+  public SsgPointTargetDto earn(final SsgPointProcesserDto item , SsgPointCertifier authInfo) {
       //임시 테스트 Key (지마켓용)
-      final var cardNo = "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=";
+      final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4=";
 //      final var tokenId = getSsgAuthToken(authInfo.getClientId() , authInfo.getApiKey());
       final var tokenId = "e7aceb052303931b27164a791815b3694d75251b5d8b";
-      var request = ssgPointProcesserMapper.mapToEarnRequest(item , authInfo , tokenId , cardNo);
-//      ssgPointApiClient.earnPoint(request);
+      var request = ssgPointEarnProcesserMapper.mapToRequest(item , authInfo , tokenId , cardNo);
       System.out.println("earn request: " + GsonUtils.toJsonPretty(request));
-      final var resultEarn = ssgPointApiClient.earnPoint(request);
+      final var response = ssgPointApiClient.earnPoint(request);
 //      System.out.println("earn result: " + GsonUtils.toJsonPretty(resultEarn));
-
+    return null;
   }
 
-  public String getCardNo(final String buyerId) {
-    final var authInfo = authProperties.getGmarket();
+  public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier authInfo) {
+
+    //임시 테스트 Key (지마켓용)
+    final var cardNo = "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=";
+//      final var tokenId = getSsgAuthToken(authInfo.getClientId() , authInfo.getApiKey());
+    final var tokenId = "e7aceb052303931b27164a791815b3694d75251b5d8b";
+    var request = ssgPointCancelProcesserMapper.mapToRequest(item , authInfo , tokenId , cardNo);
+    System.out.println("equest: " + GsonUtils.toJsonPretty(request));
+    final var response = ssgPointApiClient.cancelPoint(request);
+//      System.out.println("earn result: " + GsonUtils.toJsonPretty(resultEarn));
+    return null;
+  }
+
+  public String getCardNo(final String buyerId ,
+      final String encryptKey ,
+      final String encryptIv ,
+      final String memberKey
+  ) {
     try {
-      final var cardNo = smileClubApiClient.getCardNo(buyerId, "S001")
+      final var cardNo = smileClubApiClient.getCardNo(buyerId, memberKey)
           .orElseThrow(() -> new PaybackException(API_GATEWAY_003 , buyerId))
           .getCardNo();
-      final var encryptCardNo = CryptoAES256.decrypt(CryptoArche.decryptGmarket(cardNo) ,
-          authInfo.getEncryptKey() ,
-          authInfo.getEncryptIv());
+      final var encryptCardNo = CryptoAES256.decrypt(CryptoArche.decryptGmarket(cardNo) , encryptKey, encryptIv);
       return encryptCardNo;
     } catch (Exception ex) {
       //TODO 실패경우 카드번호 암복화 실패
@@ -95,5 +111,10 @@ public class SsgPointBatchService {
         .tokenKey(tokenKey)
         .expireDate(now().plus(Duration.ofDays(1)))
         .build());
+  }
+
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public long updateProcesserFail(final long orderNo, final String orderSiteType, final String tradeType) {
+    return ssgPointTargetRepositorySupport.updateFailBy(orderNo , orderSiteType , tradeType);
   }
 }

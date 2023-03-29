@@ -15,6 +15,10 @@ public class PaybackDecimals {
     return decimal == null ? ZERO : decimal;
   }
 
+  public static BigDecimal from(final String amount) {
+    return new BigDecimal(amount);
+  }
+
   // BigDecimal Sum
   public static Collector<BigDecimal, BigDecimal[], BigDecimal> summarizing() {
     return Collector.of(

@@ -10,6 +10,7 @@ import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointResponse;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 )
 public interface SsgPointApiClient {
 
+  @Retryable
   @RequestMapping(
       method = RequestMethod.POST,
       value = "/authapi/auth",
@@ -29,13 +31,15 @@ public interface SsgPointApiClient {
   Optional<SsgPointAuthTokenResponse> getAuthToken(@RequestBody final SsgPointAuthTokenRequest request);
 
 
+  @Retryable
   @RequestMapping(
       method = RequestMethod.POST,
-      value = "/authapi/pntAddCino",
+      value = "/authapi/pntAdd",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
   SsgPointResponse earnPoint(@RequestBody final SsgPointEarnRequest request);
 
+  @Retryable
   @RequestMapping(
       method = RequestMethod.POST,
       value = "/authapi/PntAddCnclCino",

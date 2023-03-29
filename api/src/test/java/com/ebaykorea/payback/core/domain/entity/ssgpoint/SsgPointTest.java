@@ -5,11 +5,11 @@
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //
 //import com.ebaykorea.payback.util.PaybackDateTimes;
+//import java.time.Instant;
 //import java.time.LocalDateTime;
-//import org.junit.jupiter.api.Disabled;
+//import java.time.ZoneId;
 //import org.junit.jupiter.api.Test;
 //
-//@Disabled
 //class SsgPointTest {
 //
 //  @Test
@@ -22,7 +22,7 @@
 //            .build())
 //        .build();
 //
-//    String receiptNo = gmksave.getReceiptNo("GMK");
+//    String receiptNo = gmksave.getReceiptNo("GMK" , Instant.now());
 //    String yyMMddHHmmss = LocalDateTime.now().format(PaybackDateTimes.LOCAL_DATE_TIME_STRING_FORMATTER);
 //
 //    assertEquals(receiptNo , "GMK" + yyMMddHHmmss + "S" + "2548");
@@ -39,7 +39,7 @@
 //        .build();
 //
 //    String tradeNo = gmksave.getTradeNo();
-//    assertEquals(tradeNo , "S" + "30C65AF84");
+//    assertEquals(tradeNo , "10" + "13092892");
 //    assertEquals(tradeNo.length() , 10);
 //  }
 //
@@ -57,5 +57,15 @@
 //
 //    assertEquals(transactionNo , "S" + "13092892548" + mmddhh + "00");
 //    assertEquals(transactionNo.length() , 20);
+//  }
+//
+//  @Test
+//  void name() {
+//    var now = Instant.now();
+//    var result = LocalDateTime.ofInstant(now , ZoneId.of("Asia/Seoul"))
+//        .format(PaybackDateTimes.LOCAL_DATE_TIME_STRING_FORMATTER);
+//    System.out.println(result);
+//
+//
 //  }
 //}

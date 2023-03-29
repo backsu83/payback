@@ -12,19 +12,12 @@ public class SsgPointTargetDto {
   private String siteType;
   private String tradeType;
   private String receiptNo;
-  private String orgReceiptNo;
   private String pntApprId;
-  private String orgPntApprId;
-  private BigDecimal payAmount;
   private BigDecimal saveAmount;
-  private String pointStatus;
-  private String cancelYn;
+  private String status;
   private String pointToken;
-  private Instant orderDate;
-  private Instant scheduleDate;
+  private String accountDate;
+  private String requestDate;
   private String responseCode;
-  private String trcNo;
-  private String tradeNo;
-  private Long packNo;
 
 }

@@ -37,7 +37,7 @@ public class JobConfiguration extends JpaBatchConfigurer {
     JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
     factory.setDataSource(dataSource);
     factory.setTransactionManager(getTransactionManager());
-    factory.setIsolationLevelForCreate("ISOLATION_DEFAULT");
+    factory.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED");
     factory.setTablePrefix(tablePrefix);
     return factory.getObject();
   }

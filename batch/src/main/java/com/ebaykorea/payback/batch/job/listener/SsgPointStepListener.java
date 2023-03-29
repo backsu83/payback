@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.batch.job.processer;
+package com.ebaykorea.payback.batch.job.listener;
 
 import com.ebaykorea.payback.batch.config.properties.ApiInfoProperties;
 import java.util.List;
@@ -57,7 +57,6 @@ public class SsgPointStepListener implements StepExecutionListener {
       return ExitStatus.COMPLETED;
     } else {
       exceptions.forEach(e -> {
-            stepExecution.setExitStatus(new ExitStatus("FAILED","STEP CUSTOM EXCEPTION MESSAGE"));
             log.error(e.getMessage(), e);
           }
       );

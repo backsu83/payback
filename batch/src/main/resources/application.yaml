@@ -49,7 +49,7 @@ resilience4j:
   retry:
     configs:
       default:
-        maxRetryAttempts: 3
+        maxRetryAttempts: 2
         waitDuration: 500
     instances:
       retryApi: # retry name

@@ -1,13 +1,15 @@
-package com.ebaykorea.payback.batch.job.processer;
+package com.ebaykorea.payback.batch.job.mapper;
 
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest;
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointPayInfo;
-import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties.Gmarket;
+import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointResponse;
+import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
+import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
-import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
+import com.ebaykorea.payback.batch.util.PaybackDecimals;
 import com.ebaykorea.payback.batch.util.PaybackInstants;
 import com.google.common.collect.Lists;
 import java.math.BigDecimal;
@@ -25,24 +27,20 @@ import org.mapstruct.ReportingPolicy;
         PointStatusType.class,
         PointTradeType.class,
         BigDecimal.class,
-        PaybackInstants.class
+        PaybackInstants.class,
+        PaybackDecimals.class
     }
 )
-public interface SsgPointProcesserMapper {
+public interface SsgPointEarnProcesserMapper {
 
-  @Mapping(expression = "java(OrderSiteType.forValue(entity.getSiteType()))", target = "siteType")
-  @Mapping(expression = "java(PointTradeType.from(entity.getTradeType()))", target = "tradeType")
-  @Mapping(expression = "java(PointStatusType.from(entity.getPointStatus()))", target = "status")
-  SsgPointProcesserDto map(SsgPointTargetEntity entity);
-
-  @Mapping(source = "properties.clientId", target = "clientId")
-  @Mapping(source = "properties.apiKey", target = "apiKey")
-  @Mapping(source = "properties.branchId", target = "brchId")
+  @Mapping(source = "authInfo.clientId", target = "clientId")
+  @Mapping(source = "authInfo.apiKey", target = "apiKey")
+  @Mapping(source = "authInfo.branchId", target = "brchId")
   @Mapping(source = "tokenId", target = "tokenId")
-  @Mapping(source = "entity.trcNo", target = "reqTrcNo")
-  @Mapping(source = "entity.receiptNo", target = "recptNo")
-  @Mapping(source = "entity.payAmount", target = "totAmt")
-  @Mapping(source = "entity.tradeNo", target = "tradeNo")
+  @Mapping(source = "processerDto.trcNo", target = "reqTrcNo")
+  @Mapping(source = "processerDto.receiptNo", target = "recptNo")
+  @Mapping(source = "processerDto.payAmount", target = "totAmt")
+  @Mapping(source = "processerDto.tradeNo", target = "tradeNo")
   @Mapping(constant = "APITRN0121", target = "msgText")
   @Mapping(constant = "200020", target = "tradeGbCd")
   @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMdd\"))", target = "busiDt")
@@ -56,8 +54,8 @@ public interface SsgPointProcesserMapper {
   @Mapping(constant = "0000", target = "recptSeq")
   @Mapping(expression = "java(BigDecimal.valueOf(0L))", target = "pntNoAddProdAmt")
   @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMddHHmmss\"))", target = "orgSaleTradeNo")
-  @Mapping(source = "entity.payAmount" , target = "payInfo" , qualifiedByName = "mapToPayInfo")
-  SsgPointEarnRequest mapToEarnRequest(SsgPointProcesserDto entity , Gmarket properties , String tokenId , String cardNo);
+  @Mapping(source = "processerDto.payAmount" , target = "payInfo" , qualifiedByName = "mapToPayInfo")
+  SsgPointEarnRequest mapToRequest(SsgPointProcesserDto processerDto , SsgPointCertifier authInfo , String tokenId , String cardNo);
 
   @Named("mapToPayInfo")
   default List<SsgPointPayInfo> mapToPayInfo(BigDecimal payAmount) {
@@ -67,5 +65,17 @@ public interface SsgPointProcesserMapper {
         .payType("A00011")
         .build());
   }
+
+  @Mapping(source = "processerDto.orderNo", target = "orderNo")
+  @Mapping(source = "processerDto.buyerId", target = "buyerId")
+  @Mapping(source = "processerDto.siteType", target = "siteType")
+  @Mapping(source = "processerDto.tradeType", target = "tradeType")
+  @Mapping(source = "processerDto.status", target = "status")
+  @Mapping(source = "response.pntApprId", target = "pntApprId")
+  @Mapping(expression = "java(PaybackDecimals.from(response.getGpoint()))", target = "saveAmount")
+  @Mapping(source = "response.responseCd", target = "responseCode")
+  @Mapping(source = "request.busiDt", target = "accountDate")
+  @Mapping(source = "request.orgSaleTradeNo", target = "requestDate")
+  SsgPointTargetDto mapToTarget(SsgPointEarnRequest request , SsgPointResponse response ,SsgPointProcesserDto processerDto);
 
 }
