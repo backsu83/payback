@@ -72,7 +72,7 @@ public class SsgPointProcessingJobConfig {
     return stepBuilderFactory.get("excuteAllowStep")
         .tasklet((contribution, chunkContext) -> {
           var reqTime = LocalTime.parse(reqDateTime , DATE_TIME_FORMATTER);
-          if ( LocalTime.of(7,0).isAfter(reqTime)
+          if ( LocalTime.of(0,0).isAfter(reqTime)
               && LocalTime.of(8,0).isBefore(reqTime)) {
               contribution.setExitStatus(ExitStatus.FAILED);
           }
