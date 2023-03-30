@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.List;
 
 @Repository
 @SaturnDataSource(name = "o_payreward")
 public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEntity, SsgPointTargetEntityId>  {
-    SsgPointTargetEntity findByPackNoAndSiteTypeAndTradeType(Long packNo, String siteType, String TradeType);
+    List<SsgPointTargetEntity> findByPackNo(Long packNo);
 }

@@ -7,7 +7,6 @@ import com.ebaykorea.payback.core.ssgpoint.service.SsgPointService;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.infrastructure.query.SsgPointQuery;
 import com.ebaykorea.payback.infrastructure.query.SsgTokenQuery;
-import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
 import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -45,8 +44,8 @@ public class SsgPointController {
     return null;
   }
 
-  @GetMapping("/ssgpoint")
-  public SsgPointTargetQueryResult getSsgPoint(@RequestParam(value = "packNo", required = false) final Long packNo, String siteType, String tradeType) {
+  @GetMapping("/ssgpoints")
+  public List<SsgPointTargetQueryResult> getSsgPoints(Long packNo, String siteType, String tradeType) {
    return ssgPointQuery.getSsgPointQueryResult(packNo, siteType, tradeType);
   }
 }

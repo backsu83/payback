@@ -1,29 +1,26 @@
 package com.ebaykorea.payback.infrastructure.query;
 
+import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetQueryResultMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
-import static java.util.stream.Collectors.toUnmodifiableList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SsgPointQuery {
     private final SsgPointTargetRepository ssgPointTargetRepository;
+    private final SsgPointTargetQueryResultMapper pointMapper;
 
-    private static final String PATTERN_FORMAT = "yyyy-MM-dd";
+    public List<SsgPointTargetQueryResult> getSsgPointQueryResult(final Long packNo, String siteType, String tradeType) {
+        List<SsgPointTargetQueryResult> results = ssgPointTargetRepository.findByPackNo(packNo)
+                .stream().filter(s -> siteType.equals(s.getSiteType()) && tradeType.equals(s.getTradeType()))
+                .map(pointMapper::map)
+                .collect(Collectors.toUnmodifiableList());
 
-    public SsgPointTargetQueryResult getSsgPointQueryResult(final Long packNo, String siteType, String tradeType) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN_FORMAT).withZone(ZoneId.of("Asia/Seoul"));
-        SsgPointTargetQueryResult result = new SsgPointTargetQueryResult();
-        SsgPointTargetEntity target = ssgPointTargetRepository.findByPackNoAndSiteTypeAndTradeType(packNo, siteType, tradeType);
-        result.setSsgPointSaveAmount(target.getSaveAmount());
-        result.setSsgPointSaveExpectDate(formatter.format(target.getScheduleDate()));
-        return result;
+        return results;
     }
 }

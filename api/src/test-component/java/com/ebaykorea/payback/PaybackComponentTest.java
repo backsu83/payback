@@ -22,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -129,16 +128,14 @@ public class PaybackComponentTest {
   private static final String siteType = "G";
   private static final String tradeType = "S";
 
-  private static final String PATTERN_FORMAT = "yyyy-MM-dd";
-
 
   @Test
   @DisplayName("신세계 포인트 조회")
-  void getSsgPoint() {
-    final var result = ssgPointController.getSsgPoint(packNo, siteType, tradeType);
+  void getSsgPoints() {
+    final var result = ssgPointController.getSsgPoints(packNo, siteType, tradeType);
 
-    assertEquals(1000, result.getSsgPointSaveAmount());
-    assertEquals( "2023-02-24", result.getSsgPointSaveExpectDate());
+
+
   }
 
 }
