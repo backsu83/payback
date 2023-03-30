@@ -19,6 +19,7 @@ import org.mapstruct.ReportingPolicy;
 public interface SsgPointTargetEntityMapper {
 
   @Mapping(source = "unit.orderNo", target = "orderNo")
+  @Mapping(source = "point.buyerNo", target = "buyerId")
   @Mapping(expression = "java(unit.getTransactionNo())", target = "trcNo")
   @Mapping(expression = "java(unit.getTradeNo())", target = "tradeNo")
   @Mapping(expression = "java(unit.getReceiptNo(point.getOrderSiteType().getTicker()))", target = "receiptNo")
