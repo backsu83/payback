@@ -8,7 +8,7 @@ public class PaybackDateTimes {
 
   public static final String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
   public static final String dateFormat = "yyyy-MM-dd";
-  public static final String dateTimeFormatForString = "yyMMddHHmmss";
+  public static final String dateTimeFormatForString = "yyyyMMddHHmmss";
   public static final String dateFormatForString = "MMddHH";
 
   public static final DateTimeFormatter DATE_FORMATTER  = DateTimeFormatter.ofPattern(dateFormat)

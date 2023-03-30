@@ -11,6 +11,8 @@ import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEn
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -47,6 +49,30 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     return factory.update(ssgPointTargetEntity)
         .set(ssgPointTargetEntity.pointStatus, PointStatusType.Fail.getCode())
         .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.siteType.eq(siteType),
+            ssgPointTargetEntity.tradeType.eq(tradeType),
+            ssgPointTargetEntity.orderNo.eq(orderNo)
+        )
+        .execute();
+  }
+
+  public long updateSuceessBy(final long orderNo ,
+      final String buyerId ,
+      final String siteType ,
+      final String tradeType,
+      final String accountDate,
+      final Instant requestDate,
+      final String responseCode,
+      final BigDecimal saveAmount
+  ) {
+    return factory.update(ssgPointTargetEntity)
+        .set(ssgPointTargetEntity.pointStatus, PointStatusType.Success.getCode())
+        .set(ssgPointTargetEntity.responseCode, responseCode)
+        .set(ssgPointTargetEntity.accountDate, accountDate)
+        .set(ssgPointTargetEntity.requestDate, requestDate)
+        .set(ssgPointTargetEntity.saveAmount, saveAmount)
+        .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.buyerId.eq(buyerId),
             ssgPointTargetEntity.siteType.eq(siteType),
             ssgPointTargetEntity.tradeType.eq(tradeType),
             ssgPointTargetEntity.orderNo.eq(orderNo)

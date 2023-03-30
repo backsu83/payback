@@ -11,15 +11,15 @@ class CryptoArcheTest {
   @Test
   void decryptGmarket() throws Exception {
     String message = "~ok9buyDmfFjZpCUMu7NAfSjwqQo59okydd22eEO96es=";
-    var result = CryptoArche.decryptGmarket(message);
-    assertEquals(result, "9350130267830229");
+    var result = CryptoArche.decrypt(message, "gmarket");
+    assertEquals(result, "9350-1302-6783-0229");
   }
 
   @Test
   void decryptAuction() throws Exception {
     String message = "TOrNDOb49cd7jAaLTZVMMkGFAb4kUp4+";
-    var result = CryptoArche.decryptAuction(message);
-    assertEquals(result, "9350130267830229");
+    var result = CryptoArche.decrypt(message, "auction");
+    assertEquals(result, "9350-1302-6783-0229");
   }
 
   @Test

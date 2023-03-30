@@ -3,6 +3,7 @@ package com.ebaykorea.payback.batch.service;
 import static com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode.API_GATEWAY_002;
 import static com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode.API_GATEWAY_003;
 import static com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode.DOMAIN_SSG_ENTITY_005;
+import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 import static com.ebaykorea.payback.batch.util.PaybackInstants.now;
 
 import com.ebaykorea.payback.batch.config.client.smileclub.SmileClubApiClient;
@@ -20,9 +21,9 @@ import com.ebaykorea.payback.batch.repository.opayreward.SsgTokenRepository;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgTokenEntity;
 import com.ebaykorea.payback.batch.util.support.CryptoAES256;
 import com.ebaykorea.payback.batch.util.support.CryptoArche;
-import com.ebaykorea.payback.batch.util.support.GsonUtils;
 import com.google.common.base.CharMatcher;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,9 +48,7 @@ public class SsgPointBatchService {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
     var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=");
-    log.info("request: {}" , GsonUtils.toJsonPretty(request));
     final var response = ssgPointApiClient.earnPoint(request);
-    log.info("response: {}" , GsonUtils.toJsonPretty(response));
     return ssgPointEarnProcesserMapper.mapToTarget(request, response, item);
   }
 
@@ -57,9 +56,7 @@ public class SsgPointBatchService {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
     var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId, "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=");
-    log.info("request: {}" , GsonUtils.toJsonPretty(request));
     final var response = ssgPointApiClient.cancelPoint(request);
-    log.info("response: {}" , GsonUtils.toJsonPretty(response));
     return ssgPointCancelProcesserMapper.mapToTarget(request, response, item);
   }
 
@@ -111,5 +108,18 @@ public class SsgPointBatchService {
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public long updateProcesserFail(final long orderNo, final String orderSiteType, final String tradeType) {
     return ssgPointTargetRepositorySupport.updateFailBy(orderNo , orderSiteType , tradeType);
+  }
+
+  @Transactional
+  public long updateWriterSuceess(final SsgPointTargetDto item) {
+    return ssgPointTargetRepositorySupport.updateSuceessBy(item.getOrderNo() ,
+        item.getBuyerId() ,
+        item.getSiteType(),
+        item.getTradeType(),
+        item.getAccountDate(),
+        DATE_TIME_STRING_FORMATTER.parse(item.getRequestDate() , Instant::from),
+        item.getResponseCode(),
+        item.getSaveAmount()
+    );
   }
 }
