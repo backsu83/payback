@@ -9,31 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.ItemStreamWriter;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaItemWriter;
+import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SsgPointTargetWriter implements ItemStreamWriter<SsgPointTargetDto> {
+public class SsgPointTargetWriter implements ItemWriter<SsgPointTargetDto> {
 
   private final SsgPointBatchService ssgPointBatchService;
 
   @Override
-  public void open(final ExecutionContext executionContext) throws ItemStreamException {
-
-  }
-
-  @Override
-  public void update(final ExecutionContext executionContext) throws ItemStreamException {
-
-  }
-
-  @Override
-  public void close() throws ItemStreamException {
-
-  }
-
-  @Override
-  public void write(final List<? extends SsgPointTargetDto> items) throws Exception {
+  public void write(final List<? extends SsgPointTargetDto> items) {
     System.out.println("===== start writer =====");
     for (SsgPointTargetDto item : items) {
       System.out.println("SsgPointTargetWriter : " + GsonUtils.toJsonPretty(item));

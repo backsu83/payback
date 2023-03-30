@@ -19,7 +19,6 @@ public class SsgPointStepListener implements StepExecutionListener {
 
   @Override
   public void beforeStep(final StepExecution stepExecution) {
-    stepExecution.setExitStatus(new ExitStatus("FAILED","STEP CUSTOM EXCEPTION MESSAGE"));
     log.info(
         "[{}][{}][{}] JobExecution beforeStep",
         apiInfoProperties.getName(),
@@ -48,7 +47,7 @@ public class SsgPointStepListener implements StepExecutionListener {
 
     List<Throwable> exceptions = stepExecution.getFailureExceptions();
     if (CollectionUtils.isEmpty(exceptions)) {
-      log.info("{} SUCCESS [readCount:{}][writeCount:{}]",
+      log.info("{} sucess [readCount:{}][writeCount:{}]",
           PREFIX,
           stepExecution.getReadCount(),
           stepExecution.getWriteCount()

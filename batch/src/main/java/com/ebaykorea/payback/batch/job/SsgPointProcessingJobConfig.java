@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.batch.job;
 
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_FORMATTER;
+import static org.springframework.transaction.TransactionDefinition.PROPAGATION_NOT_SUPPORTED;
+import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
 
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
@@ -32,9 +34,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.classify.Classifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 @Slf4j
 @Configuration
+@EnableTransactionManagement
 @RequiredArgsConstructor
 public class SsgPointProcessingJobConfig {
 

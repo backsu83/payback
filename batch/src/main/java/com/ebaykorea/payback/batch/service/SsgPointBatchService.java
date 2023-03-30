@@ -110,7 +110,7 @@ public class SsgPointBatchService {
     return ssgPointTargetRepositorySupport.updateFailBy(orderNo , orderSiteType , tradeType);
   }
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public long updateWriterSuceess(final SsgPointTargetDto item) {
     return ssgPointTargetRepositorySupport.updateSuceessBy(item.getOrderNo() ,
         item.getBuyerId() ,

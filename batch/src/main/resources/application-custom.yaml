@@ -32,6 +32,6 @@ ssgpoint:
       branchId: 'B200042502'
   batch:
     crontab: "5 * * * * *" #테스트 1분 간격
-    fetchSize: 10000       #ItemReader에 읽는 Row수
-    chunkSize: 100         #Chunk 처리단위
+    fetchSize: 1       #ItemReader에 읽는 Row수
+    chunkSize: 1         #Chunk 처리단위
 
