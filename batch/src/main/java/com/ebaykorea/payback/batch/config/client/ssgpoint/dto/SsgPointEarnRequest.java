@@ -32,4 +32,8 @@ public class SsgPointEarnRequest {
   private String orgSaleTradeNo;
   private List<SsgPointPayInfo> payInfo;
 
+  public String getRequestDate() {
+    return busiDt + tradeGentdTm;
+  }
+
 }

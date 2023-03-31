@@ -18,7 +18,6 @@ public class SsgPointCancelRequest {
   private String tradeGentdPosno;
   private String tradeNo;
   private String doByid;
-  private String add_gb;
   private String cardNo;
   private String inputFlg;
   private String brchId;
@@ -30,4 +29,8 @@ public class SsgPointCancelRequest {
   private String otradeRecptNo;
   private String otradeApprId;
   private String orgSaleTradeNo;
+
+  public String getRequestDate() {
+    return busiDt + tradeGentdTm;
+  }
 }

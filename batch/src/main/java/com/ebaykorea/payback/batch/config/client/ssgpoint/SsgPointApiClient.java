@@ -42,7 +42,7 @@ public interface SsgPointApiClient {
   @Retryable
   @RequestMapping(
       method = RequestMethod.POST,
-      value = "/authapi/PntAddCnclCino",
+      value = "/authapi/pntAddCncl",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
   SsgPointCommonResponse cancelPoint(@RequestBody final SsgPointCancelRequest request);

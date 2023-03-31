@@ -50,29 +50,15 @@ public class SsgPointBatchService {
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
-//    var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=");
-//    final var response = ssgPointApiClient.earnPoint(request);
-
-    var result = SsgPointTargetDto.builder()
-        .orderNo(5408227299L)
-        .buyerId("jhoon8861")
-        .siteType(OrderSiteType.Gmarket)
-        .tradeType(PointTradeType.Save)
-        .status(PointStatusType.Ready)
-        .accountDate("20230331")
-        .receiptNo("GMK230321164016S7230")
-        .requestDate("20230331004405")
-        .responseCode("PRC9666")
-        .saveAmount(BigDecimal.ZERO)
-        .build();
-//    return ssgPointEarnProcesserMapper.mapToTarget(request, response, item);
-    return result;
+    var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4=");
+    final var response = ssgPointApiClient.earnPoint(request);
+    return ssgPointEarnProcesserMapper.mapToTarget(request, response, item);
   }
 
   public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
-    var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId, "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=");
+    var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId, "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4=");
     final var response = ssgPointApiClient.cancelPoint(request);
     return ssgPointCancelProcesserMapper.mapToTarget(request, response, item);
   }

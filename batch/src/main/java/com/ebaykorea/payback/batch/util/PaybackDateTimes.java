@@ -11,8 +11,12 @@ public class PaybackDateTimes {
   public static final String dateTimeFormatForString = "yyyyMMddHHmmss";
   public static final String dateFormatForString = "MMddHH";
 
-  public static final DateTimeFormatter DATE_FORMATTER  = DateTimeFormatter.ofPattern(dateFormat);
-  public static final DateTimeFormatter DATE_TIME_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormat);
-  public static final DateTimeFormatter DATE_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateFormatForString);
-  public static final DateTimeFormatter DATE_TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormatForString);
+  public static final DateTimeFormatter DATE_FORMATTER  = DateTimeFormatter.ofPattern(dateFormat)
+          .withZone(ZoneId.of("Asia/Seoul"));
+  public static final DateTimeFormatter DATE_TIME_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormat)
+          .withZone(ZoneId.of("Asia/Seoul"));
+  public static final DateTimeFormatter DATE_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateFormatForString)
+          .withZone(ZoneId.of("Asia/Seoul"));
+  public static final DateTimeFormatter DATE_TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormatForString)
+          .withZone(ZoneId.of("Asia/Seoul"));
 }

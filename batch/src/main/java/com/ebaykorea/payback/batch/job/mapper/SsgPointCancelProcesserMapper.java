@@ -66,7 +66,7 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(expression = "java(PaybackDecimals.from(response.getGpoint()))", target = "saveAmount")
     @Mapping(source = "response.responseCd", target = "responseCode")
     @Mapping(source = "request.busiDt", target = "accountDate")
-    @Mapping(source = "request.orgSaleTradeNo", target = "requestDate")
+    @Mapping(expression = "java(request.getRequestDate())", target = "requestDate")
     SsgPointTargetDto mapToTarget(SsgPointCancelRequest request , SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
 
 }
