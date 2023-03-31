@@ -2,7 +2,7 @@ package com.ebaykorea.payback.batch.job.mapper;
 
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest;
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointPayInfo;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointResponse;
+import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
@@ -53,7 +53,7 @@ public interface SsgPointEarnProcesserMapper {
   @Mapping(source = "cardNo", target = "cardNo")
   @Mapping(constant = "0000", target = "recptSeq")
   @Mapping(expression = "java(BigDecimal.valueOf(0L))", target = "pntNoAddProdAmt")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMddHHmmss\"))", target = "orgSaleTradeNo")
+  @Mapping(source = "processerDto.orderNo", target = "orgSaleTradeNo")
   @Mapping(source = "processerDto.payAmount" , target = "payInfo" , qualifiedByName = "mapToPayInfo")
   SsgPointEarnRequest mapToRequest(SsgPointProcesserDto processerDto , SsgPointCertifier authInfo , String tokenId , String cardNo);
 
@@ -76,6 +76,6 @@ public interface SsgPointEarnProcesserMapper {
   @Mapping(source = "response.responseCd", target = "responseCode")
   @Mapping(source = "request.busiDt", target = "accountDate")
   @Mapping(source = "request.orgSaleTradeNo", target = "requestDate")
-  SsgPointTargetDto mapToTarget(SsgPointEarnRequest request , SsgPointResponse response ,SsgPointProcesserDto processerDto);
+  SsgPointTargetDto mapToTarget(SsgPointEarnRequest request , SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
 
 }

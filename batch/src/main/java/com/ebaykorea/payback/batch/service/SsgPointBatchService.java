@@ -13,6 +13,8 @@ import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
+import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
 import com.ebaykorea.payback.batch.domain.exception.PaybackException;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcesserMapper;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper;
@@ -22,6 +24,7 @@ import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgTokenEntity;
 import com.ebaykorea.payback.batch.util.support.CryptoAES256;
 import com.ebaykorea.payback.batch.util.support.CryptoArche;
 import com.google.common.base.CharMatcher;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
@@ -47,9 +50,23 @@ public class SsgPointBatchService {
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
-    var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=");
-    final var response = ssgPointApiClient.earnPoint(request);
-    return ssgPointEarnProcesserMapper.mapToTarget(request, response, item);
+//    var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, "wWsEXZRf1ht3q3JOdunhyJUVR4mL8hNxGVj99ZP/MD8=");
+//    final var response = ssgPointApiClient.earnPoint(request);
+
+    var result = SsgPointTargetDto.builder()
+        .orderNo(5408227299L)
+        .buyerId("jhoon8861")
+        .siteType(OrderSiteType.Gmarket)
+        .tradeType(PointTradeType.Save)
+        .status(PointStatusType.Ready)
+        .accountDate("20230331")
+        .receiptNo("GMK230321164016S7230")
+        .requestDate("20230331004405")
+        .responseCode("PRC9666")
+        .saveAmount(BigDecimal.ZERO)
+        .build();
+//    return ssgPointEarnProcesserMapper.mapToTarget(request, response, item);
+    return result;
   }
 
   public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
@@ -110,7 +127,7 @@ public class SsgPointBatchService {
     return ssgPointTargetRepositorySupport.updateFailBy(orderNo , orderSiteType , tradeType);
   }
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  @Transactional
   public long updateWriterSuceess(final SsgPointTargetDto item) {
     return ssgPointTargetRepositorySupport.updateSuceessBy(item.getOrderNo() ,
         item.getBuyerId() ,
@@ -119,6 +136,7 @@ public class SsgPointBatchService {
         item.getAccountDate(),
         DATE_TIME_STRING_FORMATTER.parse(item.getRequestDate() , Instant::from),
         item.getResponseCode(),
+        item.getPntApprId(),
         item.getSaveAmount()
     );
   }

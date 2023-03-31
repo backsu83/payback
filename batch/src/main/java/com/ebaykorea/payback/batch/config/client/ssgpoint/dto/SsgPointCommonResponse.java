@@ -4,7 +4,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 import lombok.Data;
 
 @Data
-public class SsgPointResponse {
+public class SsgPointCommonResponse {
   private String clientId;
   private String apiKey;
   private String responseCd;

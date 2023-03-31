@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.batch.repository.opayreward;
 
 
-import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.util.support.GsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ class SsgPointTargetRepositorySupportTest {
 
   @Test
   void findByStatusReadyBy() {
-    var result = ssgPointTargetRepositorySupport.findByStatusReadyBy();
-    System.out.println(GsonUtils.toJsonPretty(result));
+    var result = ssgPointTargetRepositorySupport.findByStatusReadyTest();
+    System.out.println(GsonUtils.toJsonPretty(result.size()));
   }
 
   @Test

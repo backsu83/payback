@@ -1,8 +1,6 @@
 package com.ebaykorea.payback.batch.job;
 
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_FORMATTER;
-import static org.springframework.transaction.TransactionDefinition.PROPAGATION_NOT_SUPPORTED;
-import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
 
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
@@ -34,9 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.classify.Classifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 @Slf4j
 @Configuration
@@ -77,9 +73,8 @@ public class SsgPointProcessingJobConfig {
   public Step excuteAllowStep(@Value("#{jobParameters[reqTime]}") String reqDateTime) {
     return stepBuilderFactory.get("excuteAllowStep")
         .tasklet((contribution, chunkContext) -> {
-          var reqTime = LocalTime.parse(reqDateTime , DATE_TIME_FORMATTER);
-          if ( LocalTime.of(0,0).isAfter(reqTime)
-              && LocalTime.of(8,0).isBefore(reqTime)) {
+          var reqTime = LocalTime.parse(reqDateTime , DATE_TIME_FORMATTER).getHour();
+          if ( reqTime >= 0 && reqTime <= 9) {
               contribution.setExitStatus(ExitStatus.FAILED);
           }
           return RepeatStatus.FINISHED;

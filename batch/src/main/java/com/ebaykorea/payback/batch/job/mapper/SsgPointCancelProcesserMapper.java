@@ -2,7 +2,7 @@ package com.ebaykorea.payback.batch.job.mapper;
 
 
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointResponse;
+import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
@@ -48,7 +48,7 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(constant = "O", target = "inputFlg")
     @Mapping(source = "cardNo", target = "cardNo")
     @Mapping(constant = "0000", target = "recptSeq")
-    @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMddHHmmss\"))", target = "orgSaleTradeNo")
+    @Mapping(source = "processerDto.orderNo", target = "orgSaleTradeNo")
     @Mapping(source = "processerDto.payAmount", target = "otradeTotAmt")      //원거래 총 거래 금액
     @Mapping(source = "processerDto.accountDate", target = "otradeBusiDt")    //원거래영업일자
     @Mapping(source = "processerDto.orgReceiptNo", target = "otradeRecptNo")  //원거래영수증번호
@@ -67,6 +67,6 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "response.responseCd", target = "responseCode")
     @Mapping(source = "request.busiDt", target = "accountDate")
     @Mapping(source = "request.orgSaleTradeNo", target = "requestDate")
-    SsgPointTargetDto mapToTarget(SsgPointCancelRequest request , SsgPointResponse response ,SsgPointProcesserDto processerDto);
+    SsgPointTargetDto mapToTarget(SsgPointCancelRequest request , SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
 
 }
