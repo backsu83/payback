@@ -3,7 +3,12 @@ package com.ebaykorea.payback.core.repository;
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.dto.SsgPointCancedDto;
+import com.ebaykorea.payback.core.dto.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+
+import java.time.Instant;
 import java.util.List;
 
 public interface SsgPointRepository {
@@ -13,4 +18,9 @@ public interface SsgPointRepository {
   SsgPointCancedDto findByPointStatusReady(long orderNo ,
       String buyerId,
       OrderSiteType siteType);
+  int updatePointStatus(String pointStatus, @Nullable String manualOprt, String updateOperator, Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
+
+  SsgPointTargetResponseDto findByKey(Long orderId, String buyerId, String siteType, String tradeType);
+
+  void setCancelOrderNoNoneSave(SsgPointOrderNoDto ssgPointOrderNoDto);
 }

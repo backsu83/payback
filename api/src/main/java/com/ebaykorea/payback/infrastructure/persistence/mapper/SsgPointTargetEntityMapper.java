@@ -33,6 +33,7 @@ public interface SsgPointTargetEntityMapper {
   @Mapping(source = "unit.pointOrigin.orgApproveId", target = "orgPntApprId")
   @Mapping(constant = "N", target = "adminCancelYn")
   @Mapping(constant = "0L" , target = "tryCount")
+  @Mapping(source = "unit.adminId" , target = "manualOprt")
   SsgPointTargetEntity map(SsgPoint point, SsgPointUnit unit);
 
   SsgPointTargetResponseDto mapToSsgTarget(SsgPointTargetEntity entity);

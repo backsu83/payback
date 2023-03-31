@@ -4,6 +4,7 @@ import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SSG
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SSGPOINT_CREATED;
 
 import com.ebaykorea.payback.api.dto.common.CommonResponse;
+import com.ebaykorea.payback.api.dto.common.SsgPointResponse;
 import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
 import com.ebaykorea.payback.core.ssgpoint.service.SsgPointService;
@@ -38,12 +39,12 @@ public class SsgPointController {
   }
 
   @PostMapping("/ssgpoint/save")
-  public CommonResponse<List<SsgPointTargetResponseDto>> earnPoint(final @Valid @RequestBody SaveSsgPointRequestDto request) {
-   return CommonResponse.success(SSGPOINT_CREATED ,ssgPointService.earnPoint(request));
+  public SsgPointResponse<List<SsgPointTargetResponseDto>> earnPoint(final @Valid @RequestBody SaveSsgPointRequestDto request) {
+   return new SsgPointResponse("0000", "success", ssgPointService.earnPoint(request));
   }
 
   @PostMapping("/ssgpoint/cancel")
-  public CommonResponse<List<SsgPointTargetResponseDto>> cancelPoint(final @Valid @RequestBody CancelSsgPointRequestDto request) {
-   return CommonResponse.success(SSGPOINT_CANCELED , ssgPointService.cancelPoint(request));
+  public SsgPointResponse<List<SsgPointTargetResponseDto>> cancelPoint(final @Valid @RequestBody CancelSsgPointRequestDto request) {
+   return new SsgPointResponse("0000", "success", ssgPointService.cancelPoint(request));
   }
 }

@@ -29,4 +29,7 @@ public class CancelSsgPointRequestDto {
   @Schema(description = "구매자 아이디")
   @NotNull
   private String buyerId;
+
+  @Schema(description = "수동 처리 관리지 아이디")
+  private String adminId;
 }
