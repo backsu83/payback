@@ -42,11 +42,14 @@ public class SaveSsgPointRequestDto {
   @NotNull
   private BigDecimal saveAmount;
 
-  @Schema(description = "주문일" , format = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+  @Schema(description = "주문일" , format = "yyyy-MM-dd HH:mm:ss")
   @NotBlank
   private String orderDate;
 
-  @Schema(description = "포인트 적립예정일" , format = "yyyy-MM-dd")
+  @Schema(description = "포인트 적립예정일" , format = "yyyy-MM-dd HH:mm:ss")
   @NotBlank
   private String scheduleDate;
+
+  @Schema(description = "수동 처리 관리자 아이디")
+  private String adminId;
 }

@@ -21,7 +21,9 @@ public class SsgPointUnit {
   SsgPointStatus pointStatus;
   SsgPointOrigin pointOrigin;
 
-  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), false, null, null);
+  String adminId;
+
+  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), false, null, null, null);
 
   private SsgPointUnit(final Long orderNo,
       final BigDecimal payAmount,
@@ -29,7 +31,8 @@ public class SsgPointUnit {
       final Instant scheduleDate,
       final Boolean isPolicy,
       final SsgPointStatus pointStatus,
-      final SsgPointOrigin pointOrigin) {
+      final SsgPointOrigin pointOrigin,
+                       final String adminId) {
     this.orderNo = orderNo;
     this.payAmount = payAmount;
     this.saveAmount = saveAmount;
@@ -37,6 +40,7 @@ public class SsgPointUnit {
     this.isPolicy = isPolicy;
     this.pointStatus = pointStatus;
     this.pointOrigin = pointOrigin;
+    this.adminId = adminId;
   }
 
   public static SsgPointUnit of(final Long orderNo,
@@ -45,10 +49,11 @@ public class SsgPointUnit {
       final Instant scheduleDate,
       final Boolean isPolicy,
       final SsgPointStatus pointState,
-      final SsgPointOrigin pointOrigin
+      final SsgPointOrigin pointOrigin,
+                                final String adminId
   ) {
     return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, pointState,
-        pointOrigin);
+        pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리
