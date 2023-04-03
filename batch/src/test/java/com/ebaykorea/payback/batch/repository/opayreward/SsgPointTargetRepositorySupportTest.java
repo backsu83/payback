@@ -15,14 +15,14 @@ class SsgPointTargetRepositorySupportTest {
 
   @Test
   void findByStatusReadyBy() {
-    var result = ssgPointTargetRepositorySupport.findByStatusReadyTest();
+    var result = ssgPointTargetRepositorySupport.findStatusTest();
     System.out.println(GsonUtils.toJsonPretty(result.size()));
   }
 
   @Test
   @Transactional
   void updateFailBy() {
-    var result = ssgPointTargetRepositorySupport.updateFailBy(12345677889L , "G", "S");
+    var result = ssgPointTargetRepositorySupport.updatePrcoesserFailBy(12345677889L , "G", "S");
     System.out.println(result);
   }
 }

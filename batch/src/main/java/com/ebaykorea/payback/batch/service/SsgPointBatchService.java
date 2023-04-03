@@ -14,7 +14,6 @@ import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
-import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
 import com.ebaykorea.payback.batch.domain.exception.PaybackException;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcesserMapper;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper;
@@ -24,7 +23,6 @@ import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgTokenEntity;
 import com.ebaykorea.payback.batch.util.support.CryptoAES256;
 import com.ebaykorea.payback.batch.util.support.CryptoArche;
 import com.google.common.base.CharMatcher;
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
@@ -46,9 +44,10 @@ public class SsgPointBatchService {
   private final SsgPointEarnProcesserMapper ssgPointEarnProcesserMapper;
   private final SsgPointCancelProcesserMapper ssgPointCancelProcesserMapper;
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
+  long i = 0L;
 
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
-//    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
+    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
     var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4=");
     final var response = ssgPointApiClient.earnPoint(request);
@@ -110,11 +109,15 @@ public class SsgPointBatchService {
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public long updateProcesserFail(final long orderNo, final String orderSiteType, final String tradeType) {
-    return ssgPointTargetRepositorySupport.updateFailBy(orderNo , orderSiteType , tradeType);
+    return ssgPointTargetRepositorySupport.updatePrcoesserFailBy(orderNo , orderSiteType , tradeType);
   }
 
   @Transactional
   public long updateWriterSuceess(final SsgPointTargetDto item) {
+    //기처리된 경우 처리하지 않는다.
+    if(item.getResponseCode().equals("PRC4081")) {
+      return 4081L;
+    }
     return ssgPointTargetRepositorySupport.updateSuceessBy(item.getOrderNo() ,
         item.getBuyerId() ,
         item.getSiteType(),
@@ -123,7 +126,23 @@ public class SsgPointBatchService {
         DATE_TIME_STRING_FORMATTER.parse(item.getRequestDate() , Instant::from),
         item.getResponseCode(),
         item.getPntApprId(),
-        item.getSaveAmount()
+        item.getSaveAmount(),
+        PointStatusType.Ready.getCode()
+    );
+  }
+
+  @Transactional
+  public long updateWriterRecoverSuceess(final SsgPointTargetDto item) {
+    return ssgPointTargetRepositorySupport.updateSuceessBy(item.getOrderNo(),
+        item.getBuyerId(),
+        item.getSiteType(),
+        item.getTradeType(),
+        item.getAccountDate(),
+        DATE_TIME_STRING_FORMATTER.parse(item.getRequestDate(), Instant::from),
+        item.getResponseCode(),
+        item.getPntApprId(),
+        item.getSaveAmount(),
+        PointStatusType.Fail.getCode()
     );
   }
 }

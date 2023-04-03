@@ -10,6 +10,7 @@ import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEn
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -28,28 +29,39 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     this.factory = factory;
   }
 
-  public JPAQuery<SsgPointTargetEntity> findByStatusReady() {
+  public JPAQuery<SsgPointTargetEntity> findStatusByReady() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
-            ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
-            ssgPointTargetEntity.orderNo.eq(5408227299L)
+            ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
+            ssgPointTargetEntity.tradeType.eq(PointStatusType.Ready.getCode()),
+//            ssgPointTargetEntity.orderNo.eq(5408224778L)
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         );
   }
 
+  public JPAQuery<SsgPointTargetEntity> findStatusByFail() {
+    return factory.selectFrom(ssgPointTargetEntity)
+        .where(
+            ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode()),
+            ssgPointTargetEntity.tryCount.lt(3L),
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(1, ChronoUnit.DAYS) ,Instant.now())
+        );
+  }
 
-  public List<SsgPointTargetEntity> findByStatusReadyTest() {
+  public List<SsgPointTargetEntity> findStatusTest() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(14, ChronoUnit.DAYS) ,Instant.now())
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         )
         .fetch();
   }
 
-  public long updateFailBy(final long orderNo , final String siteType , final String tradeType) {
+  public long updatePrcoesserFailBy(final long orderNo , final String siteType , final String tradeType) {
     return factory.update(ssgPointTargetEntity)
         .set(ssgPointTargetEntity.pointStatus, PointStatusType.Fail.getCode())
-        .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+        .set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L))
+        .where(ssgPointTargetEntity.pointStatus.in(PointStatusType.Ready.getCode() , PointStatusType.Fail.getCode()),
             ssgPointTargetEntity.siteType.eq(siteType),
             ssgPointTargetEntity.tradeType.eq(tradeType),
             ssgPointTargetEntity.orderNo.eq(orderNo)
@@ -65,22 +77,25 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
       final Instant requestDate,
       final String responseCode,
       final String pntApprId,
-      final BigDecimal saveAmount
+      final BigDecimal saveAmount,
+      final String pointStatus
   ) {
-    return factory.update(ssgPointTargetEntity)
-        .set(ssgPointTargetEntity.pointStatus, PointStatusType.Success.getCode())
+    JPAUpdateClause updateClause = factory.update(ssgPointTargetEntity);
+    updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Success.getCode())
         .set(ssgPointTargetEntity.responseCode, responseCode)
         .set(ssgPointTargetEntity.accountDate, accountDate)
         .set(ssgPointTargetEntity.requestDate, requestDate)
-        .set(ssgPointTargetEntity.saveAmount, saveAmount)
         .set(ssgPointTargetEntity.pntApprId, pntApprId)
         .set(ssgPointTargetEntity.updateDate, Instant.now())
-        .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+        .where(ssgPointTargetEntity.pointStatus.eq(pointStatus),
             ssgPointTargetEntity.buyerId.eq(buyerId),
             ssgPointTargetEntity.siteType.eq(siteType.getShortCode()),
             ssgPointTargetEntity.tradeType.eq(tradeType.getCode()),
             ssgPointTargetEntity.orderNo.eq(orderNo)
-        )
-        .execute();
+        );
+    if (saveAmount.compareTo(BigDecimal.ZERO) > 0) { // saveAmount가 0보다 클 경우에만 set 적용
+      updateClause.set(ssgPointTargetEntity.saveAmount, saveAmount);
+    }
+    return updateClause.execute();
   }
 }

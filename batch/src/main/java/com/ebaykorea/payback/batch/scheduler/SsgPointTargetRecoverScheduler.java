@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.batch.scheduler;
 
 import com.ebaykorea.payback.batch.job.SsgPointTargetJobConfig;
+import com.ebaykorea.payback.batch.job.SsgPointTargetRecoverJobConfig;
 import com.ebaykorea.payback.batch.util.PaybackDateTimes;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SsgPointTargetScheduler {
+public class SsgPointTargetRecoverScheduler {
   private final JobLauncher jobLauncher;
-  private final SsgPointTargetJobConfig jobConfig;
+  private final SsgPointTargetRecoverJobConfig jobConfig;
 
   // 운영 09:00~23:30
-  @Scheduled(cron = "10 * * * * *")
+  @Scheduled(cron = "15 * * * * *")
   public void runJob() {
     String now = LocalDateTime.now()
         .format(PaybackDateTimes.DATE_TIME_FORMATTER);
@@ -28,8 +29,8 @@ public class SsgPointTargetScheduler {
         .addString("reqTime", now).toJobParameters();
 
     try {
-      log.debug("jobLauncher start...");
-      jobLauncher.run(jobConfig.ssgpointTargetJob(), jobParameters);
+      log.debug("jobLauncher recover start...");
+      jobLauncher.run(jobConfig.ssgpointTargetRecoverJob(), jobParameters);
     } catch (JobExecutionException e) {
 //      System.out.println("e.getMessage() = " + e.getMessage());
       // TODO: add job exeception

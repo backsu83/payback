@@ -27,6 +27,7 @@ logging:
     com.ebaykorea.saturn: DEBUG
     MoAAppender: INFO
     MoALogger: INFO
+    com.ebaykorea.payback.batch: INFO
 
 
 ###################################################
