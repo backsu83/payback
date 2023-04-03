@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.SsgPointCancedDto;
@@ -61,6 +62,13 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   @Override
   public int updatePointStatus(String pointStatus, @Nullable String manualOprt, String updateOperator, Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType) {
     return ssgPointTargetRepository.updateCancelStatus(pointStatus, manualOprt, updateOperator, updateDate, orderNo, buyerId, siteType, tradeType);
+  }
+
+  @Override
+  public int retryFailPointStatus(String manualOprt, String updateOperator, Instant updateDate, Long orderNo, String buyerId, String siteType, String tradeType) {
+    return ssgPointTargetRepository.retryFailPointStatus(PointStatusType.Ready.getCode(), 0L, manualOprt, updateOperator, updateDate,  orderNo,  buyerId,  siteType,  tradeType, PointStatusType.Fail.getCode());
+
+
   }
 
   @Transactional(readOnly = true)

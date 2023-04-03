@@ -7,6 +7,7 @@ import com.ebaykorea.payback.api.dto.common.CommonResponse;
 import com.ebaykorea.payback.api.dto.common.SsgPointResponse;
 import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
+import com.ebaykorea.payback.core.dto.UpdateSsgPointTradeStatusRequestDto;
 import com.ebaykorea.payback.core.ssgpoint.service.SsgPointService;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.infrastructure.query.SsgTokenQuery;
@@ -47,4 +48,10 @@ public class SsgPointController {
   public SsgPointResponse<List<SsgPointTargetResponseDto>> cancelPoint(final @Valid @RequestBody CancelSsgPointRequestDto request) {
    return new SsgPointResponse("0000", "success", ssgPointService.cancelPoint(request));
   }
+
+ @PostMapping("/ssgpoint/retryFailPointStatus")
+ public SsgPointResponse<List<SsgPointTargetResponseDto>> retryFailPointStatus(final @Valid @RequestBody UpdateSsgPointTradeStatusRequestDto request) {
+  return new SsgPointResponse("0000", "success",
+          ssgPointService.retryFailPointStatus( request));
+ }
 }

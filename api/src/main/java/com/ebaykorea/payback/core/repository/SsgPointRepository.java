@@ -20,6 +20,8 @@ public interface SsgPointRepository {
       OrderSiteType siteType);
   int updatePointStatus(String pointStatus, @Nullable String manualOprt, String updateOperator, Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
 
+  int retryFailPointStatus(String manualOprt, String updateOperator, Instant updateDate, Long orderNo, String buyerId, String siteType, String tradeType);
+
   SsgPointTargetResponseDto findByKey(Long orderId, String buyerId, String siteType, String tradeType);
 
   void setCancelOrderNoNoneSave(SsgPointOrderNoDto ssgPointOrderNoDto);
