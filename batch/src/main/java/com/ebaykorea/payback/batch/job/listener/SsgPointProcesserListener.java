@@ -27,7 +27,10 @@ public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTa
 
   @Override
   public void onProcessError(final SsgPointTargetEntity item, final Exception e) {
-    var result = ssgPointBatchService.updateProcesserFail(item.getOrderNo() , item.getSiteType() , item.getTradeType());
+    var result = ssgPointBatchService.updateProcesserFail(item.getOrderNo() ,
+        item.getSiteType() ,
+        item.getTradeType(),
+        item.getPointStatus());
     log.error("item processer error [{}][{}][{}]", item.getOrderNo(), result ,e.getLocalizedMessage());
   }
 }

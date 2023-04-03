@@ -57,16 +57,23 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .fetch();
   }
 
-  public long updatePrcoesserFailBy(final long orderNo , final String siteType , final String tradeType) {
-    return factory.update(ssgPointTargetEntity)
-        .set(ssgPointTargetEntity.pointStatus, PointStatusType.Fail.getCode())
-        .set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L))
+  public long updatePrcoesserFailBy(final long orderNo ,
+      final String siteType ,
+      final String tradeType,
+      final String pointStatus
+  ) {
+    JPAUpdateClause updateClause = factory.update(ssgPointTargetEntity);
+    updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Fail.getCode())
         .where(ssgPointTargetEntity.pointStatus.in(PointStatusType.Ready.getCode() , PointStatusType.Fail.getCode()),
             ssgPointTargetEntity.siteType.eq(siteType),
             ssgPointTargetEntity.tradeType.eq(tradeType),
             ssgPointTargetEntity.orderNo.eq(orderNo)
         )
         .execute();
+    if (PointStatusType.Fail.getCode() == pointStatus) {
+      updateClause.set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L));
+    }
+    return updateClause.execute();
   }
 
   public long updateSuceessBy(final long orderNo ,

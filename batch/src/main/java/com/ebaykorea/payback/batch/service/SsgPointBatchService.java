@@ -107,8 +107,12 @@ public class SsgPointBatchService {
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public long updateProcesserFail(final long orderNo, final String orderSiteType, final String tradeType) {
-    return ssgPointTargetRepositorySupport.updatePrcoesserFailBy(orderNo , orderSiteType , tradeType);
+  public long updateProcesserFail(final long orderNo,
+      final String orderSiteType,
+      final String tradeType,
+      final String pointStauts
+  ) {
+    return ssgPointTargetRepositorySupport.updatePrcoesserFailBy(orderNo , orderSiteType , tradeType , pointStauts);
   }
 
   @Transactional

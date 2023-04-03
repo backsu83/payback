@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.batch.repository.opayreward;
 
 
+import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.util.support.GsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ class SsgPointTargetRepositorySupportTest {
   @Test
   @Transactional
   void updateFailBy() {
-    var result = ssgPointTargetRepositorySupport.updatePrcoesserFailBy(12345677889L , "G", "S");
+    var result = ssgPointTargetRepositorySupport.updatePrcoesserFailBy(12345677889L , "G", "S",
+        PointStatusType.Ready.getCode());
     System.out.println(result);
   }
 }
