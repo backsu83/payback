@@ -109,20 +109,6 @@ public class SsgPointTargetJobConfig {
   }
 
   @Bean
-  public Step ssgPointTargetRecoverStep() {
-    return stepBuilderFactory.get("ssgPointTargetRecoverStep")
-        .listener(ssgPointStepListener)
-        .<SsgPointTargetEntity, SsgPointTargetDto>chunk(chunkSize)
-        .reader(ssgPointTargetRecoverReader.queryDslReader())
-        .processor(compositeItemProcessor())
-        .writer(ssgPointTargetRecoverWriter)
-        .faultTolerant()
-        .skipPolicy(ssgPointRecoverSkipPolicy)
-        .build();
-  }
-
-
-  @Bean
   public Classifier classifier() {
     return new SsgPointTradeTypeClassifier(ssgPointEarnProcesser , ssgPointCancelProcesser);
   }

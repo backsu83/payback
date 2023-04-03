@@ -33,7 +33,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
-            ssgPointTargetEntity.tradeType.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
 //            ssgPointTargetEntity.orderNo.eq(5408224778L)
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         );
@@ -51,7 +51,9 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
   public List<SsgPointTargetEntity> findStatusTest() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
+            ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+//            ssgPointTargetEntity.orderNo.eq(5408224778L)
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         )
         .fetch();
