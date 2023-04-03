@@ -44,10 +44,9 @@ public class SsgPointBatchService {
   private final SsgPointEarnProcesserMapper ssgPointEarnProcesserMapper;
   private final SsgPointCancelProcesserMapper ssgPointCancelProcesserMapper;
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
-  long i = 0L;
 
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
-    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
+//    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
     var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4=");
     final var response = ssgPointApiClient.earnPoint(request);
