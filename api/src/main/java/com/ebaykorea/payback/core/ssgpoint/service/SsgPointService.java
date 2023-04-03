@@ -8,10 +8,7 @@ import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto;
-import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
-import com.ebaykorea.payback.core.dto.SsgPointOrderNoDto;
-import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.*;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
 import com.ebaykorea.payback.util.support.GsonUtils;
@@ -143,5 +140,23 @@ public class SsgPointService {
                       Instant.now(), local, Instant.now(), local));
     }
     return null;
+  }
+
+  public List<SsgPointTargetResponseDto> retryFailPointStatus(final UpdateSsgPointTradeStatusRequestDto request) {
+    var local = request.getBuyerId();
+    try {
+      local = InetAddress.getLocalHost().getHostName();
+      if (local.length() > 50) {
+        local = local.substring(0, 49);
+      }
+    }catch (Exception e) {
+    }
+    var updateCount = ssgPointRepository.retryFailPointStatus(request.getAdminId(),
+            local, Instant.now(), request.getOrderNo(),request.getBuyerId(),request.getSiteType().getShortCode(), request.getTradeType());
+    List<SsgPointTargetResponseDto> list = new ArrayList<>();
+    if (updateCount > 0) {
+      list.add(ssgPointRepository.findByKey(request.getOrderNo(), request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType()));
+    }
+    return list;
   }
 }
