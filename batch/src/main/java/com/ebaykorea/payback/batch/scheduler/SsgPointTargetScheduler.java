@@ -25,13 +25,13 @@ public class SsgPointTargetScheduler {
     String now = LocalDateTime.now()
         .format(PaybackDateTimes.DATE_TIME_FORMATTER);
     JobParameters jobParameters = new JobParametersBuilder()
-        .addString("reqTime", now).toJobParameters();
+        .addString("targetTime", now).toJobParameters();
 
     try {
       log.debug("jobLauncher start...");
       jobLauncher.run(jobConfig.ssgpointTargetJob(), jobParameters);
     } catch (JobExecutionException e) {
-//      System.out.println("e.getMessage() = " + e.getMessage());
+      System.out.println("e.getMessage() = " + e.getMessage());
       // TODO: add job exeception
     }
   }

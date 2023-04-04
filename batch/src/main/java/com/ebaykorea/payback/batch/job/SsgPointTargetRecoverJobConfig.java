@@ -59,10 +59,10 @@ public class SsgPointTargetRecoverJobConfig {
   @Bean
   public Job ssgpointTargetRecoverJob() {
     return jobBuilderFactory.get(JOB_NAME)
-        .start(excuteAllowStep(null))
+        .start(excuteAllowRecoverStep(null))
           .on("FAILED")
           .end()
-        .from(excuteAllowStep(null))
+        .from(excuteAllowRecoverStep(null))
           .on("*")
           .to(ssgPointTargetRecoverStep())
         .end()
@@ -71,8 +71,8 @@ public class SsgPointTargetRecoverJobConfig {
 
   @Bean
   @JobScope
-  public Step excuteAllowStep(@Value("#{jobParameters[reqTime]}") String reqDateTime) {
-    return stepBuilderFactory.get("excuteAllowStep")
+  public Step excuteAllowRecoverStep(@Value("#{jobParameters[recoverTime]}") String reqDateTime) {
+    return stepBuilderFactory.get("excuteAllowRecoverStep")
         .tasklet((contribution, chunkContext) -> {
           var reqTime = LocalTime.parse(reqDateTime , DATE_TIME_FORMATTER).getHour();
           if ( reqTime >= 0 && reqTime <= 9) {

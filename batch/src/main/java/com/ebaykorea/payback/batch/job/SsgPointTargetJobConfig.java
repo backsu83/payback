@@ -53,13 +53,10 @@ public class SsgPointTargetJobConfig {
   private final SsgPointEarnProcesser ssgPointEarnProcesser;
   private final SsgPointCancelProcesser ssgPointCancelProcesser;
   private final SsgPointTargetWriter ssgPointTargetWriter;
-  private final SsgPointTargetRecoverWriter ssgPointTargetRecoverWriter;
   private final SsgPointProcesserMapper ssgPointProcesserMapper;
   private final SsgPointStepListener ssgPointStepListener;
   private final SsgPointProcesserListener ssgPointProcesserListener;
   private final SsgPointTargetReader ssgPointTargetReader;
-  private final SsgPointTargetRecoverReader ssgPointTargetRecoverReader;
-  private final SsgPointRecoverSkipPolicy ssgPointRecoverSkipPolicy;
 
   @Value("${ssgpoint.batch.chunkSize}")
   private int chunkSize;
@@ -79,7 +76,7 @@ public class SsgPointTargetJobConfig {
 
   @Bean
   @JobScope
-  public Step excuteAllowStep(@Value("#{jobParameters[reqTime]}") String reqDateTime) {
+  public Step excuteAllowStep(@Value("#{jobParameters[targetTime]}") String reqDateTime) {
     return stepBuilderFactory.get("excuteAllowStep")
         .tasklet((contribution, chunkContext) -> {
           var reqTime = LocalTime.parse(reqDateTime , DATE_TIME_FORMATTER).getHour();
@@ -107,20 +104,6 @@ public class SsgPointTargetJobConfig {
         .throttleLimit(5)
         .build();
   }
-
-  @Bean
-  public Step ssgPointTargetRecoverStep() {
-    return stepBuilderFactory.get("ssgPointTargetRecoverStep")
-        .listener(ssgPointStepListener)
-        .<SsgPointTargetEntity, SsgPointTargetDto>chunk(chunkSize)
-        .reader(ssgPointTargetRecoverReader.queryDslReader())
-        .processor(compositeItemProcessor())
-        .writer(ssgPointTargetRecoverWriter)
-        .faultTolerant()
-        .skipPolicy(ssgPointRecoverSkipPolicy)
-        .build();
-  }
-
 
   @Bean
   public Classifier classifier() {
