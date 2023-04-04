@@ -2,7 +2,6 @@ package com.ebaykorea.payback.batch.repository.opayreward;
 
 
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
-import static com.ebaykorea.payback.batch.util.PaybackInstants.now;
 
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
@@ -14,7 +13,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -74,6 +72,9 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             ssgPointTargetEntity.orderNo.eq(orderNo)
         )
         .execute();
+    if (PointStatusType.Fail.getCode() == pointStatus) {
+      updateClause.set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L));
+    }
     return updateClause.execute();
   }
 
