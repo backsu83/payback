@@ -105,6 +105,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
       updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Success.getCode());
     } else {
       updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Fail.getCode());
+      updateClause.set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L));
     }
 
     if (saveAmount.compareTo(BigDecimal.ZERO) > 0) { // saveAmount가 0보다 클 경우에만 set 적용
