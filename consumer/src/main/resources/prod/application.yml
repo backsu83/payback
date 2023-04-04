@@ -1,7 +1,19 @@
 ###################################################
 # LOCAL
 ###################################################
-spring.profiles.include: custom
+server:
+  port: 8085
+
+spring:
+  application.name: payback-consumer
+  profiles:
+    include: custom
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers: StrBroker01em:9092,StrBroker02em:9092,StrBroker03em:9092,StrBroker01ep:9092,StrBroker02ep:9092,StrBroker03ep:9092
 
 logging:
   pattern:
@@ -38,7 +50,7 @@ feign:
 # Common Management Configurations - DO NOT EDIT
 ###################################################
 management:
-  server.port: 8081
+  server.port: 8089
   endpoints.web.exposure.include: "*"
   endpoint.health.show-details: ALWAYS
   health:
@@ -56,10 +68,6 @@ saturn:
   groupId: com.ebaykorea
   artifactId: payback
   moa:
-    domainGroup: payreward
-    domain: payback.api
+    domainGroup: gmkt
+    domain: gmkt.reward.api
     host: http://devmoafw.ebaykorea.com
-  datasource:
-    appName: PAYBACK_API
-    userName: daemon_app
-    tenant: gmarketdev #개발: gmarketdev, 운영: gmarket

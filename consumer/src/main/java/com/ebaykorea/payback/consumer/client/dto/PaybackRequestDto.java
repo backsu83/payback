@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.consumer.client;
+package com.ebaykorea.payback.consumer.client.dto;
 
 import lombok.Builder;
 import lombok.Data;
