@@ -20,12 +20,12 @@ public class SsgPointTargetScheduler {
   private final SsgPointTargetJobConfig jobConfig;
 
   // 운영 09:00~23:30
-  @Scheduled(cron = "10 * * * * *")
-  public void runJob() {
-    String now = LocalDateTime.now()
-        .format(PaybackDateTimes.DATE_TIME_FORMATTER);
-    JobParameters jobParameters = new JobParametersBuilder()
-        .addString("targetTime", now).toJobParameters();
+//  @Scheduled(cron = "10 * * * * *")
+//  public void runJob() {
+//    String now = LocalDateTime.now()
+//        .format(PaybackDateTimes.DATE_TIME_FORMATTER);
+//    JobParameters jobParameters = new JobParametersBuilder()
+//        .addString("targetTime", now).toJobParameters();
 
 //    try {
 //      log.debug("jobLauncher start...");
@@ -34,5 +34,5 @@ public class SsgPointTargetScheduler {
 //      System.out.println("e.getMessage() = " + e.getMessage());
 //      // TODO: add job exeception
 //    }
-  }
+//  }
 }

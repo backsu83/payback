@@ -21,12 +21,12 @@ public class SsgPointTargetRecoverScheduler {
   private final SsgPointTargetRecoverJobConfig jobConfig;
 
   // 운영 09:00~23:30
-  @Scheduled(cron = "30 * * * * *")
-  public void runJob() {
-    String now = LocalDateTime.now()
-        .format(PaybackDateTimes.DATE_TIME_FORMATTER);
-    JobParameters jobParameters = new JobParametersBuilder()
-        .addString("recoverTime", now).toJobParameters();
+//  @Scheduled(cron = "30 * * * * *")
+//  public void runJob() {
+//    String now = LocalDateTime.now()
+//        .format(PaybackDateTimes.DATE_TIME_FORMATTER);
+//    JobParameters jobParameters = new JobParametersBuilder()
+//        .addString("recoverTime", now).toJobParameters();
 
 //    try {
 //      log.debug("jobLauncher recover start...");
@@ -35,5 +35,5 @@ public class SsgPointTargetRecoverScheduler {
 //      System.out.println("e.getMessage() = " + e.getMessage());
 //      // TODO: add job exeception
 //    }
-  }
+//  }
 }
