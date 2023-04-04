@@ -19,20 +19,19 @@ public class SsgPointTargetScheduler {
   private final JobLauncher jobLauncher;
   private final SsgPointTargetJobConfig jobConfig;
 
-  // 운영 09:00~23:30
-//  @Scheduled(cron = "10 * * * * *")
-//  public void runJob() {
-//    String now = LocalDateTime.now()
-//        .format(PaybackDateTimes.DATE_TIME_FORMATTER);
-//    JobParameters jobParameters = new JobParametersBuilder()
-//        .addString("targetTime", now).toJobParameters();
+  @Scheduled(cron = "${ssgpoint.scheduler.target.crontab}")
+  public void runJob() {
+    String now = LocalDateTime.now()
+        .format(PaybackDateTimes.DATE_TIME_FORMATTER);
+    JobParameters jobParameters = new JobParametersBuilder()
+        .addString("targetTime", now).toJobParameters();
 
-//    try {
-//      log.debug("jobLauncher start...");
-//      jobLauncher.run(jobConfig.ssgpointTargetJob(), jobParameters);
-//    } catch (JobExecutionException e) {
-//      System.out.println("e.getMessage() = " + e.getMessage());
-//      // TODO: add job exeception
-//    }
-//  }
+    try {
+      log.debug("jobLauncher start...");
+      jobLauncher.run(jobConfig.ssgpointTargetJob(), jobParameters);
+    } catch (JobExecutionException e) {
+      System.out.println("e.getMessage() = " + e.getMessage());
+      // TODO: add job exeception
+    }
+  }
 }

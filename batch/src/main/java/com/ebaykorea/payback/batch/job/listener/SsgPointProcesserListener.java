@@ -3,6 +3,7 @@ package com.ebaykorea.payback.batch.job.listener;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.batch.service.SsgPointBatchService;
+import com.ebaykorea.payback.batch.util.support.GsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemProcessListener;
@@ -28,9 +29,9 @@ public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTa
   @Override
   public void onProcessError(final SsgPointTargetEntity item, final Exception e) {
     var result = ssgPointBatchService.updateProcesserFail(item.getOrderNo() ,
-        item.getSiteType() ,
+        item.getSiteType(),
         item.getTradeType(),
-        item.getPointStatus());
+        e.getMessage());
     log.error("item processer error [{}][{}][{}]", item.getOrderNo(), result ,e.getLocalizedMessage());
   }
 }

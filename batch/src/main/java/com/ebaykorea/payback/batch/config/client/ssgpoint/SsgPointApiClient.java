@@ -7,10 +7,9 @@ import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointAuthTokenR
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest;
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest;
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse;
-import java.util.Optional;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,16 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 )
 public interface SsgPointApiClient {
 
-  @Retryable
+  @Retry(name = "retryApi")
   @RequestMapping(
       method = RequestMethod.POST,
       value = "/authapi/auth",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Optional<SsgPointAuthTokenResponse> getAuthToken(@RequestBody final SsgPointAuthTokenRequest request);
+  SsgPointAuthTokenResponse getAuthToken(@RequestBody final SsgPointAuthTokenRequest request);
 
-
-  @Retryable
   @RequestMapping(
       method = RequestMethod.POST,
       value = "/authapi/pntAdd",
@@ -39,7 +36,6 @@ public interface SsgPointApiClient {
   )
   SsgPointCommonResponse earnPoint(@RequestBody final SsgPointEarnRequest request);
 
-  @Retryable
   @RequestMapping(
       method = RequestMethod.POST,
       value = "/authapi/pntAddCncl",

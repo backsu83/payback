@@ -5,17 +5,14 @@ import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_FORMAT
 import com.ebaykorea.payback.batch.config.ThreadExecutorConfig;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
-import com.ebaykorea.payback.batch.job.processer.SsgPointCancelProcesser;
-import com.ebaykorea.payback.batch.job.processer.SsgPointEarnProcesser;
 import com.ebaykorea.payback.batch.job.listener.SsgPointProcesserListener;
 import com.ebaykorea.payback.batch.job.listener.SsgPointStepListener;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointProcesserMapper;
-import com.ebaykorea.payback.batch.job.reader.SsgPointTargetReader;
+import com.ebaykorea.payback.batch.job.processer.SsgPointCancelProcesser;
+import com.ebaykorea.payback.batch.job.processer.SsgPointEarnProcesser;
 import com.ebaykorea.payback.batch.job.processer.SsgPointTradeTypeClassifier;
-import com.ebaykorea.payback.batch.job.reader.SsgPointTargetRecoverReader;
-import com.ebaykorea.payback.batch.job.writer.SsgPointTargetRecoverWriter;
+import com.ebaykorea.payback.batch.job.reader.SsgPointTargetReader;
 import com.ebaykorea.payback.batch.job.writer.SsgPointTargetWriter;
-import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -28,8 +25,6 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.support.ClassifierCompositeItemProcessor;
 import org.springframework.batch.item.support.CompositeItemProcessor;
@@ -38,7 +33,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.classify.Classifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 @Configuration
@@ -99,7 +93,7 @@ public class SsgPointTargetJobConfig {
         .listener(ssgPointProcesserListener)
         .faultTolerant()
         .skip(Exception.class)
-        .skipLimit(2000)
+        .skipLimit(10000)
         .taskExecutor(threadExecutorConfig.taskExecutor())
         .throttleLimit(5)
         .build();

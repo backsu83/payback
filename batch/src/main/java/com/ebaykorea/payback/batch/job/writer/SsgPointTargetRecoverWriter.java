@@ -17,8 +17,8 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
   private final SsgPointBatchService ssgPointBatchService;
 
   @Override
-  public void write(final List<? extends SsgPointTargetDto> items) throws Exception {
-    System.out.println("===== start recover writer =====");
+  public void write(final List<? extends SsgPointTargetDto> items) {
+    log.info("===== start recover writer =====");
     for (SsgPointTargetDto item : items) {
       log.info("recover itemWriter item  : {}" + GsonUtils.toJsonPretty(item));
       ssgPointBatchService.updateWriterRecoverSuceess(item);

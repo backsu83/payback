@@ -31,7 +31,13 @@ ssgpoint:
       encryptIv: '73DDDFC9C36D49CB'
       branchId: 'B200042502'
   batch:
-    crontab: "* * * * * *"
     fetchSize: 10         #ItemReader에 읽는 Row수
     chunkSize: 10         #Chunk 처리단위
+  scheduler:
+    target:
+      crontab: "0 */1 * * * *"
+#      crontab: "* * * * * *"
+    recover:
+      crontab: "0 */5 * * * *"
+#      crontab: ""0 0 10-20/1 * * *""
 
