@@ -18,8 +18,10 @@ public class CashbackOrderFailRepository {
           @SaturnProcedureParameter(name = "ORDER_KEY", sqlType = Types.VARCHAR, scale = 30),
           @SaturnProcedureParameter(name = "TX_KEY", sqlType = Types.VARCHAR, scale = 30),
           @SaturnProcedureParameter(name = "RSP_CD", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "RSP_MSG", sqlType = Types.VARCHAR, scale = 200),
+          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 50)
       }
   )
-  public void save(String orderKey, String txKey, Long rspCd) {
+  public void save(String orderKey, String txKey, Long rspCd, String rspMsg, String insOprt) {
   }
 }

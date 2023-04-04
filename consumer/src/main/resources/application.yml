@@ -1,9 +1,6 @@
 ###################################################
 # LOCAL
 ###################################################
-server:
-  port: 8085
-
 spring:
   application.name: payback-consumer
   profiles:
@@ -50,7 +47,7 @@ feign:
 # Common Management Configurations - DO NOT EDIT
 ###################################################
 management:
-  server.port: 8089
+  server.port: 8081
   endpoints.web.exposure.include: "*"
   endpoint.health.show-details: ALWAYS
   health:
@@ -68,6 +65,10 @@ saturn:
   groupId: com.ebaykorea
   artifactId: payback
   moa:
-    domainGroup: gmkt
-    domain: gmkt.reward.api
+    domainGroup: payreward
+    domain: payback.api
     host: http://devmoafw.ebaykorea.com
+  datasource:
+    appName: PAYBACK_API
+    userName: daemon_app
+    tenant: gmarketdev #개발: gmarketdev, 운영: gmarket

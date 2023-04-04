@@ -30,14 +30,12 @@ public class KafkaConfig implements KafkaListenerConfigurer {
   @Bean
   public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(
       ConsumerFactory<String, String> consumerFactory,
-      //ErrorHandler kafkaErrorHandler,
       @Value("${kafka.consumer.concurrency.order.created}") Integer concurrency
   ) {
     ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConcurrency(concurrency);
     factory.setConsumerFactory(consumerFactory);
     factory.setMessageConverter(new StringJsonMessageConverter());
-    //factory.setErrorHandler(kafkaErrorHandler);
     return factory;
   }
 

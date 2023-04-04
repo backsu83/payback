@@ -22,9 +22,9 @@ public class RequestCashbackService {
     try {
       paybackApiClient.saveCashbacks(PaybackRequestDto.builder().txKey(txKey).orderKey(orderKey).build())
           .filter(PaybackResponseDto::isNotSuccess)
-          .ifPresent(result -> saveError(txKey, orderKey, result.getCode(), result.getMessage()));
+          .ifPresent(result -> saveError(txKey, orderKey, result.getCode(), result.getMessage(), "RequestCashbackService"));
     } catch (Exception ex) {
-      saveError(txKey, orderKey, FAIL, ex.getMessage());
+      saveError(txKey, orderKey, FAIL, ex.getMessage(), "RequestCashbackService");
     }
   }
 
@@ -32,9 +32,10 @@ public class RequestCashbackService {
       final String txKey,
       final String orderKey,
       final long responseCode,
-      final String resultMessage
+      final String resultMessage,
+      final String oprt
   ) {
     moALogger.error("payback api 처리 실패 : {}, {}, {}, {}", txKey, orderKey, responseCode, resultMessage);
-    repository.save(txKey, orderKey, responseCode);
+    repository.save(txKey, orderKey, responseCode, resultMessage, oprt);
   }
 }
