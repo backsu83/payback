@@ -27,12 +27,12 @@ public class SsgPointTargetScheduler {
     JobParameters jobParameters = new JobParametersBuilder()
         .addString("targetTime", now).toJobParameters();
 
-    try {
-      log.debug("jobLauncher start...");
-      jobLauncher.run(jobConfig.ssgpointTargetJob(), jobParameters);
-    } catch (JobExecutionException e) {
-      System.out.println("e.getMessage() = " + e.getMessage());
-      // TODO: add job exeception
-    }
+//    try {
+//      log.debug("jobLauncher start...");
+//      jobLauncher.run(jobConfig.ssgpointTargetJob(), jobParameters);
+//    } catch (JobExecutionException e) {
+//      System.out.println("e.getMessage() = " + e.getMessage());
+//      // TODO: add job exeception
+//    }
   }
 }

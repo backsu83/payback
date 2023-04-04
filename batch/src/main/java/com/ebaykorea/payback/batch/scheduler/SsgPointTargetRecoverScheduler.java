@@ -28,12 +28,12 @@ public class SsgPointTargetRecoverScheduler {
     JobParameters jobParameters = new JobParametersBuilder()
         .addString("recoverTime", now).toJobParameters();
 
-    try {
-      log.debug("jobLauncher recover start...");
-      jobLauncher.run(jobConfig.ssgpointTargetRecoverJob(), jobParameters);
-    } catch (JobExecutionException e) {
-      System.out.println("e.getMessage() = " + e.getMessage());
-      // TODO: add job exeception
-    }
+//    try {
+//      log.debug("jobLauncher recover start...");
+//      jobLauncher.run(jobConfig.ssgpointTargetRecoverJob(), jobParameters);
+//    } catch (JobExecutionException e) {
+//      System.out.println("e.getMessage() = " + e.getMessage());
+//      // TODO: add job exeception
+//    }
   }
 }
