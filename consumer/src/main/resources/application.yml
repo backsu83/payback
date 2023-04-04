@@ -1,16 +1,7 @@
 ###################################################
 # LOCAL
 ###################################################
-spring:
-  application.name: payback-consumer
-  profiles:
-    include: custom
-  kafka:
-    consumer:
-      group-id: payback-group
-      auto-offset-reset: latest
-      enable-auto-commit: true
-      bootstrap-servers: satbroker-01-kafka-dev-staturn:9092,satbroker-02-kafka-dev-staturn:9092,satbroker-03-kafka-dev-staturn:9092,satbroker-04-kafka-dev-staturn:9092,satbroker-05-kafka-dev-staturn:9092
+spring.profiles.include: custom
 
 logging:
   pattern:
