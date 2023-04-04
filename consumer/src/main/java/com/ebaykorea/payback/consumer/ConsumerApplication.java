@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.consumer;
 
+import com.ebaykorea.saturn.datasource.EnableSaturnDataSource;
 import com.ebaykorea.saturn.moa.EnableMoA;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +10,7 @@ import org.springframework.context.event.EventListener;
 
 @EnableMoA
 @EnableFeignClients
-//@EnableSaturnDataSource
+@EnableSaturnDataSource
 @SpringBootApplication
 public class ConsumerApplication {
 
