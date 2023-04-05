@@ -4,6 +4,7 @@ import com.ebaykorea.payback.core.domain.constant.CashbackType
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy
+import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy
 import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy
 
 class RewardGrocery {
@@ -12,6 +13,7 @@ class RewardGrocery {
         (map.cashbackPolicies ?: []) as List<RewardCashbackPolicy>,
         (map.backendCashbackPolicies ?: []) as List<RewardBackendCashbackPolicy>,
         (map.smileCardCashbackPolicies ?: []) as List<RewardT2T3SmileCardCashbackPolicy>,
+        (map.ssgPointPolicies ?: []) as List<RewardSsgPointPolicy>,
         (map.useEnableDate ?: "2023-10-17") as String,
         (map.smileCardCashbackAmount ?: 0L) as BigDecimal,
         (map.newSmileCardCashbackAmount ?: 0L) as BigDecimal
@@ -54,5 +56,14 @@ class RewardGrocery {
         .policyKey((map.policyKey ?: 1L) as long)
         .cashbackAmount((map.cashbackAmount ?: 0L) as BigDecimal)
         .build()
+  }
+
+  static def RewardSsgPointPolicy_생성(Map map = [:]) {
+    RewardSsgPointPolicy.builder()
+            .policyKey((map.policyKey ?: 1L) as long)
+            .pointExpectSaveAmount((map.pointExpectSaveAmount ?: null) as BigDecimal)
+            .isSsgPoint((map.isSsgPoint ?: null) as Boolean)
+            .expectSaveDate((map.expectSaveDate ?: null) as String)
+            .build()
   }
 }
