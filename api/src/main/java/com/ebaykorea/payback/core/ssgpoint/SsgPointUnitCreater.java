@@ -40,7 +40,8 @@ public class SsgPointUnitCreater {
                 DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate() , Instant::from),
                 policy.getIsSsgPoint(),
                 ssgPointStatus,
-                null);
+                null,
+                    null);
           }
           return SsgPointUnit.EMPTY;
         })

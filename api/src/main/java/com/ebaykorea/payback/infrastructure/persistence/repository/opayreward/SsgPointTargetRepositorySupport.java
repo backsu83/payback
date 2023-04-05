@@ -30,7 +30,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             .and(ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()))
             .and(ssgPointTargetEntity.siteType.eq(orderSiteType.getShortCode()))
             .and(ssgPointTargetEntity.buyerId.eq(buyerId))
-            .and(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Success.getCode()))
+                //.and(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Success.getCode()))
         )
         .fetchOne();
   }
