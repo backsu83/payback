@@ -4,21 +4,18 @@ import com.ebaykorea.payback.consumer.event.RefundCompletedEvent;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.listener.KafkaListenerErrorHandler;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Lazy
 @Component
-public class RefundCompletedListener {
+public class OrderCanceledGmktListener {
 
   @KafkaListener(
       topics = {"${payback.topic.order-canceled-gmkt}"},
-      groupId = "${payback.consumers.order-created-ssgpoint-listener.group-id}",
-      errorHandler = "consumeForSsgPointsErrorHandler"
+      groupId = "${payback.consumers.order-canceled-ssgpoint-gmkt-listener.group-id}"
   )
   public void consumeForSsgPoints(@Payload @Valid final RefundCompletedEvent refundCompletedEvent) {
     System.out.println("payback-consumer is consumeForSsgPoints");
@@ -31,7 +28,7 @@ public class RefundCompletedListener {
     //ssgpoint
   }
 
-  @Bean(name = "consumeForSsgPointsErrorHandler")
+  @Bean
   public KafkaListenerErrorHandler consumeForSsgPointsErrorHandler() {
     return (m, e) -> {
       final var causedException = e.getCause();
