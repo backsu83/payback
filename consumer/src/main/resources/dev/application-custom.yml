@@ -5,16 +5,16 @@ spring:
       group-id: payback-group
       auto-offset-reset: latest
       enable-auto-commit: true
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: satbroker-01-kafka-dev-staturn:9092,satbroker-02-kafka-dev-staturn:9092,satbroker-03-kafka-dev-staturn:9092,satbroker-04-kafka-dev-staturn:9092,satbroker-05-kafka-dev-staturn:9092
 
 # KafKa Configuration
 kafka:
   consumer:
     concurrency:
       gmarket:
-        order-created: 1
+        order-created: 25 #dev: POD 2개 가정시
       gmarket-global:
-        order-created: 1
+        order-created: 8 #dev: POD 2개 가정시
     topic:
       gmarket:
         order-created-event: bz_carbon_order_created_gmkt
