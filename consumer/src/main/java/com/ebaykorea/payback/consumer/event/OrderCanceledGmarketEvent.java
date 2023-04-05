@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class RefundCompletedEvent {
+public class OrderCanceledGmarketEvent {
 
   private String refundBundleKey;
   private String regId;

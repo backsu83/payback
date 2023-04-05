@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.consumer.repository.entity;
+package com.ebaykorea.payback.consumer.repository.stardb.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

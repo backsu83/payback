@@ -1,7 +1,6 @@
 //package com.ebaykorea.payback.consumer.listener;
 //
-//import com.ebaykorea.payback.consumer.event.OrderCreatedEvent;
-//import com.ebaykorea.payback.consumer.event.RefundCompletedEvent;
+//import com.ebaykorea.payback.consumer.event.OrderCanceledAuctionEvent;
 //import javax.validation.Valid;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.kafka.annotation.KafkaListener;
@@ -15,9 +14,9 @@
 //  @KafkaListener(
 //      topics = {"hello.kafka2"}
 //  )
-//  public void consumeForSsgPoints(@Payload @Valid final OrderCreatedEvent value) {
-//    System.out.println("payback-consumer is consumeForSsgPoints: " + value.getOrderKey());
-//    System.out.println("payback-consumer is consumeForSsgPoints: " + value.getTxKey());
+//  public void consumeForSsgPoints(@Payload @Valid final OrderCanceledAuctionEvent value) {
+//    System.out.println("payback-consumer is getPackNo: " + value.getPackNo());
+//    System.out.println("payback-consumer is getOrderNo: " + value.getOrderNo());
 //    //ssgpoint
 //  }
 //

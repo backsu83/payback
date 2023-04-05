@@ -1,6 +1,6 @@
-package com.ebaykorea.payback.consumer.repository;
+package com.ebaykorea.payback.consumer.repository.stardb;
 
-import com.ebaykorea.payback.consumer.repository.entity.CashbackOrderFailEntity;
+import com.ebaykorea.payback.consumer.repository.stardb.entity.CashbackOrderFailEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;

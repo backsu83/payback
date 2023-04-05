@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.consumer.client;
 
+import com.ebaykorea.payback.consumer.client.dto.PaybackSsgPointCancelRequest;
+import com.ebaykorea.payback.consumer.client.dto.PaybackSsgPointCancelResponse;
 import java.util.Optional;
 
 import com.ebaykorea.payback.consumer.client.dto.PaybackRequestDto;
@@ -22,4 +24,13 @@ public interface PaybackApiClient {
       produces = MediaType.APPLICATION_JSON_VALUE
   )
   Optional<PaybackResponseDto> saveCashbacks(final @RequestBody PaybackRequestDto request);
+
+  @RequestMapping(
+      method = RequestMethod.POST,
+      value = "/api/ssgpoint/cancel",
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  Optional<PaybackSsgPointCancelResponse> cancelSsgPoint(final @RequestBody PaybackSsgPointCancelRequest request);
+
+
 }
