@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.api.advice;
 
-import com.ebaykorea.payback.api.dto.common.CommonExceptionResponseDto;
+import com.ebaykorea.payback.core.dto.common.CommonExceptionResponseDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

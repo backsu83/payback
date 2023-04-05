@@ -24,7 +24,8 @@ public class ObjectMapperConfig {
                 = new LocalDateTimeSerializer(PaybackDateTimes.LOCAL_DATE_TIME_FORMATTER);
         javaTimeModule.addSerializer(LocalDateTime.class, localDateTimeSerializer);
         objectMapper.registerModule(javaTimeModule);
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
         objectMapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.configure(DeserializationFeature.READ_ENUMS_USING_TO_STRING, true);
