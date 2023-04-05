@@ -1,15 +1,11 @@
-package com.ebaykorea.payback.core.domain.entity.smilepoint;
+package com.ebaykorea.payback.infrastructure.query.data;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
-public class SmilePointTrade {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SmilePointTradeQueryResult {
   private long smilePayNo;
 
   private String buyerNo;
@@ -25,6 +21,7 @@ public class SmilePointTrade {
   private int apprStatus;
 
   private String apprStatusName;
+
   private int targetType;
 
   private String targetTypeName;
