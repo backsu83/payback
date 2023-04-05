@@ -21,7 +21,6 @@ public class SsgPointEarnRequest {
   private String tradeGentdPosno;
   private String tradeNo;
   private String doByid;
-  private String add_gb;
   private String cardNo;
   private String inputFlg;
   private String brchId;
