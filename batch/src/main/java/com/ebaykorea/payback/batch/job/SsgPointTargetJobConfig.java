@@ -39,7 +39,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class SsgPointTargetJobConfig {
 
-  public static final String JOB_NAME = "ssgPointTagerJob";
+  public static final String JOB_NAME = "ssgPointTargetJob";
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
   private final ThreadExecutorConfig threadExecutorConfig;
@@ -99,12 +99,10 @@ public class SsgPointTargetJobConfig {
         .build();
   }
 
-  @Bean
   public Classifier classifier() {
     return new SsgPointTradeTypeClassifier(ssgPointEarnProcesser , ssgPointCancelProcesser);
   }
 
-  @Bean
   public CompositeItemProcessor compositeItemProcessor() {
     final var processor = new CompositeItemProcessor<>();
     List<ItemProcessor<?, ?>> delegates = new ArrayList<>();
@@ -114,12 +112,10 @@ public class SsgPointTargetJobConfig {
     return processor;
   }
 
-  @Bean
   public ItemProcessor<SsgPointTargetEntity , SsgPointProcesserDto> mapperProcesser() {
     return item -> ssgPointProcesserMapper.map(item);
   }
 
-  @Bean
   public ItemProcessor<SsgPointProcesserDto , SsgPointTargetDto> classifierProcessor() {
     ClassifierCompositeItemProcessor<SsgPointProcesserDto, SsgPointTargetDto> itemProcessor
         = new ClassifierCompositeItemProcessor<>();

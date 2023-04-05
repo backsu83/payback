@@ -48,16 +48,14 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         );
   }
 
-  public List<SsgPointTargetEntity> findStatusTest() {
+  public Long findStatusTest() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
-            ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode()),
-            ssgPointTargetEntity.tryCount.lt(3),
             ssgPointTargetEntity.scheduleDate.between(
-                    Instant.now().minus(3, ChronoUnit.DAYS),
+                    Instant.now().minus(41, ChronoUnit.DAYS),
                     Instant.now())
         )
-        .fetch();
+        .fetchCount();
   }
 
   public long updatePrcoesserFailBy(final long orderNo ,

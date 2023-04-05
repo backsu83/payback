@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class SsgPointTargetRecoverJobConfig {
 
-  public static final String JOB_NAME = "ssgPointTagerRecoverJob";
+  public static final String JOB_NAME = "ssgPointTargetRecoverJob";
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
 
@@ -63,6 +63,9 @@ public class SsgPointTargetRecoverJobConfig {
         .processor(compositeItemProcessor())
         .writer(ssgPointTargetRecoverWriter)
         .listener(ssgPointProcesserListener)
+        .faultTolerant()
+        .skip(Exception.class)
+        .skipLimit(10000)
         .build();
   }
 
@@ -70,7 +73,6 @@ public class SsgPointTargetRecoverJobConfig {
     return new SsgPointTradeTypeClassifier(ssgPointEarnProcesser , ssgPointCancelProcesser);
   }
 
-  @Bean
   public CompositeItemProcessor compositeItemProcessor() {
     final var processor = new CompositeItemProcessor<>();
     List<ItemProcessor<?, ?>> delegates = new ArrayList<>();
@@ -80,12 +82,10 @@ public class SsgPointTargetRecoverJobConfig {
     return processor;
   }
 
-  @Bean
   public ItemProcessor<SsgPointTargetEntity , SsgPointProcesserDto> mapperProcesser() {
     return item -> ssgPointProcesserMapper.map(item);
   }
 
-  @Bean
   public ItemProcessor<SsgPointProcesserDto , SsgPointTargetDto> classifierProcessor() {
     ClassifierCompositeItemProcessor<SsgPointProcesserDto, SsgPointTargetDto> itemProcessor
         = new ClassifierCompositeItemProcessor<>();

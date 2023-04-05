@@ -48,7 +48,7 @@ public class SsgPointBatchService {
 
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
-    final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4=";
+    final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4="; //임시카드번호
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
     try {
       var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
@@ -61,7 +61,7 @@ public class SsgPointBatchService {
 
   public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
-    final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4=";
+    final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4="; //임시카드번호
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
     try {
       var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);

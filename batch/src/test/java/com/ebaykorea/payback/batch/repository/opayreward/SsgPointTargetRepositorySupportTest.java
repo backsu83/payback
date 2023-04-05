@@ -18,9 +18,7 @@ class SsgPointTargetRepositorySupportTest {
   @Test
   void findByStatusReadyBy() {
     var result = ssgPointTargetRepositorySupport.findStatusTest();
-    for (SsgPointTargetEntity entity : result) {
-      System.out.println(GsonUtils.toJsonPretty(entity.getOrderNo() + "|" + entity.getPointStatus()));
-    }
+      System.out.println(GsonUtils.toJsonPretty(result));
   }
 
   @Test
