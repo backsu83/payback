@@ -22,6 +22,10 @@ kafka:
         order-created-event: bz_carbon_order_created_gg
 
 payback:
+  topic:
+    order-created: bz_carbon_order_created
+    order-canceled-gmkt: bz_refund_completed_gmkt
+    order-canceled-iac: bz_claim_order_cancel_iac
   consumers:
     order-created-cashback-listener:
       group-id: payback-cashback-group

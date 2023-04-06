@@ -71,29 +71,4 @@ public class OrderCreatedListener {
     };
   }
 
-/* TODO
-  @KafkaListener(
-      topics = {"${kafka.consumer.topic.gmarket.order-created-event}", "${kafka.consumer.topic.gmarket-global.order-created-event}"},
-      groupId = "${payback.consumers.order-created-ssgpoint-listener.group-id}",
-      errorHandler = "consumeForSsgPointsErrorHandler"
-  )
-  public void consumeForSsgPoints(@Payload @Valid final OrderCreatedEvent orderCreatedEvent) {
-    log.info("listener payload : '{}' '{}'",
-        orderCreatedEvent.getOrderKey() ,
-        orderCreatedEvent.getTxKey());
-    //ssgpoint
-  }
-
-  @Bean(name = "consumeForSsgPointsErrorHandler")
-  public KafkaListenerErrorHandler consumeForSsgPointsErrorHandler() {
-    return (m, e) -> {
-      final var causedException = e.getCause();
-      // TODO
-
-      log.error(causedException.getMessage(), causedException);
-      return null;
-    };
-  }
-
- */
 }

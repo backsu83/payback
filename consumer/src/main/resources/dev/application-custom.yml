@@ -5,7 +5,7 @@ spring:
       group-id: payback-group
       auto-offset-reset: latest
       enable-auto-commit: true
-      bootstrap-servers: satbroker-01-kafka-dev-staturn:9092,satbroker-02-kafka-dev-staturn:9092,satbroker-03-kafka-dev-staturn:9092,satbroker-04-kafka-dev-staturn:9092,satbroker-05-kafka-dev-staturn:9092
+      bootstrap-servers: satbroker-01-kafka-dev-staturn:9092,satbroker-02-kafka-dev-staturn:9092,satbroker-03-kafka-dev-staturn:9092,satbroker-04-kafka-dev-staturn:9092,satbroker-05-kafka-dev-staturn:9092,hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
 
 # KafKa Configuration
 kafka:
@@ -22,12 +22,17 @@ kafka:
         order-created-event: bz_carbon_order_created_gg
 
 payback:
+  topic:
+    order-created: bz_carbon_order_created
+    order-canceled-gmkt: bz_refund_completed_gmkt
+    order-canceled-iac: bz_claim_order_cancel_iac
   consumers:
     order-created-cashback-listener:
       group-id: payback-cashback-group
     order-created-ssgpoint-listener:
       group-id: payback-ssgpoint-group
-
+    refund-completed-listener:
+      group-id: payback-refund-group
 apis:
   payback:
     url: "http://payback-api-dev.gmarket.co.kr/api"
