@@ -9,6 +9,6 @@ public class OrderCanceledAuctionEvent {
   @JsonProperty("OrderNo")
   private Long orderNo;
 
-  @JsonProperty("PackNo")
-  private Long packNo;
+  @JsonProperty("PayNo")
+  private Long payNo;
 }

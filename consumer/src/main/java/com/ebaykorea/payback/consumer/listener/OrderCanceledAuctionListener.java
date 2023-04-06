@@ -26,9 +26,9 @@ public class OrderCanceledAuctionListener {
   public void consumeForSsgPoints(@Payload @Valid final OrderCanceledAuctionEvent event) {
     log.info("auction listener payload : [{}][{}]'",
         event.getOrderNo() ,
-        event.getPackNo()
+        event.getPayNo()
     );
-    requestSsgPointService.cancelSsgPointAuction(event.getPackNo() , event.getOrderNo());
+    requestSsgPointService.cancelSsgPointAuction(event.getPayNo() , event.getOrderNo());
   }
 
   @Bean
@@ -37,7 +37,7 @@ public class OrderCanceledAuctionListener {
       final var causedException = e.getCause();
       final var payload = (OrderCanceledAuctionEvent)m.getPayload();
       requestSsgPointService.saveError(payload.getOrderNo(),
-          payload.getPackNo(),
+          payload.getPayNo(),
           CONSUME_FAIL,
           causedException.getMessage(),
           "OrderCanceledAuctionListener");
