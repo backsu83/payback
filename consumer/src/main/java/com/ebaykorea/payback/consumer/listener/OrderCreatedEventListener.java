@@ -32,7 +32,7 @@ public class OrderCreatedEventListener {
         orderCreatedEvent.getOrderKey() ,
         orderCreatedEvent.getTxKey());
 
-    requestCashbackService.requestCashback(orderCreatedEvent.getTxKey(), orderCreatedEvent.getOrderKey());
+//    requestCashbackService.requestCashback(orderCreatedEvent.getTxKey(), orderCreatedEvent.getOrderKey());
   }
 
   @Bean(name = "consumeForCashbacksErrorHandler")
@@ -41,12 +41,12 @@ public class OrderCreatedEventListener {
       final var causedException = e.getCause();
       final var payload = (OrderCreatedEvent)m.getPayload();
 
-      requestCashbackService.saveError(
-          payload.getTxKey(),
-          payload.getOrderKey(),
-          CONSUME_FAIL,
-          causedException.getMessage(),
-          "OrderCreatedEventListener");
+//      requestCashbackService.saveError(
+//          payload.getTxKey(),
+//          payload.getOrderKey(),
+//          CONSUME_FAIL,
+//          causedException.getMessage(),
+//          "OrderCreatedEventListener");
 
       log.error(causedException.getMessage(), causedException);
       return null;
