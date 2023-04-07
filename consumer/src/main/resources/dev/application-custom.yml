@@ -37,4 +37,4 @@ payback:
       group-id: payback-refund-group
 apis:
   payback:
-    url: "http://payback-api-dev.gmarket.co.kr/api"
+    url: "http://payback-api-dev.gmarket.co.kr"
