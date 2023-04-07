@@ -49,7 +49,7 @@ public class SsgPointService {
             .toInstant();
 
     var myScheduleDate = LocalDateTime.parse(
-                    request.getOrderDate(),
+                    request.getScheduleDate(),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             )
             .atZone(
