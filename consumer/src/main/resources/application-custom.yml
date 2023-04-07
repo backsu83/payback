@@ -6,8 +6,8 @@ spring:
       auto-offset-reset: latest
       enable-auto-commit: true
       bootstrap-servers:
-        listener-1: localhost:9092
-        listener-2: localhost:9092
+        listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
+        listener-2: satbroker-01-kafka-dev-staturn:9092,satbroker-02-kafka-dev-staturn:9092,satbroker-03-kafka-dev-staturn:9092,satbroker-04-kafka-dev-staturn:9092,satbroker-05-kafka-dev-staturn:9092
 
 # KafKa Configuration
 kafka:
