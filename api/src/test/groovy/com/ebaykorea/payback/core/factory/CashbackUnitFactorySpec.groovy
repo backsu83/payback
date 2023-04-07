@@ -2,12 +2,13 @@ package com.ebaykorea.payback.core.factory
 
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.CashbackType
-import com.ebaykorea.payback.core.factory.impl.ChargePayCashbackCreator
-import com.ebaykorea.payback.core.factory.impl.ClubDayCashbackCreator
-import com.ebaykorea.payback.core.factory.impl.DefaultCashbackCreator
-import com.ebaykorea.payback.core.factory.impl.ItemCashbackCreator
-import com.ebaykorea.payback.core.factory.impl.SellerCashbackCreator
-import com.ebaykorea.payback.core.factory.impl.SmilePayCashbackCreator
+import com.ebaykorea.payback.core.factory.cashback.CashbackUnitFactory
+import com.ebaykorea.payback.core.factory.cashback.impl.ChargePayCashbackCreator
+import com.ebaykorea.payback.core.factory.cashback.impl.ClubDayCashbackCreator
+import com.ebaykorea.payback.core.factory.cashback.impl.DefaultCashbackCreator
+import com.ebaykorea.payback.core.factory.cashback.impl.ItemCashbackCreator
+import com.ebaykorea.payback.core.factory.cashback.impl.SellerCashbackCreator
+import com.ebaykorea.payback.core.factory.cashback.impl.SmilePayCashbackCreator
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.CashbackPolicyGrocery.ItemCashbackPolicy_생성

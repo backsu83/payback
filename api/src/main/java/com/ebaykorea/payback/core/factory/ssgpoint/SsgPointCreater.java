@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.ssgpoint;
+package com.ebaykorea.payback.core.factory.ssgpoint;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;

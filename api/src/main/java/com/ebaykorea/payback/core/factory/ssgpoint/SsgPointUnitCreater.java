@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.ssgpoint;
+package com.ebaykorea.payback.core.factory.ssgpoint;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
 import static com.ebaykorea.payback.util.PaybackInstants.now;

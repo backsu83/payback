@@ -2,6 +2,7 @@ package com.ebaykorea.payback.core.factory
 
 import com.ebaykorea.payback.core.domain.constant.PaymentCode
 import com.ebaykorea.payback.core.domain.constant.SmileCardType
+import com.ebaykorea.payback.core.factory.cashback.SmileCardCashbackCreator
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshot_생성

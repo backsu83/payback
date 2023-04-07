@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.factory;
+package com.ebaykorea.payback.core.factory.cashback;
 
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
@@ -13,12 +13,12 @@ import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
-import com.ebaykorea.payback.core.factory.impl.ChargePayCashbackCreator;
-import com.ebaykorea.payback.core.factory.impl.ClubDayCashbackCreator;
-import com.ebaykorea.payback.core.factory.impl.DefaultCashbackCreator;
-import com.ebaykorea.payback.core.factory.impl.ItemCashbackCreator;
-import com.ebaykorea.payback.core.factory.impl.SellerCashbackCreator;
-import com.ebaykorea.payback.core.factory.impl.SmilePayCashbackCreator;
+import com.ebaykorea.payback.core.factory.cashback.impl.ChargePayCashbackCreator;
+import com.ebaykorea.payback.core.factory.cashback.impl.ClubDayCashbackCreator;
+import com.ebaykorea.payback.core.factory.cashback.impl.DefaultCashbackCreator;
+import com.ebaykorea.payback.core.factory.cashback.impl.ItemCashbackCreator;
+import com.ebaykorea.payback.core.factory.cashback.impl.SellerCashbackCreator;
+import com.ebaykorea.payback.core.factory.cashback.impl.SmilePayCashbackCreator;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;

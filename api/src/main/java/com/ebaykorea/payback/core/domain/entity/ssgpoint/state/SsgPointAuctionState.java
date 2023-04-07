@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.ssgpoint.state;
+package com.ebaykorea.payback.core.domain.entity.ssgpoint.state;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
@@ -7,14 +7,12 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointStatus;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SsgPointGmarketState implements SsgPointState {
+public class SsgPointAuctionState implements SsgPointState {
 
-  private final static String CardType = "S001";
+  private final static String CardType = "S002";
 
   @Override
-  public OrderSiteType site() {
-    return OrderSiteType.Gmarket;
-  }
+  public OrderSiteType site() { return OrderSiteType.Auction; }
 
   @Override
   public SsgPointStatus ready() {

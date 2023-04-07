@@ -29,9 +29,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     List<SsgPointTargetResponseDto> sspointTargetList = Lists.newArrayList();
     ssgPoint.getSsgPointUnits().stream()
         .filter(SsgPointUnit::getIsPolicy)
-        .forEach(unit->{
-          sspointTargetList.add(saveSsgTarget(ssgPoint , unit));
-    });
+        .forEach(unit-> sspointTargetList.add(saveSsgTarget(ssgPoint, unit)));
     return sspointTargetList;
   }
 

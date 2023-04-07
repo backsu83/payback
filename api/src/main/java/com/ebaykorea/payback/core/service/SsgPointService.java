@@ -1,6 +1,5 @@
-package com.ebaykorea.payback.core.ssgpoint.service;
+package com.ebaykorea.payback.core.service;
 
-import static com.ebaykorea.payback.util.PaybackDateTimes.LOCAL_DATE_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
 
@@ -11,11 +10,9 @@ import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
-import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import com.google.common.collect.Lists;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

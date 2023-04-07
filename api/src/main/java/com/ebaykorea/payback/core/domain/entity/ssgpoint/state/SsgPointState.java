@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.ssgpoint.state;
+package com.ebaykorea.payback.core.domain.entity.ssgpoint.state;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointStatus;

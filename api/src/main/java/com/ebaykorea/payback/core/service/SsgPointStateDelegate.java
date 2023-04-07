@@ -1,16 +1,18 @@
-package com.ebaykorea.payback.core.ssgpoint.state;
+package com.ebaykorea.payback.core.service;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_SSG_ENTITY_003;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import java.util.Set;
+
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SsgPointStateDelegate {
 
-  private Set<SsgPointState> ssgPointStrategySet;
+  private final Set<SsgPointState> ssgPointStrategySet;
 
   public SsgPointStateDelegate(Set<SsgPointState> ssgPointStrategySet) {
     this.ssgPointStrategySet = ssgPointStrategySet;

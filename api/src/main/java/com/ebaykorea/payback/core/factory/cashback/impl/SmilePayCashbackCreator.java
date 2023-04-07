@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.factory.impl;
+package com.ebaykorea.payback.core.factory.cashback.impl;
 
 import com.ebaykorea.payback.core.domain.constant.CashbackPayType;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;

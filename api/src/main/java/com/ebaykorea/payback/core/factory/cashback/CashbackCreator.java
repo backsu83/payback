@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.factory;
+package com.ebaykorea.payback.core.factory.cashback;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
 

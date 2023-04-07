@@ -6,7 +6,7 @@ import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SSG
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
-import com.ebaykorea.payback.core.ssgpoint.service.SsgPointService;
+import com.ebaykorea.payback.core.service.SsgPointService;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.infrastructure.query.SsgTokenQuery;
 import io.swagger.v3.oas.annotations.tags.Tag;
