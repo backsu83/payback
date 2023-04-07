@@ -1,7 +1,20 @@
 ###################################################
-# LOCAL
+# DEV
 ###################################################
-spring.profiles.include: custom
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: payback
+  profiles:
+    include: custom
+  jpa:
+    open-in-view: false
+    hibernate:
+      show_sql: true
+      format_sql: true
+      inspect_stacktrace: true
+      naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
 
 logging:
   pattern:
@@ -11,6 +24,7 @@ logging:
     com.ebaykorea.saturn: DEBUG
     MoAAppender: INFO
     MoALogger: INFO
+    com.ebaykorea.payback.consumer: INFO
 
 ###################################################
 # feign Configurations
@@ -23,8 +37,19 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 5000  # resilience4j timeoutDuration 보다 커야 함.
-      readTimeout: 5000
+      connectTimeout: 3000  # resilience4j timeoutDuration
+      readTimeout: 3000
+
+# Resilience4j Configurations
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 2
+        waitDuration: 500
+    instances:
+      retryApi: # retry name
+        baseConfig: default
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
@@ -49,7 +74,7 @@ saturn:
   artifactId: payback
   moa:
     domainGroup: payreward
-    domain: payback.api
+    domain: payback.consumer
     host: http://devmoafw.ebaykorea.com
   datasource:
     appName: PAYBACK_API
