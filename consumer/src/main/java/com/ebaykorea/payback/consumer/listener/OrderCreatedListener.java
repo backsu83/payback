@@ -9,9 +9,7 @@ import javax.validation.Valid;
 import com.ebaykorea.payback.consumer.service.RequestCashbackService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.listener.KafkaListenerErrorHandler;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +20,11 @@ public class OrderCreatedListener {
 
   private final RequestCashbackService requestCashbackService;
 
-  private static final long CONSUME_FAIL = -2L;
-
   @KafkaListener(
       topics = "${kafka.consumer.topic.gmarket.order-created-event}",
       groupId = "${payback.consumers.order-created-cashback-listener.group-id}",
-      concurrency = "${kafka.consumer.concurrency.gmarket.order-created}"
-      //errorHandler = "consumeForCashbacksErrorHandler" //TODO
+      concurrency = "${kafka.consumer.concurrency.gmarket.order-created}",
+      containerFactory = "kafkaListenerContainerFactory2"
   )
   public void consumeForCashbacks(@Payload @Valid final OrderCreatedEvent orderCreatedEvent) {
     log.info("listener payload : 'txKey: {},' ' orderKey: {}'",
@@ -41,8 +37,8 @@ public class OrderCreatedListener {
   @KafkaListener(
       topics = "${kafka.consumer.topic.gmarket-global.order-created-event}",
       groupId = "${payback.consumers.order-created-cashback-listener.group-id}",
-      concurrency = "${kafka.consumer.concurrency.gmarket-global.order-created}"
-      //errorHandler = "consumeForCashbacksErrorHandler" //TODO
+      concurrency = "${kafka.consumer.concurrency.gmarket-global.order-created}",
+      containerFactory = "kafkaListenerContainerFactory2"
   )
   public void consumeForGlobalCashbacks(@Payload @Valid final OrderCreatedEvent orderCreatedEvent) {
     log.info("listener payload : 'txKey: {},' ' orderKey: {}'",
@@ -51,24 +47,4 @@ public class OrderCreatedListener {
 
     requestCashbackService.requestCashback(orderCreatedEvent.getTxKey(), orderCreatedEvent.getOrderKey());
   }
-
-  @Bean(name = "consumeForCashbacksErrorHandler")
-  public KafkaListenerErrorHandler error() {
-    return (m, e) -> {
-      final var causedException = e.getCause();
-      final var payload = (OrderCreatedEvent)m.getPayload();
-
-      requestCashbackService.saveError(
-          payload.getTxKey(),
-          payload.getOrderKey(),
-          CONSUME_FAIL,
-          causedException.getMessage(),
-          "OrderCreatedEventListener");
-
-      log.error(causedException.getMessage(), causedException);
-
-      return null;
-    };
-  }
-
 }

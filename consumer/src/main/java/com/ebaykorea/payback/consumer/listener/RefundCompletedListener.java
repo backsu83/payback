@@ -18,7 +18,8 @@ public class RefundCompletedListener {
   @KafkaListener(
       topics = {"${payback.topic.order-canceled-gmkt}"},
       groupId = "${payback.consumers.refund-completed-listener.group-id}",
-      errorHandler = "consumeForSsgPointsErrorHandler"
+      errorHandler = "consumeForSsgPointsErrorHandler",
+      containerFactory = "kafkaListenerContainerFactory1"
   )
   public void consumeForSsgPoints(@Payload @Valid final RefundCompletedEvent refundCompletedEvent) {
     System.out.println("payback-consumer is consumeForSsgPoints");
