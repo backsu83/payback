@@ -47,7 +47,7 @@ public class SsgPointService {
     return ssgPointRepository.save(ssgPoint);
   }
 
-  public List<SsgPointTargetResponseDto> cancelPoint(final CancelSsgPointRequestDto request) {
+  public List<SsgPointTargetResponseDto> cancelPoint(final Long packNo, final CancelSsgPointRequestDto request) {
     //적립데이터 조회
     final var entity =  ssgPointRepository.findByPointStatus(request.getOrderNo() , request.getSiteType());
 
@@ -66,7 +66,7 @@ public class SsgPointService {
               .build()
           );
 
-      final var ssgPoint = SsgPoint.of(request.getPackNo(),
+      final var ssgPoint = SsgPoint.of(packNo,
           entity.getBuyerId(),
           entity.getOrderDate(),
           request.getSiteType(),

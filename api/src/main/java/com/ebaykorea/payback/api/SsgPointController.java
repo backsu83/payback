@@ -15,35 +15,31 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "SSG Point", description = "SSG 포인트 관련 Api")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/ssg-points")
 public class SsgPointController {
 
  private final SsgPointService ssgPointService;
  private final SsgTokenQuery ssgTokenQuery;
 
   @Cacheable(cacheNames = "COMMON_KEY", key = "#name")
-  @GetMapping("/ssgpoint/auth-token")
+  @GetMapping("/auth-token")
   public String getApiToken() {
     return ssgTokenQuery.getSsgAuthToken();
   }
 
-  @PostMapping("/ssgpoint/save")
+  @PostMapping
   public CommonResponse<List<SsgPointTargetResponseDto>> earnPoint(final @Valid @RequestBody SaveSsgPointRequestDto request) {
    return CommonResponse.success(SSGPOINT_CREATED ,ssgPointService.earnPoint(request));
   }
 
-  @PostMapping("/ssgpoint/cancel")
-  public CommonResponse<List<SsgPointTargetResponseDto>> cancelPoint(final @Valid @RequestBody CancelSsgPointRequestDto request) {
-   return CommonResponse.success(SSGPOINT_CANCELED , ssgPointService.cancelPoint(request));
+  @PostMapping("/{packNo}/cancel")
+  public CommonResponse<List<SsgPointTargetResponseDto>> cancelPoint(@PathVariable Long packNo, final @Valid @RequestBody CancelSsgPointRequestDto request) {
+   return CommonResponse.success(SSGPOINT_CANCELED , ssgPointService.cancelPoint(packNo, request));
   }
 }
