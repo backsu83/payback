@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.consumer.listener;
 
 import com.ebaykorea.payback.consumer.event.OrderCanceledAuctionEvent;
+import com.ebaykorea.payback.consumer.event.OrderSiteType;
 import com.ebaykorea.payback.consumer.service.RequestSsgPointService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class OrderCanceledAuctionListener {
       final var payload = (OrderCanceledAuctionEvent)m.getPayload();
       requestSsgPointService.saveError(payload.getOrderNo(),
           payload.getPayNo(),
+          OrderSiteType.Auction,
           CONSUME_FAIL,
           causedException.getMessage(),
           "OrderCanceledAuctionListener");

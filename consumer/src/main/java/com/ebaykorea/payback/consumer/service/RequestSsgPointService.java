@@ -3,6 +3,8 @@ package com.ebaykorea.payback.consumer.service;
 import com.ebaykorea.payback.consumer.client.PaybackApiClient;
 import com.ebaykorea.payback.consumer.client.dto.PaybackSsgPointCancelRequest;
 import com.ebaykorea.payback.consumer.event.OrderSiteType;
+import com.ebaykorea.payback.consumer.repository.opayreward.CancelConsumerFailRepository;
+import com.ebaykorea.payback.consumer.repository.opayreward.entity.CancelConsumerFailEntity;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class RequestSsgPointService {
 
   private final PaybackApiClient paybackApiClient;
+  private final CancelConsumerFailRepository cancelConsumerFailRepository;
 
   private final static Logger moALogger = LoggerFactory.getLogger("MoALogger");
   private static final long FAIL = -1L;
@@ -26,9 +29,9 @@ public class RequestSsgPointService {
               .packNo(packNo)
               .siteType(OrderSiteType.Gmarket)
               .build())
-          .ifPresent(result -> saveError(orderNo, packNo, result.getCode(),result.getMessage(),"cancelSsgPointGmarket"));
+          .ifPresent(result -> saveError(orderNo, packNo, OrderSiteType.Gmarket, result.getCode(),result.getMessage(),"cancelSsgPointGmarket"));
       } catch (Exception ex) {
-        saveError(orderNo, packNo, FAIL, ex.getMessage(), "cancelSsgPointGmarket");
+        saveError(orderNo, packNo, OrderSiteType.Gmarket ,FAIL, ex.getMessage(), "cancelSsgPointGmarket");
       }
     }
   }
@@ -40,20 +43,29 @@ public class RequestSsgPointService {
               .packNo(packNo)
               .siteType(OrderSiteType.Auction)
               .build())
-          .ifPresent(result -> saveError(orderNo, packNo, result.getCode(),result.getMessage(),"cancelSsgPointAuction"));
+          .ifPresent(result -> saveError(orderNo, packNo, OrderSiteType.Auction, result.getCode(),result.getMessage(),"cancelSsgPointAuction"));
     } catch (Exception ex) {
-      saveError(orderNo, packNo, FAIL, ex.getMessage(), "cancelSsgPointAuction");
+      saveError(orderNo, packNo, OrderSiteType.Auction, FAIL, ex.getMessage(), "cancelSsgPointAuction");
     }
   }
 
   public void saveError(
       final Long orderNo,
       final Long packNo,
+      final OrderSiteType siteType,
       final long responseCode,
       final String resultMessage,
       final String oprt
   ) {
     moALogger.error("ssg-points api 처리 실패 : {}, {}, {}, {}", orderNo, packNo, responseCode, resultMessage);
-    //TODO DB저장
+    cancelConsumerFailRepository.save(CancelConsumerFailEntity.builder()
+            .orderNo(orderNo)
+            .packNo(packNo)
+            .siteType(siteType.getShortCode())
+            .responseCode(String.valueOf(responseCode))
+            .responseMessage(resultMessage)
+            .insertOperator(oprt)
+            .tryCnt(0L)
+        .build());
   }
 }
