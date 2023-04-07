@@ -2,7 +2,7 @@
 # LOCAL
 ###################################################
 server:
-  port: 8085
+  port: 8080
 
 spring:
   application.name: payback-consumer
@@ -35,8 +35,19 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 5000  # resilience4j timeoutDuration 보다 커야 함.
-      readTimeout: 5000
+      connectTimeout: 3000  # resilience4j timeoutDuration
+      readTimeout: 3000
+
+# Resilience4j Configurations
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 2
+        waitDuration: 500
+    instances:
+      retryApi: # retry name
+        baseConfig: default
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
@@ -61,5 +72,5 @@ saturn:
   artifactId: payback
   moa:
     domainGroup: payreward
-    domain: payback.api
+    domain: payback.consumer
     host: http://moafw2.ebaykorea.com/bulk

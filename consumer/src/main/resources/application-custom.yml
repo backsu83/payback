@@ -31,9 +31,11 @@ payback:
   consumers:
     order-created-cashback-listener:
       group-id: payback-cashback-group
-    order-created-ssgpoint-listener:
-      group-id: payback-ssgpoint-group
+    order-canceled-ssgpoint-gmkt-listener:
+      group-id: ssgpoint-canceled-gmkt-group
+    order-canceled-ssgpoint-iac-listener:
+      group-id: ssgpoint-canceled-iac-group
 
 apis:
   payback:
-    url: "http://payback-api-dev.gmarket.co.kr/api"
+    url: "http://payback-api-dev.gmarket.co.kr"

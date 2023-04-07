@@ -3,7 +3,7 @@ package com.ebaykorea.payback.consumer.service;
 import com.ebaykorea.payback.consumer.client.PaybackApiClient;
 import com.ebaykorea.payback.consumer.client.dto.PaybackRequestDto;
 import com.ebaykorea.payback.consumer.client.dto.PaybackResponseDto;
-import com.ebaykorea.payback.consumer.repository.CashbackOrderFailRepository;
+import com.ebaykorea.payback.consumer.repository.stardb.CashbackOrderFailRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
