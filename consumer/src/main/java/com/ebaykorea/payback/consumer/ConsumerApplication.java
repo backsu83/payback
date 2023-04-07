@@ -27,5 +27,4 @@ public class ConsumerApplication {
   public void ready() {
     System.out.println("payback-consumer is ready");
   }
-
 }

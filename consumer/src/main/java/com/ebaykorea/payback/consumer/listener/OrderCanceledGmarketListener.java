@@ -20,8 +20,9 @@ public class OrderCanceledGmarketListener {
   private static final long CONSUME_FAIL = -2L;
 
   @KafkaListener(
-      topics = {"${payback.topic.order-canceled-gmkt}"},
-      groupId = "${payback.consumers.order-canceled-ssgpoint-gmkt-listener.group-id}"
+      topics = "${payback.topic.order-canceled-gmkt}",
+      groupId = "${payback.consumers.order-canceled-ssgpoint-gmkt-listener.group-id}",
+      containerFactory = "kafkaListenerContainerFactory1"
   )
   public void consumeForSsgPoints(@Payload @Valid final OrderCanceledGmarketEvent event) {
     log.info("gmarket listener payload : [{}][{}][{}][{}]'",

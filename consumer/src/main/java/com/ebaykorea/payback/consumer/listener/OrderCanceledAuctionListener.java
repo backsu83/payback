@@ -20,8 +20,9 @@ public class OrderCanceledAuctionListener {
   private static final long CONSUME_FAIL = -2L;
 
   @KafkaListener(
-      topics = {"${payback.topic.order-canceled-iac}"},
-      groupId = "${payback.consumers.order-canceled-ssgpoint-iac-listener.group-id}"
+      topics = "${payback.topic.order-canceled-iac}",
+      groupId = "${payback.consumers.order-canceled-ssgpoint-iac-listener.group-id}",
+      containerFactory = "kafkaListenerContainerFactory1"
   )
   public void consumeForSsgPoints(@Payload @Valid final OrderCanceledAuctionEvent event) {
     log.info("auction listener payload : [{}][{}]'",

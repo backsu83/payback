@@ -1,25 +1,13 @@
 ###################################################
 # LOCAL
 ###################################################
-server:
-  port: 8080
-
-spring:
-  application.name: payback-consumer
-  profiles:
-    include: custom
-  kafka:
-    consumer:
-      group-id: payback-group
-      auto-offset-reset: latest
-      enable-auto-commit: true
-      bootstrap-servers: SaBrokerStg01em:9092,SaBrokerStg02em:9092,SaBrokerStg03em:9092
+spring.profiles.include: custom
 
 logging:
   pattern:
     console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
-    root: WARN
+    root: INFO
     com.ebaykorea.saturn: DEBUG
     MoAAppender: INFO
     MoALogger: INFO
@@ -35,19 +23,8 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 3000  # resilience4j timeoutDuration
-      readTimeout: 3000
-
-# Resilience4j Configurations
-resilience4j:
-  retry:
-    configs:
-      default:
-        maxRetryAttempts: 2
-        waitDuration: 500
-    instances:
-      retryApi: # retry name
-        baseConfig: default
+      connectTimeout: 5000  # resilience4j timeoutDuration 보다 커야 함.
+      readTimeout: 5000
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
@@ -72,5 +49,9 @@ saturn:
   artifactId: payback
   moa:
     domainGroup: payreward
-    domain: payback.consumer
-    host: http://moafw2.ebaykorea.com/bulk
+    domain: payback.api
+    host: http://devmoafw.ebaykorea.com
+  datasource:
+    appName: PAYBACK_API
+    userName: daemon_app
+    tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
