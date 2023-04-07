@@ -33,8 +33,8 @@ payback:
       group-id: payback-cashback-group
     order-created-ssgpoint-listener:
       group-id: payback-ssgpoint-group
-    refund-completed-listener:
-      group-id: payback-refund-group
+    order-canceled-ssgpoint-iac-listener:
+      group-id: ssgpoint-canceled-iac-group
 apis:
   payback:
     url: "http://payback-api-dev.gmarket.co.kr"
