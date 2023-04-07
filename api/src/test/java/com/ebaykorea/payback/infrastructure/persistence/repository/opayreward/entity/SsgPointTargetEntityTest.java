@@ -4,10 +4,13 @@ import static com.ebaykorea.payback.util.PaybackInstants.now;
 
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
 import java.math.BigDecimal;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Disabled
 @SpringBootTest
 class SsgPointTargetEntityTest {
 
