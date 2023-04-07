@@ -1,7 +1,9 @@
 package com.ebaykorea.payback.consumer.listener;
 
 import com.ebaykorea.payback.consumer.event.OrderCanceledGmarketEvent;
+import com.ebaykorea.payback.consumer.event.OrderSiteType;
 import com.ebaykorea.payback.consumer.service.RequestSsgPointService;
+import com.ebaykorea.payback.consumer.util.GsonUtils;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,7 @@ public class OrderCanceledGmarketListener {
         event.getRefundBundleKey() ,
         event.getPackNo(),
         event.getRegId(),
-        event.getContrNoList().size()
+        GsonUtils.toJson(event.getContrNoList())
     );
     requestSsgPointService.cancelSsgPointGmarket(event.getPackNo() , event.getContrNoList());
   }
@@ -40,8 +42,9 @@ public class OrderCanceledGmarketListener {
       final var causedException = e.getCause();
       final var payload = (OrderCanceledGmarketEvent)m.getPayload();
       for (Long orderNo : payload.getContrNoList()) {
-        requestSsgPointService.saveError(payload.getPackNo(),
-            orderNo,
+        requestSsgPointService.saveError(orderNo,
+            payload.getPackNo(),
+            OrderSiteType.Gmarket,
             CONSUME_FAIL,
             causedException.getMessage(),
             "OrderCanceledGmktListener");
