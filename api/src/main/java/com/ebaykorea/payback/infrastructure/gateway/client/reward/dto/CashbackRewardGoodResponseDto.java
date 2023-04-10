@@ -29,4 +29,7 @@ public class CashbackRewardGoodResponseDto {
   private Integer ifSmileCardT2T3CashbackAmount;
   /** 클럽데이 캐시백 **/
   private ClubDayCashbackInfoDto clubDayCashbackInfo;
+  /** 신세계 포인트 **/
+  private SsgPointInfoDto ssgPointInfo;
+
 }

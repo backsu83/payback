@@ -27,4 +27,8 @@ public class PaybackInstants {
     return timestamp == null ? null : timestamp.toInstant();
   }
 
+  public static Instant now() {
+    return Instant.now().atZone(SEOUL).toInstant();
+  }
+
 }

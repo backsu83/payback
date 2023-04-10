@@ -10,22 +10,27 @@ import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodRequestDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodResponseDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardResponseDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.SsgPointInfoDto;
 import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper;
+import com.ebaykorea.payback.util.support.GsonUtils;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +59,17 @@ public class RewardGatewayImpl implements RewardGateway {
         toRewardCashbackPolicies(cashbackRewardResponse),
         toRewardBackendCashbackPolicies(cashbackRewardBackendsResponse),
         toRewardSmileCardCashbackPolicy(cashbackRewardResponse),
+        toRewardSsgPointPolicy(cashbackRewardResponse),
         cashbackRewardResponse.getUseEnableDate(),
         BigDecimal.valueOf(cashbackRewardResponse.getIfSmileCardCashbackAmount()),
         BigDecimal.valueOf(cashbackRewardResponse.getIfNewSmileCardCashbackAmount()));
+  }
+
+  public List<RewardSsgPointPolicy> toRewardSsgPointPolicy(final CashbackRewardResponseDto cashbackRewardResponse) {
+    return cashbackRewardResponse.getGoods()
+        .stream()
+        .map(goods -> rewardGatewayMapper.mapToSsgPolicy(goods))
+        .collect(Collectors.toUnmodifiableList());
   }
 
   private CompletableFuture<CashbackRewardResponseDto> getCashbackRewardAsync(final CashbackRewardRequestDto request) {

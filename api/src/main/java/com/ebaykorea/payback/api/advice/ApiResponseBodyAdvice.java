@@ -29,7 +29,8 @@ public class ApiResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     ) {
         HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
 
-        if (request.getURI().toString().contains("SmilePoint")) {
+        if (request.getURI().toString().contains("SmilePoint")
+        || request.getURI().toString().contains("ssgpoint")) {
             return body;
         }
         if(body instanceof CommonResponse) {

@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.api;
 
-import com.ebaykorea.payback.api.dto.*;
+import com.ebaykorea.payback.core.dto.*;
 import com.ebaykorea.payback.infrastructure.persistence.repository.SmilePointRepository;
 import com.ebaykorea.payback.infrastructure.query.SmilePointTradeQuery;
 import io.swagger.v3.oas.annotations.tags.Tag;

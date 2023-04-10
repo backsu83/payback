@@ -1,10 +1,11 @@
-package com.ebaykorea.payback.core;
+package com.ebaykorea.payback.core.service;
 
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_DUPLICATED;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_INVALID_TARGET;
 
+import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.factory.PayCashbackCreator;
@@ -13,8 +14,11 @@ import com.ebaykorea.payback.core.gateway.PaymentGateway;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
-import com.ebaykorea.payback.core.service.MemberService;
+import com.ebaykorea.payback.core.repository.SsgPointRepository;
+import com.ebaykorea.payback.core.ssgpoint.SsgPointCreater;
+import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
 import com.ebaykorea.payback.util.support.GsonUtils;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,9 @@ public class CashbackApplicationService {
   private final PayCashbackCreator payCashbackCreator;
 
   private final PayCashbackRepository payCashbackRepository;
+  private final SsgPointStateDelegate ssgPointStateDelegate;
+  private final SsgPointCreater ssgPointCreater;
+  private final SsgPointRepository ssgPointRepository;
 
   public ResponseMessageType setCashback(final String txKey, final String orderKey) {
     //주문 정보
@@ -67,10 +74,14 @@ public class CashbackApplicationService {
     final var member = memberFuture.join();
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
-    log.info("payCashback : {}" , GsonUtils.toJson(payCashback));
-
+    log.info("domain entity payCashback : {}" , GsonUtils.toJsonPretty(payCashback));
     //payCashback 저장
     payCashbackRepository.save(payCashback);
+
+    final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
+    final var ssgPoint = ssgPointCreater.create(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState.site(), pointState.ready());
+    log.info("domain entity ssgPoint: {}", GsonUtils.toJsonPretty(ssgPoint));
+    ssgPointRepository.save(ssgPoint);
 
     return CASHBACK_CREATED;
   }

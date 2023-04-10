@@ -2,6 +2,14 @@ description = "api"
 
 apply plugin: 'org.unbroken-dome.test-sets'
 
+tasks.withType(Jar) {
+  destinationDirectory = file("$rootDir/build/libs")
+}
+
+jar {
+  enabled = false
+}
+
 testSets {
   componentTest {
     dirName = 'test-component'
@@ -27,6 +35,9 @@ dependencies {
   //swagger2
   implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
   testImplementation 'com.tngtech.archunit:archunit:1.0.1'
+
+  //caffeine cache
+  implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
 
   //component test
   componentTestImplementation sourceSets.test.output
