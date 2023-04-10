@@ -14,9 +14,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateSsgPointTradeStatusRequestDto {
-  @Schema(description = "주문번호")
-  @NotNull
-  private Long orderNo;
   @Schema(description = "구매자 아이디")
   @NotNull
   private String buyerId;

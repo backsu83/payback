@@ -113,14 +113,14 @@ public class SsgPointService {
     }
   }
 
-  public List<SsgPointTargetResponseDto> retryFailPointStatus(final UpdateSsgPointTradeStatusRequestDto request) {
+  public List<SsgPointTargetResponseDto> retryFailPointStatus(final Long orderNo, final UpdateSsgPointTradeStatusRequestDto request) {
 
     final var local = PaybackOperators.operator(request.getBuyerId());
 
     final var updateCount = ssgPointRepository.retryFailPointStatus(request.getAdminId(),
-        local, Instant.now(), request.getOrderNo(), request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType());
+        local, Instant.now(), orderNo, request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType());
     if (updateCount > 0) {
-      return ssgPointRepository.findByKey(request.getOrderNo(), request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType())
+      return ssgPointRepository.findByKey(orderNo, request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType())
           .map(List::of)
           .orElse(emptyList());
     }

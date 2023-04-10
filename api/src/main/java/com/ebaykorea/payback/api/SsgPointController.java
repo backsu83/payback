@@ -38,15 +38,14 @@ public class SsgPointController {
    return CommonResponse.success(SSGPOINT_CREATED ,ssgPointService.earnPoint(request));
   }
 
-  @PostMapping("/{orderNo}/cancel")
-  public CommonResponse<List<SsgPointTargetResponseDto>> cancelPoint(@PathVariable Long orderNo, final @Valid @RequestBody CancelSsgPointRequestDto request) {
+  @PostMapping("/{order-no}/cancel")
+  public CommonResponse<List<SsgPointTargetResponseDto>> cancelPoint(@PathVariable(value = "order-no") Long orderNo, final @Valid @RequestBody CancelSsgPointRequestDto request) {
    return CommonResponse.success(SSGPOINT_CANCELED , ssgPointService.cancelPoint(orderNo, request));
   }
 
- @PostMapping("/retryFailPointStatus")
- public SsgPointResponse<List<SsgPointTargetResponseDto>> retryFailPointStatus(final @Valid @RequestBody UpdateSsgPointTradeStatusRequestDto request) {
-  return new SsgPointResponse("0000", "success",
-          ssgPointService.retryFailPointStatus( request));
+ @PostMapping("/{order-no}/retry")
+ public SsgPointResponse<List<SsgPointTargetResponseDto>> retryFailPointStatus(@PathVariable(value = "order-no") Long orderNo, final @Valid @RequestBody UpdateSsgPointTradeStatusRequestDto request) {
+  return new SsgPointResponse("0000", "success", ssgPointService.retryFailPointStatus(orderNo, request));
  }
 
  @PostMapping("/dailyVerify")
