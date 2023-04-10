@@ -7,13 +7,13 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.*;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
+import com.ebaykorea.payback.util.PaybackOperators;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.net.InetAddress;
 import java.time.Instant;
 import java.util.*;
 
@@ -68,14 +68,7 @@ public class SsgPointService {
         request.getBuyerId(),
         request.getSiteType());
 
-    var local = request.getBuyerId();
-    try {
-      local = InetAddress.getLocalHost().getHostName();
-      if (local.length() > 50) {
-        local = local.substring(0, 49);
-      }
-    } catch (Exception e) {
-    }
+    final var local = PaybackOperators.operator(request.getBuyerId());
 
     if (entity == null) {
       ssgPointRepository.setCancelOrderNoNoneSave(SsgPointOrderNoDto.of(request.getOrderNo(), request.getSiteType().getShortCode(),
@@ -118,18 +111,11 @@ public class SsgPointService {
             .map(List::of)
             .orElse(emptyList());
     }
-
   }
 
   public List<SsgPointTargetResponseDto> retryFailPointStatus(final UpdateSsgPointTradeStatusRequestDto request) {
-    var local = request.getBuyerId();
-    try {
-      local = InetAddress.getLocalHost().getHostName();
-      if (local.length() > 50) {
-        local = local.substring(0, 49);
-      }
-    } catch (Exception e) {
-    }
+
+    final var local = PaybackOperators.operator(request.getBuyerId());
 
     final var updateCount = ssgPointRepository.retryFailPointStatus(request.getAdminId(),
         local, Instant.now(), request.getOrderNo(), request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType());
