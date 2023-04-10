@@ -2,21 +2,19 @@ package com.ebaykorea.payback.core.service;
 
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
-import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_DUPLICATED;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_INVALID_TARGET;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
-import com.ebaykorea.payback.core.factory.PayCashbackCreator;
+import com.ebaykorea.payback.core.factory.cashback.PayCashbackCreator;
 import com.ebaykorea.payback.core.gateway.OrderGateway;
 import com.ebaykorea.payback.core.gateway.PaymentGateway;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
-import com.ebaykorea.payback.core.ssgpoint.SsgPointCreater;
-import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
+import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointCreater;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +48,6 @@ public class CashbackApplicationService {
     //주문 키 매핑 정보
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
 
-    //캐시백 중복 체크
-    if (payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
-      return CASHBACK_DUPLICATED;
-    }
 
     //결제 정보
     final var paymentRecordFuture = paymentGateway.getPaymentRecordAsync(order.getPaySeq());
@@ -73,14 +67,21 @@ public class CashbackApplicationService {
     final var member = memberFuture.join();
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
-    log.info("domain entity payCashback : {}" , GsonUtils.toJson(payCashback));
+    log.info("domain entity payCashback : {}" , GsonUtils.toJsonPretty(payCashback));
+    //payCashback 저장
+    payCashbackRepository.save(payCashback);
 
     final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
     final var ssgPoint = ssgPointCreater.create(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState.site(), pointState.ready());
     log.info("domain entity ssgPoint: {}" , GsonUtils.toJsonPretty(ssgPoint));
 
-    //payCashback 저장
-    payCashbackRepository.save(payCashback);
+    //캐시백 중복 체크 FIXME: 임시 조정
+    if (!payCashbackRepository.isDuplicatedCashback(orderKeyMap)) {
+      payCashbackRepository.save(payCashback);
+      //return CASHBACK_DUPLICATED;
+    }
+    //TODO: 중복 체크?
+    log.info("domain entity ssgPoint: {}", GsonUtils.toJsonPretty(ssgPoint));
     ssgPointRepository.save(ssgPoint);
 
     return CASHBACK_CREATED;

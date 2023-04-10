@@ -1,11 +1,11 @@
-package com.ebaykorea.payback.core.factory.impl;
+package com.ebaykorea.payback.core.factory.cashback.impl;
 
-import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.DefaultCashback;
-import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.DefaultCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.ItemCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.ItemCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
 import org.springframework.stereotype.Component;
 
@@ -15,37 +15,36 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DefaultCashbackCreator {
+public class ItemCashbackCreator {
 
-  public CashbackUnit create(
-      CashbackType cashbackType,
+  public CashbackUnit createItemCashback(
       Instant useEnableDate,
+      Payment payment,
       ItemSnapshot itemSnapshot,
       BigDecimal cashbackAmount,
       BigDecimal basisAmount,
-      List<RewardCashbackPolicy> rewardCashbackPolicies) {
-    return new DefaultCashback(
+      List<RewardCashbackPolicy> rewardCashbackPolicies
+  ) {
+    return new ItemCashback(
         itemSnapshot.getItemNo(),
-        cashbackType,
         itemSnapshot.toShopType(),
         cashbackAmount,
         basisAmount,
         useEnableDate,
+        payment.isSmilePayPayment(),
         createCashbackPolicies(rewardCashbackPolicies)
     );
   }
 
   private List<CashbackPolicy> createCashbackPolicies(final List<RewardCashbackPolicy> rewardCashbackPolicies) {
     return rewardCashbackPolicies.stream()
-        .map(policy -> new DefaultCashbackPolicy(
+        .map(policy -> new ItemCashbackPolicy(
             policy.getCashbackSeq(),
-            policy.getCashbackCd(),
             policy.getCashbackTitle(),
             null,
             policy.getPayType(),
             policy.getPayRate(),
-            policy.getPayMaxMoney()
-        ))
+            policy.getPayMaxMoney()))
         .collect(Collectors.toUnmodifiableList());
   }
 }

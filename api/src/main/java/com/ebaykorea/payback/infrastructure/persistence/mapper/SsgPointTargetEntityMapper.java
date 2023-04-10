@@ -18,12 +18,13 @@ import org.mapstruct.ReportingPolicy;
 public interface SsgPointTargetEntityMapper {
 
   @Mapping(source = "unit.orderNo", target = "orderNo")
+  @Mapping(source = "point.buyerNo", target = "buyerId")
   @Mapping(expression = "java(unit.getTransactionNo())", target = "trcNo")
   @Mapping(expression = "java(unit.getTradeNo())", target = "tradeNo")
   @Mapping(expression = "java(unit.getReceiptNo(point.getOrderSiteType().getTicker() , point.getOrderDate()))", target = "receiptNo")
   @Mapping(source = "point.orderSiteType.shortCode", target = "siteType")
-  @Mapping(source = "unit.pointStatus.pointStatusType.code", target = "pointStatus")
-  @Mapping(source = "unit.pointStatus.pointTradeType.code", target = "tradeType")
+  @Mapping(source = "unit.pointStatus.statusType.code", target = "pointStatus")
+  @Mapping(source = "unit.pointStatus.tradeType.code", target = "tradeType")
   @Mapping(source = "unit.payAmount", target = "payAmount")
   @Mapping(source = "unit.saveAmount", target = "saveAmount")
   @Mapping(source = "unit.scheduleDate", target = "scheduleDate")
@@ -31,6 +32,7 @@ public interface SsgPointTargetEntityMapper {
   @Mapping(source = "unit.pointOrigin.orgApproveId", target = "orgPntApprId")
   @Mapping(constant = "N", target = "adminCancelYn")
   @Mapping(constant = "0L" , target = "tryCount")
+  @Mapping(source = "unit.adminId" , target = "manualOprt")
   SsgPointTargetEntity map(SsgPoint point, SsgPointUnit unit);
 
   SsgPointTargetResponseDto mapToSsgTarget(SsgPointTargetEntity entity);

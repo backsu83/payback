@@ -1,14 +1,16 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
-import com.ebaykorea.payback.core.domain.constant.PointTradeType;
-import com.ebaykorea.payback.util.PaybackDateTimes;
-import com.ebaykorea.payback.util.PaybackInstants;
 import com.google.common.base.Strings;
+
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
+
 import lombok.Builder;
 import lombok.Value;
+
+import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackDateTimes.TIME_STRING_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackInstants.now;
 
 @Value
 @Builder
@@ -22,13 +24,18 @@ public class SsgPointUnit {
   SsgPointStatus pointStatus;
   SsgPointOrigin pointOrigin;
 
+  String adminId;
+
+  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), false, null, null, null);
+
   private SsgPointUnit(final Long orderNo,
-      final BigDecimal payAmount,
-      final BigDecimal saveAmount,
-      final Instant scheduleDate,
-      final Boolean isPolicy,
-      final SsgPointStatus pointStatus,
-      final SsgPointOrigin pointOrigin) {
+                       final BigDecimal payAmount,
+                       final BigDecimal saveAmount,
+                       final Instant scheduleDate,
+                       final Boolean isPolicy,
+                       final SsgPointStatus pointStatus,
+                       final SsgPointOrigin pointOrigin,
+                       final String adminId) {
     this.orderNo = orderNo;
     this.payAmount = payAmount;
     this.saveAmount = saveAmount;
@@ -36,46 +43,49 @@ public class SsgPointUnit {
     this.isPolicy = isPolicy;
     this.pointStatus = pointStatus;
     this.pointOrigin = pointOrigin;
+    this.adminId = adminId;
   }
 
   public static SsgPointUnit of(final Long orderNo,
-      final BigDecimal payAmount,
-      final BigDecimal saveAmount,
-      final Instant scheduleDate,
-      final Boolean isPolicy,
-      final SsgPointStatus pointState,
-      final SsgPointOrigin pointOrigin
+                                final BigDecimal payAmount,
+                                final BigDecimal saveAmount,
+                                final Instant scheduleDate,
+                                final Boolean isPolicy,
+                                final SsgPointStatus pointState,
+                                final SsgPointOrigin pointOrigin,
+                                final String adminId
   ) {
     return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, pointState,
-        pointOrigin);
+        pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리
   public String getReceiptNo(final String ticker, final Instant orderDate) {
     return new StringBuilder()
         .append(ticker)
-        .append(PaybackInstants.toStringBy(orderDate))
-        .append(pointStatus.getPointTradeType().getCode())
-        .append(String.valueOf(orderNo).substring(String.valueOf(orderNo).length()-4))
+        .append(DATE_TIME_STRING_FORMATTER.format(orderDate))
+        .append(pointStatus.getTradeType().getCode())
+        .append(String.valueOf(orderNo).substring(String.valueOf(orderNo).length() - 4))
         .toString();
   }
 
   //S or C +주문번호(16진수) + padding
   public String getTradeNo() {
-    final var sb = new StringBuilder();
-    if(pointStatus.getPointTradeType() == PointTradeType.Save) sb.append("10");
-    if(pointStatus.getPointTradeType() == PointTradeType.Cancel) sb.append("20");
-    sb.append(orderNo);
-    return sb.substring(0,10);
+    String tradeNo = new StringBuilder()
+        .append(pointStatus.getTradeType().getCode())
+        .append(Long.toHexString(orderNo))
+        .toString()
+        .toUpperCase();
+    return Strings.padEnd(tradeNo, 10, '0');
   }
 
   //S or C +주문번호 + MMDDHH + padding
   public String getTransactionNo() {
     String transactionNo = new StringBuilder()
-        .append(pointStatus.getPointTradeType().getCode())
+        .append(pointStatus.getTradeType().getCode())
         .append(orderNo)
-        .append(LocalDateTime.now().format(PaybackDateTimes.LOCAL_DATE_STRING_FORMATTER))
+        .append(TIME_STRING_FORMATTER.format(Instant.now()))
         .toString();
-    return Strings.padEnd(transactionNo,20 , '0');
+    return Strings.padEnd(transactionNo, 20, '0');
   }
 }

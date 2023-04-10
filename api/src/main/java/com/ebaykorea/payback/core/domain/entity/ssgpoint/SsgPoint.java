@@ -11,31 +11,31 @@ import lombok.Value;
 public class SsgPoint
 {
   Long packNo;
-  String buyerId;
+  String buyerNo;
   Instant orderDate;
   OrderSiteType orderSiteType;
   List<SsgPointUnit> ssgPointUnits;
 
   private SsgPoint(final long packNo,
-      final String buyerId,
+      final String buyerNo,
       final Instant orderDate,
       final OrderSiteType orderSiteType,
       final List<SsgPointUnit> ssgPointUnits
   ) {
     this.packNo = packNo;
-    this.buyerId = buyerId;
+    this.buyerNo = buyerNo;
     this.orderDate = orderDate;
     this.orderSiteType = orderSiteType;
     this.ssgPointUnits = ssgPointUnits;
   }
 
   public static SsgPoint of(long packNo,
-      final String buyerId,
+      final String buyerNo,
       final Instant orderDate,
       final OrderSiteType orderSiteType,
       final List<SsgPointUnit> ssgPointUnits
   ) {
-    return new SsgPoint(packNo, buyerId, orderDate, orderSiteType, ssgPointUnits);
+    return new SsgPoint(packNo, buyerNo, orderDate, orderSiteType, ssgPointUnits);
   }
 
 }
