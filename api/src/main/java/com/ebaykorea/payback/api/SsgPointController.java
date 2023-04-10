@@ -38,9 +38,9 @@ public class SsgPointController {
    return CommonResponse.success(SSGPOINT_CREATED ,ssgPointService.earnPoint(request));
   }
 
-  @PostMapping("/{packNo}/cancel")
-  public CommonResponse<List<SsgPointTargetResponseDto>> cancelPoint(@PathVariable Long packNo, final @Valid @RequestBody CancelSsgPointRequestDto request) {
-   return CommonResponse.success(SSGPOINT_CANCELED , ssgPointService.cancelPoint(packNo, request));
+  @PostMapping("/{orderNo}/cancel")
+  public CommonResponse<List<SsgPointTargetResponseDto>> cancelPoint(@PathVariable Long orderNo, final @Valid @RequestBody CancelSsgPointRequestDto request) {
+   return CommonResponse.success(SSGPOINT_CANCELED , ssgPointService.cancelPoint(orderNo, request));
   }
 
  @PostMapping("/retryFailPointStatus")

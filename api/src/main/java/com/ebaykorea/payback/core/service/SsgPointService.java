@@ -62,16 +62,16 @@ public class SsgPointService {
     }
   }
 
-  public List<SsgPointTargetResponseDto> cancelPoint(final Long packNo, final CancelSsgPointRequestDto request) {
+  public List<SsgPointTargetResponseDto> cancelPoint(final Long orderNo, final CancelSsgPointRequestDto request) {
     //적립데이터 조회
-    final var entity = ssgPointRepository.findByPointStatusReady(request.getOrderNo(),
+    final var entity = ssgPointRepository.findByPointStatusReady(orderNo,
         request.getBuyerId(),
         request.getSiteType());
 
     final var local = PaybackOperators.operator(request.getBuyerId());
 
     if (entity == null) {
-      ssgPointRepository.setCancelOrderNoNoneSave(SsgPointOrderNoDto.of(request.getOrderNo(), request.getSiteType().getShortCode(),
+      ssgPointRepository.setCancelOrderNoNoneSave(SsgPointOrderNoDto.of(orderNo, request.getSiteType().getShortCode(),
           Instant.now(), local, Instant.now(), local));
       return emptyList();
     }
@@ -81,7 +81,7 @@ public class SsgPointService {
 
     switch (entity.getPointStatus()) {
       case "SS":
-        final var ssgPointUnit = SsgPointUnit.of(request.getOrderNo(),
+        final var ssgPointUnit = SsgPointUnit.of(orderNo,
             entity.getPayAmount(),
             entity.getSaveAmount(),
             now(), //취소는 현재날짜 (yyyy-mm-dd)
@@ -93,7 +93,7 @@ public class SsgPointService {
                 .build(),
             request.getAdminId()
         );
-        final var ssgPoint = SsgPoint.of(packNo,
+        final var ssgPoint = SsgPoint.of(request.getPackNo(),
             entity.getBuyerId(),
             entity.getOrderDate(),
             request.getSiteType(),
@@ -102,12 +102,12 @@ public class SsgPointService {
         return ssgPointRepository.save(ssgPoint);
       case "RR":
         ssgPointRepository.updatePointStatus(PointStatusType.WithHold.getCode(), request.getAdminId(), local,
-            Instant.now(), request.getOrderNo(), entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode());
-        return ssgPointRepository.findByKey(request.getOrderNo(), entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode())
+            Instant.now(), orderNo, entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode());
+        return ssgPointRepository.findByKey(orderNo, entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode())
             .map(List::of)
             .orElse(emptyList());
       default:
-        return ssgPointRepository.findByKey(request.getOrderNo(), entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode())
+        return ssgPointRepository.findByKey(orderNo, entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode())
             .map(List::of)
             .orElse(emptyList());
     }

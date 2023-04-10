@@ -18,9 +18,9 @@ public class CancelSsgPointRequestDto {
   @NotNull
   private OrderSiteType siteType;
 
-  @Schema(description = "주문번호")
+  @Schema(description = "결제번호")
   @NotNull
-  private Long orderNo;
+  private Long packNo;
 
   @Schema(description = "구매자 아이디")
   @NotNull
