@@ -69,8 +69,6 @@ public class PaybackComponentTest {
     SmilecardCashbackOrderRepository smilecardCashbackOrderRepository;
     @MockBean
     SmilecardT2T3CashbackRepository smilecardT2T3CashbackRepository;
-    @MockBean
-    SmilePointTradeRepository tradeRepository;
 
     @Value("classpath:" + CASHBACK_QUERY_FILE)
     Resource resourceFile;

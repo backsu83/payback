@@ -1,18 +1,12 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint;
 
-import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
+import com.ebaykorea.payback.core.service.SsgPointStateDelegate;
 import com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint.dto.SsgPointAuthTokenRequestDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint.dto.SsgPointExpectPointRequestDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint.dto.SsgPointPayInfoDto;
 import com.ebaykorea.payback.util.support.GsonUtils;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.math.BigDecimal;
 
 @Disabled
 @SpringBootTest

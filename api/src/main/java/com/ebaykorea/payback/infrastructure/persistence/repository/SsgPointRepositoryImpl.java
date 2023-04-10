@@ -4,7 +4,7 @@ import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.SsgPointCancedDto;
+import com.ebaykorea.payback.core.dto.SsgPointDto;
 import com.ebaykorea.payback.core.dto.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +42,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     List<SsgPointTargetResponseDto> sspointTargetList = Lists.newArrayList();
     ssgPoint.getSsgPointUnits().stream()
         .filter(SsgPointUnit::getIsPolicy)
-        .forEach(unit->{
-          sspointTargetList.add(saveSsgTarget(ssgPoint , unit));
-    });
+        .forEach(unit-> sspointTargetList.add(saveSsgTarget(ssgPoint, unit)));
     return sspointTargetList;
   }
 
@@ -54,7 +53,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   @Transactional(readOnly = true)
   @Override
-  public SsgPointCancedDto findByPointStatusReady(final long orderNo, final String buyerId , final OrderSiteType siteType) {
+  public SsgPointDto findByPointStatusReady(final long orderNo, final String buyerId , final OrderSiteType siteType) {
     final var ssgPointTargetEntity = ssgPointTargetRepositorySupport.findByPointStatusReady(orderNo, buyerId, siteType);
     return ssgPointTargetEntityMapper.mapToPointCancel(ssgPointTargetEntity);
   }
@@ -67,14 +66,13 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   @Override
   public int retryFailPointStatus(String manualOprt, String updateOperator, Instant updateDate, Long orderNo, String buyerId, String siteType, String tradeType) {
     return ssgPointTargetRepository.retryFailPointStatus(PointStatusType.Ready.getCode(), 0L, manualOprt, updateOperator, updateDate,  orderNo,  buyerId,  siteType,  tradeType, PointStatusType.Fail.getCode());
-
-
   }
 
   @Transactional(readOnly = true)
   @Override
-  public SsgPointTargetResponseDto findByKey(Long orderId, String buyerId, String siteType, String tradeType) {
-    return ssgPointTargetEntityMapper.mapToSsgTarget(ssgPointTargetRepository.findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(orderId, buyerId, siteType, tradeType));
+  public Optional<SsgPointTargetResponseDto> findByKey(Long orderId, String buyerId, String siteType, String tradeType) {
+    return ssgPointTargetRepository.findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(orderId, buyerId, siteType, tradeType)
+        .map(ssgPointTargetEntityMapper::mapToSsgTarget);
   }
 
   @Override

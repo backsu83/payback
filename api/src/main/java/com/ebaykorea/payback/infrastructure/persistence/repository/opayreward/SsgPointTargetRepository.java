@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @Repository
 @SaturnDataSource(name = "o_payreward")
@@ -21,7 +22,9 @@ public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEn
     @Query("update SsgPointTargetEntity s set s.pointStatus = ?1, s.tryCount = ?2, s.manualOprt = ?3, s.updateOperator = ?4, s.updateDate = ?5 " +
             "where s.orderNo = ?6 and s.buyerId = ?7 and s.siteType = ?8 and s.tradeType = ?9 and s.pointStatus = ?10")
     int retryFailPointStatus(@NonNull String pointStatus, @NonNull Long tryCount, @NonNull String manualOprt, @NonNull String updateOperator, @NonNull Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType, @NonNull String pointStatus1);
-    SsgPointTargetEntity findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(@NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
+
+    Optional<SsgPointTargetEntity> findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(@NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
+
     @Transactional
     @Modifying
     @Query("update SsgPointTargetEntity s set s.pointStatus = ?1, s.manualOprt = ?2, s.updateOperator = ?3, s.updateDate = ?4 " +

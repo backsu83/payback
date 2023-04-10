@@ -1,19 +1,17 @@
 package com.ebaykorea.payback.infrastructure.query;
 
-import static com.ebaykorea.payback.util.PaybackInstants.now;
-
-import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.ssgpoint.state.SsgPointStateDelegate;
+import com.ebaykorea.payback.core.service.SsgPointStateDelegate;
 import com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint.SsgPointApiClient;
-import com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint.dto.SsgPointAuthTokenRequestDto;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgTokenEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgTokenRepository;
-import java.time.Duration;
-import java.util.Objects;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgTokenEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Duration;
+
+import static com.ebaykorea.payback.util.PaybackInstants.now;
 
 @Service
 @RequiredArgsConstructor

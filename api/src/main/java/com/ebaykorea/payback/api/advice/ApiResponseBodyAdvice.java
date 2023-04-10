@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.api.advice;
 
-import com.ebaykorea.payback.api.dto.common.CommonResponse;
+import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

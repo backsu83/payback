@@ -2,7 +2,6 @@ package com.ebaykorea.payback.core.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
-import java.time.Instant;
 import lombok.Data;
 
 @Data

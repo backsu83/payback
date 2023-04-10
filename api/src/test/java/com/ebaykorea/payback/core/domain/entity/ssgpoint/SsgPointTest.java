@@ -5,6 +5,8 @@ import static com.ebaykorea.payback.core.domain.constant.PointTradeType.Save;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.ebaykorea.payback.util.PaybackDateTimes;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,7 @@ class SsgPointTest {
             .build())
         .build();
 
-    String receiptNo = gmksave.getReceiptNo("GMK");
+    String receiptNo = gmksave.getReceiptNo("GMK", Instant.now());
     String yyMMddHHmmss = LocalDateTime.now().format(PaybackDateTimes.DATE_TIME_STRING_FORMATTER);
 
     assertEquals(receiptNo , "GMK" + yyMMddHHmmss + "S" + "2548");

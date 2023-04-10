@@ -1,0 +1,43 @@
+
+apis:
+  smileclub:
+    url: "http://smileclubapi-dev.gmarket.co.kr"
+  ssgpoint:
+    url: "https://devauthapi.shinsegaepoint.com"
+
+payback.dcm.access.enable: true
+#spring.jpa.hibernate.default_schema: O_PAYREWARD
+spring:
+  batch:
+    jdbc:
+      table-prefix: O_PAYREWARD.BATCH_
+    job:
+      enabled: false
+
+ssgpoint:
+  auth-info:
+    gmarket:
+      memberKey: 'S001'
+      clientId: '49E615F309BC23C5CA7E4603E2036977'
+      apiKey: 'E320844B8E294F3E8D69395737C8B194'
+      encryptKey: '831A667A8A3015F85FF5824DCDFD4C58'
+      encryptIv: '7552B56514CCA47A'
+      branchId: 'B200042500'
+    auction:
+      memberKey: 'S002'
+      clientId: '3C24A0D1FADA47F07F9A79D30D4C9A2E'
+      apiKey: '72787780CCA9F00A5D584991826752E2'
+      encryptKey: '5D459675AEE24BEA36FF2B1B661B2F67'
+      encryptIv: '73DDDFC9C36D49CB'
+      branchId: 'B200042502'
+  batch:
+    fetchSize: 10         #ItemReader에 읽는 Row수
+    chunkSize: 10         #Chunk 처리단위
+  scheduler:
+    target:
+      crontab: "0 */5 * * * *" #테스트 5분
+#      crontab: "* * * * * *"
+    recover:
+      crontab: "0 */10 * * * *" #테스트 10분
+#      crontab: "0 0 10-20/1 * * *"
+
