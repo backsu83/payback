@@ -1,23 +1,25 @@
 package com.ebaykorea.payback.core.service;
 
-import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
-import static com.ebaykorea.payback.util.PaybackInstants.now;
-
+import com.ebaykorea.payback.core.domain.constant.PointStatusType;
+import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto;
-import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
-import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.*;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import com.google.common.collect.Lists;
-import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.net.InetAddress;
+import java.time.Instant;
+import java.util.*;
+
+import static com.ebaykorea.payback.util.PaybackInstants.DATE_TIME_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackInstants.now;
+import static java.util.Collections.emptyList;
 
 @Slf4j
 @Service
@@ -30,56 +32,112 @@ public class SsgPointService {
   public List<SsgPointTargetResponseDto> earnPoint(final SaveSsgPointRequestDto request) {
 
     final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
+
     final var ssgPointUnit = SsgPointUnit.of(request.getOrderNo(),
         request.getPayAmount(),
         request.getSaveAmount(), //ssg point api 호출
-        DATE_TIME_FORMATTER.parse(request.getScheduleDate() , Instant::from),
+        DATE_TIME_FORMATTER.parse(request.getScheduleDate(), Instant::from),
         true,
         ssgPointStrategy.ready(),
-        null);
+        null,
+        request.getAdminId());
 
     final var ssgPoint = SsgPoint.of(request.getPackNo(),
         request.getBuyerId(),
-        Instant.parse(request.getOrderDate()),
+        DATE_TIME_FORMATTER.parse(request.getOrderDate(), Instant::from),
         request.getSiteType(),
         Lists.newArrayList(ssgPointUnit));
     log.info("domain entity earn ssgPoint: {}", GsonUtils.toJson(ssgPoint));
-    return ssgPointRepository.save(ssgPoint);
+
+    try {
+      return ssgPointRepository.save(ssgPoint);
+    } catch (Exception e) {
+      return ssgPointRepository.findByKey(
+              request.getOrderNo(),
+              request.getBuyerId(),
+              request.getSiteType().getShortCode(),
+              PointTradeType.Save.getCode())
+          .map(List::of)
+          .orElse(emptyList());
+    }
   }
 
   public List<SsgPointTargetResponseDto> cancelPoint(final Long packNo, final CancelSsgPointRequestDto request) {
     //적립데이터 조회
-    final var entity =  ssgPointRepository.findByPointStatus(request.getOrderNo() , request.getSiteType());
+    final var entity = ssgPointRepository.findByPointStatusReady(request.getOrderNo(),
+        request.getBuyerId(),
+        request.getSiteType());
 
-    //취소
-    if(Objects.nonNull(entity)) {
-      final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
-      final var ssgPointUnit = SsgPointUnit.of(request.getOrderNo() ,
-          entity.getPayAmount(),
-          entity.getSaveAmount(),
-          now(), //취소는 현재날짜 (yyyy-mm-dd)
-          true,
-          ssgPointStrategy.cancel(),
-          SsgPointOrigin.builder()
-              .orgApproveId(entity.getPntApprId())
-              .orgReceiptNo(entity.getReceiptNo())
-              .build()
-          );
-
-      final var ssgPoint = SsgPoint.of(packNo,
-          entity.getBuyerId(),
-          entity.getOrderDate(),
-          request.getSiteType(),
-          Lists.newArrayList(ssgPointUnit));
-      log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(ssgPoint));
-      return ssgPointRepository.save(ssgPoint);
+    var local = request.getBuyerId();
+    try {
+      local = InetAddress.getLocalHost().getHostName();
+      if (local.length() > 50) {
+        local = local.substring(0, 49);
+      }
+    } catch (Exception e) {
     }
 
-    /**
-     * TODO 적립이 되기전에 취소 이벤트 처리
-     * 상황 1 : 적립전 취소 - 포인트상태 RR
-     * 상황 2 : 적립후 취소 - 포인트 데이터가 없는 상태
-     */
-    return Lists.newArrayList();
+    if (entity == null) {
+      ssgPointRepository.setCancelOrderNoNoneSave(SsgPointOrderNoDto.of(request.getOrderNo(), request.getSiteType().getShortCode(),
+          Instant.now(), local, Instant.now(), local));
+      return emptyList();
+    }
+
+    //취소
+    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
+
+    switch (entity.getPointStatus()) {
+      case "SS":
+        final var ssgPointUnit = SsgPointUnit.of(request.getOrderNo(),
+            entity.getPayAmount(),
+            entity.getSaveAmount(),
+            now(), //취소는 현재날짜 (yyyy-mm-dd)
+            true,
+            ssgPointStrategy.cancel(),
+            SsgPointOrigin.builder()
+                .orgApproveId(entity.getPntApprId())
+                .orgReceiptNo(entity.getReceiptNo())
+                .build(),
+            request.getAdminId()
+        );
+        final var ssgPoint = SsgPoint.of(packNo,
+            entity.getBuyerId(),
+            entity.getOrderDate(),
+            request.getSiteType(),
+            Lists.newArrayList(ssgPointUnit));
+        log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(ssgPoint));
+        return ssgPointRepository.save(ssgPoint);
+      case "RR":
+        ssgPointRepository.updatePointStatus(PointStatusType.WithHold.getCode(), request.getAdminId(), local,
+            Instant.now(), request.getOrderNo(), entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode());
+        return ssgPointRepository.findByKey(request.getOrderNo(), entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode())
+            .map(List::of)
+            .orElse(emptyList());
+      default:
+        return ssgPointRepository.findByKey(request.getOrderNo(), entity.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode())
+            .map(List::of)
+            .orElse(emptyList());
+    }
+
+  }
+
+  public List<SsgPointTargetResponseDto> retryFailPointStatus(final UpdateSsgPointTradeStatusRequestDto request) {
+    var local = request.getBuyerId();
+    try {
+      local = InetAddress.getLocalHost().getHostName();
+      if (local.length() > 50) {
+        local = local.substring(0, 49);
+      }
+    } catch (Exception e) {
+    }
+
+    final var updateCount = ssgPointRepository.retryFailPointStatus(request.getAdminId(),
+        local, Instant.now(), request.getOrderNo(), request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType());
+    if (updateCount > 0) {
+      return ssgPointRepository.findByKey(request.getOrderNo(), request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType())
+          .map(List::of)
+          .orElse(emptyList());
+    }
+    return emptyList();
   }
 }

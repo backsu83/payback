@@ -67,7 +67,9 @@ public class CashbackApplicationService {
     final var member = memberFuture.join();
 
     final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
-    log.info("domain entity payCashback : {}" , GsonUtils.toJson(payCashback));
+    log.info("domain entity payCashback : {}" , GsonUtils.toJsonPretty(payCashback));
+    //payCashback 저장
+    payCashbackRepository.save(payCashback);
 
     final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
     final var ssgPoint = ssgPointCreater.create(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState.site(), pointState.ready());
@@ -79,6 +81,7 @@ public class CashbackApplicationService {
       //return CASHBACK_DUPLICATED;
     }
     //TODO: 중복 체크?
+    log.info("domain entity ssgPoint: {}", GsonUtils.toJsonPretty(ssgPoint));
     ssgPointRepository.save(ssgPoint);
 
     return CASHBACK_CREATED;

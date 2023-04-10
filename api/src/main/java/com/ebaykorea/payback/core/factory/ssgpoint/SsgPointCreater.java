@@ -1,11 +1,15 @@
 package com.ebaykorea.payback.core.factory.ssgpoint;
 
+import static java.util.Collections.emptyList;
+
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointStatus;
+import java.math.BigDecimal;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,7 +28,7 @@ public class SsgPointCreater {
   ) {
     return SsgPoint.of(
         keyMap.getPackNo(),
-        order.getBuyer().getBuyerId(),
+        order.getBuyer().getBuyerNo(),
         order.getOrderDate(),
         orderSiteType,
         ssgPointCreater.create(ssgPointPolicies, order, keyMap, ssgPointStatus)

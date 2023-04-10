@@ -16,4 +16,5 @@ public class SsgPointTargetResponseDto {
   private BigDecimal payAmount;
   private BigDecimal saveAmount;
   private String scheduleDate;
+  private String adminId;
 }

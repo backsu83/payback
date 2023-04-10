@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.domain.Persistable;
 
 @Entity
 @Getter
@@ -19,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @IdClass(SsgPointTargetEntityId.class)
 @Table(schema = "O_PAYREWARD", name = "SSG_POINT_TARGET")
-public class SsgPointTargetEntity extends BaseEntity {
+public class SsgPointTargetEntity extends BaseEntity implements Persistable<SsgPointTargetEntityId> {
 
   @Id
   @Column(name = "ORDER_NO")
@@ -98,4 +99,13 @@ public class SsgPointTargetEntity extends BaseEntity {
   private Long tryCount;
 
 
+  @Override
+  public SsgPointTargetEntityId getId() {
+    return new SsgPointTargetEntityId(orderNo,buyerId, siteType, tradeType);
+  }
+
+  @Override
+  public boolean isNew() {
+    return true;
+  }
 }
