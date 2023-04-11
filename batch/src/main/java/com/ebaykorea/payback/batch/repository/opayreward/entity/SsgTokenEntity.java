@@ -25,5 +25,8 @@ public class SsgTokenEntity extends BaseEntity {
   @Column(name = "EXPIRE_DATE")
   private Instant expireDate;
 
+  @Column(name = "SITE_TYPE")
+  private String siteType;
+
 
 }
