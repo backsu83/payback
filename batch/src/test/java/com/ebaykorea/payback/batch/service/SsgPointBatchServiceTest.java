@@ -27,11 +27,11 @@ class SsgPointBatchServiceTest {
   }
 
   @Test
-  void name() {
+  void getToken() {
     var result = ssgPointBatchService.getSsgAuthToken(
         "49E615F309BC23C5CA7E4603E2036977",
         "E320844B8E294F3E8D69395737C8B194",
-        OrderSiteType.Gmarket);
+        "G");
     assertEquals(result, 1L);
   }
 }
