@@ -1,11 +1,16 @@
 package com.ebaykorea.payback.batch.repository.opayreward;
 
 
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_CARD_CRYPTO;
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADD;
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
+import com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -34,7 +39,6 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .where(
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
-//            ssgPointTargetEntity.orderNo.eq(5408224778L)
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         );
   }
@@ -43,6 +47,10 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode()),
+            ssgPointTargetEntity.responseCode.in(ERR_PNTADD.name(),
+                ERR_PNTADDCNCL.name(),
+                ERR_CARD_CRYPTO.name(),
+                ERR_TOKEN.name()),
             ssgPointTargetEntity.tryCount.lt(3),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         );

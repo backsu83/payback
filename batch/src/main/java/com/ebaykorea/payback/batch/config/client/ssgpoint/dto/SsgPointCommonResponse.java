@@ -1,9 +1,11 @@
 package com.ebaykorea.payback.batch.config.client.ssgpoint.dto;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class SsgPointCommonResponse {
   private String clientId;
   private String apiKey;
