@@ -49,7 +49,7 @@ public class SsgPointBatchService {
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4="; //임시카드번호
-    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
+    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType());
     try {
       var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
       final var response = ssgPointApiClient.earnPoint(request);
@@ -62,7 +62,7 @@ public class SsgPointBatchService {
   public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
 //    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4="; //임시카드번호
-    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey());
+    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType());
     try {
       var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
       final var response = ssgPointApiClient.cancelPoint(request);
@@ -87,12 +87,11 @@ public class SsgPointBatchService {
   /**
    * ssgpoint tokenid 조회
    * 최대 1일 사용가능
-   * 로컬캐시 갱신 시간은 1시간
    * @return
    */
-  @Cacheable(cacheNames = "COMMON_KEY", key = "#name")
-  public String getSsgAuthToken(String clientId , String apiKey) {
-    SsgTokenEntity entity = ssgTokenRepository.findTopByExpireDateAfterOrderByExpireDateDesc(now());
+  @Cacheable(cacheNames = "SSG_TOKEN_KEY", key = "#siteType.getShortCode()")
+  public String getSsgAuthToken(String clientId , String apiKey, OrderSiteType siteType) {
+    SsgTokenEntity entity = ssgTokenRepository.findTopBySiteTypeAndExpireDateAfterOrderByExpireDateDesc(siteType.getShortCode() ,now());
     if(Objects.nonNull(entity)) {
       return entity.getTokenKey();
     } else {
@@ -101,7 +100,7 @@ public class SsgPointBatchService {
             .clientId(clientId)
             .apiKey(apiKey)
             .build());
-        saveSsgAuthToken(tokenInfo.getTokenId());
+        saveSsgAuthToken(tokenInfo.getTokenId() , siteType);
         return tokenInfo.getTokenId();
       } catch (Exception ex) {
         throw new BatchProcesserException(ERR_TOKEN);
@@ -110,9 +109,10 @@ public class SsgPointBatchService {
   }
 
   @Transactional
-  public void saveSsgAuthToken(String tokenKey) {
+  public void saveSsgAuthToken(String tokenKey, OrderSiteType siteType) {
     ssgTokenRepository.save(SsgTokenEntity.builder()
         .tokenKey(tokenKey)
+        .siteType(siteType.getShortCode())
         .expireDate(now().plus(Duration.ofDays(1)))
         .build());
   }
@@ -128,7 +128,7 @@ public class SsgPointBatchService {
 
   @Transactional
   public long updateWriterSuceess(final SsgPointTargetDto item) {
-    if(item.getResponseCode().equals("PRC4081")) {
+    if(item.getResponseCode().equals("PRC4081") && item.getStatus() != PointStatusType.Ready) {
       return 1L;
     }
     return ssgPointTargetRepositorySupport.updatePointTarget(item.getOrderNo() ,

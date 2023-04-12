@@ -39,9 +39,9 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "processerDto.tradeNo", target = "tradeNo")
     @Mapping(constant = "APITRN0141", target = "msgText")
     @Mapping(constant = "400080", target = "tradeGbCd")
-    @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMdd\"))", target = "busiDt")
-    @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"MMdd\"))", target = "tradeGentdDt")
-    @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"HHmmss\"))", target = "tradeGentdTm")
+    @Mapping(expression = "java(PaybackInstants.getStringFormatBy(\"yyyyMMdd\"))", target = "busiDt")
+    @Mapping(expression = "java(PaybackInstants.getStringFormatBy(\"MMdd\"))", target = "tradeGentdDt")
+    @Mapping(expression = "java(PaybackInstants.getStringFormatBy(\"HHmmss\"))", target = "tradeGentdTm")
     @Mapping(constant = "0000", target = "tradeGentdStcd")
     @Mapping(constant = "0000", target = "tradeGentdPosno")
     @Mapping(constant = "000000", target = "doByid")
@@ -53,7 +53,6 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "processerDto.accountDate", target = "otradeBusiDt")    //원거래영업일자
     @Mapping(source = "processerDto.orgReceiptNo", target = "otradeRecptNo")  //원거래영수증번호
     @Mapping(source = "processerDto.orgPntApprId", target = "otradeApprId")   //원거래포인트승인ID
-//    @Mapping(source = "processerDto.orgSaleTradeNo", target = "orgSaleTradeNo") //원매출거래번호
     SsgPointCancelRequest mapToRequest(SsgPointProcesserDto processerDto , SsgPointCertifier certifier , String tokenId , String cardNo);
 
 

@@ -7,12 +7,12 @@ import lombok.Value;
 @Value
 public class SsgPointCertifier {
 
-  private String memberKey;
-  private String clientId;
-  private String apiKey;
-  private String encryptKey;
-  private String encryptIv;
-  private String branchId;
+  String memberKey;
+  String clientId;
+  String apiKey;
+  String encryptKey;
+  String encryptIv;
+  String branchId;
 
   private SsgPointCertifier(final String memberKey,
       final String clientId,
