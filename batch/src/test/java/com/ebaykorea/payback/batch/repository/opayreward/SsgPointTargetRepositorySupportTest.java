@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.batch.repository.opayreward;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.batch.util.support.GsonUtils;
@@ -26,8 +28,11 @@ class SsgPointTargetRepositorySupportTest {
   @Test
   @Transactional
   void updateFailBy() {
-    var result = ssgPointTargetRepositorySupport.updatePrcoesserFailBy(12345677889L , "G", "S",
+    var result = ssgPointTargetRepositorySupport.updatePrcoesserFailBy(
+        12345677889L ,
+        "G",
+        "S",
         PointStatusType.Ready.getCode());
-    System.out.println(result);
+    assertEquals(result, 1L);
   }
 }

@@ -34,10 +34,11 @@ ssgpoint:
     fetchSize: 10         #ItemReader에 읽는 Row수
     chunkSize: 10         #Chunk 처리단위
   scheduler:
+    daily:
+      crontab: "0 10,11 * * * *" #매일 10,11시 실행
     target:
-      crontab: "0 */5 * * * *" #테스트 5분
-#      crontab: "* * * * * *"
+      crontab: "0 */5 * * * *" #5분
     recover:
-      crontab: "0 */10 * * * *" #테스트 10분
-#      crontab: "0 0 10-20/1 * * *"
+      crontab: "0 */10 * * * *" #10분
+
 

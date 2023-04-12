@@ -28,6 +28,9 @@ logging:
     MoAAppender: INFO
     MoALogger: INFO
     com.ebaykorea.payback.batch: DEBUG
+    org.org.hibernate.sql: DEBUG
+    org.org.hibernate.type: trace
+
 
 
 ###################################################
