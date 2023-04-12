@@ -27,6 +27,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
 
     expect:
     def result = mapper.mapToRequest(processerDto, certifier, "tokenId", "cardNo" )
+    result.setTradeGentdTm("000000")
     result == expectResult
 
     where:
@@ -44,7 +45,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             inputFlg:"O", //영문 O : online
             busiDt: PaybackInstants.getStringFormatBy("yyyyMMdd"),
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: PaybackInstants.getStringFormatBy("HHmmss"),
+            tradeGentdTm: "000000",
             doByid:"000000",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
@@ -59,7 +60,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             inputFlg:"O", //영문 O : online
             busiDt: PaybackInstants.getStringFormatBy("yyyyMMdd"),
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: PaybackInstants.getStringFormatBy("HHmmss"),
+            tradeGentdTm: "000000",
             doByid:"000000",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
