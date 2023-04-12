@@ -13,11 +13,7 @@ import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEnt
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointOrderNoRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepositorySupport;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,7 +94,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   @Override
   public List<SsgPointTargetResponseDto> findAllByOrderNoAndSiteType(final Long orderNo, final String buyerId, final OrderSiteType siteType) {
-    return ssgPointTargetRepository.findAllByOrderNoAndSiteType(orderNo, buyerId, siteType.getShortCode()).stream()
+    return ssgPointTargetRepository.findAllByOrderNoAndBuyerIdAndSiteType(orderNo, buyerId, siteType.getShortCode()).stream()
         .map(ssgPointTargetEntityMapper::mapToSsgTarget)
         .collect(Collectors.toUnmodifiableList());
   }
