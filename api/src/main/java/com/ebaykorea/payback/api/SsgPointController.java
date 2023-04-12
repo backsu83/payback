@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.common.SsgPointResponse;
-import com.ebaykorea.payback.core.dto.*;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
+import com.ebaykorea.payback.core.dto.ssgpoint.*;
 import com.ebaykorea.payback.core.service.SsgPointCancelService;
 import com.ebaykorea.payback.core.service.SsgPointService;
 import com.ebaykorea.payback.infrastructure.query.SsgTokenQuery;

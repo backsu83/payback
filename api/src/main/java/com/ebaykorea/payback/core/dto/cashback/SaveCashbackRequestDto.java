@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto;
+package com.ebaykorea.payback.core.dto.cashback;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,9 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SmilePointStatusSmilepayRequestDto {
-  private long smilePayNo;
+public class SaveCashbackRequestDto {
+  @NotEmpty
+  private String txKey;
+  @NotEmpty
+  private String orderKey;
 }

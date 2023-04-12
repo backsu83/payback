@@ -4,7 +4,7 @@ import com.ebaykorea.payback.core.domain.constant.OrderSiteType
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointAuctionState
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointGmarketState
-import com.ebaykorea.payback.core.dto.SsgPointOrderNoDto
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto
 import com.ebaykorea.payback.core.repository.SsgPointRepository
 import spock.lang.Specification
 

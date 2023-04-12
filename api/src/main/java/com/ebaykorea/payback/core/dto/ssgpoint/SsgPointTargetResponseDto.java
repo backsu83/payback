@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto;
+package com.ebaykorea.payback.core.dto.ssgpoint;
 
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.fasterxml.jackson.annotation.JsonInclude;

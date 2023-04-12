@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto;
+package com.ebaykorea.payback.core.dto.cashback;
 
 
 import lombok.Builder;
