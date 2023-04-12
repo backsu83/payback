@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import com.google.common.base.Strings;
 
 import java.math.BigDecimal;
@@ -46,7 +47,7 @@ public class SsgPointUnit {
     this.adminId = adminId;
   }
 
-  public static SsgPointUnit of(final Long orderNo,
+  private static SsgPointUnit of(final Long orderNo,
                                 final BigDecimal payAmount,
                                 final BigDecimal saveAmount,
                                 final Instant scheduleDate,
@@ -57,6 +58,45 @@ public class SsgPointUnit {
   ) {
     return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, pointState,
         pointOrigin, adminId);
+  }
+
+  public static SsgPointUnit readyUnit(
+      final Long orderNo,
+      final BigDecimal payAmount,
+      final BigDecimal saveAmount,
+      final Instant scheduleDate,
+      final Boolean isPolicy,
+      final SsgPointState state,
+      final SsgPointOrigin pointOrigin,
+      final String adminId
+  ) {
+    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.ready(), pointOrigin, adminId);
+  }
+
+  public static SsgPointUnit cancelUnit(
+      final Long orderNo,
+      final BigDecimal payAmount,
+      final BigDecimal saveAmount,
+      final Instant scheduleDate,
+      final Boolean isPolicy,
+      final SsgPointState state,
+      final SsgPointOrigin pointOrigin,
+      final String adminId
+  ) {
+    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.cancel(), pointOrigin, adminId);
+  }
+
+  public static SsgPointUnit withHoldUnit(
+      final Long orderNo,
+      final BigDecimal payAmount,
+      final BigDecimal saveAmount,
+      final Instant scheduleDate,
+      final Boolean isPolicy,
+      final SsgPointState state,
+      final SsgPointOrigin pointOrigin,
+      final String adminId
+  ) {
+    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.withHold(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리

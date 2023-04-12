@@ -1,19 +1,20 @@
 package com.ebaykorea.payback.core.factory.ssgpoint;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
-
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointStatus;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import com.ebaykorea.payback.core.exception.PaybackException;
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
+
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
+import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
 
 @Component
 public class SsgPointUnitCreater {
@@ -22,7 +23,7 @@ public class SsgPointUnitCreater {
       final Map<Long, RewardSsgPointPolicy> policies,
       final Order order,
       final KeyMap keyMap,
-      final SsgPointStatus ssgPointStatus
+      final SsgPointState ssgPointState
   ) {
     final var ssgpoint = order.getOrderUnits().stream()
         .map(entry -> {
@@ -34,12 +35,12 @@ public class SsgPointUnitCreater {
 
           if(policies.containsKey(orderUnitKey.getBuyOrderNo())) {
             final var policy = policies.get(orderUnitKey.getBuyOrderNo());
-            return SsgPointUnit.of(orderUnitKey.getBuyOrderNo(),
+            return SsgPointUnit.readyUnit(orderUnitKey.getBuyOrderNo(),
                 orderUnit.getOrderItem().orderItemPrice(),
                 policy.getPointExpectSaveAmount(), // ssg api 대체
                 DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate() , Instant::from),
                 policy.getIsSsgPoint(),
-                ssgPointStatus,
+                ssgPointState,
                 null,
                     null);
           }

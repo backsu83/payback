@@ -42,7 +42,6 @@ public class SaveSsgPointRequestDto {
   @NotNull
   private BigDecimal saveAmount;
 
-
   @Schema(description = "주문일" , format = "yyyy-MM-dd HH:mm:ss")
   @NotBlank
   private String orderDate;

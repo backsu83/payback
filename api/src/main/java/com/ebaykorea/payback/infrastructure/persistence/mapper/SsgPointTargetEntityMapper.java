@@ -35,7 +35,8 @@ public interface SsgPointTargetEntityMapper {
   @Mapping(source = "unit.adminId" , target = "manualOprt")
   SsgPointTargetEntity map(SsgPoint point, SsgPointUnit unit);
 
+  @Mapping(source = "insertOperator" , target = "adminId")
   SsgPointTargetResponseDto mapToSsgTarget(SsgPointTargetEntity entity);
 
-  SsgPointDto mapToPointCancel(SsgPointTargetEntity entity);
+  SsgPointDto mapToPoint(SsgPointTargetEntity entity);
 }
