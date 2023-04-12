@@ -3,18 +3,18 @@ package com.ebaykorea.payback.core.service;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto;
-import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
-import com.ebaykorea.payback.core.dto.UpdateSsgPointTradeStatusRequestDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.UpdateSsgPointTradeStatusRequestDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.util.PaybackOperators;
 import com.ebaykorea.payback.util.support.GsonUtils;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_UTC_FORMATTER;
 
@@ -55,7 +55,7 @@ public class SsgPointService {
         request.getBuyerId(),
         DATE_TIME_UTC_FORMATTER.parse(request.getOrderDate(), Instant::from),
         request.getSiteType(),
-        Lists.newArrayList(ssgPointUnit));
+        List.of(ssgPointUnit));
     log.info("domain entity earn ssgPoint: {}", GsonUtils.toJson(ssgPoint));
 
     return ssgPointRepository.save(ssgPoint).stream()

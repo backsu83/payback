@@ -4,9 +4,8 @@ import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.SsgPointDto;
-import com.ebaykorea.payback.core.dto.SsgPointOrderNoDto;
-import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTargetResponseDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointOrderNoEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEntityMapper;
@@ -46,13 +45,6 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   private SsgPointTargetResponseDto saveSsgTarget(final SsgPoint ssgPoint, final SsgPointUnit ssgPointUnit) {
     final var ssgPointTargetEntity = ssgPointTargetEntityMapper.map(ssgPoint, ssgPointUnit);
     return ssgPointTargetEntityMapper.mapToSsgTarget(ssgPointTargetRepository.save(ssgPointTargetEntity));
-  }
-
-  @Transactional(readOnly = true)
-  @Override
-  public SsgPointDto findByPointStatusReady(final long orderNo, final String buyerId, final OrderSiteType siteType) {
-    final var ssgPointTargetEntity = ssgPointTargetRepositorySupport.findByPointStatusReady(orderNo, buyerId, siteType);
-    return ssgPointTargetEntityMapper.mapToPoint(ssgPointTargetEntity);
   }
 
   @Override

@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto;
+package com.ebaykorea.payback.api.dto.smilepoint;
 
 
 import lombok.Builder;

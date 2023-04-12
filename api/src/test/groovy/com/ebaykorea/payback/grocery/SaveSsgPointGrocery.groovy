@@ -1,9 +1,9 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType
-import com.ebaykorea.payback.core.dto.CancelSsgPointRequestDto
-import com.ebaykorea.payback.core.dto.SaveSsgPointRequestDto
-import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto
+import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto
+import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTargetResponseDto
 
 class SaveSsgPointGrocery {
   static def SaveSsgPointRequestDto_생성(Map map = [:]) {
