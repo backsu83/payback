@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.job.mapper
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCommonResponse
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointEarnRequest
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType

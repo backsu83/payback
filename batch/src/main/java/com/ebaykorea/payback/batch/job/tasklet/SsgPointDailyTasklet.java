@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.job.tasklet;
 
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.SsgPointApiClient;
+import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.ExitStatus;

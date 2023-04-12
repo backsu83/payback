@@ -1,12 +1,11 @@
 package com.ebaykorea.payback.batch.job.mapper
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCancelRequest
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCommonResponse
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType
-import com.ebaykorea.payback.batch.util.PaybackDateTimes
 import com.ebaykorea.payback.batch.util.PaybackDecimals
 import com.ebaykorea.payback.batch.util.PaybackInstants
 import org.mapstruct.factory.Mappers

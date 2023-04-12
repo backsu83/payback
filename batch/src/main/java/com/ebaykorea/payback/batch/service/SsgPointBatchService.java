@@ -7,9 +7,9 @@ import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExcepti
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 import static com.ebaykorea.payback.batch.util.PaybackInstants.now;
 
-import com.ebaykorea.payback.batch.config.client.smileclub.SmileClubApiClient;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.SsgPointApiClient;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointAuthTokenRequest;
+import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient;
+import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointAuthTokenRequest;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
@@ -54,7 +54,8 @@ public class SsgPointBatchService {
       var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
       final var response = ssgPointApiClient.earnPoint(request);
       return ssgPointEarnProcesserMapper.mapToTarget(request, response, item);
-    } catch (Exception e) {
+    } catch (Exception ex) {
+      log.error(ex.getLocalizedMessage());
       throw new BatchProcesserException(ERR_PNTADD);
     }
   }
@@ -67,7 +68,8 @@ public class SsgPointBatchService {
       var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
       final var response = ssgPointApiClient.cancelPoint(request);
       return ssgPointCancelProcesserMapper.mapToTarget(request, response, item);
-    } catch (Exception e) {
+    } catch (Exception ex) {
+      log.error(ex.getLocalizedMessage());
       throw new BatchProcesserException(ERR_PNTADDCNCL);
     }
   }
@@ -80,6 +82,7 @@ public class SsgPointBatchService {
       final var encryptCardNo = CryptoAES256.decrypt(decryptCardNo, auth.getEncryptKey(), auth.getEncryptIv());
       return encryptCardNo;
     } catch (Exception ex) {
+      log.error(ex.getLocalizedMessage());
       throw new BatchProcesserException(ERR_CARD_CRYPTO);
     }
   }
@@ -104,6 +107,7 @@ public class SsgPointBatchService {
         saveSsgAuthToken(tokenInfo.getTokenId() , siteType);
         return tokenInfo.getTokenId();
       } catch (Exception ex) {
+        log.error(ex.getLocalizedMessage());
         throw new BatchProcesserException(ERR_TOKEN);
       }
     }
