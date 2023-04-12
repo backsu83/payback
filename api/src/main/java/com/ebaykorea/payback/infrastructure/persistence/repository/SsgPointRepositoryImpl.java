@@ -96,6 +96,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     return !ssgPointTargetRepository.findAllByPackNoAndSiteType(packNo, siteType.getShortCode()).isEmpty();
   }
 
+  @Override
   public List<SsgPointTargetResponseDto> findAllByOrderNoAndSiteType(final Long orderNo, final String buyerId, final OrderSiteType siteType) {
     return ssgPointTargetRepository.findAllByOrderNoAndSiteType(orderNo, buyerId, siteType.getShortCode()).stream()
         .map(ssgPointTargetEntityMapper::mapToSsgTarget)
