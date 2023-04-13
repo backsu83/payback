@@ -140,7 +140,7 @@ class PayCashbackRepositoryImplSpec extends Specification {
     cashbackOrderDetailRepository.findById(_ as Long) >> condition
 
     then:
-    def result = repository.isDuplicatedCashback(KeyMap_생성())
+    def result = repository.hasAlreadySaved(KeyMap_생성())
     result == expectedResult
 
     where:

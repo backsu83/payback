@@ -1,18 +1,14 @@
 package com.ebaykorea.payback.core.factory.ssgpoint;
 
-import static java.util.Collections.emptyList;
-
-import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
-import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointStatus;
-import java.math.BigDecimal;
-import java.util.Map;
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -23,15 +19,14 @@ public class SsgPointCreater {
       final Map<Long, RewardSsgPointPolicy> ssgPointPolicies,
       final Order order,
       final KeyMap keyMap,
-      final OrderSiteType orderSiteType,
-      final SsgPointStatus ssgPointStatus
-  ) {
+      final SsgPointState ssgPointState
+      ) {
     return SsgPoint.of(
         keyMap.getPackNo(),
         order.getBuyer().getBuyerNo(),
         order.getOrderDate(),
-        orderSiteType,
-        ssgPointCreater.create(ssgPointPolicies, order, keyMap, ssgPointStatus)
+        ssgPointState.site(),
+        ssgPointCreater.create(ssgPointPolicies, order, keyMap, ssgPointState)
     );
   }
 

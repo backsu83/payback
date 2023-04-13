@@ -1,7 +1,5 @@
 package com.ebaykorea.payback.util;
 
-import static com.ebaykorea.payback.util.PaybackDateTimes.dateTimeFormatForString;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -20,7 +18,7 @@ public class PaybackInstants {
         .toInstant();
   }
 
-  public static final DateTimeFormatter DATE_TIME_FORMATTER = new DateTimeFormatterBuilder()
+  public static final DateTimeFormatter DATE_FORMATTER = new DateTimeFormatterBuilder()
       .appendPattern("yyyy-MM-dd")
       .parseDefaulting(ChronoField.NANO_OF_DAY, 0)
       .toFormatter()

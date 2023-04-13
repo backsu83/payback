@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto;
+package com.ebaykorea.payback.core.dto.ssgpoint;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,7 +41,6 @@ public class SaveSsgPointRequestDto {
   @Schema(description = "포인트적립금액")
   @NotNull
   private BigDecimal saveAmount;
-
 
   @Schema(description = "주문일" , format = "yyyy-MM-dd HH:mm:ss")
   @NotBlank
