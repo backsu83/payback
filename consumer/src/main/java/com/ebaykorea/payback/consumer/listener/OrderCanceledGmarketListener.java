@@ -39,17 +39,17 @@ public class OrderCanceledGmarketListener {
   @Bean
   public KafkaListenerErrorHandler consumeForSsgPointsErrorHandler() {
     return (m, e) -> {
-      final var causedException = e.getCause();
+      final var exceptionMessage = e.getLocalizedMessage();
       final var payload = (OrderCanceledGmarketEvent)m.getPayload();
       for (Long orderNo : payload.getContrNoList()) {
         requestSsgPointService.saveError(orderNo,
             payload.getPackNo(),
             OrderSiteType.Gmarket,
             CONSUME_FAIL,
-            causedException.getMessage(),
+            exceptionMessage,
             "OrderCanceledGmktListener");
       }
-      log.error(causedException.getMessage(), causedException);
+      log.error(exceptionMessage, e.getCause());
       return null;
     };
   }
