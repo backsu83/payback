@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
+import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.ebaykorea.payback.util.PaybackStrings.YES;
+
 @Service
 @RequiredArgsConstructor
 public class SsgPointRepositoryImpl implements SsgPointRepository {
@@ -37,6 +40,26 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
         .filter(SsgPointUnit::getIsPolicy)
         .map(unit -> saveSsgTarget(ssgPoint, unit))
         .collect(Collectors.toUnmodifiableList());
+  }
+
+  @Transactional
+  @Override
+  public List<SsgPointTargetResponseDto> cancel(SsgPoint ssgPoint) {
+    //기존 적립건 cancelYn update
+    ssgPoint.getSsgPointUnits().stream()
+        .filter(SsgPointUnit::getIsPolicy)
+        .forEach(unit -> ssgPointTargetRepository.updateCancelYn(
+            unit.getOrderNo(),
+            ssgPoint.getBuyerNo(),
+            ssgPoint.getOrderSiteType().getShortCode(),
+            PointTradeType.Save.getCode(), //기존 적립건
+            YES,
+            unit.getAdminId(),
+            unit.getAdminId(),
+            Instant.now()
+            ));
+    //취소 데이터 입력
+    return save(ssgPoint);
   }
 
   private SsgPointTargetResponseDto saveSsgTarget(final SsgPoint ssgPoint, final SsgPointUnit ssgPointUnit) {

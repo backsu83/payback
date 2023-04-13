@@ -1,7 +1,6 @@
-package com.ebaykorea.payback.batch.config.client.ssgpoint.dto;
+package com.ebaykorea.payback.batch.client.ssgpoint.dto;
 
 import java.math.BigDecimal;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SsgPointEarnRequest {
+public class SsgPointCancelRequest {
   private String clientId;
   private String apiKey;
   private String tokenId;
@@ -30,13 +29,14 @@ public class SsgPointEarnRequest {
   private String brchId;
   private String recptNo;
   private String recptSeq;
-  private BigDecimal pntNoAddProdAmt;
-  private BigDecimal totAmt;
+
+  private BigDecimal otradeTotAmt;
+  private String otradeBusiDt;
+  private String otradeRecptNo;
+  private String otradeApprId;
   private String orgSaleTradeNo;
-  private List<SsgPointPayInfo> payInfo;
 
   public String getRequestDate() {
     return busiDt + tradeGentdTm;
   }
-
 }

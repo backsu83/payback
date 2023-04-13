@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.batch.job.mapper;
 
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCancelRequest;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCommonResponse;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;

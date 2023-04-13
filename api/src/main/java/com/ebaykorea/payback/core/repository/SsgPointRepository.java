@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface SsgPointRepository {
 
   List<SsgPointTargetResponseDto> save(SsgPoint ssgPoint);
+  List<SsgPointTargetResponseDto> cancel(SsgPoint ssgPoint);
 
   void updatePointStatus(final SsgPoint ssgPoint);
 

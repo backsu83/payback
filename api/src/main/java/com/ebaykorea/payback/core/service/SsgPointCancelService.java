@@ -67,7 +67,7 @@ public class SsgPointCancelService {
         //적립건은 취소
         final var ssgPoint = createSsgPointWithCancelUnit(request, savedSsgPoint);
         log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(ssgPoint));
-        return ssgPointRepository.save(ssgPoint).stream()
+        return ssgPointRepository.cancel(ssgPoint).stream()
             .findAny()
             .orElse(null);
       case Ready:

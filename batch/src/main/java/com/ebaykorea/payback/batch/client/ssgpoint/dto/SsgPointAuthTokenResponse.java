@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.batch.config.client.ssgpoint.dto;
+package com.ebaykorea.payback.batch.client.ssgpoint.dto;
 
 import lombok.Data;
 
