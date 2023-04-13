@@ -36,13 +36,13 @@ class SsgPointGrocery {
       buyerId = (map.buyerId ?: "buyerId") as String
       pointStatus = (map.pointStatus ?: "RR") as String
       tradeType = (map.tradeType ?: "S") as String
-      receiptNo = (map.receiptNo ?: "1") as String
+      receiptNo = (map.receiptNo ?: "GMK230411220000S1") as String
       payAmount = (map.payAmount ?: 1000L) as BigDecimal
       saveAmount = (map.saveAmount ?: 1000L) as BigDecimal
       orderDate = (map.orderDate ?: Instant.parse("2023-04-11T13:00:00.00Z")) as Instant
       scheduleDate = (map.scheduleDate ?: "2023-04-16T13:00:00Z") as String
-      pntApprId = (map.pntApprId ?: "pntApprId") as String
-      adminId = (map.adminId ?: "adminId") as String
+      pntApprId = (map.pntApprId ?: null) as String
+      adminId = (map.adminId ?: null) as String
     }
   }
 
@@ -94,7 +94,7 @@ class SsgPointGrocery {
         (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
 
         (map.isPolicy) as Boolean,
-        (map.state ?: SsgPointGmarketState) as SsgPointState,
+        (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
         (map.adminId ?: "adminId") as String
     )
@@ -107,7 +107,7 @@ class SsgPointGrocery {
         (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
 
         (map.isPolicy) as Boolean,
-        (map.state ?: SsgPointGmarketState) as SsgPointState,
+        (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
         (map.adminId ?: "adminId") as String
     )

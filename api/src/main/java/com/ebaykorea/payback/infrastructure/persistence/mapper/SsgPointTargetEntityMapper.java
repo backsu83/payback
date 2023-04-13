@@ -25,6 +25,7 @@ public interface SsgPointTargetEntityMapper {
   @Mapping(source = "unit.pointStatus.tradeType.code", target = "tradeType")
   @Mapping(source = "unit.pointOrigin.orgReceiptNo", target = "orgReceiptNo")
   @Mapping(source = "unit.pointOrigin.orgApproveId", target = "orgPntApprId")
+  @Mapping(constant = "N", target = "cancelYn")
   @Mapping(constant = "N", target = "adminCancelYn")
   @Mapping(constant = "0L" , target = "tryCount")
   @Mapping(source = "unit.adminId" , target = "manualOprt")
