@@ -8,8 +8,8 @@ import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto
 import com.ebaykorea.payback.core.repository.SsgPointRepository
 import spock.lang.Specification
 
-import static com.ebaykorea.payback.grocery.SaveSsgPointGrocery.CancelSsgPointRequestDto_생성
-import static com.ebaykorea.payback.grocery.SaveSsgPointGrocery.SsgPointTargetResponseDto_생성
+import static com.ebaykorea.payback.grocery.SsgPointGrocery.CancelSsgPointRequestDto_생성
+import static com.ebaykorea.payback.grocery.SsgPointGrocery.SsgPointTargetResponseDto_생성
 
 class SsgPointCancelServiceSpec extends Specification {
   def states = Set.of(new SsgPointGmarketState(), new SsgPointAuctionState())

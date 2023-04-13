@@ -11,7 +11,6 @@ import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointOrderNoEn
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointOrderNoRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +25,9 @@ import java.util.stream.Collectors;
 public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   private final SsgPointTargetRepository ssgPointTargetRepository;
-  private final SsgPointTargetEntityMapper ssgPointTargetEntityMapper;
-  private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
-
   private final SsgPointOrderNoRepository ssgPointOrderNoRepository;
 
+  private final SsgPointTargetEntityMapper ssgPointTargetEntityMapper;
   private final SsgPointOrderNoEntityMapper ssgPointOrderNoEntityMapper;
 
   @Transactional

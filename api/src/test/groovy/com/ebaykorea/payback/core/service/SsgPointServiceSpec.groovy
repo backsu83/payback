@@ -1,15 +1,14 @@
 package com.ebaykorea.payback.core.service
 
-import com.ebaykorea.payback.core.domain.constant.OrderSiteType
+
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointAuctionState
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointGmarketState
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState
 import com.ebaykorea.payback.core.repository.SsgPointRepository
 import spock.lang.Specification
 
-import static com.ebaykorea.payback.grocery.SaveSsgPointGrocery.SaveSsgPointRequestDto_생성
-import static com.ebaykorea.payback.grocery.SaveSsgPointGrocery.SsgPointTargetResponseDto_생성
+import static com.ebaykorea.payback.grocery.SsgPointGrocery.SaveSsgPointRequestDto_생성
+import static com.ebaykorea.payback.grocery.SsgPointGrocery.SsgPointTargetResponseDto_생성
 
 class SsgPointServiceSpec extends Specification {
   def states = Set.of(new SsgPointGmarketState(), new SsgPointAuctionState())
