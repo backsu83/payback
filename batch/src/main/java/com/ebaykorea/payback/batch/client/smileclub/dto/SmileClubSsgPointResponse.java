@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.batch.config.client.smileclub.dto;
+package com.ebaykorea.payback.batch.client.smileclub.dto;
 
 import lombok.Data;
 

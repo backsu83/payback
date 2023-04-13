@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.service
 
-import com.ebaykorea.payback.batch.config.client.smileclub.SmileClubApiClient
-import com.ebaykorea.payback.batch.config.client.ssgpoint.SsgPointApiClient
+import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient
+import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType

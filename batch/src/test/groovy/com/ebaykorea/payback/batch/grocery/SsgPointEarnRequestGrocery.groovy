@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.grocery
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointPayInfo
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointEarnRequest
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointPayInfo
 
 class SsgPointEarnRequestGrocery {
 
