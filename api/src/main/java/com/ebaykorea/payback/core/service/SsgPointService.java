@@ -127,7 +127,8 @@ public class SsgPointService {
     return emptyList();
   }
 
-  public List<VerifyDailySsgPointResponseDto> verifyDailyPoint(final VerifyDailySsgPointResponseDto request){
+  public void verifyDailyPoint(final VerifyDailySsgPointResponseDto request){
+    //List<VerifyDailySsgPointResponseDto>
     //token 호출
     //연동 api 호출
     //DB 저장

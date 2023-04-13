@@ -68,6 +68,7 @@ public class SsgPointController {
    기본적으로 배치/스케쥴로 매일 정해진 시간대에 호출
    미호출(실패)시 어디민을 통한 수동 호출
    건수와 금액은 이 API에서 조회해서 처리한다 (수기입력X)
+   => 수동 호출에 대한 것은 아직 PRD에 정의되어 있지 않았음. PM 논의 후 필요하다면 작업 해야됨.
     */
   return new SsgPointResponse("0000", "success",
           null);
