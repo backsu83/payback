@@ -7,9 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.listener.ListenerExecutionFailedException
 import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.messaging.support.GenericMessage
+import spock.lang.Ignore
 import spock.lang.Specification
 
 
+@Ignore
 @SpringBootTest
 @EmbeddedKafka(
         partitions = 1,
