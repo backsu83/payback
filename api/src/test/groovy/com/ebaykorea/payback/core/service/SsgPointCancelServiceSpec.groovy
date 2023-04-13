@@ -27,7 +27,7 @@ class SsgPointCancelServiceSpec extends Specification {
 
     then:
     result == 결과
-    저장호출횟수 * ssgPointRepository.save(_ as SsgPoint) >> { [결과] }
+    취소호출횟수 * ssgPointRepository.cancel(_ as SsgPoint) >> { [결과] }
     예외저장호출횟수 * ssgPointRepository.setCancelOrderNoNoneSave(_ as SsgPointOrderNoDto) >> {}
     업데이트호출횟수 * ssgPointRepository.updatePointStatus(_ as SsgPoint) >> {}
 
@@ -39,7 +39,7 @@ class SsgPointCancelServiceSpec extends Specification {
     "적립건 취소 처리" | CancelSsgPointRequestDto_생성() | SsgPointTargetResponseDto_생성() | _
     "대기건 보류 처리" | CancelSsgPointRequestDto_생성() | SsgPointTargetResponseDto_생성() | _
     _________________________________________________
-    키조회결과 | 조회결과 | 저장호출횟수 | 예외저장호출횟수 | 업데이트호출횟수 | _
+    키조회결과 | 조회결과 | 취소호출횟수 | 예외저장호출횟수 | 업데이트호출횟수 | _
     SsgPointTargetResponseDto_생성(tradeType: "C") | [키조회결과] | 0 | 0 | 0 | _
     null | [] | 0 | 1 | 0 | _
     SsgPointTargetResponseDto_생성(pointStatus: "SS") | [키조회결과] | 1 | 0 | 0 | _
