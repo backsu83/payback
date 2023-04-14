@@ -4,6 +4,7 @@ import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.MemberType
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.BundleDiscountDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.BuyerDto
+import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.ExtraDiscountDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.ItemSnapshotDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.ItemTypeDto
 import com.ebaykorea.payback.infrastructure.gateway.client.order.dto.OrderBaseDto
@@ -27,6 +28,7 @@ class OrderApiGrocery {
       buyer = (map.buyer ?: BuyerDto_생성(map)) as BuyerDto
       orderUnits = (map.orderUnits ?: [OrderUnitDto_생성(map)]) as List<OrderUnitDto>
       bundleDiscounts = (map.bundleDiscounts ?: null) as List<BundleDiscountDto>
+      extraDiscount = (map.extraDiscount ?: null) as ExtraDiscountDto
     }
   }
 

@@ -38,6 +38,7 @@ public class CashbackCreator {
           final var itemSnapshot = itemSnapshots.findBy(orderUnit.getItemSnapshotKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002 , "itemSnapshot"));
           final var bundleDiscountPrice = order.getBundleDiscountPrice(orderUnit.getOrderUnitKey());
+          final var extraDiscountPrice = order.getExtraDiscountPrice(orderUnit.getOrderUnitKey());
 
           //주문단위(주문번호)별 캐시백 목록
           final var cashbackUnits = cashbackUnitFactory.createCashbackUnits(
@@ -48,6 +49,7 @@ public class CashbackCreator {
               payment,
               itemSnapshot,
               bundleDiscountPrice,
+              extraDiscountPrice,
               rewardCashbackPolicies);
 
           return Cashback.of(orderUnitKey.getBuyOrderNo(), cashbackUnits);

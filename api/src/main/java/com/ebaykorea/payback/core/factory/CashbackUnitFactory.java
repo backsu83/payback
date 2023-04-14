@@ -49,11 +49,12 @@ public class CashbackUnitFactory {
       final Payment payment,
       final ItemSnapshot itemSnapshot,
       final BigDecimal bundleDiscountPrice,
+      final BigDecimal extraDiscountPrice,
       final RewardCashbackPolicies rewardCashbackPolicies
   ) {
     return Stream.of(
-            Stream.of(createSellerCashbackUnit(orderDate, orderUnit, itemSnapshot, bundleDiscountPrice)),
-            createOtherCashbackUnitStream(orderDate, orderUnitKey, orderUnit, member, payment, itemSnapshot, bundleDiscountPrice, rewardCashbackPolicies))
+            Stream.of(createSellerCashbackUnit(orderDate, orderUnit, itemSnapshot, bundleDiscountPrice, extraDiscountPrice)),
+            createOtherCashbackUnitStream(orderDate, orderUnitKey, orderUnit, member, payment, itemSnapshot, bundleDiscountPrice, extraDiscountPrice, rewardCashbackPolicies))
         .flatMap(s -> s)
         .collect(Collectors.toUnmodifiableList());
   }
@@ -63,13 +64,14 @@ public class CashbackUnitFactory {
       final Instant orderDate,
       final OrderUnit orderUnit,
       final ItemSnapshot itemSnapshot,
-      final BigDecimal bundleDiscountPrice
+      final BigDecimal bundleDiscountPrice,
+      final BigDecimal extraDiscountPrice
   ) {
     return sellerCashbackCreator.create(
         getDefaultEnableDate(orderDate),
         itemSnapshot,
-        orderUnit.orderUnitPrice(bundleDiscountPrice, itemSnapshot.getBuyerMileageRate()),
-        orderUnit.orderUnitPrice(bundleDiscountPrice)
+        orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice, itemSnapshot.getBuyerMileageRate()),
+        orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice)
     );
   }
 
@@ -81,6 +83,7 @@ public class CashbackUnitFactory {
       final Payment payment,
       final ItemSnapshot itemSnapshot,
       final BigDecimal bundleDiscountPrice,
+      final BigDecimal extraDiscountPrice,
       final RewardCashbackPolicies rewardCashbackPolicies) {
 
     return rewardCashbackPolicies.findRewardCashbackPolicyMapByCashbackType(orderUnitKey.getBuyOrderNo()) //주문 단위에 해당하는 캐시백 정책만을 가져옵니다
@@ -92,7 +95,7 @@ public class CashbackUnitFactory {
               .map(RewardCashbackPolicy::getCashbackAmount)
               .map(BigDecimal::valueOf)
               .collect(summarizing());
-          final var basisAmount = orderUnit.orderUnitPrice(bundleDiscountPrice);
+          final var basisAmount = orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice);
 
           final var backendCashbackPolicyMap = rewardCashbackPolicies.findRewardBackendCashbackPolicyMap(orderUnitKey.getBuyOrderNo());
 

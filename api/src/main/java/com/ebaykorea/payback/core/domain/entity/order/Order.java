@@ -53,15 +53,21 @@ public class Order {
    */
   Map<String, BigDecimal> bundleDiscountMap;
 
+  /**
+   * 주문 단위 별 즉시 할인 금액
+   */
+  Map<String, BigDecimal> extraDiscountMap;
+
   public static Order of(
       final String orderKey,
       final Long paySeq,
       final Buyer buyer,
       final Instant orderDate,
       final List<OrderUnit> orderUnits,
-      final List<BundleDiscount> bundleDiscounts
+      final List<BundleDiscount> bundleDiscounts,
+      final List<ExtraDiscountUnit> extraDiscountUnits
   ) {
-    return new Order(orderKey, paySeq, buyer, orderDate, orderUnits, makeDiscountMap(bundleDiscounts));
+    return new Order(orderKey, paySeq, buyer, orderDate, orderUnits, makeBundleDiscountMap(bundleDiscounts), makeExtraDiscountMap(extraDiscountUnits));
   }
 
   private Order(
@@ -70,7 +76,8 @@ public class Order {
       final Buyer buyer,
       final Instant orderDate,
       final List<OrderUnit> orderUnits,
-      final Map<String, BigDecimal> bundleDiscountMap
+      final Map<String, BigDecimal> bundleDiscountMap,
+      final Map<String, BigDecimal> extraDiscountMap
   ) {
     this.orderKey = orderKey;
     this.paySeq = paySeq;
@@ -78,6 +85,7 @@ public class Order {
     this.orderDate = orderDate;
     this.orderUnits = orderUnits;
     this.bundleDiscountMap = bundleDiscountMap;
+    this.extraDiscountMap = extraDiscountMap;
 
     validate();
   }
@@ -99,13 +107,20 @@ public class Order {
   }
 
   //orderUnit별 복수할인 적용 금액
-  private static Map<String, BigDecimal> makeDiscountMap(List<BundleDiscount> bundleDiscounts) {
+  private static Map<String, BigDecimal> makeBundleDiscountMap(List<BundleDiscount> bundleDiscounts) {
     return orEmptyStream(bundleDiscounts)
         .map(BundleDiscount::getBundleDiscountUnits)
         .flatMap(Collection::stream)
         .collect(groupingBy(
             BundleDiscountUnit::getOrderUnitKey,
             mapping(BundleDiscountUnit::getDiscountAmount, summarizing())));
+  }
+
+  private static Map<String, BigDecimal> makeExtraDiscountMap(List<ExtraDiscountUnit> extraDiscountUnits) {
+    return orEmptyStream(extraDiscountUnits)
+        .collect(groupingBy(
+            ExtraDiscountUnit::getOrderUnitKey,
+            mapping(ExtraDiscountUnit::getDiscountAmount, summarizing())));
   }
 
   public List<String> findItemSnapshotKeys() {
@@ -115,7 +130,6 @@ public class Order {
   }
 
   // 캐시백 적용 대상 주문 여부
-  //TODO: 글로벌과 G9 여부도 여기서 체크해야할듯
   public boolean isForCashback() {
     return isMember();
   }
@@ -126,6 +140,11 @@ public class Order {
 
   public BigDecimal getBundleDiscountPrice(final String orderUnitKey) {
     return Optional.ofNullable(bundleDiscountMap.get(orderUnitKey))
+        .orElse(BigDecimal.ZERO);
+  }
+
+  public BigDecimal getExtraDiscountPrice(final String orderUnitKey) {
+    return Optional.ofNullable(extraDiscountMap.get(orderUnitKey))
         .orElse(BigDecimal.ZERO);
   }
 
