@@ -1,15 +1,12 @@
 package com.ebaykorea.payback.consumer.listener;
 
 import com.ebaykorea.payback.consumer.event.OrderCanceledGmarketEvent;
-import com.ebaykorea.payback.consumer.event.OrderSiteType;
 import com.ebaykorea.payback.consumer.service.RequestSsgPointService;
 import com.ebaykorea.payback.consumer.util.GsonUtils;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.listener.KafkaListenerErrorHandler;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Component;
 public class OrderCanceledGmarketListener {
 
   private final RequestSsgPointService requestSsgPointService;
-  private static final long CONSUME_FAIL = -2L;
 
   @KafkaListener(
       topics = "${payback.topic.order-canceled-gmkt}",
@@ -35,23 +31,4 @@ public class OrderCanceledGmarketListener {
     );
     requestSsgPointService.cancelSsgPointGmarket(event.getPackNo() , event.getContrNoList());
   }
-
-  @Bean
-  public KafkaListenerErrorHandler consumeForSsgPointsErrorHandler() {
-    return (m, e) -> {
-      final var exceptionMessage = e.getLocalizedMessage();
-      final var payload = (OrderCanceledGmarketEvent)m.getPayload();
-      for (Long orderNo : payload.getContrNoList()) {
-        requestSsgPointService.saveError(orderNo,
-            payload.getPackNo(),
-            OrderSiteType.Gmarket,
-            CONSUME_FAIL,
-            exceptionMessage,
-            "OrderCanceledGmktListener");
-      }
-      log.error(exceptionMessage, e.getCause());
-      return null;
-    };
-  }
-
 }
