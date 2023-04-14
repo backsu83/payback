@@ -86,7 +86,7 @@ public class SsgPointUnit {
     return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.cancel(), pointOrigin, adminId);
   }
 
-  public static SsgPointUnit withHoldUnit(
+  public static SsgPointUnit withholdUnit(
       final Long orderNo,
       final BigDecimal payAmount,
       final BigDecimal saveAmount,
@@ -96,36 +96,36 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.withHold(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.withhold(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리
   public String getReceiptNo(final String ticker, final Instant orderDate) {
-    return new StringBuilder()
-        .append(ticker)
-        .append(DATE_TIME_STRING_FORMATTER.format(orderDate))
-        .append(pointStatus.getTradeType().getCode())
-        .append(String.valueOf(orderNo).substring(String.valueOf(orderNo).length() - 4))
-        .toString();
+    return String.format("%s%s%s%s",
+        ticker,
+        DATE_TIME_STRING_FORMATTER.format(orderDate),
+        pointStatus.getTradeType().getCode(),
+        String.valueOf(orderNo).substring(orderNoLength() - (Math.min(orderNoLength(), 4))));
+  }
+
+  private int orderNoLength() {
+    return String.valueOf(orderNo).length();
   }
 
   //S or C +주문번호(16진수) + padding
   public String getTradeNo() {
-    String tradeNo = new StringBuilder()
-        .append(pointStatus.getTradeType().getCode())
-        .append(Long.toHexString(orderNo))
-        .toString()
-        .toUpperCase();
+    String tradeNo = (String.format("%s%s",
+        pointStatus.getTradeType().getCode(),
+        Long.toHexString(orderNo))).toUpperCase();
     return Strings.padEnd(tradeNo, 10, '0');
   }
 
   //S or C +주문번호 + MMDDHH + padding
   public String getTransactionNo() {
-    String transactionNo = new StringBuilder()
-        .append(pointStatus.getTradeType().getCode())
-        .append(orderNo)
-        .append(TIME_STRING_FORMATTER.format(Instant.now()))
-        .toString();
+    String transactionNo = String.format("%s%d%s",
+        pointStatus.getTradeType().getCode(),
+        orderNo,
+        TIME_STRING_FORMATTER.format(Instant.now()));
     return Strings.padEnd(transactionNo, 20, '0');
   }
 }

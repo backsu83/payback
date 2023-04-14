@@ -30,7 +30,7 @@ public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEn
     @Modifying
     @Query("update SsgPointTargetEntity s set s.pointStatus = ?1, s.manualOprt = ?2, s.updateOperator = ?3, s.updateDate = ?4 " +
             "where s.orderNo = ?5 and s.buyerId = ?6 and s.siteType = ?7 and s.tradeType = ?8")
-    int updateCancelStatus(String pointStatus, @Nullable String manualOprt, String updateOperator, Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
+    int updatePointStatus(String pointStatus, @Nullable String manualOprt, String updateOperator, Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
 
     @Transactional
     @Modifying
@@ -39,7 +39,7 @@ public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEn
     void updateCancelYn(long orderNo, String buyerId, String siteType, String tradeType,
                         String cancelYn, String manualOprt, String updateOperator, Instant updateDate);
 
-    List<SsgPointTargetEntity> findAllByPackNoAndSiteType(Long packNo, String siteType);
+    List<SsgPointTargetEntity> findAllByPackNoAndBuyerIdAndSiteTypeAndTradeType(Long packNo, String buyerId, String siteType, String tradeType);
 
     List<SsgPointTargetEntity> findAllByOrderNoAndBuyerIdAndSiteType(Long orderNo, String buyerId, String siteType);
 }

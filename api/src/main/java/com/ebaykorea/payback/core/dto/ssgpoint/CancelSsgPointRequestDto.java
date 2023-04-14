@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.core.dto.ssgpoint;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CancelSsgPointRequestDto {
+public class CancelSsgPointRequestDto implements SsgPointRequestable {
 
   @Schema(description = "사이트타입" , defaultValue = "G")
   @NotNull
@@ -28,4 +29,9 @@ public class CancelSsgPointRequestDto {
 
   @Schema(description = "수동 처리 관리지 아이디")
   private String adminId;
+
+  @Override
+  public SsgPointRequestKey key(long orderNo) {
+    return new SsgPointRequestKey(orderNo, buyerId, siteType, PointTradeType.Save);
+  }
 }

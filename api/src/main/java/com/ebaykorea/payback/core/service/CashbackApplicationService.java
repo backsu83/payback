@@ -48,7 +48,7 @@ public class CashbackApplicationService {
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
 
     final var cashbackAlreadySaved = payCashbackRepository.hasAlreadySaved(orderKeyMap);
-    final var ssgPointsAlreadySaved = ssgPointRepository.hasAlreadySaved(orderKeyMap.getPackNo(), OrderSiteType.Gmarket);
+    final var ssgPointsAlreadySaved = ssgPointRepository.hasAlreadySaved(orderKeyMap.getPackNo(), order.getBuyer().getBuyerNo(), OrderSiteType.Gmarket);
 
     if (cashbackAlreadySaved && ssgPointsAlreadySaved) {
       return CASHBACK_DUPLICATED;
@@ -81,7 +81,7 @@ public class CashbackApplicationService {
 
     if (!ssgPointsAlreadySaved) {
       final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
-      final var ssgPoint = ssgPointCreater.create(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState);
+      final var ssgPoint = ssgPointCreater.withReadyUnits(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState);
       log.info("domain entity ssgPoint: {}", GsonUtils.toJsonPretty(ssgPoint));
 
       ssgPointRepository.save(ssgPoint);

@@ -7,4 +7,6 @@ class TestConstant {
   static final def ORDER_DATE_ADD_TO_30_DAYS = Instant.parse("2022-11-15T15:00:00Z")
   static final def USE_ENABLE_DATE = Instant.parse("2023-10-16T15:00:00Z")
 
+  static final def SSGPOINT_ORDER_DATE = Instant.parse("2023-04-11T13:00:00.00Z")
+  static final def SSGPOINT_SCHEDULE_DATE = Instant.parse("2023-04-16T13:00:00.00Z")
 }
