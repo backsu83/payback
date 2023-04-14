@@ -2,6 +2,7 @@ package com.ebaykorea.payback.consumer.service;
 
 import com.ebaykorea.payback.consumer.client.PaybackApiClient;
 import com.ebaykorea.payback.consumer.client.dto.PaybackSsgPointCancelRequest;
+import com.ebaykorea.payback.consumer.client.dto.PaybackSsgPointCancelResponse;
 import com.ebaykorea.payback.consumer.event.OrderSiteType;
 import com.ebaykorea.payback.consumer.repository.opayreward.CancelConsumerFailRepository;
 import com.ebaykorea.payback.consumer.repository.opayreward.entity.CancelConsumerFailEntity;
@@ -24,12 +25,13 @@ public class RequestSsgPointService {
   public void cancelSsgPointGmarket(final Long packNo , final List<Long> orderNos) {
     for (Long orderNo : orderNos) {
       try {
-      paybackApiClient.cancelSsgPoint(PaybackSsgPointCancelRequest.builder()
-              .orderNo(orderNo)
-              .packNo(packNo)
-              .siteType(OrderSiteType.Gmarket)
-              .build())
-          .ifPresent(result -> saveError(orderNo, packNo, OrderSiteType.Gmarket, result.getCode(),result.getMessage(),"cancelSsgPointGmarket"));
+        paybackApiClient.cancelSsgPoint(orderNo,
+              PaybackSsgPointCancelRequest.builder()
+                  .packNo(packNo)
+                  .siteType(OrderSiteType.Gmarket)
+                  .build())
+            .filter(PaybackSsgPointCancelResponse::isNotSuccess)
+            .ifPresent(result -> saveError(orderNo, packNo, OrderSiteType.Gmarket, result.getCode(),result.getMessage(),"cancelSsgPointGmarket"));
       } catch (Exception ex) {
         saveError(orderNo, packNo, OrderSiteType.Gmarket ,FAIL, ex.getMessage(), "cancelSsgPointGmarket");
       }
@@ -38,11 +40,12 @@ public class RequestSsgPointService {
 
   public void cancelSsgPointAuction(final long packNo, final long orderNo) {
     try {
-      paybackApiClient.cancelSsgPoint(PaybackSsgPointCancelRequest.builder()
-              .orderNo(orderNo)
-              .packNo(packNo)
-              .siteType(OrderSiteType.Auction)
-              .build())
+      paybackApiClient.cancelSsgPoint(orderNo,
+              PaybackSsgPointCancelRequest.builder()
+                  .packNo(packNo)
+                  .siteType(OrderSiteType.Auction)
+                  .build())
+          .filter(PaybackSsgPointCancelResponse::isNotSuccess)
           .ifPresent(result -> saveError(orderNo, packNo, OrderSiteType.Auction, result.getCode(),result.getMessage(),"cancelSsgPointAuction"));
     } catch (Exception ex) {
       saveError(orderNo, packNo, OrderSiteType.Auction, FAIL, ex.getMessage(), "cancelSsgPointAuction");
@@ -62,6 +65,7 @@ public class RequestSsgPointService {
             .orderNo(orderNo)
             .packNo(packNo)
             .siteType(siteType.getShortCode())
+            .status("FAIL")
             .responseCode(String.valueOf(responseCode))
             .responseMessage(resultMessage)
             .insertOperator(oprt)

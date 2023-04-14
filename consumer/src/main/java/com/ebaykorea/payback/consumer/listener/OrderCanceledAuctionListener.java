@@ -32,20 +32,4 @@ public class OrderCanceledAuctionListener {
     );
     requestSsgPointService.cancelSsgPointAuction(event.getPayNo() , event.getOrderNo());
   }
-
-  @Bean
-  public KafkaListenerErrorHandler consumeForSsgPointsErrorHandler() {
-    return (m, e) -> {
-      final var causedException = e.getCause();
-      final var payload = (OrderCanceledAuctionEvent)m.getPayload();
-      requestSsgPointService.saveError(payload.getOrderNo(),
-          payload.getPayNo(),
-          OrderSiteType.Auction,
-          CONSUME_FAIL,
-          causedException.getMessage(),
-          "OrderCanceledAuctionListener");
-      log.error(causedException.getMessage(), causedException);
-      return null;
-    };
-  }
 }

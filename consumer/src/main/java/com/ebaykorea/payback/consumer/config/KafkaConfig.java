@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.consumer.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.ObjectProvider;
@@ -15,6 +16,7 @@ import org.springframework.kafka.annotation.KafkaListenerConfigurer;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.KafkaListenerErrorHandler;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -22,6 +24,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @EnableKafka
 @Configuration
 @RequiredArgsConstructor
@@ -98,6 +101,17 @@ public class KafkaConfig implements KafkaListenerConfigurer {
   @Override
   public void configureKafkaListeners(KafkaListenerEndpointRegistrar registrar) {
     registrar.setValidator(this.validator);
+  }
+
+  @Bean
+  public KafkaListenerErrorHandler kafkaErrorHandler() {
+    return (m, e) -> {
+      /**
+       * error 로그 기록
+       */
+      log.error("[KafkaErrorHandler] kafkaMessage=[" + m.getPayload() + "], errorMessage=[" + e.getMessage() + "]");
+      return null;
+    };
   }
 }
 
