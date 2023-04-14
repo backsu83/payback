@@ -84,8 +84,18 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   }
 
   @Override
-  public int retryFailPointStatus(String manualOprt, String updateOperator, Instant updateDate, Long orderNo, String buyerId, String siteType, String tradeType) {
-    return ssgPointTargetRepository.retryFailPointStatus(PointStatusType.Ready.getCode(), 0L, manualOprt, updateOperator, updateDate, orderNo, buyerId, siteType, tradeType, PointStatusType.Fail.getCode());
+  public int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, String updateOperator, Instant updateDate) {
+    return ssgPointTargetRepository.retryFailPointStatus(
+        PointStatusType.Ready.getCode(),
+        0L,
+        manualOprt,
+        updateOperator,
+        updateDate,
+        key.getOrderNo(),
+        key.getBuyerId(),
+        key.getSiteType().getShortCode(),
+        key.getPointTradeType().getCode(),
+        PointStatusType.Fail.getCode());
   }
 
   @Transactional(readOnly = true)

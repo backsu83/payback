@@ -2,11 +2,11 @@ package com.ebaykorea.payback.core.service;
 
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
+import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointCreater;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.util.PaybackOperators;
 import com.ebaykorea.payback.util.support.GsonUtils;
@@ -24,9 +24,8 @@ import static com.ebaykorea.payback.util.PaybackInstants.now;
 @Service
 @RequiredArgsConstructor
 public class SsgPointCancelService {
-
-  private final SsgPointStateDelegate ssgPointStateDelegate;
   private final SsgPointRepository ssgPointRepository;
+  private final SsgPointCreater ssgPointCreater;
 
   public SsgPointTarget cancelPoint(final Long orderNo, final CancelSsgPointRequestDto request) {
     final var ssgPoints = ssgPointRepository.findAllByOrderNoAndSiteType(orderNo, request.getBuyerId(), request.getSiteType());
@@ -64,14 +63,14 @@ public class SsgPointCancelService {
     switch (PointStatusType.from(savedSsgPoint.getPointStatus())) {
       case Success:
         //적립건은 취소
-        final var ssgPoint = createSsgPointWithCancelUnit(request, savedSsgPoint);
+        final var ssgPoint = ssgPointCreater.createWithCancelUnit(request, savedSsgPoint);
         log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(ssgPoint));
         return ssgPointRepository.cancel(ssgPoint).stream()
             .findAny()
             .orElse(null);
       case Ready:
         //대기건은 보류 처리
-        final var withHoldSsgPoint = createSsgPointWithWithHold(request, savedSsgPoint);
+        final var withHoldSsgPoint = ssgPointCreater.createWithWithHoldUnit(request, savedSsgPoint);
         ssgPointRepository.setPointStatus(withHoldSsgPoint);
         return ssgPointRepository.findByKey(request.key(orderNo))
             .orElse(null);
@@ -79,51 +78,4 @@ public class SsgPointCancelService {
         return savedSsgPoint;
     }
   }
-
-  private SsgPoint createSsgPointWithCancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointDto) {
-    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
-
-    final var ssgPointUnit = SsgPointUnit.cancelUnit(
-        ssgPointDto.getOrderNo(),
-        ssgPointDto.getPayAmount(),
-        ssgPointDto.getSaveAmount(),
-        now(), //취소는 현재날짜 (yyyy-mm-dd)
-        true,
-        ssgPointStrategy,
-        SsgPointOrigin.builder()
-            .orgApproveId(ssgPointDto.getPntApprId())
-            .orgReceiptNo(ssgPointDto.getReceiptNo())
-            .build(),
-        request.getAdminId()
-    );
-
-    return createSsgPoint(request, ssgPointDto, ssgPointUnit);
-  }
-
-  private SsgPoint createSsgPointWithWithHold(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointDto) {
-    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
-
-    final var ssgPointUnit = SsgPointUnit.withholdUnit(
-        ssgPointDto.getOrderNo(),
-        ssgPointDto.getPayAmount(),
-        ssgPointDto.getSaveAmount(),
-        now(), //보류는 현재날짜 (yyyy-mm-dd)
-        true,
-        ssgPointStrategy,
-        null,
-        request.getAdminId()
-    );
-
-    return createSsgPoint(request, ssgPointDto, ssgPointUnit);
-  }
-
-  private SsgPoint createSsgPoint(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointDto, SsgPointUnit ssgPointUnit) {
-    return SsgPoint.of(
-        ssgPointDto.getPackNo(),
-        ssgPointDto.getBuyerId(),
-        ssgPointDto.getOrderDate(),
-        request.getSiteType(),
-        List.of(ssgPointUnit));
-  }
-
 }

@@ -17,7 +17,7 @@ public interface SsgPointRepository {
 
   void setPointStatus(final SsgPoint ssgPoint);
 
-  int retryFailPointStatus(String manualOprt, String updateOperator, Instant updateDate, Long orderNo, String buyerId, String siteType, String tradeType);
+  int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, String updateOperator, Instant updateDate);
 
   Optional<SsgPointTarget> findByKey(SsgPointRequestKey key);
 
