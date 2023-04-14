@@ -9,6 +9,11 @@ import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
+import static com.ebaykorea.payback.grocery.OrderGrocery.ExtraDiscountUnit_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshot_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnitKey_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.OrderUnit_생성
+import static com.ebaykorea.payback.grocery.OrderGrocery.Order_생성
 import static com.ebaykorea.payback.grocery.PaymentGrocery.PaymentMethodSub_생성
 import static com.ebaykorea.payback.grocery.PaymentGrocery.스마일페이_Payment_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.*
