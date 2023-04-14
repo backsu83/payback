@@ -65,7 +65,7 @@ public class SsgPointCancelService {
             .orElse(null);
       case Ready:
         //대기건은 보류 처리
-        final var withHoldSsgPoint = ssgPointCreater.withWithHoldUnit(request, savedSsgPoint);
+        final var withHoldSsgPoint = ssgPointCreater.withWithholdUnit(request, savedSsgPoint);
         ssgPointRepository.setPointStatus(withHoldSsgPoint);
         return ssgPointRepository.findByKey(request.key(orderNo))
             .orElse(null);

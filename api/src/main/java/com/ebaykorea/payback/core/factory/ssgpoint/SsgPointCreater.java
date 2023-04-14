@@ -42,7 +42,7 @@ public class SsgPointCreater {
         List.of(ssgPointUnitCreater.cancelUnit(request, ssgPointTarget)));
   }
 
-  public SsgPoint withWithHoldUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
+  public SsgPoint withWithholdUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
     return SsgPoint.of(
         ssgPointTarget.getPackNo(),
         ssgPointTarget.getBuyerId(),
