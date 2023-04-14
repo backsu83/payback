@@ -6,7 +6,8 @@ import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
-import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointOrderNoEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEntityMapper;
@@ -35,7 +36,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   @Transactional
   @Override
-  public List<SsgPointTargetResponseDto> save(final SsgPoint ssgPoint) {
+  public List<SsgPointTarget> save(final SsgPoint ssgPoint) {
     return ssgPoint.getSsgPointUnits().stream()
         .filter(SsgPointUnit::getIsPolicy)
         .map(unit -> saveSsgTarget(ssgPoint, unit))
@@ -44,7 +45,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   @Transactional
   @Override
-  public List<SsgPointTargetResponseDto> cancel(SsgPoint ssgPoint) {
+  public List<SsgPointTarget> cancel(SsgPoint ssgPoint) {
     //기존 적립건 cancelYn update
     ssgPoint.getSsgPointUnits().stream()
         .filter(SsgPointUnit::getIsPolicy)
@@ -62,15 +63,15 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     return save(ssgPoint);
   }
 
-  private SsgPointTargetResponseDto saveSsgTarget(final SsgPoint ssgPoint, final SsgPointUnit ssgPointUnit) {
+  private SsgPointTarget saveSsgTarget(final SsgPoint ssgPoint, final SsgPointUnit ssgPointUnit) {
     final var ssgPointTargetEntity = ssgPointTargetEntityMapper.map(ssgPoint, ssgPointUnit);
     return ssgPointTargetEntityMapper.mapToSsgTarget(ssgPointTargetRepository.save(ssgPointTargetEntity));
   }
 
   @Override
-  public void updatePointStatus(final SsgPoint ssgPoint) {
+  public void setPointStatus(final SsgPoint ssgPoint) {
     ssgPoint.getSsgPointUnits()
-        .forEach(ssgPointUnit -> ssgPointTargetRepository.updateCancelStatus(
+        .forEach(ssgPointUnit -> ssgPointTargetRepository.updatePointStatus(
             ssgPointUnit.getPointStatus().getStatusType().getCode(),
             ssgPointUnit.getAdminId(),
             ssgPointUnit.getAdminId(),
@@ -89,23 +90,24 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   @Transactional(readOnly = true)
   @Override
-  public Optional<SsgPointTargetResponseDto> findByKey(Long orderId, String buyerId, String siteType, String tradeType) {
-    return ssgPointTargetRepository.findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(orderId, buyerId, siteType, tradeType)
+  public Optional<SsgPointTarget> findByKey(final SsgPointRequestKey key) {
+    return ssgPointTargetRepository.findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(key.getOrderNo(), key.getBuyerId(), key.getSiteType().getShortCode(), key.getPointTradeType().getCode())
         .map(ssgPointTargetEntityMapper::mapToSsgTarget);
   }
 
   @Override
-  public void setCancelOrderNoNoneSave(SsgPointOrderNoDto ssgPointOrderNoDto) {
+  public void saveExceptOrderNo(SsgPointOrderNoDto ssgPointOrderNoDto) {
     ssgPointOrderNoRepository.save(ssgPointOrderNoEntityMapper.map(ssgPointOrderNoDto));
   }
 
   @Override
-  public boolean hasAlreadySaved(final Long packNo, final OrderSiteType siteType) {
-    return !ssgPointTargetRepository.findAllByPackNoAndSiteType(packNo, siteType.getShortCode()).isEmpty();
+  public boolean hasAlreadySaved(final Long packNo, final String buyerId, final OrderSiteType siteType) {
+    return !ssgPointTargetRepository.findAllByPackNoAndBuyerIdAndSiteTypeAndTradeType(
+        packNo, buyerId, siteType.getShortCode(), PointTradeType.Save.getCode()).isEmpty();
   }
 
   @Override
-  public List<SsgPointTargetResponseDto> findAllByOrderNoAndSiteType(final Long orderNo, final String buyerId, final OrderSiteType siteType) {
+  public List<SsgPointTarget> findAllByOrderNoAndSiteType(final Long orderNo, final String buyerId, final OrderSiteType siteType) {
     return ssgPointTargetRepository.findAllByOrderNoAndBuyerIdAndSiteType(orderNo, buyerId, siteType.getShortCode()).stream()
         .map(ssgPointTargetEntityMapper::mapToSsgTarget)
         .collect(Collectors.toUnmodifiableList());

@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SsgPointTargetResponseDto {
+public class SsgPointTarget {
   private Long packNo;
   private Long orderNo;
   private String buyerId;

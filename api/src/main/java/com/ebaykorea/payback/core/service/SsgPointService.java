@@ -1,10 +1,9 @@
 package com.ebaykorea.payback.core.service;
 
-import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto;
-import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.dto.ssgpoint.UpdateSsgPointTradeStatusRequestDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.util.PaybackOperators;
@@ -29,13 +28,9 @@ public class SsgPointService {
   private final SsgPointStateDelegate ssgPointStateDelegate;
   private final SsgPointRepository ssgPointRepository;
 
-  public SsgPointTargetResponseDto earnPoint(final SaveSsgPointRequestDto request) {
+  public SsgPointTarget earnPoint(final SaveSsgPointRequestDto request) {
 
-    final var maybeSsgPointSaveTarget = ssgPointRepository.findByKey(
-        request.getOrderNo(),
-        request.getBuyerId(),
-        request.getSiteType().getShortCode(),
-        PointTradeType.Save.getCode());
+    final var maybeSsgPointSaveTarget = ssgPointRepository.findByKey(request.key(request.getOrderNo()));
     if (maybeSsgPointSaveTarget.isPresent()) {
       return maybeSsgPointSaveTarget.get();
     }
@@ -64,12 +59,12 @@ public class SsgPointService {
   }
 
   //TODO
-  public SsgPointTargetResponseDto retryFailPointStatus(final Long orderNo, final UpdateSsgPointTradeStatusRequestDto request) {
+  public SsgPointTarget retryFailPointStatus(final Long orderNo, final UpdateSsgPointTradeStatusRequestDto request) {
     final var local = PaybackOperators.operator(request.getBuyerId());
     final var updateCount = ssgPointRepository.retryFailPointStatus(request.getAdminId(),
         local, Instant.now(), orderNo, request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType());
     if (updateCount > 0) {
-      return ssgPointRepository.findByKey(orderNo, request.getBuyerId(), request.getSiteType().getShortCode(), request.getTradeType())
+      return ssgPointRepository.findByKey(request.key(orderNo))
           .orElse(null);
     }
     return null;

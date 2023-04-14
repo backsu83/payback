@@ -86,7 +86,7 @@ public class SsgPointUnit {
     return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.cancel(), pointOrigin, adminId);
   }
 
-  public static SsgPointUnit withHoldUnit(
+  public static SsgPointUnit withholdUnit(
       final Long orderNo,
       final BigDecimal payAmount,
       final BigDecimal saveAmount,
@@ -96,7 +96,7 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.withHold(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.withhold(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리

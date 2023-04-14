@@ -10,7 +10,7 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointGmarketSt
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState
 import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto
 import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto
-import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTargetResponseDto
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget
 
 import java.time.Instant
 
@@ -29,8 +29,8 @@ class SsgPointGrocery {
     )
   }
 
-  static def SsgPointTargetResponseDto_생성(Map map = [:]) {
-    new SsgPointTargetResponseDto().tap {
+  static def SsgPointTarget_생성(Map map = [:]) {
+    new SsgPointTarget().tap {
       packNo = (map.packNo ?: 1L) as Long
       orderNo = (map.orderNo ?: 1L) as Long
       buyerId = (map.buyerId ?: "buyerId") as String
@@ -100,7 +100,7 @@ class SsgPointGrocery {
     )
   }
   static def SsgPointUnit_보류상태_생성(Map map = [:]) {
-    SsgPointUnit.withHoldUnit(
+    SsgPointUnit.withholdUnit(
         (map.orderNo ?: 1L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,

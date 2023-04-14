@@ -1,13 +1,12 @@
 package com.ebaykorea.payback.core.service;
 
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
-import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
-import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.util.PaybackOperators;
 import com.ebaykorea.payback.util.support.GsonUtils;
@@ -29,12 +28,12 @@ public class SsgPointCancelService {
   private final SsgPointStateDelegate ssgPointStateDelegate;
   private final SsgPointRepository ssgPointRepository;
 
-  public SsgPointTargetResponseDto cancelPoint(final Long orderNo, final CancelSsgPointRequestDto request) {
+  public SsgPointTarget cancelPoint(final Long orderNo, final CancelSsgPointRequestDto request) {
     final var ssgPoints = ssgPointRepository.findAllByOrderNoAndSiteType(orderNo, request.getBuyerId(), request.getSiteType());
 
     // 취소 요청 데이터가 이미 있는지 여부
     final var maybeCanceledSsgPoint = ssgPoints.stream()
-        .filter(SsgPointTargetResponseDto::isCancelType)
+        .filter(SsgPointTarget::isCancelType)
         .findAny();
     if (maybeCanceledSsgPoint.isPresent()) {
       return maybeCanceledSsgPoint.get();
@@ -42,14 +41,14 @@ public class SsgPointCancelService {
 
     // 적립 요청 데이터 여부
     final var maybeSavedSsgPoint = ssgPoints.stream()
-        .filter(SsgPointTargetResponseDto::isSaveType)
+        .filter(SsgPointTarget::isSaveType)
         .findAny();
 
     final var local = PaybackOperators.operator(request.getBuyerId());
 
     // 적립 데이터가 없는 시점에 취소가 들어온 경우 예외 데이터 저장
     if (maybeSavedSsgPoint.isEmpty()) {
-      ssgPointRepository.setCancelOrderNoNoneSave(
+      ssgPointRepository.saveExceptOrderNo(
           SsgPointOrderNoDto.of(
               orderNo,
               request.getSiteType().getShortCode(),
@@ -73,15 +72,15 @@ public class SsgPointCancelService {
       case Ready:
         //대기건은 보류 처리
         final var withHoldSsgPoint = createSsgPointWithWithHold(request, savedSsgPoint);
-        ssgPointRepository.updatePointStatus(withHoldSsgPoint);
-        return ssgPointRepository.findByKey(orderNo, savedSsgPoint.getBuyerId(), request.getSiteType().getShortCode(), PointTradeType.Save.getCode())
+        ssgPointRepository.setPointStatus(withHoldSsgPoint);
+        return ssgPointRepository.findByKey(request.key(orderNo))
             .orElse(null);
       default:
         return savedSsgPoint;
     }
   }
 
-  private SsgPoint createSsgPointWithCancelUnit(final CancelSsgPointRequestDto request, final SsgPointTargetResponseDto ssgPointDto) {
+  private SsgPoint createSsgPointWithCancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointDto) {
     final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
 
     final var ssgPointUnit = SsgPointUnit.cancelUnit(
@@ -101,10 +100,10 @@ public class SsgPointCancelService {
     return createSsgPoint(request, ssgPointDto, ssgPointUnit);
   }
 
-  private SsgPoint createSsgPointWithWithHold(final CancelSsgPointRequestDto request, final SsgPointTargetResponseDto ssgPointDto) {
+  private SsgPoint createSsgPointWithWithHold(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointDto) {
     final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
 
-    final var ssgPointUnit = SsgPointUnit.withHoldUnit(
+    final var ssgPointUnit = SsgPointUnit.withholdUnit(
         ssgPointDto.getOrderNo(),
         ssgPointDto.getPayAmount(),
         ssgPointDto.getSaveAmount(),
@@ -118,7 +117,7 @@ public class SsgPointCancelService {
     return createSsgPoint(request, ssgPointDto, ssgPointUnit);
   }
 
-  private SsgPoint createSsgPoint(final CancelSsgPointRequestDto request, final SsgPointTargetResponseDto ssgPointDto, SsgPointUnit ssgPointUnit) {
+  private SsgPoint createSsgPoint(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointDto, SsgPointUnit ssgPointUnit) {
     return SsgPoint.of(
         ssgPointDto.getPackNo(),
         ssgPointDto.getBuyerId(),
