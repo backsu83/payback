@@ -1,8 +1,6 @@
 package com.ebaykorea.payback.core.service;
 
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
@@ -15,9 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.List;
-
-import static com.ebaykorea.payback.util.PaybackInstants.now;
 
 //TODO: SRP를 위해 조회결과를 리턴하지 않도록
 @Slf4j
@@ -63,14 +58,14 @@ public class SsgPointCancelService {
     switch (PointStatusType.from(savedSsgPoint.getPointStatus())) {
       case Success:
         //적립건은 취소
-        final var ssgPoint = ssgPointCreater.createWithCancelUnit(request, savedSsgPoint);
+        final var ssgPoint = ssgPointCreater.withCancelUnit(request, savedSsgPoint);
         log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(ssgPoint));
         return ssgPointRepository.cancel(ssgPoint).stream()
             .findAny()
             .orElse(null);
       case Ready:
         //대기건은 보류 처리
-        final var withHoldSsgPoint = ssgPointCreater.createWithWithHoldUnit(request, savedSsgPoint);
+        final var withHoldSsgPoint = ssgPointCreater.withWithHoldUnit(request, savedSsgPoint);
         ssgPointRepository.setPointStatus(withHoldSsgPoint);
         return ssgPointRepository.findByKey(request.key(orderNo))
             .orElse(null);

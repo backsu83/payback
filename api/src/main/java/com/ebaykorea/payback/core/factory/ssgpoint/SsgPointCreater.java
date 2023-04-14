@@ -18,7 +18,7 @@ import java.util.Map;
 public class SsgPointCreater {
   private final SsgPointUnitCreater ssgPointUnitCreater;
 
-  public SsgPoint create(
+  public SsgPoint withReadyUnits(
       final Map<Long, RewardSsgPointPolicy> ssgPointPolicies,
       final Order order,
       final KeyMap keyMap,
@@ -29,25 +29,25 @@ public class SsgPointCreater {
         order.getBuyer().getBuyerNo(),
         order.getOrderDate(),
         ssgPointState.site(),
-        ssgPointUnitCreater.createReadyUnits(ssgPointPolicies, order, keyMap, ssgPointState)
+        ssgPointUnitCreater.readyUnits(ssgPointPolicies, order, keyMap, ssgPointState)
     );
   }
 
-  public SsgPoint createWithCancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
+  public SsgPoint withCancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
     return SsgPoint.of(
         ssgPointTarget.getPackNo(),
         ssgPointTarget.getBuyerId(),
         ssgPointTarget.getOrderDate(),
         request.getSiteType(),
-        List.of(ssgPointUnitCreater.createCancelUnit(request, ssgPointTarget)));
+        List.of(ssgPointUnitCreater.cancelUnit(request, ssgPointTarget)));
   }
 
-  public SsgPoint createWithWithHoldUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
+  public SsgPoint withWithHoldUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
     return SsgPoint.of(
         ssgPointTarget.getPackNo(),
         ssgPointTarget.getBuyerId(),
         ssgPointTarget.getOrderDate(),
         request.getSiteType(),
-        List.of(ssgPointUnitCreater.createWithholdUnit(request, ssgPointTarget)));
+        List.of(ssgPointUnitCreater.withholdUnit(request, ssgPointTarget)));
   }
 }

@@ -27,7 +27,7 @@ import static com.ebaykorea.payback.util.PaybackInstants.now;
 public class SsgPointUnitCreater {
   private final SsgPointStateDelegate ssgPointStateDelegate;
 
-  public List<SsgPointUnit> createReadyUnits(
+  public List<SsgPointUnit> readyUnits(
       final Map<Long, RewardSsgPointPolicy> policies,
       final Order order,
       final KeyMap keyMap,
@@ -57,7 +57,7 @@ public class SsgPointUnitCreater {
         .collect(Collectors.toUnmodifiableList());
   }
 
-  public SsgPointUnit createCancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
+  public SsgPointUnit cancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
     final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
 
     return SsgPointUnit.cancelUnit(
@@ -75,7 +75,7 @@ public class SsgPointUnitCreater {
     );
   }
 
-  public SsgPointUnit createWithholdUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
+  public SsgPointUnit withholdUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
     final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
 
     return SsgPointUnit.withholdUnit(
