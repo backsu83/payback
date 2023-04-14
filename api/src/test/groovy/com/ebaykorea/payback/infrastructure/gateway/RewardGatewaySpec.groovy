@@ -9,7 +9,6 @@ import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
-import static com.ebaykorea.payback.grocery.OrderGrocery.*
 import static com.ebaykorea.payback.grocery.PaymentGrocery.PaymentMethodSub_생성
 import static com.ebaykorea.payback.grocery.PaymentGrocery.스마일페이_Payment_생성
 import static com.ebaykorea.payback.grocery.RewardApiGrocery.*
@@ -69,9 +68,11 @@ class RewardGatewaySpec extends Specification {
     desc | 주문
     "기본" | Order_생성()
     "여러 주문" | Order_생성(orderUnits: [OrderUnit_생성(), OrderUnit_생성(orderUnitKey: "orderUnitKey2")])
+    "즉시할인 금액을 차감해야 한다" | Order_생성(extraDiscountUnits: [ExtraDiscountUnit_생성()])
     _________________________________________________
     상품 | 키 | expectResult
     ["itemSnapshotKey1": ItemSnapshot_생성()] | ["orderUnitKey1": OrderUnitKey_생성()] | [CashbackRewardGoodRequestDto_생성()]
     ["itemSnapshotKey1": ItemSnapshot_생성()] | ["orderUnitKey1": OrderUnitKey_생성(), "orderUnitKey2": OrderUnitKey_생성(orderUnitKey: "orderUnitKey2", buyOrderNo: 2L)] | [CashbackRewardGoodRequestDto_생성(), CashbackRewardGoodRequestDto_생성(key: "2")]
+    ["itemSnapshotKey1": ItemSnapshot_생성()] | ["orderUnitKey1": OrderUnitKey_생성()] | [CashbackRewardGoodRequestDto_생성(price: 900L)]
   }
 }

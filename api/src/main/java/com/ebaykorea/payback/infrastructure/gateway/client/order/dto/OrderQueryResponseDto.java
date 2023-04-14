@@ -23,4 +23,7 @@ public class OrderQueryResponseDto {
 
   /** 주문 복수 할인 정보 */
   private List<BundleDiscountDto> bundleDiscounts;
+
+  /** 주문 즉시 할인 정보 */
+  private ExtraDiscountDto extraDiscount;
 }
