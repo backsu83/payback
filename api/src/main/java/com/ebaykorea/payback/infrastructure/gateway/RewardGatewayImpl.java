@@ -113,7 +113,9 @@ public class RewardGatewayImpl implements RewardGateway {
                 orderUnit,
                 orderUnitKeyMap.get(orderUnit.getOrderUnitKey()),
                 itemSnapshotMap.get(orderUnit.getOrderItem().getItemSnapshotKey()),
-                order.getBundleDiscountPrice(orderUnit.getOrderUnitKey())))
+                order.getBundleDiscountPrice(orderUnit.getOrderUnitKey()),
+                order.getExtraDiscountPrice(orderUnit.getOrderUnitKey())
+            ))
         .collect(Collectors.toUnmodifiableList());
   }
 
