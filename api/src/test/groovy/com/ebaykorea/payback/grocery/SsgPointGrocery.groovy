@@ -36,7 +36,7 @@ class SsgPointGrocery {
       buyerId = (map.buyerId ?: "buyerId") as String
       pointStatus = (map.pointStatus ?: "RR") as String
       tradeType = (map.tradeType ?: "S") as String
-      receiptNo = (map.receiptNo ?: "GMK230411220000S1") as String
+      receiptNo = (map.receiptNo ?: "GMK230411220000S0000") as String
       payAmount = (map.payAmount ?: 1000L) as BigDecimal
       saveAmount = (map.saveAmount ?: 1000L) as BigDecimal
       orderDate = (map.orderDate ?: Instant.parse("2023-04-11T13:00:00.00Z")) as Instant
