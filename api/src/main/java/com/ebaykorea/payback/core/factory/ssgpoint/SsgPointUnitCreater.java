@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
 import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
+import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 
 @Component
 @RequiredArgsConstructor
@@ -62,13 +63,14 @@ public class SsgPointUnitCreater {
         ssgPointTarget.getPayAmount(),
         ssgPointTarget.getSaveAmount(),
         now(), //취소는 현재날짜 (yyyy-mm-dd)
+        ssgPointTarget.getAccountDate(),
         true,
         ssgPointStrategy,
         SsgPointOrigin.builder()
             .orgApproveId(ssgPointTarget.getPntApprId())
             .orgReceiptNo(ssgPointTarget.getReceiptNo())
             .build(),
-        request.getAdminId()
+        isBlank(request.getAdminId()) ? "payback" : request.getAdminId()
     );
   }
 
@@ -83,7 +85,7 @@ public class SsgPointUnitCreater {
         true,
         ssgPointStrategy,
         null,
-        request.getAdminId()
+        isBlank(request.getAdminId()) ? "payback" : request.getAdminId()
     );
   }
 }

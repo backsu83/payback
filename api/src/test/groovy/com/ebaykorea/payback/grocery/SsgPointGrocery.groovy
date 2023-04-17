@@ -20,7 +20,7 @@ class SsgPointGrocery {
         (map.siteType ?: OrderSiteType.Gmarket) as OrderSiteType,
         (map.packNo ?: 1L) as Long,
         (map.buyerId ?: "buyerId") as String,
-        (map.orderNo ?: 1L) as Long,
+        (map.orderNo ?: 1000000000L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,
         (map.orderDate ?: "2023-04-11 13:00:00") as String,
@@ -32,11 +32,11 @@ class SsgPointGrocery {
   static def SsgPointTarget_생성(Map map = [:]) {
     new SsgPointTarget().tap {
       packNo = (map.packNo ?: 1L) as Long
-      orderNo = (map.orderNo ?: 1L) as Long
+      orderNo = (map.orderNo ?: 1000000000L) as Long
       buyerId = (map.buyerId ?: "buyerId") as String
       pointStatus = (map.pointStatus ?: "RR") as String
       tradeType = (map.tradeType ?: "S") as String
-      receiptNo = (map.receiptNo ?: "GMK230411220000S1") as String
+      receiptNo = (map.receiptNo ?: "GMK230411220000S0000") as String
       payAmount = (map.payAmount ?: 1000L) as BigDecimal
       saveAmount = (map.saveAmount ?: 1000L) as BigDecimal
       orderDate = (map.orderDate ?: Instant.parse("2023-04-11T13:00:00.00Z")) as Instant
@@ -67,11 +67,10 @@ class SsgPointGrocery {
 
   static def SsgPointUnit_준비상태_생성(Map map = [:]) {
     SsgPointUnit.readyUnit(
-        (map.orderNo ?: 1L) as Long,
+        (map.orderNo ?: 1000000000L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,
         (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
-
         (map.isPolicy) as Boolean,
         (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
@@ -88,11 +87,11 @@ class SsgPointGrocery {
 
   static def SsgPointUnit_취소상태_생성(Map map = [:]) {
     SsgPointUnit.cancelUnit(
-        (map.orderNo ?: 1L) as Long,
+        (map.orderNo ?: 1000000000L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,
         (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
-
+        (map.accountDate ?: "20230416") as String,
         (map.isPolicy) as Boolean,
         (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
@@ -101,11 +100,10 @@ class SsgPointGrocery {
   }
   static def SsgPointUnit_보류상태_생성(Map map = [:]) {
     SsgPointUnit.withholdUnit(
-        (map.orderNo ?: 1L) as Long,
+        (map.orderNo ?: 1000000000L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,
         (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
-
         (map.isPolicy) as Boolean,
         (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
