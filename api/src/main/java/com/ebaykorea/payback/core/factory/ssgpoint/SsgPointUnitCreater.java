@@ -33,26 +33,23 @@ public class SsgPointUnitCreater {
       final KeyMap keyMap,
       final SsgPointState ssgPointState
   ) {
-    return order.getOrderUnits().stream()
+    return policies.entrySet().stream()
+        .filter(entry -> entry.getValue().getIsSsgPoint()) //TODO: ssgpoint 저장 조건 확인
         .map(entry -> {
-          final var orderUnitKey = keyMap.findBy(entry.getOrderUnitKey())
+          final var policy = entry.getValue();
+          final var orderUnitKey = keyMap.findByOrderNo(entry.getKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnitKey"));
-
-          final var orderUnit = order.findOrderUnitBy(entry.getOrderUnitKey())
+          final var orderUnit = order.findOrderUnitBy(orderUnitKey.getOrderUnitKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnit"));
 
-          if (policies.containsKey(orderUnitKey.getBuyOrderNo())) {
-            final var policy = policies.get(orderUnitKey.getBuyOrderNo());
-            return SsgPointUnit.readyUnit(orderUnitKey.getBuyOrderNo(),
-                orderUnit.getOrderItem().orderItemPrice(),
-                policy.getPointExpectSaveAmount(), // ssg api 대체
-                DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate(), Instant::from),
-                policy.getIsSsgPoint(),
-                ssgPointState,
-                null,
-                null);
-          }
-          return SsgPointUnit.EMPTY;
+          return SsgPointUnit.readyUnit(entry.getKey(),
+              orderUnit.getOrderItem().orderItemPrice(),
+              policy.getPointExpectSaveAmount(), // ssg api 대체
+              DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate(), Instant::from),
+              policy.getIsSsgPoint(),
+              ssgPointState,
+              null,
+              null);
         })
         .collect(Collectors.toUnmodifiableList());
   }
