@@ -6,5 +6,5 @@ import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 public interface PayCashbackRepository {
   void save(PayCashback payCashback);
 
-  boolean isDuplicatedCashback(KeyMap keyMap);
+  boolean hasAlreadySaved(KeyMap keyMap);
 }

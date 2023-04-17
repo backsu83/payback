@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.batch.job.mapper;
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointPayInfo;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointEarnRequest;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointPayInfo;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCommonResponse;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
@@ -43,9 +43,9 @@ public interface SsgPointEarnProcesserMapper {
   @Mapping(source = "processerDto.tradeNo", target = "tradeNo")
   @Mapping(constant = "APITRN0121", target = "msgText")
   @Mapping(constant = "200020", target = "tradeGbCd")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"yyyyMMdd\"))", target = "busiDt")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"MMdd\"))", target = "tradeGentdDt")
-  @Mapping(expression = "java(PaybackInstants.getDateTimeFormatBy(\"HHmmss\"))", target = "tradeGentdTm")
+  @Mapping(expression = "java(PaybackInstants.getStringFormatBy(\"yyyyMMdd\"))", target = "busiDt")
+  @Mapping(expression = "java(PaybackInstants.getStringFormatBy(\"MMdd\"))", target = "tradeGentdDt")
+  @Mapping(expression = "java(PaybackInstants.getStringFormatBy(\"HHmmss\"))", target = "tradeGentdTm")
   @Mapping(constant = "0000", target = "tradeGentdStcd")
   @Mapping(constant = "0000", target = "tradeGentdPosno")
   @Mapping(constant = "000000", target = "doByid")

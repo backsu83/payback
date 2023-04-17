@@ -68,7 +68,7 @@ public class RewardGatewayImpl implements RewardGateway {
   public List<RewardSsgPointPolicy> toRewardSsgPointPolicy(final CashbackRewardResponseDto cashbackRewardResponse) {
     return cashbackRewardResponse.getGoods()
         .stream()
-        .map(goods -> rewardGatewayMapper.mapToSsgPolicy(goods))
+        .map(rewardGatewayMapper::mapToSsgPolicy)
         .collect(Collectors.toUnmodifiableList());
   }
 

@@ -81,7 +81,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
   }
 
   @Override
-  public boolean isDuplicatedCashback(KeyMap keyMap) {
+  public boolean hasAlreadySaved(KeyMap keyMap) {
     return keyMap.getOrderUnitKeys().stream()
         .map(OrderUnitKey::getBuyOrderNo)
         .map(cashbackOrderDetailRepository::findById)

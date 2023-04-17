@@ -2,11 +2,9 @@ package com.ebaykorea.payback.core.repository;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
-import com.ebaykorea.payback.core.dto.SsgPointDto;
-import com.ebaykorea.payback.core.dto.SsgPointOrderNoDto;
-import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,15 +12,18 @@ import java.util.Optional;
 
 public interface SsgPointRepository {
 
-  List<SsgPointTargetResponseDto> save(SsgPoint ssgPoint);
+  List<SsgPointTarget> save(SsgPoint ssgPoint);
+  List<SsgPointTarget> cancel(SsgPoint ssgPoint);
 
-  SsgPointDto findByPointStatusReady(long orderNo , String buyerId, OrderSiteType siteType);
+  void setPointStatus(final SsgPoint ssgPoint);
 
-  int updatePointStatus(String pointStatus, @Nullable String manualOprt, String updateOperator, Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
+  int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, String updateOperator, Instant updateDate);
 
-  int retryFailPointStatus(String manualOprt, String updateOperator, Instant updateDate, Long orderNo, String buyerId, String siteType, String tradeType);
+  Optional<SsgPointTarget> findByKey(SsgPointRequestKey key);
 
-  Optional<SsgPointTargetResponseDto> findByKey(Long orderId, String buyerId, String siteType, String tradeType);
+  void saveExceptOrderNo(SsgPointOrderNoDto ssgPointOrderNoDto);
 
-  void setCancelOrderNoNoneSave(SsgPointOrderNoDto ssgPointOrderNoDto);
+  boolean hasAlreadySaved(final Long packNo, final String buyerId, final OrderSiteType siteType);
+
+  List<SsgPointTarget> findAllByOrderNoAndSiteType(Long orderNo, String buyerId, OrderSiteType siteType);
 }
