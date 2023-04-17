@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
+import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import com.google.common.base.Strings;
 
@@ -21,18 +22,20 @@ public class SsgPointUnit {
   BigDecimal payAmount;
   BigDecimal saveAmount;
   Instant scheduleDate;
+  String accountDate;
   Boolean isPolicy;
   SsgPointStatus pointStatus;
   SsgPointOrigin pointOrigin;
 
   String adminId;
 
-  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), false, null, null, null);
+  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), null,false, null, null, null);
 
   private SsgPointUnit(final Long orderNo,
                        final BigDecimal payAmount,
                        final BigDecimal saveAmount,
                        final Instant scheduleDate,
+                       final String accountDate,
                        final Boolean isPolicy,
                        final SsgPointStatus pointStatus,
                        final SsgPointOrigin pointOrigin,
@@ -41,6 +44,7 @@ public class SsgPointUnit {
     this.payAmount = payAmount;
     this.saveAmount = saveAmount;
     this.scheduleDate = scheduleDate;
+    this.accountDate = accountDate;
     this.isPolicy = isPolicy;
     this.pointStatus = pointStatus;
     this.pointOrigin = pointOrigin;
@@ -51,12 +55,13 @@ public class SsgPointUnit {
                                 final BigDecimal payAmount,
                                 final BigDecimal saveAmount,
                                 final Instant scheduleDate,
+                                final String accountDate,
                                 final Boolean isPolicy,
                                 final SsgPointStatus pointState,
                                 final SsgPointOrigin pointOrigin,
                                 final String adminId
   ) {
-    return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, pointState,
+    return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, accountDate, isPolicy, pointState,
         pointOrigin, adminId);
   }
 
@@ -70,7 +75,7 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.ready(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, isPolicy, state.ready(), pointOrigin, adminId);
   }
 
   public static SsgPointUnit cancelUnit(
@@ -78,12 +83,13 @@ public class SsgPointUnit {
       final BigDecimal payAmount,
       final BigDecimal saveAmount,
       final Instant scheduleDate,
+      final String accountDate,
       final Boolean isPolicy,
       final SsgPointState state,
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.cancel(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, accountDate, isPolicy, state.cancel(), pointOrigin, adminId);
   }
 
   public static SsgPointUnit withholdUnit(
@@ -96,7 +102,7 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, state.withhold(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, isPolicy, state.withhold(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리
@@ -114,10 +120,11 @@ public class SsgPointUnit {
 
   //S or C +주문번호(16진수) + padding
   public String getTradeNo() {
-    String tradeNo = (String.format("%s%s",
-        pointStatus.getTradeType().getCode(),
-        Long.toHexString(orderNo))).toUpperCase();
-    return Strings.padEnd(tradeNo, 10, '0');
+    if( pointStatus.getTradeType() == PointTradeType.Save) {
+      return String.format("%s%s", "10", orderNo).substring(0,10);
+    } else {
+      return String.format("%s%s", "20", orderNo).substring(0,10);
+    }
   }
 
   //S or C +주문번호 + MMDDHH + padding

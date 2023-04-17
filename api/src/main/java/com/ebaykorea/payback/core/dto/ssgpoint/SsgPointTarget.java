@@ -21,6 +21,7 @@ public class SsgPointTarget {
   private BigDecimal saveAmount;
   private Instant orderDate;
   private String scheduleDate;
+  private String accountDate;
   private String pntApprId;
   private String adminId;
 
