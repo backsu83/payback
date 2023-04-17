@@ -118,13 +118,11 @@ public class SsgPointUnit {
     return String.valueOf(orderNo).length();
   }
 
-  //S or C +주문번호(16진수) + padding
+  //적립(10 + 주문번호) / 취소(20 + 주문번호)
   public String getTradeNo() {
-    if( pointStatus.getTradeType() == PointTradeType.Save) {
-      return String.format("%s%s", "10", orderNo).substring(0,10);
-    } else {
-      return String.format("%s%s", "20", orderNo).substring(0,10);
-    }
+    var preFix = PointTradeType.from(pointStatus.getTradeType().getCode()).getNumberCode();
+    final var tradeNo = String.format("%s%s", preFix, orderNo);
+    return Strings.padEnd(tradeNo,10,'0').substring(0, 10);
   }
 
   //S or C +주문번호 + MMDDHH + padding
