@@ -92,6 +92,7 @@ class SsgPointGrocery {
         (map.saveAmount ?: 1000L) as BigDecimal,
         (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
         (map.accountDate ?: "20230416") as String,
+        (map.pointToken ?: "pointToken") as String,
         (map.isPolicy) as Boolean,
         (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,

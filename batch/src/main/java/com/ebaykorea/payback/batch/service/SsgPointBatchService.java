@@ -53,7 +53,7 @@ public class SsgPointBatchService {
     try {
       var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
       final var response = ssgPointApiClient.earnPoint(request);
-      return ssgPointEarnProcesserMapper.mapToTarget(request, response, item);
+      return ssgPointEarnProcesserMapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), request.getCardNo(), response, item);
     } catch (Exception ex) {
       log.error(ex.getLocalizedMessage());
       throw new BatchProcesserException(ERR_PNTADD);
@@ -61,13 +61,11 @@ public class SsgPointBatchService {
   }
 
   public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
-//    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
-    final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4="; //임시카드번호
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
     try {
-      var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
+      var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId);
       final var response = ssgPointApiClient.cancelPoint(request);
-      return ssgPointCancelProcesserMapper.mapToTarget(request, response, item);
+      return ssgPointCancelProcesserMapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), response, item);
     } catch (Exception ex) {
       log.error(ex.getLocalizedMessage());
       throw new BatchProcesserException(ERR_PNTADDCNCL);
@@ -138,6 +136,7 @@ public class SsgPointBatchService {
       return 1L;
     }
     return ssgPointTargetRepositorySupport.updatePointTarget(item.getOrderNo() ,
+        item.getPointToken() ,
         item.getBuyerId() ,
         item.getSiteType(),
         item.getTradeType(),
@@ -153,6 +152,7 @@ public class SsgPointBatchService {
   @Transactional
   public long updateWriterRecoverSuceess(final SsgPointTargetDto item) {
     return ssgPointTargetRepositorySupport.updatePointTarget(item.getOrderNo(),
+        item.getPointToken(),
         item.getBuyerId(),
         item.getSiteType(),
         item.getTradeType(),

@@ -83,8 +83,9 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .execute();
   }
 
-  public long updatePointTarget(final long orderNo ,
-      final String buyerId ,
+  public long updatePointTarget(final long orderNo,
+      final String pointToken,
+      final String buyerId,
       final OrderSiteType siteType ,
       final PointTradeType tradeType,
       final String accountDate,
@@ -106,6 +107,11 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             ssgPointTargetEntity.tradeType.eq(tradeType.getCode()),
             ssgPointTargetEntity.orderNo.eq(orderNo)
         );
+
+    if(PointTradeType.Save.getCode().equals(tradeType)) {
+      updateClause.set(ssgPointTargetEntity.pointToken, pointToken);
+    }
+
     if(responseCode.equals("API0000")) {
       updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Success.getCode());
       updateClause.set(ssgPointTargetEntity.saveAmount, saveAmount);

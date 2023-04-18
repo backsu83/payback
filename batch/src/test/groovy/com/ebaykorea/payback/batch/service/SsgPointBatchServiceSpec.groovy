@@ -53,7 +53,7 @@ class SsgPointBatchServiceSpec extends Specification {
     pointService.updateWriterSuceess(ssgPointTargetDto)
 
     then:
-    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
+    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
 
     where:
     결과 | API응답결과 | 포인트상태
@@ -82,6 +82,6 @@ class SsgPointBatchServiceSpec extends Specification {
     pointService.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
-    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
+    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
   }
 }
