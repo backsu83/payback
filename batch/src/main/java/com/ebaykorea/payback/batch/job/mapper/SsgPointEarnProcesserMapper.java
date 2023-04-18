@@ -72,7 +72,7 @@ public interface SsgPointEarnProcesserMapper {
 
   @Named("mapToPayInfo")
   default List<SsgPointPayInfo> mapToPayInfo(BigDecimal payAmount) {
-    return Lists.newArrayList(SsgPointPayInfo.builder()
+    return List.of(SsgPointPayInfo.builder()
         .payAmt(payAmount)
         .payGb("00")
         .payType("A00011")
