@@ -75,6 +75,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
     var request = SsgPointEarnRequest.builder()
             .busiDt("20230411") //적립날짜 (yyyyMMdd)
             .tradeGentdTm("134010") //적립시간 (HHmmss)
+            .cardNo("pointToken") //적립시간 (HHmmss)
             .build()
 
     var response = SsgPointCommonResponse.builder()
@@ -87,14 +88,13 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             .orderNo(111L)
             .receiptNo("GMK0000")
             .buyerId("testUser")
-            .pointToken("pointToken")
             .siteType(OrderSiteType.Gmarket)
             .tradeType(PointTradeType.Save)
             .status(PointStatusType.Ready)
             .build()
 
     when:
-    def result = mapper.mapToTarget(request, response, processer)
+    def result = mapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), request.getCardNo(), response, processer)
 
     then:
     result == SsgPointTargetDto_생성(buyerId: "testUser",

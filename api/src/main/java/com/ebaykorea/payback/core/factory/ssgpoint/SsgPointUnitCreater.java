@@ -64,6 +64,7 @@ public class SsgPointUnitCreater {
         ssgPointTarget.getSaveAmount(),
         now(), //취소는 현재날짜 (yyyy-mm-dd)
         ssgPointTarget.getAccountDate(),
+        ssgPointTarget.getPointToken(),
         true,
         ssgPointStrategy,
         SsgPointOrigin.builder()

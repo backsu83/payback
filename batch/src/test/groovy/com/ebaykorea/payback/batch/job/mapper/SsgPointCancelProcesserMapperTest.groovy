@@ -23,7 +23,7 @@ class SsgPointCancelProcesserMapperTest extends Specification {
   def "SSG_POINT_취소API_리퀘스트_생성"() {
 
     expect:
-    def result = mapper.mapToRequest(processerDto, certifier, "tokenId", "cardNo")
+    def result = mapper.mapToRequest(processerDto, certifier, "tokenId")
     result.setTradeGentdTm("000000")
     result == expectResult
 
@@ -44,6 +44,7 @@ class SsgPointCancelProcesserMapperTest extends Specification {
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
             tradeGentdTm: "000000",
             doByid : "000000",
+            cardNo : "pointToken",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
             recptSeq: "0000",
@@ -62,6 +63,7 @@ class SsgPointCancelProcesserMapperTest extends Specification {
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
             tradeGentdTm: "000000",
             doByid:"000000",
+            cardNo : "pointToken",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
             recptSeq: "0000",
@@ -97,7 +99,7 @@ class SsgPointCancelProcesserMapperTest extends Specification {
            .build()
 
     when:
-    def result = mapper.mapToTarget(request, response, processer)
+    def result = mapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), response, processer)
 
     then:
     result == SsgPointTargetDto_생성(buyerId: "testUser",
