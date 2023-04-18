@@ -37,7 +37,6 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
   public JPAQuery<SsgPointTargetEntity> findStatusByReady() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
-            ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         );
@@ -108,7 +107,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             ssgPointTargetEntity.orderNo.eq(orderNo)
         );
 
-    if(PointTradeType.Save.getCode().equals(tradeType)) {
+    if(tradeType == PointTradeType.Save) {
       updateClause.set(ssgPointTargetEntity.pointToken, pointToken);
     }
 
