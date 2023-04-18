@@ -44,8 +44,8 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 3000  # resilience4j timeoutDuration ?? ?? ?.
-      readTimeout: 3000
+      connectTimeout: 10000  # resilience4j timeoutDuration
+      readTimeout: 10000
 
 # Resilience4j Configurations
 # ???? - https://wiki.ebaykorea.com/display/ANNA/Resilience4j

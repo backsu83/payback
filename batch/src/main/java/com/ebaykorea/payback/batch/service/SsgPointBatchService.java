@@ -47,8 +47,7 @@ public class SsgPointBatchService {
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
 
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
-//    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
-    final var cardNo = "Tkwmnpj2FqYDn4FN82i8thYJUs5Eu1xhFaUAgRYakC4="; //임시카드번호
+    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
     try {
       var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
