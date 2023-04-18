@@ -19,7 +19,7 @@ public interface SmileClubApiClient {
     @Retry(name = "retryApi")
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/partner/ssgpoint",
+        value = "/ssgpoint/cardno",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     SmileClubSsgPointResponse getCardNo(
