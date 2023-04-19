@@ -2,11 +2,13 @@ package com.ebaykorea.payback.batch.service
 
 import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient
 import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient
+import com.ebaykorea.payback.batch.domain.SsgPointBatchUnit
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType
 import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcesserMapper
 import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper
+import com.ebaykorea.payback.batch.job.mapper.SsgPointVerifyProcesserMapper
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport
 import com.ebaykorea.payback.batch.repository.opayreward.SsgTokenRepository
 import org.mapstruct.factory.Mappers
@@ -17,20 +19,23 @@ import java.time.Instant
 import static com.ebaykorea.payback.batch.grocery.SsgPointTargetDtoGrocery.SsgPointTargetDto_생성
 
 class SsgPointBatchServiceSpec extends Specification {
-
+  def ssgPointBatchUnit = new SsgPointBatchUnit()
   def ssgPointApiClient = Mock(SsgPointApiClient)
   def smileClubApiClient = Mock(SmileClubApiClient)
   def ssgTokenRepository = Mock(SsgTokenRepository)
   def earnMapper = Mappers.getMapper(SsgPointEarnProcesserMapper)
   def cancelMapper = Mappers.getMapper(SsgPointCancelProcesserMapper)
+  def verifyMapper = Mappers.getMapper(SsgPointVerifyProcesserMapper)
   def ssgPointTargetRepositorySupport = Mock(SsgPointTargetRepositorySupport)
 
   def pointService = new SsgPointBatchService(
+          ssgPointBatchUnit,
           ssgPointApiClient,
           smileClubApiClient,
           ssgTokenRepository,
           earnMapper,
           cancelMapper,
+          verifyMapper,
           ssgPointTargetRepositorySupport
   )
 
