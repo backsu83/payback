@@ -10,7 +10,7 @@ import java.time.Instant;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VerifyDailySsgPointResponseDto {
+public class VerifyDailySsgPointDto {
     @Schema(description = "대사일")
     @NotNull
     private String tradeDate;
@@ -41,18 +41,18 @@ public class VerifyDailySsgPointResponseDto {
 
     @Schema(description = "입력자")
     @NotNull
-    private String InsertOperator;
+    private String insertOperator;
 
     @Schema(description = "입력일")
     @NotNull
-    private Instant InsertDate;
+    private Instant insertDate;
 
     @Schema(description = "수정자")
     @NotNull
-    private String UpdateOperator;
+    private String updateOperator;
 
     @Schema(description = "수정일")
     @NotNull
-    private Instant UpdateDate;
+    private Instant updateDate;
 
 }

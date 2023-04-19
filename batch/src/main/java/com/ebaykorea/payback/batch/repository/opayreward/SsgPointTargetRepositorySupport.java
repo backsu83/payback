@@ -6,18 +6,28 @@ import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExcepti
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
+import static com.ebaykorea.payback.batch.util.PaybackInstants.SEOUL;
 
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
+import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
 import com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
+import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgVerifySumEntity;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -26,9 +36,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 @SaturnDataSource(name = "o_payreward")
 public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
-
   private final JPAQueryFactory factory;
-
+  private static final ZoneId SEOUL = ZoneId.of("Asia/Seoul");
   public SsgPointTargetRepositorySupport(JPAQueryFactory factory) {
     super(SsgPointTargetEntity.class);
     this.factory = factory;
@@ -114,5 +123,42 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
       updateClause.set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L));
     }
     return updateClause.execute();
+  }
+
+  public SsgVerifySumEntity findSumCount(OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
+    LocalDate yesterday = LocalDate.now().minusDays(1);
+    Instant startDate = LocalDateTime.of(yesterday, LocalTime.MIN).atZone(SEOUL).toInstant();
+    Instant endDate = LocalDateTime.of(yesterday, LocalTime.MAX).atZone(SEOUL).toInstant();
+    StringTemplate dateAsString = Expressions.stringTemplate("TO_CHAR({0}, '{1s}')", ssgPointTargetEntity.requestDate, "YYYY-MM-DD");
+    return factory.select(
+            Projections.fields(SsgVerifySumEntity.class,
+                    dateAsString.as("requestDate"),
+                    ssgPointTargetEntity.saveAmount.count().coalesce(0L).as("count"),
+                    ssgPointTargetEntity.saveAmount.sum().coalesce(BigDecimal.ZERO).as("amount")
+            )
+            )
+            .from(ssgPointTargetEntity)
+            .where(ssgPointTargetEntity.requestDate.between(startDate, endDate),
+                    ShopType(orderSiteType.getShortCode()),
+                    TradeType(verifyTradeType.getShortCode()),
+                    TradeType("SS")
+            )
+            .groupBy(dateAsString,
+                    ssgPointTargetEntity.siteType,
+                    ssgPointTargetEntity.tradeType,
+                    ssgPointTargetEntity.pointStatus
+            ).fetchOne();
+  }
+
+  private BooleanExpression ShopType(String shopCode) {
+    return (shopCode == null || "".equals(shopCode))? null : ssgPointTargetEntity.siteType.eq(shopCode);
+  }
+
+  private BooleanExpression TradeType(String tradeType) {
+    return (tradeType == null || "".equals(tradeType))? null : ssgPointTargetEntity.tradeType.eq(tradeType);
+  }
+
+  private BooleanExpression TradeStatus(String tradeStatus) {
+    return (tradeStatus == null || "".equals(tradeStatus))? null : ssgPointTargetEntity.pointStatus.eq(tradeStatus);
   }
 }

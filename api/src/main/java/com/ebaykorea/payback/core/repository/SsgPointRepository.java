@@ -5,6 +5,7 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.dto.SsgPointDto;
 import com.ebaykorea.payback.core.dto.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.SsgPointTargetResponseDto;
+import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -25,4 +26,6 @@ public interface SsgPointRepository {
   Optional<SsgPointTargetResponseDto> findByKey(Long orderId, String buyerId, String siteType, String tradeType);
 
   void setCancelOrderNoNoneSave(SsgPointOrderNoDto ssgPointOrderNoDto);
+
+  VerifyDailySsgPointDto verifyDailyPoint(VerifyDailySsgPointDto verifyDailySsgPointDto);
 }

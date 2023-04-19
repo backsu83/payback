@@ -3,6 +3,7 @@ package com.ebaykorea.payback.batch.job.mapper;
 
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest;
 import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse;
+import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointVerifyRequest;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
@@ -67,5 +68,6 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "request.busiDt", target = "accountDate")
     @Mapping(expression = "java(request.getRequestDate())", target = "requestDate")
     SsgPointTargetDto mapToTarget(SsgPointCancelRequest request , SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
+
 
 }

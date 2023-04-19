@@ -7,6 +7,8 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.*;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointDailyVerifyEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.util.PaybackOperators;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import com.google.common.collect.Lists;
@@ -127,12 +129,7 @@ public class SsgPointService {
     return emptyList();
   }
 
-  public void verifyDailyPoint(final VerifyDailySsgPointResponseDto request){
-    //List<VerifyDailySsgPointResponseDto>
-    //token 호출
-    //연동 api 호출
-    //DB 저장
-
-
+  public VerifyDailySsgPointDto verifyDailyPoint(final VerifyDailySsgPointDto request){
+    return ssgPointRepository.verifyDailyPoint(request);
   }
 }

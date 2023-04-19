@@ -49,7 +49,7 @@ public class SsgPointController {
  }
 
  @PostMapping("/dailyVerify")
- public SsgPointResponse<Object> ssgPointDailyVerify(final @Valid @RequestBody SsgPointVerifyRequestDto request) {
+ public SsgPointResponse<Object> ssgPointDailyVerify(final @Valid @RequestBody VerifyDailySsgPointDto request) {
    /*
    To-Do
    reqDate yyyymmdd 에 해당하는 날짜의
@@ -70,7 +70,6 @@ public class SsgPointController {
    건수와 금액은 이 API에서 조회해서 처리한다 (수기입력X)
    => 수동 호출에 대한 것은 아직 PRD에 정의되어 있지 않았음. PM 논의 후 필요하다면 작업 해야됨.
     */
-  return new SsgPointResponse("0000", "success",
-          null);
+  return new SsgPointResponse("0000", "success", ssgPointService.verifyDailyPoint(request));
  }
 }
