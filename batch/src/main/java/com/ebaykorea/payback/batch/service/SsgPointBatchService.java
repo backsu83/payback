@@ -73,10 +73,10 @@ public class SsgPointBatchService {
 
   public String getCardNo(final String buyerId, OrderSiteType siteType, SsgPointCertifier auth) {
     try {
-      final var cardNo = smileClubApiClient.getCardNo(buyerId, auth.getMemberKey()).getCardNo();
+      final var cardNo = smileClubApiClient.getCardNo(auth.getMemberKey(), buyerId).getCardNo();
       final var toSiteType =  siteType.toString().toLowerCase();
-      final var decryptCardNo=CharMatcher.anyOf(CryptoArche.decrypt(cardNo, toSiteType)).removeFrom("-");
-      final var encryptCardNo = CryptoAES256.decrypt(decryptCardNo, auth.getEncryptKey(), auth.getEncryptIv());
+      final var decryptCardNo= CryptoArche.decrypt(cardNo, toSiteType);
+      final var encryptCardNo = CryptoAES256.encrypt(decryptCardNo, auth.getEncryptKey(), auth.getEncryptIv());
       return encryptCardNo;
     } catch (Exception ex) {
       log.error(ex.getLocalizedMessage());
