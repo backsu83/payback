@@ -69,4 +69,5 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "requestDate", target = "requestDate")
     SsgPointTargetDto mapToTarget(String busiDt, String requestDate, SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
 
+
 }

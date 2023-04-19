@@ -8,9 +8,12 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
+import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointDailyVerifyEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointOrderNoEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointOrderNoRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +36,9 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   private final SsgPointTargetEntityMapper ssgPointTargetEntityMapper;
   private final SsgPointOrderNoEntityMapper ssgPointOrderNoEntityMapper;
+
+  private final SsgPointDailyVerifyRepository ssgPointDailyVerifyRepository;
+  private final SsgPointDailyVerifyEntityMapper ssgPointDailyVerifyEntityMapper;
 
   @Transactional
   @Override
@@ -121,5 +127,13 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     return ssgPointTargetRepository.findAllByOrderNoAndBuyerIdAndSiteType(orderNo, buyerId, siteType.getShortCode()).stream()
         .map(ssgPointTargetEntityMapper::mapToSsgTarget)
         .collect(Collectors.toUnmodifiableList());
+  }
+  
+  @Transactional
+  @Override
+  public VerifyDailySsgPointDto verifyDailyPoint(VerifyDailySsgPointDto verifyDailySsgPointDto) {
+    return ssgPointDailyVerifyEntityMapper.map(
+            ssgPointDailyVerifyRepository.save(ssgPointDailyVerifyEntityMapper.map(verifyDailySsgPointDto))
+    );
   }
 }

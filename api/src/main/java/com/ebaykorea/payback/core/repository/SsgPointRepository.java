@@ -5,6 +5,7 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
+import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 
 import java.time.Instant;
 import java.util.List;
@@ -26,4 +27,6 @@ public interface SsgPointRepository {
   boolean hasAlreadySaved(final Long packNo, final String buyerId, final OrderSiteType siteType);
 
   List<SsgPointTarget> findAllByOrderNoAndSiteType(Long orderNo, String buyerId, OrderSiteType siteType);
+  
+  VerifyDailySsgPointDto verifyDailyPoint(VerifyDailySsgPointDto verifyDailySsgPointDto);
 }
