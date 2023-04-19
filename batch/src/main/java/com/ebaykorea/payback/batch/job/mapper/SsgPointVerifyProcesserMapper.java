@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.job.mapper;
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointVerifyRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointVerifyResponse;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyRequest;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyResponse;
 import com.ebaykorea.payback.batch.domain.SsgPointVerifyDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;

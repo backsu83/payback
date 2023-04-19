@@ -10,9 +10,7 @@ import static com.ebaykorea.payback.batch.util.PaybackInstants.now;
 import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient;
 import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointAuthTokenRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointVerifyRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointVerifyResponse;
-import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyRequest;
 import com.ebaykorea.payback.batch.domain.*;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
@@ -77,7 +75,7 @@ public class SsgPointBatchService {
   }
 
   public SsgPointVerifyDto verify(SsgPointCertifier certifier, OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
-    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), orderSiteType);
+    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), orderSiteType.getShortCode());
     final var sumEntity = ssgPointTargetRepositorySupport.findSumCount(orderSiteType, verifyTradeType);
     SsgPointVerifyRequest request = SsgPointVerifyRequest.builder()
             .clientId(certifier.getClientId())

@@ -1,12 +1,8 @@
 package com.ebaykorea.payback.batch.client.ssgpoint;
 
 
-import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointAuthTokenRequest;
-import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointAuthTokenResponse;
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.*;
 import com.ebaykorea.payback.batch.config.DefaultFeignConfig;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest;
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

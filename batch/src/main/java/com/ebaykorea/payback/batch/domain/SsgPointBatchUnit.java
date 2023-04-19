@@ -7,6 +7,7 @@ import lombok.Value;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @Value
 @Builder
@@ -30,6 +31,6 @@ public class SsgPointBatchUnit {
     }
 
     public String getRequestDate() {
-        return DATE_TIME_STRING_FORMATTER.format(Instant.now().minus(1));
+        return DATE_TIME_STRING_FORMATTER.format(Instant.now().minus(1, ChronoUnit.DAYS));
     }
 }
