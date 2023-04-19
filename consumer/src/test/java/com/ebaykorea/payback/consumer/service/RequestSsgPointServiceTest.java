@@ -21,9 +21,9 @@ class RequestSsgPointServiceTest {
         .orderNo(23456789L)
         .packNo(123456789L)
         .siteType("G")
-        .responseCode("responseCode")
+        .responseCode("-1")
         .responseMessage("responseMessage")
-        .status("-1")
+        .status("FAIL")
         .tryCnt(0L)
         .build();
     repository.save(entity);

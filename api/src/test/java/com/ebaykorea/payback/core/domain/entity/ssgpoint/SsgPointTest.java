@@ -40,7 +40,7 @@ class SsgPointTest {
         .build();
 
     String tradeNo = gmksave.getTradeNo();
-    assertEquals(tradeNo , "S" + "30C65AF84");
+    assertEquals(tradeNo , "10" + "13092892");
     assertEquals(tradeNo.length() , 10);
   }
 

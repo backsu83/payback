@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
+import com.ebaykorea.payback.core.domain.constant.PointTradeType;
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import com.google.common.base.Strings;
 
 import java.math.BigDecimal;
@@ -20,18 +22,22 @@ public class SsgPointUnit {
   BigDecimal payAmount;
   BigDecimal saveAmount;
   Instant scheduleDate;
+  String accountDate;
+  String pointToken;
   Boolean isPolicy;
   SsgPointStatus pointStatus;
   SsgPointOrigin pointOrigin;
 
   String adminId;
 
-  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), false, null, null, null);
+  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), null, null,false, null, null, null);
 
   private SsgPointUnit(final Long orderNo,
                        final BigDecimal payAmount,
                        final BigDecimal saveAmount,
                        final Instant scheduleDate,
+                       final String accountDate,
+                       final String pointToken,
                        final Boolean isPolicy,
                        final SsgPointStatus pointStatus,
                        final SsgPointOrigin pointOrigin,
@@ -40,52 +46,96 @@ public class SsgPointUnit {
     this.payAmount = payAmount;
     this.saveAmount = saveAmount;
     this.scheduleDate = scheduleDate;
+    this.accountDate = accountDate;
+    this.pointToken = pointToken;
     this.isPolicy = isPolicy;
     this.pointStatus = pointStatus;
     this.pointOrigin = pointOrigin;
     this.adminId = adminId;
   }
 
-  public static SsgPointUnit of(final Long orderNo,
+  private static SsgPointUnit of(final Long orderNo,
                                 final BigDecimal payAmount,
                                 final BigDecimal saveAmount,
                                 final Instant scheduleDate,
+                                final String accountDate,
+                                final String pointToken,
                                 final Boolean isPolicy,
                                 final SsgPointStatus pointState,
                                 final SsgPointOrigin pointOrigin,
                                 final String adminId
   ) {
-    return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, isPolicy, pointState,
+    return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, pointState,
         pointOrigin, adminId);
+  }
+
+  public static SsgPointUnit readyUnit(
+      final Long orderNo,
+      final BigDecimal payAmount,
+      final BigDecimal saveAmount,
+      final Instant scheduleDate,
+      final Boolean isPolicy,
+      final SsgPointState state,
+      final SsgPointOrigin pointOrigin,
+      final String adminId
+  ) {
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.ready(), pointOrigin, adminId);
+  }
+
+  public static SsgPointUnit cancelUnit(
+      final Long orderNo,
+      final BigDecimal payAmount,
+      final BigDecimal saveAmount,
+      final Instant scheduleDate,
+      final String accountDate,
+      final String pointToken,
+      final Boolean isPolicy,
+      final SsgPointState state,
+      final SsgPointOrigin pointOrigin,
+      final String adminId
+  ) {
+    return of(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, state.cancel(), pointOrigin, adminId);
+  }
+
+  public static SsgPointUnit withholdUnit(
+      final Long orderNo,
+      final BigDecimal payAmount,
+      final BigDecimal saveAmount,
+      final Instant scheduleDate,
+      final Boolean isPolicy,
+      final SsgPointState state,
+      final SsgPointOrigin pointOrigin,
+      final String adminId
+  ) {
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.withhold(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리
   public String getReceiptNo(final String ticker, final Instant orderDate) {
-    return new StringBuilder()
-        .append(ticker)
-        .append(DATE_TIME_STRING_FORMATTER.format(orderDate))
-        .append(pointStatus.getTradeType().getCode())
-        .append(String.valueOf(orderNo).substring(String.valueOf(orderNo).length() - 4))
-        .toString();
+    return String.format("%s%s%s%s",
+        ticker,
+        DATE_TIME_STRING_FORMATTER.format(orderDate),
+        pointStatus.getTradeType().getCode(),
+        String.valueOf(orderNo).substring(orderNoLength() - (Math.min(orderNoLength(), 4))));
   }
 
-  //S or C +주문번호(16진수) + padding
+  private int orderNoLength() {
+    return String.valueOf(orderNo).length();
+  }
+
+  //적립(10 + 주문번호) / 취소(20 + 주문번호)
   public String getTradeNo() {
-    String tradeNo = new StringBuilder()
-        .append(pointStatus.getTradeType().getCode())
-        .append(Long.toHexString(orderNo))
-        .toString()
-        .toUpperCase();
-    return Strings.padEnd(tradeNo, 10, '0');
+    var preFix = PointTradeType.from(pointStatus.getTradeType().getCode()).getNumberCode();
+    final var tradeNo = String.format("%s%s", preFix, orderNo);
+    return Strings.padEnd(tradeNo,10,'0').substring(0, 10);
   }
 
   //S or C +주문번호 + MMDDHH + padding
   public String getTransactionNo() {
-    String transactionNo = new StringBuilder()
-        .append(pointStatus.getTradeType().getCode())
-        .append(orderNo)
-        .append(TIME_STRING_FORMATTER.format(Instant.now()))
-        .toString();
+    String transactionNo = String.format("%s%d%s",
+        pointStatus.getTradeType().getCode(),
+        orderNo,
+        TIME_STRING_FORMATTER.format(Instant.now()));
     return Strings.padEnd(transactionNo, 20, '0');
   }
 }

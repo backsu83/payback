@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.job.mapper
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointEarnRequest
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCommonResponse
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointEarnRequest
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
@@ -27,6 +27,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
 
     expect:
     def result = mapper.mapToRequest(processerDto, certifier, "tokenId", "cardNo" )
+    result.setTradeGentdTm("000000")
     result == expectResult
 
     where:
@@ -44,7 +45,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             inputFlg:"O", //영문 O : online
             busiDt: PaybackInstants.getStringFormatBy("yyyyMMdd"),
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: PaybackInstants.getStringFormatBy("HHmmss"),
+            tradeGentdTm: "000000",
             doByid:"000000",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
@@ -59,7 +60,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             inputFlg:"O", //영문 O : online
             busiDt: PaybackInstants.getStringFormatBy("yyyyMMdd"),
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: PaybackInstants.getStringFormatBy("HHmmss"),
+            tradeGentdTm: "000000",
             doByid:"000000",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
@@ -74,6 +75,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
     var request = SsgPointEarnRequest.builder()
             .busiDt("20230411") //적립날짜 (yyyyMMdd)
             .tradeGentdTm("134010") //적립시간 (HHmmss)
+            .cardNo("pointToken") //적립시간 (HHmmss)
             .build()
 
     var response = SsgPointCommonResponse.builder()
@@ -86,14 +88,13 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             .orderNo(111L)
             .receiptNo("GMK0000")
             .buyerId("testUser")
-            .pointToken("pointToken")
             .siteType(OrderSiteType.Gmarket)
             .tradeType(PointTradeType.Save)
             .status(PointStatusType.Ready)
             .build()
 
     when:
-    def result = mapper.mapToTarget(request, response, processer)
+    def result = mapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), request.getCardNo(), response, processer)
 
     then:
     result == SsgPointTargetDto_생성(buyerId: "testUser",

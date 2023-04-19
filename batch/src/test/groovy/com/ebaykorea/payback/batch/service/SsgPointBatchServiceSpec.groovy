@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.service
 
-import com.ebaykorea.payback.batch.config.client.smileclub.SmileClubApiClient
-import com.ebaykorea.payback.batch.config.client.ssgpoint.SsgPointApiClient
+import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient
+import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType
@@ -53,7 +53,7 @@ class SsgPointBatchServiceSpec extends Specification {
     pointService.updateWriterSuceess(ssgPointTargetDto)
 
     then:
-    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
+    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
 
     where:
     결과 | API응답결과 | 포인트상태
@@ -82,6 +82,6 @@ class SsgPointBatchServiceSpec extends Specification {
     pointService.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
-    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
+    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
   }
 }

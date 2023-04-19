@@ -1,12 +1,11 @@
 package com.ebaykorea.payback.batch.job.mapper
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCommonResponse
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCancelRequest
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCommonResponse
 import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType
-import com.ebaykorea.payback.batch.util.PaybackDateTimes
 import com.ebaykorea.payback.batch.util.PaybackDecimals
 import com.ebaykorea.payback.batch.util.PaybackInstants
 import org.mapstruct.factory.Mappers
@@ -24,7 +23,8 @@ class SsgPointCancelProcesserMapperTest extends Specification {
   def "SSG_POINT_취소API_리퀘스트_생성"() {
 
     expect:
-    def result = mapper.mapToRequest(processerDto, certifier, "tokenId", "cardNo")
+    def result = mapper.mapToRequest(processerDto, certifier, "tokenId")
+    result.setTradeGentdTm("000000")
     result == expectResult
 
     where:
@@ -42,8 +42,9 @@ class SsgPointCancelProcesserMapperTest extends Specification {
             inputFlg : "O", //영문 O : online
             busiDt : PaybackInstants.getStringFormatBy("yyyyMMdd"),
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: PaybackInstants.getStringFormatBy("HHmmss"),
+            tradeGentdTm: "000000",
             doByid : "000000",
+            cardNo : "pointToken",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
             recptSeq: "0000",
@@ -60,8 +61,9 @@ class SsgPointCancelProcesserMapperTest extends Specification {
             inputFlg:"O", //영문 O : online
             busiDt: PaybackInstants.getStringFormatBy("yyyyMMdd"),
             tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: PaybackInstants.getStringFormatBy("HHmmss"),
+            tradeGentdTm: "000000",
             doByid:"000000",
+            cardNo : "pointToken",
             tradeGentdStcd: "0000",
             tradeGentdPosno: "0000",
             recptSeq: "0000",
@@ -97,7 +99,7 @@ class SsgPointCancelProcesserMapperTest extends Specification {
            .build()
 
     when:
-    def result = mapper.mapToTarget(request, response, processer)
+    def result = mapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), response, processer)
 
     then:
     result == SsgPointTargetDto_생성(buyerId: "testUser",

@@ -7,17 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Persistable;
 
 @Entity
-@Getter
+@Data
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @IdClass(SsgPointTargetEntityId.class)
 @Table(schema = "O_PAYREWARD", name = "SSG_POINT_TARGET")
 public class SsgPointTargetEntity extends BaseEntity implements Persistable<SsgPointTargetEntityId> {

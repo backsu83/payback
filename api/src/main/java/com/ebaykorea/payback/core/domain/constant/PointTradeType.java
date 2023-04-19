@@ -5,19 +5,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Map;
+
 @Getter
 @AllArgsConstructor
 public enum PointTradeType {
-  Unknown(null),
-  Save("S"),
-  Cancel("C");
+  Unknown(null,null),
+  Save("S","10"),
+  Cancel("C","20");
 
   private final String code;
+  private final String numberCode;
 
   @JsonCreator
-  public static PointTradeType from(String siteType) {
+  public static PointTradeType from(String pointTradeType) {
     return PaybackEnums
         .reverseMap(PointTradeType.class, PointTradeType::getCode)
-        .getOrDefault(siteType, Unknown);
+        .getOrDefault(pointTradeType, Unknown);
   }
 }

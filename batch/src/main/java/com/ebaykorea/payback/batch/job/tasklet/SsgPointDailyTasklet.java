@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.batch.job.tasklet;
 
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.SsgPointApiClient;
+import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
 import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;

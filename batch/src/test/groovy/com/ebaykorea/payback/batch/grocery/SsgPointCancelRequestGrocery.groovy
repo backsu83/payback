@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.batch.grocery
 
-import com.ebaykorea.payback.batch.config.client.ssgpoint.dto.SsgPointCancelRequest
+import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCancelRequest
 
 class SsgPointCancelRequestGrocery {
 

@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.batch.config.properties;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@AllArgsConstructor
 @ConfigurationProperties("ssgpoint.auth-info")
 public class SsgPointAuthProperties {
 
@@ -27,21 +25,6 @@ public class SsgPointAuthProperties {
     private String encryptKey;
     private String encryptIv;
     private String branchId;
-
-    public Gmarket(final String memberKey,
-        final String clientId,
-        final String apiKey,
-        final String encryptKey,
-        final String encryptIv,
-        final String branchId)
-    {
-      this.memberKey = memberKey;
-      this.clientId = clientId;
-      this.apiKey = apiKey;
-      this.encryptKey = encryptKey;
-      this.encryptIv = encryptIv;
-      this.branchId = branchId;
-    }
   }
 
   @Getter
@@ -53,21 +36,6 @@ public class SsgPointAuthProperties {
     private String encryptKey;
     private String encryptIv;
     private String branchId;
-
-    public Auction(final String memberKey,
-        final String clientId,
-        final String apiKey,
-        final String encryptKey,
-        final String encryptIv,
-        final String branchId)
-    {
-      this.memberKey = memberKey;
-      this.clientId = clientId;
-      this.apiKey = apiKey;
-      this.encryptKey = encryptKey;
-      this.encryptIv = encryptIv;
-      this.branchId = branchId;
-    }
   }
 }
 

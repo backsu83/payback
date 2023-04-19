@@ -1,51 +1,92 @@
 package com.ebaykorea.payback.core.factory.ssgpoint;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
-
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointStatus;
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
+import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.exception.PaybackException;
+import com.ebaykorea.payback.core.service.SsgPointStateDelegate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
+
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
+import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackInstants.now;
+import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 
 @Component
+@RequiredArgsConstructor
 public class SsgPointUnitCreater {
+  private final SsgPointStateDelegate ssgPointStateDelegate;
 
-  public List<SsgPointUnit> create(
+  public List<SsgPointUnit> readyUnits(
       final Map<Long, RewardSsgPointPolicy> policies,
       final Order order,
       final KeyMap keyMap,
-      final SsgPointStatus ssgPointStatus
+      final SsgPointState ssgPointState
   ) {
-    final var ssgpoint = order.getOrderUnits().stream()
+    return policies.entrySet().stream()
+        .filter(entry -> entry.getValue().getIsSsgPoint()) //TODO: ssgpoint 저장 조건 확인
         .map(entry -> {
-          final var orderUnitKey = keyMap.findBy(entry.getOrderUnitKey())
+          final var policy = entry.getValue();
+          final var orderUnitKey = keyMap.findByOrderNo(entry.getKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnitKey"));
-
-          final var orderUnit = order.findOrderUnitBy(entry.getOrderUnitKey())
+          final var orderUnit = order.findOrderUnitBy(orderUnitKey.getOrderUnitKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnit"));
 
-          if(policies.containsKey(orderUnitKey.getBuyOrderNo())) {
-            final var policy = policies.get(orderUnitKey.getBuyOrderNo());
-            return SsgPointUnit.of(orderUnitKey.getBuyOrderNo(),
-                orderUnit.getOrderItem().orderItemPrice(),
-                policy.getPointExpectSaveAmount(), // ssg api 대체
-                DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate() , Instant::from),
-                policy.getIsSsgPoint(),
-                ssgPointStatus,
-                null,
-                    null);
-          }
-          return SsgPointUnit.EMPTY;
+          return SsgPointUnit.readyUnit(entry.getKey(),
+              orderUnit.getOrderItem().orderItemPrice(),
+              policy.getPointExpectSaveAmount(), // ssg api 대체
+              DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate(), Instant::from),
+              policy.getIsSsgPoint(),
+              ssgPointState,
+              null,
+              null);
         })
         .collect(Collectors.toUnmodifiableList());
-    return ssgpoint;
+  }
+
+  public SsgPointUnit cancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
+    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
+
+    return SsgPointUnit.cancelUnit(
+        ssgPointTarget.getOrderNo(),
+        ssgPointTarget.getPayAmount(),
+        ssgPointTarget.getSaveAmount(),
+        now(), //취소는 현재날짜 (yyyy-mm-dd)
+        ssgPointTarget.getAccountDate(),
+        ssgPointTarget.getPointToken(),
+        true,
+        ssgPointStrategy,
+        SsgPointOrigin.builder()
+            .orgApproveId(ssgPointTarget.getPntApprId())
+            .orgReceiptNo(ssgPointTarget.getReceiptNo())
+            .build(),
+        isBlank(request.getAdminId()) ? "payback" : request.getAdminId()
+    );
+  }
+
+  public SsgPointUnit withholdUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
+    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
+
+    return SsgPointUnit.withholdUnit(
+        ssgPointTarget.getOrderNo(),
+        ssgPointTarget.getPayAmount(),
+        ssgPointTarget.getSaveAmount(),
+        now(), //보류는 현재날짜 (yyyy-mm-dd)
+        true,
+        ssgPointStrategy,
+        null,
+        isBlank(request.getAdminId()) ? "payback" : request.getAdminId()
+    );
   }
 }

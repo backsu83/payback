@@ -16,13 +16,16 @@ public class PaybackDateTimes {
   public static final DateTimeFormatter DATE_TIME_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormat)
       .withZone(ZoneId.of("Asia/Seoul"));
 
+  public static final DateTimeFormatter DATE_TIME_UTC_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormat)
+      .withZone(ZoneId.of("UTC"));
+
   public static final DateTimeFormatter TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(timeFormatForString)
       .withZone(ZoneId.of("Asia/Seoul"));
 
   public static final DateTimeFormatter DATE_TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormatForString)
       .withZone(ZoneId.of("Asia/Seoul"));
 
-  public static final DateTimeFormatter getDateFormatterBy(String format) {
+  public static DateTimeFormatter getDateFormatterBy(String format) {
     return DateTimeFormatter.ofPattern(format)
         .withZone(ZoneId.of("Asia/Seoul"));
   }
