@@ -30,48 +30,12 @@ class SsgPointCancelProcesserMapperTest extends Specification {
     where:
     _________________________________________________
     desc | processerDto | certifier
-    "지마켓 취소 request" | SsgPointProcesserDto_생성(orderNo:111L,accountDate:"20230411",orgReceiptNo:"GMK00000",orgPntApprId:"API0000") | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Gmarket)
-    "옥션 취소 reqest" | SsgPointProcesserDto_생성(orderNo:222L,accountDate:"20230411",orgReceiptNo:"AUC00000",orgPntApprId:"API0001") | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Auction)
+    "지마켓 취소 request" | SsgPointProcesserDto_생성(orderNo:111L,accountDate:"20230411",orgReceiptNo:"GMK00000") | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Gmarket)
+    "옥션 취소 reqest" | SsgPointProcesserDto_생성(orderNo:222L,accountDate:"20230411",orgReceiptNo:"AUC00000") | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Auction)
     _________________________________________________
     expectResult | _ | _
-    SsgPointCancelRequest_생성(clientId : "49E615F309BC23C5CA7E4603E2036977",
-            apiKey : "E320844B8E294F3E8D69395737C8B194",
-            msgText : "APITRN0141",
-            tradeGbCd : "400080",
-            brchId : "B200042500",
-            inputFlg : "O", //영문 O : online
-            busiDt : PaybackInstants.getStringFormatBy("yyyyMMdd"),
-            tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: "000000",
-            doByid : "000000",
-            cardNo : "pointToken",
-            tradeGentdStcd: "0000",
-            tradeGentdPosno: "0000",
-            recptSeq: "0000",
-            orgSaleTradeNo: 111L,
-            otradeBusiDt: "20230411",
-            otradeRecptNo: "GMK00000",
-            otradeApprId:"API0000"
-    ) | _ | _
-    SsgPointCancelRequest_생성(clientId: "3C24A0D1FADA47F07F9A79D30D4C9A2E",
-            apiKey:"72787780CCA9F00A5D584991826752E2",
-            msgText:"APITRN0141",
-            tradeGbCd:"400080",
-            brchId:"B200042502",
-            inputFlg:"O", //영문 O : online
-            busiDt: PaybackInstants.getStringFormatBy("yyyyMMdd"),
-            tradeGentdDt: PaybackInstants.getStringFormatBy("MMdd"),
-            tradeGentdTm: "000000",
-            doByid:"000000",
-            cardNo : "pointToken",
-            tradeGentdStcd: "0000",
-            tradeGentdPosno: "0000",
-            recptSeq: "0000",
-            orgSaleTradeNo: 222L,
-            otradeBusiDt: "20230411",
-            otradeRecptNo: "AUC00000",
-            otradeApprId:"API0001"
-    ) | _ | _
+    SsgPointCancelRequest_생성(clientId: "49E615F309BC23C5CA7E4603E2036977", apiKey:"E320844B8E294F3E8D69395737C8B194", brchId:"B200042500", orgSaleTradeNo: 111L, otradeRecptNo: "GMK00000") | _ | _
+    SsgPointCancelRequest_생성(clientId: "3C24A0D1FADA47F07F9A79D30D4C9A2E", apiKey:"72787780CCA9F00A5D584991826752E2", brchId:"B200042502", orgSaleTradeNo: 222L, otradeRecptNo: "AUC00000") | _ | _
   }
 
   def "SSG_TARGET_DTO_생성"() {
