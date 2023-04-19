@@ -2,7 +2,13 @@ package com.ebaykorea.payback.batch.job.tasklet;
 
 
 import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
+import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties;
+import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
+import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
+import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
+import com.ebaykorea.payback.batch.service.SsgPointBatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
@@ -19,12 +25,25 @@ public class SsgPointDailyTasklet implements Tasklet, StepExecutionListener {
 
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
   private final SsgPointApiClient ssgPointApiClient;
+  private final SsgPointAuthProperties authProperties;
+  private final SsgPointBatchService ssgPointBatchService;
 
   @Override
   public RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
       throws Exception {
-    //TODO 신세계 포인트 Daily 데이터 저장 서비스 로직 구현
+    //token 발급 - 지마켓
+    final var gmktAuthInfo = SsgPointCertifier.of(authProperties, OrderSiteType.Gmarket);
 
+    //일대사 api 호출 - 적립
+    final var gmktSaveResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Save);
+    //일대사 api 호출 - 취소
+    final var gmktCancelResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Cancel);
+    //token 발급 - 옥션
+    final var iacAuthInfo = SsgPointCertifier.of(authProperties, OrderSiteType.Auction);
+    //일대사 api 호출 - 적립
+    final var iacSaveResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Save);
+    //일대사 api 호출 - 취소
+    final var iacCancelResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Cancel);
 
 
     //종료
