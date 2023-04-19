@@ -7,11 +7,9 @@ import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.ssgpoint.*;
 import com.ebaykorea.payback.core.service.SsgPointCancelService;
 import com.ebaykorea.payback.core.service.SsgPointService;
-import com.ebaykorea.payback.infrastructure.query.SsgTokenQuery;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,13 +25,6 @@ public class SsgPointController {
 
  private final SsgPointService ssgPointService;
  private final SsgPointCancelService ssgPointCancelService;
- private final SsgTokenQuery ssgTokenQuery;
-
-  @Cacheable(cacheNames = "COMMON_KEY", key = "#name")
-  @GetMapping("/auth-token")
-  public String getApiToken() {
-    return ssgTokenQuery.getSsgAuthToken();
-  }
 
   @PostMapping
   public CommonResponse<SsgPointTarget> earnPoint(final @Valid @RequestBody SaveSsgPointRequestDto request) {

@@ -50,7 +50,7 @@ public class KafkaConfig implements KafkaListenerConfigurer {
 
   @Bean(name = "kafkaListenerContainerFactory1")
   public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory1(
-      @Qualifier(value = "consumerFactory2") ConsumerFactory<String, String> consumerFactory) {
+      @Qualifier(value = "consumerFactory1") ConsumerFactory<String, String> consumerFactory) {
     ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(consumerFactory);
     factory.setMessageConverter(new StringJsonMessageConverter());
