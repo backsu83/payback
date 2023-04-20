@@ -3,7 +3,7 @@ apis:
   payback:
     url: "http://payback-api-dev.gmarket.co.kr"
 
-payback.dcm.access.enable: true
+#payback.dcm.access.enable: true
 
 com.ebaykorea.payback.scheduler:
   data:

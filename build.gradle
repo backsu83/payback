@@ -66,6 +66,7 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation "org.springframework.data:spring-data-commons"
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
         //ebaykorea standard core
         //ebaykr-moa 및 logback-moa 의존성은 com.ebaykorea.saturn:saturn-spring-boot-starter-moa 의존성으로 대체
