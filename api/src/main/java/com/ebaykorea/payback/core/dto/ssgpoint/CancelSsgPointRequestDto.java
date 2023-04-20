@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CancelSsgPointRequestDto implements SsgPointRequestable {
+public class CancelSsgPointRequestDto {
 
   @Schema(description = "사이트타입" , defaultValue = "G")
   @NotNull
@@ -24,14 +24,12 @@ public class CancelSsgPointRequestDto implements SsgPointRequestable {
   private Long packNo;
 
   @Schema(description = "구매자 아이디")
-  @NotNull
   private String buyerId;
 
   @Schema(description = "수동 처리 관리지 아이디")
   private String adminId;
 
-  @Override
-  public SsgPointRequestKey key(long orderNo) {
+  public SsgPointRequestKey key(long orderNo, String buyerId) {
     return new SsgPointRequestKey(orderNo, buyerId, siteType, PointTradeType.Save);
   }
 }

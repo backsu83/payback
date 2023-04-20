@@ -54,6 +54,7 @@ subprojects {
         set("kafkaVersion", "2.7.10")
         set("caffeineVersion", "3.1.1")
         set('mssql-jdbc.version', "9.4.1.jre11")
+        set('gsonVersion', "2.10.1")
     }
 
     dependencies {
@@ -97,7 +98,7 @@ subprojects {
         implementation "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
-        implementation 'com.google.code.gson:gson'
+        implementation "com.google.code.gson:gson:${gsonVersion}"
         implementation 'com.google.guava:guava:26.0-jre'
 
         testCompileOnly 'org.projectlombok:lombok'

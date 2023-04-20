@@ -90,12 +90,11 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   }
 
   @Override
-  public int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, String updateOperator, Instant updateDate) {
+  public int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, Instant updateDate) {
     return ssgPointTargetRepository.retryFailPointStatus(
         PointStatusType.Ready.getCode(),
         0L,
         manualOprt,
-        updateOperator,
         updateDate,
         key.getOrderNo(),
         key.getBuyerId(),
@@ -123,8 +122,8 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   }
 
   @Override
-  public List<SsgPointTarget> findAllByOrderNoAndSiteType(final Long orderNo, final String buyerId, final OrderSiteType siteType) {
-    return ssgPointTargetRepository.findAllByOrderNoAndBuyerIdAndSiteType(orderNo, buyerId, siteType.getShortCode()).stream()
+  public List<SsgPointTarget> findAllByOrderNoAndSiteType(final Long orderNo, final OrderSiteType siteType) {
+    return ssgPointTargetRepository.findAllByOrderNoAndSiteType(orderNo, siteType.getShortCode()).stream()
         .map(ssgPointTargetEntityMapper::mapToSsgTarget)
         .collect(Collectors.toUnmodifiableList());
   }

@@ -23,7 +23,7 @@ public class SsgPointCancelService {
   private final SsgPointCreater ssgPointCreater;
 
   public SsgPointTarget cancelPoint(final Long orderNo, final CancelSsgPointRequestDto request) {
-    final var ssgPoints = ssgPointRepository.findAllByOrderNoAndSiteType(orderNo, request.getBuyerId(), request.getSiteType());
+    final var ssgPoints = ssgPointRepository.findAllByOrderNoAndSiteType(orderNo, request.getSiteType());
 
     // 취소 요청 데이터가 이미 있는지 여부
     final var maybeCanceledSsgPoint = ssgPoints.stream()
@@ -38,8 +38,6 @@ public class SsgPointCancelService {
         .filter(SsgPointTarget::isSaveType)
         .findAny();
 
-    final var local = PaybackOperators.operator(request.getBuyerId());
-
     // 적립 데이터가 없는 시점에 취소가 들어온 경우 예외 데이터 저장
     if (maybeSavedSsgPoint.isEmpty()) {
       ssgPointRepository.saveExceptOrderNo(
@@ -47,12 +45,9 @@ public class SsgPointCancelService {
               orderNo,
               request.getSiteType().getShortCode(),
               Instant.now(),
-              local,
-              Instant.now(),
-              local));
+              Instant.now()));
       return null;
     }
-
     final var savedSsgPoint = maybeSavedSsgPoint.get();
 
     switch (PointStatusType.from(savedSsgPoint.getPointStatus())) {
@@ -67,7 +62,7 @@ public class SsgPointCancelService {
         //대기건은 보류 처리
         final var withHoldSsgPoint = ssgPointCreater.withWithholdUnit(request, savedSsgPoint);
         ssgPointRepository.setPointStatus(withHoldSsgPoint);
-        return ssgPointRepository.findByKey(request.key(orderNo))
+        return ssgPointRepository.findByKey(request.key(orderNo, savedSsgPoint.getBuyerId()))
             .orElse(null);
       default:
         return savedSsgPoint;
