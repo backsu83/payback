@@ -1,13 +1,10 @@
 package com.ebaykorea.payback.batch.job.tasklet;
 
 
-import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
 import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
 import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
-import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import com.ebaykorea.payback.batch.service.SsgPointBatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.ExitStatus;
@@ -23,8 +20,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SsgPointDailyTasklet implements Tasklet, StepExecutionListener {
 
-  private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
-  private final SsgPointApiClient ssgPointApiClient;
   private final SsgPointAuthProperties authProperties;
   private final SsgPointBatchService ssgPointBatchService;
 

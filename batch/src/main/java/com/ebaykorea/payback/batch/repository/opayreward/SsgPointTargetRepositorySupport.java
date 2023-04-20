@@ -6,29 +6,30 @@ import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExcepti
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
+import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 
+import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
 import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
-import com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgVerifySumEntity;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringTemplate;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 import java.math.BigDecimal;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -90,38 +91,27 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .execute();
   }
 
-  public long updatePointTarget(final long orderNo,
-      final String pointToken,
-      final String buyerId,
-      final OrderSiteType siteType ,
-      final PointTradeType tradeType,
-      final String accountDate,
-      final Instant requestDate,
-      final String responseCode,
-      final String pntApprId,
-      final BigDecimal saveAmount,
-      final String pointStatus
-  ) {
+  public long updatePointTarget(final SsgPointTargetDto target, final String pointStatus) {
     JPAUpdateClause updateClause = factory.update(ssgPointTargetEntity);
-    updateClause.set(ssgPointTargetEntity.responseCode, responseCode)
-        .set(ssgPointTargetEntity.accountDate, accountDate)
-        .set(ssgPointTargetEntity.requestDate, requestDate)
-        .set(ssgPointTargetEntity.pntApprId, pntApprId)
+    updateClause.set(ssgPointTargetEntity.responseCode, target.getResponseCode())
+        .set(ssgPointTargetEntity.accountDate, target.getAccountDate())
+        .set(ssgPointTargetEntity.requestDate,  DATE_TIME_STRING_FORMATTER.parse(target.getRequestDate(), Instant::from))
+        .set(ssgPointTargetEntity.pntApprId, target.getPntApprId())
         .set(ssgPointTargetEntity.updateDate, Instant.now())
         .where(ssgPointTargetEntity.pointStatus.eq(pointStatus),
-            ssgPointTargetEntity.buyerId.eq(buyerId),
-            ssgPointTargetEntity.siteType.eq(siteType.getShortCode()),
-            ssgPointTargetEntity.tradeType.eq(tradeType.getCode()),
-            ssgPointTargetEntity.orderNo.eq(orderNo)
+            ssgPointTargetEntity.buyerId.eq(target.getBuyerId()),
+            ssgPointTargetEntity.siteType.eq(target.getSiteType().getShortCode()),
+            ssgPointTargetEntity.tradeType.eq(target.getTradeType().getCode()),
+            ssgPointTargetEntity.orderNo.eq(target.getOrderNo())
         );
 
-    if(tradeType == PointTradeType.Save) {
-      updateClause.set(ssgPointTargetEntity.pointToken, pointToken);
+    if(target.getTradeType() == PointTradeType.Save) {
+      updateClause.set(ssgPointTargetEntity.pointToken, target.getPointToken());
     }
 
-    if(responseCode.equals("API0000")) {
+    if(target.getResponseCode().equals("API0000")) {
       updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Success.getCode());
-      updateClause.set(ssgPointTargetEntity.saveAmount, saveAmount);
+      updateClause.set(ssgPointTargetEntity.saveAmount, target.getSaveAmount());
     } else {
       updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Fail.getCode());
       updateClause.set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L));

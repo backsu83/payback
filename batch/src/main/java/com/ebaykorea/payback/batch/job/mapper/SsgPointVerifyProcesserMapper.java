@@ -3,28 +3,13 @@ package com.ebaykorea.payback.batch.job.mapper;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyRequest;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyResponse;
 import com.ebaykorea.payback.batch.domain.SsgPointVerifyDto;
-import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
-import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
-import com.ebaykorea.payback.batch.util.PaybackDecimals;
-import com.ebaykorea.payback.batch.util.PaybackInstants;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import java.math.BigDecimal;
-
 @Mapper(
         componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        imports = {
-                OrderSiteType.class,
-                PointStatusType.class,
-                PointTradeType.class,
-                BigDecimal.class,
-                PaybackInstants.class,
-                PaybackDecimals.class
-        }
+        unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface SsgPointVerifyProcesserMapper {
     @Mapping(source = "request.reqDate", target = "tradeDate")

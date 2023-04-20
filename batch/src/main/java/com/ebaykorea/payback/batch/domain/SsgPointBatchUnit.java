@@ -8,9 +8,9 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import org.springframework.stereotype.Component;
 
 @Value
-@Builder
 public class SsgPointBatchUnit {
     private static final String dateTimeFormatForString = "yyMMddHHmmss";
 

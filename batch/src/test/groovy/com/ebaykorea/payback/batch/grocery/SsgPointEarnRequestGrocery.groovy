@@ -2,6 +2,7 @@ package com.ebaykorea.payback.batch.grocery
 
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointEarnRequest
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointPayInfo
+import com.ebaykorea.payback.batch.util.PaybackInstants
 
 class SsgPointEarnRequestGrocery {
 
@@ -11,21 +12,20 @@ class SsgPointEarnRequestGrocery {
       apiKey = (map.apiKey ?: "apiKey") as String
       tokenId = (map.tokenId ?: "tokenId") as String
       reqTrcNo = (map.reqTrcNo ?: "trcNo" ) as String
-      msgText = (map.msgText ?: "msgText" ) as String
-      tradeGbCd = (map.tradeGbCd ?: "tradeGbCd") as String
-      tradeGbCd = (map.tradeGbCd ?: "tradeGbCd") as String
-      busiDt = (map.busiDt ?: "busiDt") as String
-      tradeGentdDt = (map.tradeGentdDt ?: "tradeGentdDt") as String
-      tradeGentdTm = (map.tradeGentdTm ?: "tradeGentdTm") as String
-      tradeGentdStcd = (map.tradeGentdStcd ?: "tradeGentdStcd") as String
-      tradeGentdPosno = (map.tradeGentdPosno ?: "tradeGentdPosno") as String
+      msgText = (map.msgText ?: "APITRN0121" ) as String
+      tradeGbCd = (map.tradeGbCd ?: "200020") as String
+      busiDt = (map.busiDt ?: PaybackInstants.getStringFormatBy("yyyyMMdd")) as String
+      tradeGentdDt = (map.tradeGentdDt ?: PaybackInstants.getStringFormatBy("MMdd")) as String
+      tradeGentdTm = (map.tradeGentdTm ?: "000000") as String
+      tradeGentdStcd = (map.tradeGentdStcd ?: "0000") as String
+      tradeGentdPosno = (map.tradeGentdPosno ?: "0000") as String
       tradeNo = (map.tradeNo ?: "tradeNo") as String
-      doByid = (map.doByid ?: "doByid") as String
+      doByid = (map.doByid ?: "000000") as String
       cardNo = (map.cardNo ?: "cardNo") as String
-      inputFlg = (map.inputFlg ?: "inputFlg") as String
+      inputFlg = (map.inputFlg ?: "O") as String
       brchId = (map.brchId ?: "brchId") as String
       recptNo = (map.recptNo ?: "recptNo") as String
-      recptSeq = (map.recptSeq ?: "recptSeq") as String
+      recptSeq = (map.recptSeq ?: "0000") as String
       pntNoAddProdAmt = (map.pntNoAddProdAmt ?: 0L) as BigDecimal
       totAmt = (map.totAmt ?: 100L) as BigDecimal
       orgSaleTradeNo = (map.orgSaleTradeNo ?: "orgSaleTradeNo") as String
