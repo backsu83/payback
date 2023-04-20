@@ -9,13 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@Slf4j
 @EnableMoA
 @EnableFeignClients
 @SpringBootApplication
-@Slf4j
-@EnableConfigurationProperties({
-    ApiInfoProperties.class
-})
 public class ApiApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
