@@ -36,7 +36,7 @@ ssgpoint:
   scheduler:
     daily:
       #crontab: "0 10,11 * * * *" #매일 10,11시 실행
-      crontab: "0 7 * * * *" #매일 7시 실행
+      crontab: "0 2 * * * *" #매일 2시 실행
     target:
       crontab: "0 */1 * * * *" #5분
     recover:
