@@ -46,7 +46,7 @@ public class SsgPointUnitCreater {
           return SsgPointUnit.readyUnit(entry.getKey(),
               orderUnit.getOrderItem().orderItemPrice(),
               policy.getPointExpectSaveAmount(), // ssg api 대체
-              DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate(), Instant::from),
+              DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate() + " 00:00:00", Instant::from),
               policy.getIsSsgPoint(),
               ssgPointState,
               null,
