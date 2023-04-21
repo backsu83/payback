@@ -5,6 +5,7 @@ import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExcepti
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADD;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
+import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointDailyVerifyEntity.ssgPointDailyVerifyEntity;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 
@@ -36,8 +37,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 @SaturnDataSource(name = "o_payreward")
 public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
-  private final JPAQueryFactory factory;
   private static final ZoneId SEOUL = ZoneId.of("Asia/Seoul");
+  private final JPAQueryFactory factory;
   public SsgPointTargetRepositorySupport(JPAQueryFactory factory) {
     super(SsgPointTargetEntity.class);
     this.factory = factory;
@@ -124,7 +125,8 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     Instant startDate = LocalDateTime.of(yesterday, LocalTime.MIN).atZone(SEOUL).toInstant();
     Instant endDate = LocalDateTime.of(yesterday, LocalTime.MAX).atZone(SEOUL).toInstant();
     StringTemplate dateAsString = Expressions.stringTemplate("TO_CHAR({0}, '{1s}')", ssgPointTargetEntity.requestDate, "YYYY-MM-DD");
-    return factory.select(
+
+    var result = factory.select(
             Projections.fields(SsgVerifySumEntity.class,
                     dateAsString.as("requestDate"),
                     ssgPointTargetEntity.saveAmount.count().coalesce(0L).as("count"),
@@ -142,6 +144,28 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                     ssgPointTargetEntity.tradeType,
                     ssgPointTargetEntity.pointStatus
             ).fetchOne();
+    if (result == null) {
+      result = new SsgVerifySumEntity();
+      result.setSumCount(0L);
+      result.setSumAmount(BigDecimal.ZERO);
+    }
+    return result;
+  }
+
+  public long saveDailyVerify(String tradeDate, String siteType, String tradeType, Long count, BigDecimal amount, String returnCode, String returnMessage) {
+    return factory.insert(ssgPointDailyVerifyEntity)
+            .set(ssgPointDailyVerifyEntity.tradeDate, tradeDate)
+            .set(ssgPointDailyVerifyEntity.siteType, siteType)
+            .set(ssgPointDailyVerifyEntity.tradeType, tradeType)
+            .set(ssgPointDailyVerifyEntity.count, count)
+            .set(ssgPointDailyVerifyEntity.amount, amount)
+            .set(ssgPointDailyVerifyEntity.returnCode, returnCode)
+            .set(ssgPointDailyVerifyEntity.returnMessage, returnMessage)
+            .set(ssgPointDailyVerifyEntity.insertOperator, "verifyBatch")
+            .set(ssgPointDailyVerifyEntity.insertDate, Instant.now())
+            .set(ssgPointDailyVerifyEntity.updateOperator, "verifyBatch")
+            .set(ssgPointDailyVerifyEntity.updateDate, Instant.now())
+            .execute();
   }
 
   private BooleanExpression ShopType(String shopCode) {
@@ -152,7 +176,5 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     return (tradeType == null || "".equals(tradeType))? null : ssgPointTargetEntity.tradeType.eq(tradeType);
   }
 
-  private BooleanExpression TradeStatus(String tradeStatus) {
-    return (tradeStatus == null || "".equals(tradeStatus))? null : ssgPointTargetEntity.pointStatus.eq(tradeStatus);
-  }
+
 }

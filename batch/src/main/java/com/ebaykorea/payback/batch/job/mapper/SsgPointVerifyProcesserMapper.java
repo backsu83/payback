@@ -3,6 +3,9 @@ package com.ebaykorea.payback.batch.job.mapper;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyRequest;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyResponse;
 import com.ebaykorea.payback.batch.domain.SsgPointVerifyDto;
+import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
+import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -19,5 +22,5 @@ public interface SsgPointVerifyProcesserMapper {
     @Mapping(source = "request.sumAmt", target = "amount")
     @Mapping(source = "response.responseCd", target = "returnCode")
     @Mapping(source = "response.responseMsg", target = "returnMessage")
-    SsgPointVerifyDto mapToVerify(SsgPointVerifyRequest request, SsgPointVerifyResponse response, String siteType, String tradeType);
+    SsgPointVerifyDto mapToVerify(SsgPointVerifyRequest request, SsgPointVerifyResponse response, OrderSiteType siteType, VerifyTradeType tradeType);
 }

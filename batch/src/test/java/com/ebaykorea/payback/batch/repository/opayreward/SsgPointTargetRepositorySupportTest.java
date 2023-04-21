@@ -3,7 +3,9 @@ package com.ebaykorea.payback.batch.repository.opayreward;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
+import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.batch.util.support.GsonUtils;
 import org.junit.jupiter.api.Disabled;
@@ -35,4 +37,13 @@ class SsgPointTargetRepositorySupportTest {
         PointStatusType.Ready.getCode());
     assertEquals(result, 1L);
   }
+
+    @Test
+    void findSumCount() {
+      var result = ssgPointTargetRepositorySupport.findSumCount(
+              OrderSiteType.Gmarket,
+              VerifyTradeType.Cancel
+      );
+      System.out.println(GsonUtils.toJsonPretty(result));
+    }
 }

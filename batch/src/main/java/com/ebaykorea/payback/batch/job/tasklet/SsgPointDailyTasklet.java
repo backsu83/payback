@@ -3,6 +3,7 @@ package com.ebaykorea.payback.batch.job.tasklet;
 
 import com.ebaykorea.payback.batch.config.properties.SsgPointAuthProperties;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
+import com.ebaykorea.payback.batch.domain.SsgPointVerifyDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
 import com.ebaykorea.payback.batch.service.SsgPointBatchService;
@@ -28,17 +29,19 @@ public class SsgPointDailyTasklet implements Tasklet, StepExecutionListener {
       throws Exception {
     //token 발급 - 지마켓
     final var gmktAuthInfo = SsgPointCertifier.of(authProperties, OrderSiteType.Gmarket);
-
     //일대사 api 호출 - 적립
-    final var gmktSaveResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Save);
+    final SsgPointVerifyDto gmktSaveResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Save);
+    final long result = ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
+
     //일대사 api 호출 - 취소
-    final var gmktCancelResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Cancel);
+    final SsgPointVerifyDto gmktCancelResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Cancel);
+//    long result = ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
     //token 발급 - 옥션
     final var iacAuthInfo = SsgPointCertifier.of(authProperties, OrderSiteType.Auction);
     //일대사 api 호출 - 적립
-    final var iacSaveResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Save);
+    final SsgPointVerifyDto iacSaveResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Save);
     //일대사 api 호출 - 취소
-    final var iacCancelResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Cancel);
+    final SsgPointVerifyDto iacCancelResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Cancel);
 
 
     //종료

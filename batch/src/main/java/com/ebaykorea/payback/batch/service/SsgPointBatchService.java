@@ -75,20 +75,33 @@ public class SsgPointBatchService {
   public SsgPointVerifyDto verify(SsgPointCertifier certifier, OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), orderSiteType.getShortCode());
     final var sumEntity = ssgPointTargetRepositorySupport.findSumCount(orderSiteType, verifyTradeType);
-    final var uint = new SsgPointBatchUnit();
+    final var unit = new SsgPointBatchUnit();
     SsgPointVerifyRequest request = SsgPointVerifyRequest.builder()
             .clientId(certifier.getClientId())
             .apiKey(certifier.getApiKey())
             .tokenId(tokenId)
-            .reqTrcNo(uint.getVerifyTransactionNo())
-            .reqDate(uint.getRequestDate())
+            .reqTrcNo(unit.getVerifyTransactionNo())
+            .reqDate(unit.getRequestDate())
             .sumCount(sumEntity.getSumCount())
             .sumAmt(sumEntity.getSumAmount())
             .tradeType(verifyTradeType.getCode())
             .brchId(certifier.getBranchId())
             .build();
     var response = ssgPointApiClient.verifyPoint(request);
-    return ssgPointVerifyProcesserMapper.mapToVerify(request, response, orderSiteType.getShortCode(), verifyTradeType.getShortCode());
+    return ssgPointVerifyProcesserMapper.mapToVerify(request, response, orderSiteType, verifyTradeType);
+  }
+
+  @Transactional
+  public long saveVerifySuceess(final SsgPointVerifyDto verify) {
+    return ssgPointTargetRepositorySupport.saveDailyVerify(
+            verify.getTradeDate(),
+            verify.getSiteType().getShortCode(),
+            verify.getTradeType().getCode(),
+            verify.getCount(),
+            verify.getAmount(),
+            verify.getReturnCode(),
+            verify.getReturnMessage()
+    );
   }
 
   public String getCardNo(final String buyerId, OrderSiteType siteType, SsgPointCertifier auth) {
