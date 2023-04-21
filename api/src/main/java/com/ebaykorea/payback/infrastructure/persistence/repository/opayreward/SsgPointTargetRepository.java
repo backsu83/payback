@@ -20,9 +20,9 @@ import java.util.Optional;
 public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEntity, SsgPointTargetEntityId>  {
     @Transactional
     @Modifying
-    @Query("update SsgPointTargetEntity s set s.pointStatus = ?1, s.tryCount = ?2, s.manualOprt = ?3, s.updateOperator = ?4, s.updateDate = ?5 " +
-            "where s.orderNo = ?6 and s.buyerId = ?7 and s.siteType = ?8 and s.tradeType = ?9 and s.pointStatus = ?10")
-    int retryFailPointStatus(@NonNull String pointStatus, @NonNull Long tryCount, @NonNull String manualOprt, @NonNull String updateOperator, @NonNull Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType, @NonNull String pointStatus1);
+    @Query("update SsgPointTargetEntity s set s.pointStatus = ?1, s.tryCount = ?2, s.manualOprt = ?3, s.updateDate = ?4 " +
+            "where s.orderNo = ?5 and s.buyerId = ?6 and s.siteType = ?7 and s.tradeType = ?8 and s.pointStatus = ?9")
+    int retryFailPointStatus(@NonNull String pointStatus, @NonNull Long tryCount, @NonNull String manualOprt, @NonNull Instant updateDate, @NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType, @NonNull String pointStatus1);
 
     Optional<SsgPointTargetEntity> findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(@NonNull Long orderNo, @NonNull String buyerId, @NonNull String siteType, @NonNull String tradeType);
 
@@ -41,5 +41,5 @@ public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEn
 
     List<SsgPointTargetEntity> findAllByPackNoAndBuyerIdAndSiteTypeAndTradeType(Long packNo, String buyerId, String siteType, String tradeType);
 
-    List<SsgPointTargetEntity> findAllByOrderNoAndBuyerIdAndSiteType(Long orderNo, String buyerId, String siteType);
+    List<SsgPointTargetEntity> findAllByOrderNoAndSiteType(Long orderNo,  String siteType);
 }

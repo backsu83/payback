@@ -67,7 +67,7 @@ public class RequestSsgPointService {
             .siteType(siteType.getShortCode())
             .status("FAIL")
             .responseCode(String.valueOf(responseCode))
-            .responseMessage(resultMessage)
+            .responseMessage(resultMessage.length() > 50 ? resultMessage.substring(0,50) : resultMessage)
             .insertOperator(oprt)
             .tryCnt(0L)
         .build());

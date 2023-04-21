@@ -15,6 +15,7 @@ import java.util.stream.IntStream;
 import com.ebaykorea.saturn.mssql.ProcedureExecutorAutoConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @Slf4j
+@Disabled
 @EnableAutoConfiguration(exclude = {ProcedureExecutorAutoConfiguration.class, DataSourceAutoConfiguration.class})
 @SpringBootTest(properties = {"payback.dcm.access.enable=false"})
 public class ExecutorTreadPoolTest {

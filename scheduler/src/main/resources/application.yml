@@ -5,16 +5,19 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: payback
-  profiles:
-    include: custom
-  jpa:
-    hibernate:
-      show_sql: true
-      format_sql: true
-      inspect_stacktrace: true
-      naming_physical_strategy: org.hibernate.boot.entity.naming.PhysicalNamingStrategyStandardImpl  #naming.physical-strategy
+  main:
+    allow-bean-definition-overriding: true
+    application:
+      name: payback
+    profiles:
+      include: custom
+    jpa:
+      open-in-view: false
+      hibernate:
+        show_sql: true
+        format_sql: true
+        inspect_stacktrace: true
+        naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
 
 logging:
   pattern:

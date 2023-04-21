@@ -1,11 +1,10 @@
-package com.ebaykorea.payback.scheduler.repository;
+package com.ebaykorea.payback.scheduler.repository.stardb;
 
-import com.ebaykorea.payback.scheduler.repository.entity.CashbackOrderBatchEntity;
+import com.ebaykorea.payback.scheduler.repository.stardb.entity.CashbackOrderBatchEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
-import com.google.common.collect.Lists;
 import java.sql.Types;
 import java.util.Collections;
 import java.util.List;
