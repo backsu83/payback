@@ -28,7 +28,7 @@ public class RequestSsgPointService {
         paybackApiClient.cancelSsgPoint(orderNo,
               PaybackSsgPointCancelRequest.builder()
                   .packNo(packNo)
-                  .siteType(OrderSiteType.Gmarket)
+                  .siteType(OrderSiteType.Gmarket.getShortCode())
                   .build())
             .filter(PaybackSsgPointCancelResponse::isNotSuccess)
             .ifPresent(result -> saveError(orderNo, packNo, OrderSiteType.Gmarket, result.getCode(),result.getMessage(),"cancelSsgPointGmarket"));
@@ -43,7 +43,7 @@ public class RequestSsgPointService {
       paybackApiClient.cancelSsgPoint(orderNo,
               PaybackSsgPointCancelRequest.builder()
                   .packNo(packNo)
-                  .siteType(OrderSiteType.Auction)
+                  .siteType(OrderSiteType.Auction.getShortCode())
                   .build())
           .filter(PaybackSsgPointCancelResponse::isNotSuccess)
           .ifPresent(result -> saveError(orderNo, packNo, OrderSiteType.Auction, result.getCode(),result.getMessage(),"cancelSsgPointAuction"));
