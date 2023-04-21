@@ -17,9 +17,7 @@ public interface SsgPointOrderNoEntityMapper {
   @Mapping(source = "orderNo", target = "orderNo")
   @Mapping(source = "siteType", target = "siteType")
   @Mapping(source = "insertDate", target = "insertDate")
-  @Mapping(source = "insertOperator", target = "insertOperator")
   @Mapping(source = "updateDate", target = "updateDate")
-  @Mapping(source = "updateOperator", target = "updateOperator")
   SsgPointOrderNoEntity map(SsgPointOrderNoDto SsgPointOrderNoDto);
 
 }

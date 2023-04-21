@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @Builder
 public class PaybackSsgPointCancelRequest {
-  private OrderSiteType siteType;
+  private String siteType;
   private Long packNo;
 }

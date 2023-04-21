@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateSsgPointTradeStatusRequestDto implements SsgPointRequestable {
+
   @Schema(description = "구매자 아이디")
   @NotNull
   private String buyerId;
