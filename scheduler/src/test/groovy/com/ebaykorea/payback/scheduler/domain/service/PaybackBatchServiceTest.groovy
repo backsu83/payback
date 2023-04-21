@@ -1,15 +1,14 @@
 package com.ebaykorea.payback.scheduler.domain.service
 
-import com.ebaykorea.payback.scheduler.repository.CashbackOrderBatchRepository
+import com.ebaykorea.payback.scheduler.repository.stardb.CashbackOrderBatchRepository
+import com.ebaykorea.payback.scheduler.repository.stardb.entity.CashbackOrderBatchEntity
 import com.ebaykorea.payback.scheduler.service.entity.ProcessType
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient
 import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto
 import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto
-import com.ebaykorea.payback.scheduler.repository.entity.CashbackOrderBatchEntity
 
 import com.ebaykorea.payback.scheduler.service.PaybackBatchService
 
-import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 import java.util.concurrent.Executors
 import java.sql.Timestamp

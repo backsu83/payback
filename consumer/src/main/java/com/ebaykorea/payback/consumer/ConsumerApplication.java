@@ -14,9 +14,6 @@ import org.springframework.context.event.EventListener;
 @EnableFeignClients
 @EnableSaturnDataSource
 @SpringBootApplication
-@EnableConfigurationProperties({
-    ApiInfoProperties.class
-})
 public class ConsumerApplication {
 
   public static void main(String[] args) {
