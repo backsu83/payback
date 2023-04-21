@@ -27,22 +27,24 @@ public class SsgPointDailyTasklet implements Tasklet, StepExecutionListener {
   @Override
   public RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
       throws Exception {
+
     //token 발급 - 지마켓
     final var gmktAuthInfo = SsgPointCertifier.of(authProperties, OrderSiteType.Gmarket);
     //일대사 api 호출 - 적립
     final SsgPointVerifyDto gmktSaveResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Save);
-    final long result = ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
-
+    ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
     //일대사 api 호출 - 취소
     final SsgPointVerifyDto gmktCancelResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Cancel);
-//    long result = ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
+    ssgPointBatchService.saveVerifySuceess(gmktCancelResult);
+
     //token 발급 - 옥션
     final var iacAuthInfo = SsgPointCertifier.of(authProperties, OrderSiteType.Auction);
     //일대사 api 호출 - 적립
     final SsgPointVerifyDto iacSaveResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Save);
+    ssgPointBatchService.saveVerifySuceess(iacSaveResult);
     //일대사 api 호출 - 취소
     final SsgPointVerifyDto iacCancelResult = ssgPointBatchService.verify(iacAuthInfo, OrderSiteType.Auction, VerifyTradeType.Cancel);
-
+    ssgPointBatchService.saveVerifySuceess(iacCancelResult);
 
     //종료
     return RepeatStatus.FINISHED;

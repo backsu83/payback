@@ -31,7 +31,7 @@ class SsgPointApiClientTest {
        var gmktAuthInfo =  SsgPointCertifier.of(authProperties, OrderSiteType.Gmarket);
        final SsgPointVerifyDto gmktSaveResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Save);
        //System.out.println(GsonUtils.toJsonPretty(gmktSaveResult));
-       final long result = ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
-       System.out.println(GsonUtils.toJsonPretty(result));
+       ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
+       //System.out.println(GsonUtils.toJsonPretty(result));
     }
 }

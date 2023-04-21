@@ -15,10 +15,16 @@ import java.time.Instant;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@SequenceGenerator(
+        name = "SEQ_POINT_DAILY_VERIFI",
+        sequenceName = "SEQ_SS_POINT_DAILY_VERIFI",
+        allocationSize = 1
+)
 @Table(schema = "O_PAYREWARD", name = "SSG_POINT_DAILY_VERIFY")
 public class SsgPointDailyVerifyEntity {
     @Id
     @Column(name = "SSG_POINT_DAILY_VERIFY_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_POINT_DAILY_VERIFI")
     private long ssgPointDailyVerifySeq;
 
     @Column(name = "TRADE_DATE")

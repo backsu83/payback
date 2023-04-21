@@ -152,22 +152,6 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     return result;
   }
 
-  public long saveDailyVerify(String tradeDate, String siteType, String tradeType, Long count, BigDecimal amount, String returnCode, String returnMessage) {
-    return factory.insert(ssgPointDailyVerifyEntity)
-            .set(ssgPointDailyVerifyEntity.tradeDate, tradeDate)
-            .set(ssgPointDailyVerifyEntity.siteType, siteType)
-            .set(ssgPointDailyVerifyEntity.tradeType, tradeType)
-            .set(ssgPointDailyVerifyEntity.count, count)
-            .set(ssgPointDailyVerifyEntity.amount, amount)
-            .set(ssgPointDailyVerifyEntity.returnCode, returnCode)
-            .set(ssgPointDailyVerifyEntity.returnMessage, returnMessage)
-            .set(ssgPointDailyVerifyEntity.insertOperator, "verifyBatch")
-            .set(ssgPointDailyVerifyEntity.insertDate, Instant.now())
-            .set(ssgPointDailyVerifyEntity.updateOperator, "verifyBatch")
-            .set(ssgPointDailyVerifyEntity.updateDate, Instant.now())
-            .execute();
-  }
-
   private BooleanExpression ShopType(String shopCode) {
     return (shopCode == null || "".equals(shopCode))? null : ssgPointTargetEntity.siteType.eq(shopCode);
   }

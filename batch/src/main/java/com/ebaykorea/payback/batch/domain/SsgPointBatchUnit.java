@@ -14,11 +14,14 @@ import org.springframework.stereotype.Component;
 public class SsgPointBatchUnit {
     private static final String dateTimeFormatForString = "yyMMddHHmmss";
 
+    private static final String dateTimeFormatForStringApi = "yyyyMMdd";
+
     private static final String timeFormatForString = "MMddHH";
 
     private static final DateTimeFormatter DATE_TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormatForString)
             .withZone(ZoneId.of("Asia/Seoul"));
-
+    private static final DateTimeFormatter DATE_TIME_STRING_FORMATTER_API  = DateTimeFormatter.ofPattern(dateTimeFormatForStringApi)
+            .withZone(ZoneId.of("Asia/Seoul"));
     private static final DateTimeFormatter TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormatForString)
             .withZone(ZoneId.of("Asia/Seoul"));
 
@@ -30,7 +33,8 @@ public class SsgPointBatchUnit {
         return Strings.padEnd(verifyTransactionNo, 20, '0');
     }
 
+    //yyyyMMdd 형식
     public String getRequestDate() {
-        return DATE_TIME_STRING_FORMATTER.format(Instant.now().minus(1, ChronoUnit.DAYS));
+        return DATE_TIME_STRING_FORMATTER_API.format(Instant.now().minus(1, ChronoUnit.DAYS));
     }
 }
