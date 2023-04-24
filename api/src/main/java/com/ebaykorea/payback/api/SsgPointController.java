@@ -6,13 +6,20 @@ import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.ssgpoint.*;
 import com.ebaykorea.payback.core.service.SsgPointCancelService;
+import com.ebaykorea.payback.infrastructure.query.SsgPointQuery;
 import com.ebaykorea.payback.core.service.SsgPointService;
+import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.validation.Valid;
+import java.util.List;
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.*;
 
@@ -24,6 +31,7 @@ import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.*;
 public class SsgPointController {
 
  private final SsgPointService ssgPointService;
+ private final SsgPointQuery ssgPointQuery;
  private final SsgPointCancelService ssgPointCancelService;
 
   @PostMapping
@@ -36,13 +44,18 @@ public class SsgPointController {
    return CommonResponse.success(SSGPOINT_CANCELED , ssgPointCancelService.cancelPoint(orderNo, request));
   }
 
- @PutMapping("/{order-no}/retry")
- public CommonResponse<SsgPointTarget> retryFailPointStatus(@PathVariable(value = "order-no") Long orderNo, final @Valid @RequestBody UpdateSsgPointTradeStatusRequestDto request) {
-  return CommonResponse.success(SSGPOINT_RETRIED, ssgPointService.retryFailed(orderNo, request));
- }
+  @PutMapping("/{order-no}/retry")
+  public CommonResponse<SsgPointTarget> retryFailPointStatus(@PathVariable(value = "order-no") Long orderNo, final @Valid @RequestBody UpdateSsgPointTradeStatusRequestDto request) {
+   return CommonResponse.success(SSGPOINT_RETRIED, ssgPointService.retryFailed(orderNo, request));
+  }
 
- @PostMapping("/dailyVerify")
- public SsgPointResponse<Object> ssgPointDailyVerify(final @Valid @RequestBody VerifyDailySsgPointDto request) {
-  return new SsgPointResponse("0000", "success", ssgPointService.verifyDailyPoint(request));
- }
+  @PostMapping("/dailyVerify")
+  public SsgPointResponse<Object> ssgPointDailyVerify(final @Valid @RequestBody VerifyDailySsgPointDto request) {
+   return new SsgPointResponse("0000", "success", ssgPointService.verifyDailyPoint(request));
+  }
+
+  @GetMapping("/ssgpoints")
+  public List<SsgPointTargetQueryResult> getSsgPoints(Long packNo, String siteType, String tradeType) {
+   return ssgPointQuery.getSsgPointQueryResult(packNo, siteType, tradeType);
+  }
 }

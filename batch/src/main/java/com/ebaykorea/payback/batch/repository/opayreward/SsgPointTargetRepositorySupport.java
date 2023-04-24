@@ -31,6 +31,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -144,12 +146,9 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                     ssgPointTargetEntity.tradeType,
                     ssgPointTargetEntity.pointStatus
             ).fetchOne();
-    if (result == null) {
-      result = new SsgVerifySumEntity();
-      result.setSumCount(0L);
-      result.setSumAmount(BigDecimal.ZERO);
-    }
-    return result;
+    return Optional.ofNullable(result)
+            .orElse(new SsgVerifySumEntity(0L, BigDecimal.ZERO));
+
   }
 
   private BooleanExpression ShopType(String shopCode) {
