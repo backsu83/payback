@@ -16,11 +16,9 @@ public class SsgPointQuery {
     private final SsgPointTargetQueryResultMapper pointMapper;
 
     public List<SsgPointTargetQueryResult> getSsgPointQueryResult(final Long packNo, String siteType, String tradeType) {
-        List<SsgPointTargetQueryResult> results = ssgPointTargetRepository.findByPackNo(packNo)
+        return ssgPointTargetRepository.findByPackNo(packNo)
                 .stream().filter(s -> siteType.equals(s.getSiteType()) && tradeType.equals(s.getTradeType()))
                 .map(pointMapper::map)
                 .collect(Collectors.toUnmodifiableList());
-
-        return results;
     }
 }
