@@ -29,7 +29,7 @@ public class SsgPointDailyJobConfig {
 
   @Bean
   public Step ssgpointDailyStep() {
-    return stepBuilderFactory.get(JOB_NAME)
+    return stepBuilderFactory.get("ssgpointDailyStep")
         .tasklet(ssgPointDailyTasklet)
         .build();
   }
