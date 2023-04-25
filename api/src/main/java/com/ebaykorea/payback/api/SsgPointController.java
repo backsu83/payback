@@ -54,7 +54,7 @@ public class SsgPointController {
    return new SsgPointResponse("0000", "success", ssgPointService.verifyDailyPoint(request));
   }
 
-  @GetMapping("/ssgpoints")
+  @GetMapping
   public List<SsgPointTargetQueryResult> getSsgPoints(Long packNo, String siteType, String tradeType) {
    return ssgPointQuery.getSsgPointQueryResult(packNo, siteType, tradeType);
   }
