@@ -15,6 +15,6 @@ import org.mapstruct.ReportingPolicy;
 public interface SsgPointTargetQueryResultMapper {
 
     @Mapping(source = "saveAmount", target = "ssgPointSaveAmount")
-    @Mapping(expression = "java(PaybackInstants.DATE_TIME_FORMATTER.format(source.getScheduleDate()))", target = "ssgPointSaveExpectDate")
+    @Mapping(expression = "java(PaybackInstants.DATE_FORMATTER.format(source.getScheduleDate()))", target = "ssgPointSaveExpectDate")
     SsgPointTargetQueryResult map(SsgPointTargetEntity source);
 }

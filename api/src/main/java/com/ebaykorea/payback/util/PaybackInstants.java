@@ -19,11 +19,6 @@ public class PaybackInstants {
         .toInstant();
   }
 
-  public static final DateTimeFormatter DATE_TIME_FORMATTER = new DateTimeFormatterBuilder()
-          .appendPattern("yyyy-MM-dd")
-          .parseDefaulting(ChronoField.NANO_OF_DAY, 0)
-          .toFormatter()
-          .withZone(SEOUL);
   public static final DateTimeFormatter DATE_FORMATTER = new DateTimeFormatterBuilder()
       .appendPattern("yyyy-MM-dd")
       .parseDefaulting(ChronoField.NANO_OF_DAY, 0)
