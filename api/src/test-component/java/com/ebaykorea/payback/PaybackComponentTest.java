@@ -2,6 +2,7 @@ package com.ebaykorea.payback;
 
 import com.ebaykorea.payback.api.CashbackController;
 import com.ebaykorea.payback.api.SmilePointController;
+import com.ebaykorea.payback.api.SsgPointController;
 import com.ebaykorea.payback.core.dto.cashback.CashbackResponseDto;
 import com.ebaykorea.payback.core.dto.cashback.SaveCashbackRequestDto;
 import com.ebaykorea.payback.api.dto.smilepoint.SaveSmilePointRequestDto;
@@ -27,8 +28,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -60,6 +61,8 @@ public class PaybackComponentTest {
     @Autowired
     CashbackController cashbackController;
     @Autowired
+    SsgPointController ssgPointController;
+    @Autowired
     ObjectMapper objectMapper;
 
     @MockBean
@@ -80,6 +83,7 @@ public class PaybackComponentTest {
 
     private static final String txKey = "txKey";
     private static final String orderKey = "orderKey";
+
 
     @Test
     @DisplayName("캐시백 적립이 성공한다")
@@ -126,6 +130,15 @@ public class PaybackComponentTest {
       } catch (Exception ex) {
         return null;
       }
+    }
+
+    private final Long packNo = 5085547185L;
+    private static final String siteType = "G";
+    private static final String tradeType = "S";
+    @Test
+    @DisplayName("신세계 포인트 조회")
+    void getSsgPoints() {
+      final var result = ssgPointController.getSsgPoints(packNo, siteType, tradeType);
     }
   }
 
@@ -184,5 +197,4 @@ public class PaybackComponentTest {
       assertEquals(request.getContrNo(), result.getContrNo());
     }
   }
-
 }
