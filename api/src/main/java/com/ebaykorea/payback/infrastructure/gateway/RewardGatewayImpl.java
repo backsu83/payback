@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.gateway;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
 import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
+import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
 
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
@@ -73,7 +74,7 @@ public class RewardGatewayImpl implements RewardGateway {
   }
 
   private CompletableFuture<CashbackRewardResponseDto> getCashbackRewardAsync(final CashbackRewardRequestDto request) {
-    return CompletableFuture.supplyAsync(() -> rewardApiClient.getCashbackReward(request))
+    return CompletableFuture.supplyAsync(withMdc(() -> rewardApiClient.getCashbackReward(request)))
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
@@ -81,7 +82,7 @@ public class RewardGatewayImpl implements RewardGateway {
   }
 
   private CompletableFuture<List<CashbackRewardBackendResponseDto>> getCashbackBackendRewardAsync(final CashbackRewardRequestDto request) {
-    return CompletableFuture.supplyAsync(() -> rewardApiClient.getCashbackRewardBackend(request))
+    return CompletableFuture.supplyAsync(withMdc(() -> rewardApiClient.getCashbackRewardBackend(request)))
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
