@@ -1,9 +1,8 @@
 package com.ebaykorea.payback.infrastructure.persistence.mapper
 
+import com.ebaykorea.payback.constant.TestConstant
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
-
-import java.time.Instant
 
 import static com.ebaykorea.payback.grocery.SsgPointEntityGrocery.SsgPointTargetEntity_생성
 import static com.ebaykorea.payback.grocery.SsgPointGrocery.*

@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.grocery
 
+import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin
