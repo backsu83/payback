@@ -1,14 +1,11 @@
 package com.ebaykorea.payback.infrastructure.persistence.mapper
 
-
+import com.ebaykorea.payback.constant.TestConstant
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
-import java.time.Instant
-
 import static com.ebaykorea.payback.grocery.SsgPointEntityGrocery.SsgPointTargetEntity_생성
 import static com.ebaykorea.payback.grocery.SsgPointGrocery.*
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER
 
 class SsgPointTargetEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SsgPointTargetEntityMapper)
@@ -17,8 +14,8 @@ class SsgPointTargetEntityMapperSpec extends Specification {
     expect:
     def result = mapper.mapToSsgTarget(
         SsgPointTargetEntity_생성(
-            orderDate: Instant.parse("2023-04-11T13:00:00.00Z"),
-            scheduleDate: DATE_TIME_FORMATTER.parse("2023-04-16 22:00:00", Instant::from),
+            orderDate: TestConstant.SSGPOINT_ORDER_DATE,
+            scheduleDate: TestConstant.SSGPOINT_SCHEDULE_DATE,
             insertOperator: "adminId"
         )
     )
@@ -67,7 +64,7 @@ class SsgPointTargetEntityMapperSpec extends Specification {
     "적립보류상태" | SsgPointTargetEntity_생성(pointStatus: "WW") | _
     _________________________________________________
     SSG포인트 | SSG포인트유닛
-    SsgPoint_생성() | SsgPointUnit_준비상태_생성()
+    SsgPoint_생성() | SsgPointUnit_준비상태_생성(adminId: "adminId")
     SsgPoint_생성() | SsgPointUnit_취소상태_생성()
     SsgPoint_생성() | SsgPointUnit_보류상태_생성()
   }

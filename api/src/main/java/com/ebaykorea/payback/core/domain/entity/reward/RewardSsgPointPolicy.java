@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.core.domain.entity.reward;
 
 import java.math.BigDecimal;
+import java.util.Optional;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -10,5 +12,9 @@ public class RewardSsgPointPolicy {
   long policyKey;
   BigDecimal pointExpectSaveAmount;
   Boolean isSsgPoint;
-  String expectSaveDate;
+  Integer policyDay;
+
+  public Optional<Integer> findPolicyDay() {
+    return Optional.ofNullable(policyDay);
+  }
 }

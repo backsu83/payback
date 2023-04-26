@@ -60,10 +60,10 @@ class RewardGrocery {
 
   static def RewardSsgPointPolicy_생성(Map map = [:]) {
     RewardSsgPointPolicy.builder()
-            .policyKey((map.policyKey ?: 1L) as long)
-            .pointExpectSaveAmount((map.pointExpectSaveAmount ?: null) as BigDecimal)
-            .isSsgPoint((map.isSsgPoint ?: null) as Boolean)
-            .expectSaveDate((map.expectSaveDate ?: null) as String)
-            .build()
+        .policyKey((map.policyKey ?: 1L) as long)
+        .pointExpectSaveAmount((map.pointExpectSaveAmount ?: null) as BigDecimal)
+        .isSsgPoint((map.isSsgPoint ?: null) as Boolean)
+        .policyDay((map.policyDay ?: null) as Integer)
+        .build()
   }
 }

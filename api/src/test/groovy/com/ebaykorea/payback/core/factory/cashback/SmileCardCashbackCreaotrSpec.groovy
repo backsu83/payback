@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.factory
+package com.ebaykorea.payback.core.factory.cashback
 
 import com.ebaykorea.payback.core.domain.constant.PaymentCode
 import com.ebaykorea.payback.core.domain.constant.SmileCardType
