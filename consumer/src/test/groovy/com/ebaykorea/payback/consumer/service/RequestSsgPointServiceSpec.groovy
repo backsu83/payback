@@ -48,7 +48,7 @@ class RequestSsgPointServiceSpec extends Specification {
     given:
     var response = PaybackSsgPointCancelResponse.builder().code(200).message("SUCESS").build()
     var orderNo = 1L
-    paybackApiClient.cancelSsgPoint(_ as Long , _ as PaybackSsgPointCancelRequest) >> null
+    paybackApiClient.cancelSsgPoint(_ as Long , _ as PaybackSsgPointCancelRequest) >> new RuntimeException("에러")
 
     when:
     requestSsgPointService.cancelSsgPointAuction(100L , orderNo)

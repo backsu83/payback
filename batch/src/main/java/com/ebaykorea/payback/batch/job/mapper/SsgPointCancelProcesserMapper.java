@@ -37,6 +37,7 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "processerDto.trcNo", target = "reqTrcNo")
     @Mapping(source = "processerDto.receiptNo", target = "recptNo")
     @Mapping(source = "processerDto.tradeNo", target = "tradeNo")
+    @Mapping(source = "processerDto.pointToken", target = "cardNo")
     @Mapping(constant = "APITRN0141", target = "msgText")
     @Mapping(constant = "400080", target = "tradeGbCd")
     @Mapping(expression = "java(PaybackInstants.getStringFormatBy(\"yyyyMMdd\"))", target = "busiDt")
@@ -46,14 +47,13 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(constant = "0000", target = "tradeGentdPosno")
     @Mapping(constant = "000000", target = "doByid")
     @Mapping(constant = "O", target = "inputFlg")
-    @Mapping(source = "cardNo", target = "cardNo")
     @Mapping(constant = "0000", target = "recptSeq")
     @Mapping(source = "processerDto.orderNo", target = "orgSaleTradeNo")
     @Mapping(source = "processerDto.payAmount", target = "otradeTotAmt")      //원거래 총 거래 금액
     @Mapping(source = "processerDto.accountDate", target = "otradeBusiDt")    //원거래영업일자
     @Mapping(source = "processerDto.orgReceiptNo", target = "otradeRecptNo")  //원거래영수증번호
     @Mapping(source = "processerDto.orgPntApprId", target = "otradeApprId")   //원거래포인트승인ID
-    SsgPointCancelRequest mapToRequest(SsgPointProcesserDto processerDto , SsgPointCertifier certifier , String tokenId , String cardNo);
+    SsgPointCancelRequest mapToRequest(SsgPointProcesserDto processerDto , SsgPointCertifier certifier , String tokenId);
 
 
     @Mapping(source = "processerDto.orderNo", target = "orderNo")
@@ -61,11 +61,13 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "processerDto.siteType", target = "siteType")
     @Mapping(source = "processerDto.tradeType", target = "tradeType")
     @Mapping(source = "processerDto.status", target = "status")
+    @Mapping(source = "processerDto.pointToken", target = "pointToken")
     @Mapping(source = "response.pntApprId", target = "pntApprId")
     @Mapping(expression = "java(PaybackDecimals.from(response.getGpoint()))", target = "saveAmount")
     @Mapping(source = "response.responseCd", target = "responseCode")
-    @Mapping(source = "request.busiDt", target = "accountDate")
-    @Mapping(expression = "java(request.getRequestDate())", target = "requestDate")
-    SsgPointTargetDto mapToTarget(SsgPointCancelRequest request , SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
+    @Mapping(source = "busiDt", target = "accountDate")
+    @Mapping(source = "requestDate", target = "requestDate")
+    SsgPointTargetDto mapToTarget(String busiDt, String requestDate, SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
+
 
 }

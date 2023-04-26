@@ -2,10 +2,13 @@ package com.ebaykorea.payback.core.service;
 
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
+import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.dto.ssgpoint.UpdateSsgPointTradeStatusRequestDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
+import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointDailyVerifyEntityMapper;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.util.PaybackOperators;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import lombok.RequiredArgsConstructor;
@@ -60,12 +63,15 @@ public class SsgPointService {
   }
 
   public SsgPointTarget retryFailed(final Long orderNo, final UpdateSsgPointTradeStatusRequestDto request) {
-    final var local = PaybackOperators.operator(request.getBuyerId());
-    final var updateCount = ssgPointRepository.retryFailedPointStatus(request.key(orderNo), request.getAdminId(), local, Instant.now());
+    final var updateCount = ssgPointRepository.retryFailedPointStatus(request.key(orderNo), request.getAdminId(), Instant.now());
     if (updateCount > 0) {
       return ssgPointRepository.findByKey(request.key(orderNo))
           .orElse(null);
     }
     return null;
+  }
+
+  public VerifyDailySsgPointDto verifyDailyPoint(final VerifyDailySsgPointDto request){
+    return ssgPointRepository.verifyDailyPoint(request);
   }
 }

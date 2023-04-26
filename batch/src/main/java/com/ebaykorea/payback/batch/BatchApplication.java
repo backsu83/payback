@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.batch;
 
-import com.ebaykorea.payback.batch.config.properties.ApiInfoProperties;
 import com.ebaykorea.saturn.datasource.EnableSaturnDataSource;
 import com.ebaykorea.saturn.moa.EnableMoA;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +7,6 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -19,9 +17,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableBatchProcessing
 @EnableScheduling
 @SpringBootApplication
-@EnableConfigurationProperties({
-    ApiInfoProperties.class
-})
 public class BatchApplication implements CommandLineRunner {
 
   public static void main(String[] args) {

@@ -1,38 +1,22 @@
 package com.ebaykorea.payback.batch.service
 
-import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient
-import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient
-import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
+
+import com.ebaykorea.payback.batch.domain.SsgPointTargetDto
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType
-import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcesserMapper
-import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper
+import com.ebaykorea.payback.batch.job.writer.SsgPointTargetRecoverWriter
+import com.ebaykorea.payback.batch.job.writer.SsgPointTargetWriter
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport
-import com.ebaykorea.payback.batch.repository.opayreward.SsgTokenRepository
-import org.mapstruct.factory.Mappers
 import spock.lang.Specification
-
-import java.time.Instant
 
 import static com.ebaykorea.payback.batch.grocery.SsgPointTargetDtoGrocery.SsgPointTargetDto_생성
 
 class SsgPointBatchServiceSpec extends Specification {
 
-  def ssgPointApiClient = Mock(SsgPointApiClient)
-  def smileClubApiClient = Mock(SmileClubApiClient)
-  def ssgTokenRepository = Mock(SsgTokenRepository)
-  def earnMapper = Mappers.getMapper(SsgPointEarnProcesserMapper)
-  def cancelMapper = Mappers.getMapper(SsgPointCancelProcesserMapper)
   def ssgPointTargetRepositorySupport = Mock(SsgPointTargetRepositorySupport)
+  def ssgPointTargetWriter = new SsgPointTargetWriter(ssgPointTargetRepositorySupport)
+  def ssgPointTargetRecoverWriter = new SsgPointTargetRecoverWriter(ssgPointTargetRepositorySupport)
 
-  def pointService = new SsgPointBatchService(
-          ssgPointApiClient,
-          smileClubApiClient,
-          ssgTokenRepository,
-          earnMapper,
-          cancelMapper,
-          ssgPointTargetRepositorySupport
-  )
 
   def "SSG_POINT_TARET_데이터_업데이트"() {
 
@@ -50,10 +34,10 @@ class SsgPointBatchServiceSpec extends Specification {
             tradeType: PointTradeType.Save
     )
     when:
-    pointService.updateWriterSuceess(ssgPointTargetDto)
+    ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
 
     then:
-    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
+    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as String)
 
     where:
     결과 | API응답결과 | 포인트상태
@@ -79,9 +63,9 @@ class SsgPointBatchServiceSpec extends Specification {
             tradeType: PointTradeType.Save
     )
     when:
-    pointService.updateWriterRecoverSuceess(ssgPointTargetDto)
+    ssgPointTargetRecoverWriter.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
-    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as Long, _ as String, _ as OrderSiteType, _ as PointTradeType, _ as String, _ as Instant, _ as String, _ as String, _ as BigDecimal, _ as String)
+    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as String)
   }
 }

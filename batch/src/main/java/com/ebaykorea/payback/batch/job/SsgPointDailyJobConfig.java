@@ -10,19 +10,19 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class SsgPointDailyJobConfig {
 
+  public static final String JOB_NAME = "ssgpointDailyJob";
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
   private final SsgPointDailyTasklet ssgPointDailyTasklet;
 
   @Bean
   public Job ssgpointDailyJob() {
-    return jobBuilderFactory.get("ssgpointDailyJob")
+    return jobBuilderFactory.get(JOB_NAME)
         .start(ssgpointDailyStep())
         .build();
   }
@@ -33,4 +33,6 @@ public class SsgPointDailyJobConfig {
         .tasklet(ssgPointDailyTasklet)
         .build();
   }
+
+
 }

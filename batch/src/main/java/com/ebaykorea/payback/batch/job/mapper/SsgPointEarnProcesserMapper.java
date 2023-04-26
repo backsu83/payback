@@ -57,15 +57,6 @@ public interface SsgPointEarnProcesserMapper {
   @Mapping(source = "processerDto.payAmount" , target = "payInfo" , qualifiedByName = "mapToPayInfo")
   SsgPointEarnRequest mapToRequest(SsgPointProcesserDto processerDto , SsgPointCertifier authInfo , String tokenId , String cardNo);
 
-  @Named("mapToPayInfo")
-  default List<SsgPointPayInfo> mapToPayInfo(BigDecimal payAmount) {
-    return Lists.newArrayList(SsgPointPayInfo.builder()
-        .payAmt(payAmount)
-        .payGb("00")
-        .payType("A00011")
-        .build());
-  }
-
   @Mapping(source = "processerDto.orderNo", target = "orderNo")
   @Mapping(source = "processerDto.buyerId", target = "buyerId")
   @Mapping(source = "processerDto.siteType", target = "siteType")
@@ -74,8 +65,18 @@ public interface SsgPointEarnProcesserMapper {
   @Mapping(source = "response.pntApprId", target = "pntApprId")
   @Mapping(expression = "java(PaybackDecimals.from(response.getGpoint()))", target = "saveAmount")
   @Mapping(source = "response.responseCd", target = "responseCode")
-  @Mapping(source = "request.busiDt", target = "accountDate")
-  @Mapping(expression = "java(request.getRequestDate())", target = "requestDate")
-  SsgPointTargetDto mapToTarget(SsgPointEarnRequest request , SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
+  @Mapping(source = "busiDt", target = "accountDate")
+  @Mapping(source = "cardNo", target = "pointToken")
+  @Mapping(source = "requestDate", target = "requestDate")
+  SsgPointTargetDto mapToTarget(String busiDt, String requestDate, String cardNo, SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
+
+  @Named("mapToPayInfo")
+  default List<SsgPointPayInfo> mapToPayInfo(BigDecimal payAmount) {
+    return List.of(SsgPointPayInfo.builder()
+        .payAmt(payAmount)
+        .payGb("00")
+        .payType("A00011")
+        .build());
+  }
 
 }

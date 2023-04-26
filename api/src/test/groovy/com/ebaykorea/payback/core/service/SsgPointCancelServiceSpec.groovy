@@ -25,7 +25,7 @@ class SsgPointCancelServiceSpec extends Specification {
   def "cancelPoint 정상 처리 확인"() {
     setup:
     ssgPointRepository.findByKey(_ as SsgPointRequestKey) >> Optional.ofNullable(키조회결과)
-    ssgPointRepository.findAllByOrderNoAndSiteType(_ as Long, _ as String, _ as OrderSiteType) >> 조회결과
+    ssgPointRepository.findAllByOrderNoAndSiteType(_ as Long, _ as OrderSiteType) >> 조회결과
 
     when:
     def result = ssgPointCancelService.cancelPoint(1L, request)

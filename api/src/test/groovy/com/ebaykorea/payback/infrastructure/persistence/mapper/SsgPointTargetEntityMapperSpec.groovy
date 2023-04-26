@@ -68,7 +68,7 @@ class SsgPointTargetEntityMapperSpec extends Specification {
     _________________________________________________
     desc | 예상결과 | _
     "적립준비상태" | SsgPointTargetEntity_생성() | _
-    "적립취소상태" | SsgPointTargetEntity_생성(tradeType: "C", receiptNo: "GMK230411220000C0000", trcNo: "C1041312000000000000", tradeNo: "2010000000", accountDate: "20230416") | _
+    "적립취소상태" | SsgPointTargetEntity_생성(tradeType: "C", receiptNo: "GMK230411220000C0000", trcNo: "C1041312000000000000", tradeNo: "2010000000", accountDate: "20230416", pointToken: "pointToken") | _
     "적립보류상태" | SsgPointTargetEntity_생성(pointStatus: "WW") | _
     _________________________________________________
     SSG포인트 | SSG포인트유닛

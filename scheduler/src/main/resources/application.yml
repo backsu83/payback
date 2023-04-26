@@ -5,17 +5,19 @@ server:
   port: 8080
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: payback
   profiles:
     include: custom
   jpa:
+    open-in-view: false
     hibernate:
       show_sql: true
       format_sql: true
       inspect_stacktrace: true
-      naming_physical_strategy: org.hibernate.boot.entity.naming.PhysicalNamingStrategyStandardImpl  #naming.physical-strategy
-
+      naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
 logging:
   pattern:
     console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern

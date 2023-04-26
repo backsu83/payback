@@ -5,6 +5,7 @@ import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
+import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 
 import java.time.Instant;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface SsgPointRepository {
 
   void setPointStatus(final SsgPoint ssgPoint);
 
-  int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, String updateOperator, Instant updateDate);
+  int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, Instant updateDate);
 
   Optional<SsgPointTarget> findByKey(SsgPointRequestKey key);
 
@@ -25,5 +26,7 @@ public interface SsgPointRepository {
 
   boolean hasAlreadySaved(final Long packNo, final String buyerId, final OrderSiteType siteType);
 
-  List<SsgPointTarget> findAllByOrderNoAndSiteType(Long orderNo, String buyerId, OrderSiteType siteType);
+  List<SsgPointTarget> findAllByOrderNoAndSiteType(Long orderNo, OrderSiteType siteType);
+  
+  VerifyDailySsgPointDto verifyDailyPoint(VerifyDailySsgPointDto verifyDailySsgPointDto);
 }

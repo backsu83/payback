@@ -17,6 +17,7 @@ public class SsgPointTarget {
   private String pointStatus;
   private String tradeType;
   private String receiptNo;
+  private String pointToken;
   private BigDecimal payAmount;
   private BigDecimal saveAmount;
   private Instant orderDate;
