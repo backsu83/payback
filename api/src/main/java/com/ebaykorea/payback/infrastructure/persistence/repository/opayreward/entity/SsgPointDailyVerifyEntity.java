@@ -16,7 +16,6 @@ import java.time.Instant;
 @NoArgsConstructor
 @Table(schema = "O_PAYREWARD", name = "SSG_POINT_DAILY_VERIFY")
 public class SsgPointDailyVerifyEntity extends BaseEntity {
-
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SSG_POINT_DAILY_VERIFY_generator")
   @SequenceGenerator(name = "SSG_POINT_DAILY_VERIFY_generator",

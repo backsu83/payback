@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @SaturnDataSource(name = "o_payreward")
 public interface SsgTokenRepository extends JpaRepository<SsgTokenEntity, String> {
-
   SsgTokenEntity findTopBySiteTypeAndExpireDateAfterOrderByExpireDateDesc(String siteType, Instant expireDate);
+
 
 }

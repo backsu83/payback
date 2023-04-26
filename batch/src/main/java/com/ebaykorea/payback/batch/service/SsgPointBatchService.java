@@ -21,12 +21,15 @@ import com.ebaykorea.payback.batch.domain.exception.BatchProcesserException;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcesserMapper;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointVerifyProcesserMapper;
+import com.ebaykorea.payback.batch.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgTokenRepository;
+import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointDailyVerifyEntity;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgTokenEntity;
 import com.ebaykorea.payback.batch.util.support.CryptoAES256;
 import com.ebaykorea.payback.batch.util.support.CryptoArche;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +44,15 @@ public class SsgPointBatchService {
   private final SsgPointApiClient ssgPointApiClient;
   private final SmileClubApiClient smileClubApiClient;
   private final SsgTokenRepository ssgTokenRepository;
+
+  private final SsgPointDailyVerifyRepository ssgPointDailyVerifyRepository;
   private final SsgPointEarnProcesserMapper ssgPointEarnProcesserMapper;
   private final SsgPointCancelProcesserMapper ssgPointCancelProcesserMapper;
 
   private final SsgPointVerifyProcesserMapper ssgPointVerifyProcesserMapper;
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
+
+
 
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
     final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
@@ -75,20 +82,39 @@ public class SsgPointBatchService {
   public SsgPointVerifyDto verify(SsgPointCertifier certifier, OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
     final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), orderSiteType.getShortCode());
     final var sumEntity = ssgPointTargetRepositorySupport.findSumCount(orderSiteType, verifyTradeType);
-    final var uint = new SsgPointBatchUnit();
+    final var unit = new SsgPointBatchUnit();
     SsgPointVerifyRequest request = SsgPointVerifyRequest.builder()
             .clientId(certifier.getClientId())
             .apiKey(certifier.getApiKey())
             .tokenId(tokenId)
-            .reqTrcNo(uint.getVerifyTransactionNo())
-            .reqDate(uint.getRequestDate())
+            .reqTrcNo(unit.getVerifyTransactionNo())
+            .reqDate(unit.getRequestDate())
             .sumCount(sumEntity.getSumCount())
             .sumAmt(sumEntity.getSumAmount())
             .tradeType(verifyTradeType.getCode())
             .brchId(certifier.getBranchId())
             .build();
     var response = ssgPointApiClient.verifyPoint(request);
-    return ssgPointVerifyProcesserMapper.mapToVerify(request, response, orderSiteType.getShortCode(), verifyTradeType.getShortCode());
+    return ssgPointVerifyProcesserMapper.mapToVerify(request, response, orderSiteType, verifyTradeType);
+  }
+
+  @Transactional
+  public void saveVerifySuceess(final SsgPointVerifyDto verify) {
+    SsgPointDailyVerifyEntity entity = SsgPointDailyVerifyEntity.builder()
+            .tradeDate(verify.getTradeDate())
+            .siteType(verify.getSiteType().getShortCode())
+            .tradeType(verify.getTradeType().getCode())
+            .count(verify.getCount())
+            .amount(verify.getAmount())
+            .returnCode(verify.getReturnCode())
+            .returnMessage(verify.getReturnMessage())
+            .insertDate(Instant.now())
+            .insertOperator("verifyBatch")
+            .updateDate(Instant.now())
+            .updateOperator("verifyBatch")
+            .build();
+    ssgPointDailyVerifyRepository.save(entity);
+
   }
 
   public String getCardNo(final String buyerId, OrderSiteType siteType, SsgPointCertifier auth) {

@@ -33,9 +33,9 @@ public interface RewardGatewayMapper {
   @Mapping(source = "itemSnapshot.smileDelivery", target = "isSmileDelivery")
   @Mapping(source = "itemSnapshot.smileFresh", target = "isSmileFresh")
   @Mapping(source = "orderUnit.orderItem.quantity", target = "qty")
-  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPrice(bundleDiscountPrice)))", target = "price")
+  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice)))", target = "price")
   @Mapping(expression = "java(PaybackBooleans.toYN(itemSnapshot.isMoneyCategory()))", target = "marketabilityItemYn")
-  CashbackRewardGoodRequestDto map(Buyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice);
+  CashbackRewardGoodRequestDto map(Buyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice, BigDecimal extraDiscountPrice);
 
 
   @Mapping(expression = "java(Long.valueOf(goods.getKey()))", target = "policyKey")
