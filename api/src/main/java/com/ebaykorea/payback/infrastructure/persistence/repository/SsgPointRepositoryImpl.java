@@ -17,6 +17,7 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.Ss
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointOrderNoRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
 import com.google.common.collect.Lists;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   public List<SsgPointTarget> save(final SsgPoint ssgPoint) {
     if (!ssgPoint.getIsMember()) {
       log.info("is not ssg member [{}][{}]", ssgPoint.getBuyerNo() , ssgPoint.getPackNo());
-      return Lists.newArrayList();
+      return Collections.emptyList();
     }
 
     return ssgPoint.getSsgPointUnits().stream()

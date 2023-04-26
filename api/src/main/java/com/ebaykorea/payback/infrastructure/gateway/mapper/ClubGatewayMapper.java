@@ -21,6 +21,6 @@ public interface ClubGatewayMapper {
     @Mapping(source = "smileClubMemberInformation.payCycleType", target = "payCycleType")
     @Mapping(source = "smileClubMemberInformation.joinPartnerId", target = "partnerId")
     @Mapping(source = "smileClubMemberInformation.isSSGMembership", target = "isSSGMembership")
-    @Mapping(source = "smileClubMemberInformation.statusCode", target = "statusCode")
+    @Mapping(expression = "java(SmileClubMemberType.forValue(smileClubMemberResponseDto.getSmileClubMemberInformation().getStatusCode()))", target = "statusCode")
     Club map(SmileClubMemberResponseDto smileClubMemberResponseDto);
 }

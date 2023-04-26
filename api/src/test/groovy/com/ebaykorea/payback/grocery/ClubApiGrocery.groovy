@@ -22,7 +22,7 @@ class ClubApiGrocery {
                 (map.smileClubMember ?: true) as Boolean,
                 (map.unifyMasterId ?: 23268003L) as Long,
                 (map.smileClubMemberInformation ?: new SmileClubMemberInfoDto(
-                        (map.statusCode ?: "SF") as String,
+                        (map.statusCode ?: "SP") as String,
                         (map.membershipGrade ?: "BASC") as String,
                         (map.payCycleType ?: "ANNL") as String,
                         (map.joinPartnerId ?: "S001") as String,
