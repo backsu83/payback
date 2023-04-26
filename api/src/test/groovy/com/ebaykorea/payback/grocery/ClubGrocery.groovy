@@ -8,6 +8,8 @@ class ClubGrocery {
         (map.partnerId ?: "S001") as String,
         (map.payCycleType ?: "ANNL") as String,
         (map.membershipGrade ?: "BASC") as String,
+        (map.isSSGMembership ?: true) as Boolean,
+        (map.statusCode ?: "SF") as String
     )
   }
 }

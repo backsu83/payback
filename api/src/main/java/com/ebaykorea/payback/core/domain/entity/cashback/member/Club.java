@@ -7,4 +7,10 @@ public class Club {
   String partnerId;
   String payCycleType;
   String membershipGrade;
+  Boolean isSSGMembership;
+  String statusCode;
+
+  public boolean isSsgMembership() {
+    return isSSGMembership && (statusCode.equals("SF") || statusCode.equals("SP"));
+  }
 }

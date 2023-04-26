@@ -65,4 +65,11 @@ public class Member {
   public boolean hasClub() {
     return findClub().isPresent();
   }
+
+  public boolean isSsgMember() {
+    if(hasClub()) {
+      return findClub().get().isSsgMembership();
+    }
+    return false;
+  }
 }

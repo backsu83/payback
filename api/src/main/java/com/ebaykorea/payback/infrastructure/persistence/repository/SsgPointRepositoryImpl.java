@@ -16,7 +16,9 @@ import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEnt
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointOrderNoRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +27,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.ebaykorea.payback.util.PaybackStrings.EMPTY;
 import static com.ebaykorea.payback.util.PaybackStrings.YES;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SsgPointRepositoryImpl implements SsgPointRepository {
@@ -43,6 +47,11 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   @Transactional
   @Override
   public List<SsgPointTarget> save(final SsgPoint ssgPoint) {
+    if (!ssgPoint.getIsMember()) {
+      log.info("is not ssg member [{}][{}]", ssgPoint.getBuyerNo() , ssgPoint.getPackNo());
+      return Lists.newArrayList();
+    }
+
     return ssgPoint.getSsgPointUnits().stream()
         .filter(SsgPointUnit::getIsPolicy)
         .map(unit -> saveSsgTarget(ssgPoint, unit))

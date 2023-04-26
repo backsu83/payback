@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.gateway.client.club;
 
 import com.ebaykorea.payback.infrastructure.gateway.client.club.dto.ClubBaseResponseDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.club.dto.ClubDataDto;
+import com.ebaykorea.payback.infrastructure.gateway.client.smileclub.SmileClubApiClient;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ClubApiClientTest_ {
 
     @Autowired
-    ClubApiClient client;
+    ClubApiClient clubApiClient;
+
+    @Autowired
+    SmileClubApiClient smileClubApiClient;
 
     @Test
     void getMemberSynopsis() {
-        ClubBaseResponseDto<ClubDataDto> memberSynopsis = client.getMemberSynopsis("103574394");
+        ClubBaseResponseDto<ClubDataDto> memberSynopsis = clubApiClient.getMemberSynopsis("132871942");
         System.out.println(GsonUtils.toJsonPretty(memberSynopsis));
+    }
 
+    @Test
+    void getMembers() {
+        var clubMemberResponseDto = smileClubApiClient.getMembers("S001","132871942");
+        System.out.println(GsonUtils.toJsonPretty(clubMemberResponseDto));
     }
 }
