@@ -45,7 +45,7 @@ feign:
   client.config:
     default:
       connectTimeout: 10000  # resilience4j timeoutDuration
-      readTimeout: 10000
+      readTimeout: 20000
 
 # Resilience4j Configurations
 # ???? - https://wiki.ebaykorea.com/display/ANNA/Resilience4j
