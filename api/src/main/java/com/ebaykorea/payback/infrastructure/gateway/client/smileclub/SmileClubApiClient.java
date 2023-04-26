@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.smileclub;
 
 import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignConfig;
+import com.ebaykorea.payback.infrastructure.gateway.client.smileclub.dto.SmileClubMemberResponseDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.smileclub.dto.SmileClubSsgPointResponseDto;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,5 +25,15 @@ public interface SmileClubApiClient {
     Optional<SmileClubSsgPointResponseDto> getCardNo(
         @RequestParam(name="partnerId") final String partnerId,
         @RequestParam(name="partnerMembKey") final String partnerMembKey
+    );
+
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/partner/member",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    SmileClubMemberResponseDto getMembers(
+        @RequestParam("partnerId") final String partnerId,
+        @RequestParam("partnerMembKey") final String partnerMembKey
     );
 }

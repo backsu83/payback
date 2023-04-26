@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface ClubGateway {
     Optional<Club> findMemberSynopsis(String custNo);
+    Optional<Club> findMembers(String custNo);
 }

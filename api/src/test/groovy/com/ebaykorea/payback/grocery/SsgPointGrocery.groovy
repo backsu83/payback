@@ -59,6 +59,7 @@ class SsgPointGrocery {
     SsgPoint.of(
         (map.packNo ?: 1L) as Long,
         (map.buyerNo ?: "buyerId") as String,
+        (map.isSsgMember ?: true) as Boolean,
         (map.orderDate ?: TestConstant.SSGPOINT_ORDER_DATE) as Instant,
         (map.siteType ?: OrderSiteType.Gmarket) as OrderSiteType,
         (map.ssgPointUnits ?: [SsgPointUnit_준비상태_생성()]) as List<SsgPointUnit>

@@ -38,7 +38,7 @@ public class MemberService {
   }
 
   private CompletableFuture<Club> getClubAsync(final String buyerNo) {
-    return CompletableFuture.supplyAsync(() -> clubGateway.findMemberSynopsis(buyerNo))
+    return CompletableFuture.supplyAsync(() -> clubGateway.findMembers(buyerNo))
         .thenApply(club -> club.orElse(null));
   }
 

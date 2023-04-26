@@ -1,19 +1,14 @@
 package com.ebaykorea.payback.infrastructure.persistence.mapper
 
-import com.ebaykorea.payback.constant.TestConstant
+
 import org.mapstruct.factory.Mappers
-import org.mockito.Mock
-import org.mockito.MockedStatic
-import org.mockito.Mockito
 import spock.lang.Specification
 
-import java.time.Clock
 import java.time.Instant
-import java.time.ZoneId
 
 import static com.ebaykorea.payback.grocery.SsgPointEntityGrocery.SsgPointTargetEntity_생성
 import static com.ebaykorea.payback.grocery.SsgPointGrocery.*
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_UTC_FORMATTER
+import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER
 
 class SsgPointTargetEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SsgPointTargetEntityMapper)
@@ -23,7 +18,7 @@ class SsgPointTargetEntityMapperSpec extends Specification {
     def result = mapper.mapToSsgTarget(
         SsgPointTargetEntity_생성(
             orderDate: Instant.parse("2023-04-11T13:00:00.00Z"),
-            scheduleDate: DATE_TIME_UTC_FORMATTER.parse("2023-04-16 13:00:00", Instant::from),
+            scheduleDate: DATE_TIME_FORMATTER.parse("2023-04-16 22:00:00", Instant::from),
             insertOperator: "adminId"
         )
     )

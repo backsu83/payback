@@ -81,7 +81,7 @@ public class CashbackApplicationService {
 
     if (!ssgPointsAlreadySaved) {
       final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
-      final var ssgPoint = ssgPointCreater.withReadyUnits(rewardCashbackPolicies.getSsgPointPolicyMap(), order, orderKeyMap, pointState);
+      final var ssgPoint = ssgPointCreater.withReadyUnits(rewardCashbackPolicies, member , order, orderKeyMap, pointState);
       log.info("domain entity ssgPoint: {}", GsonUtils.toJsonPretty(ssgPoint));
 
       ssgPointRepository.save(ssgPoint);

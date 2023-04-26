@@ -16,9 +16,6 @@ public class PaybackDateTimes {
   public static final DateTimeFormatter DATE_TIME_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormat)
       .withZone(ZoneId.of("Asia/Seoul"));
 
-  public static final DateTimeFormatter DATE_TIME_UTC_FORMATTER  = DateTimeFormatter.ofPattern(dateTimeFormat)
-      .withZone(ZoneId.of("UTC"));
-
   public static final DateTimeFormatter TIME_STRING_FORMATTER  = DateTimeFormatter.ofPattern(timeFormatForString)
       .withZone(ZoneId.of("Asia/Seoul"));
 
