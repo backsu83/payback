@@ -53,6 +53,6 @@ public interface RewardGatewayMapper {
   @Mapping(source = "key", target = "policyKey")
   @Mapping(source = "ssgPointInfo.ssgPointExpectSaveAmount", target = "pointExpectSaveAmount")
   @Mapping(source = "ssgPointInfo.isSsgPoint", target = "isSsgPoint")
-  @Mapping(source = "ssgPointInfo.ssgPointExpectSaveDate", target = "expectSaveDate")
+  @Mapping(source = "ssgPointInfo.ssgPointDatePlus", target = "policyDay")
   RewardSsgPointPolicy mapToSsgPolicy(CashbackRewardGoodResponseDto source);
 }

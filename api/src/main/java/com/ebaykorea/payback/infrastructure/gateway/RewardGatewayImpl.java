@@ -65,7 +65,7 @@ public class RewardGatewayImpl implements RewardGateway {
         BigDecimal.valueOf(cashbackRewardResponse.getIfNewSmileCardCashbackAmount()));
   }
 
-  public List<RewardSsgPointPolicy> toRewardSsgPointPolicy(final CashbackRewardResponseDto cashbackRewardResponse) {
+  private List<RewardSsgPointPolicy> toRewardSsgPointPolicy(final CashbackRewardResponseDto cashbackRewardResponse) {
     return cashbackRewardResponse.getGoods()
         .stream()
         .map(rewardGatewayMapper::mapToSsgPolicy)

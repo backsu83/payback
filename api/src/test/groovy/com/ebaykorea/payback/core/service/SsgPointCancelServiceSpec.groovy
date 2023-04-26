@@ -8,6 +8,7 @@ import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey
 import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointCreater
 import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointUnitCreater
+import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointUnitCreaterSpec
 import com.ebaykorea.payback.core.repository.SsgPointRepository
 import spock.lang.Specification
 
