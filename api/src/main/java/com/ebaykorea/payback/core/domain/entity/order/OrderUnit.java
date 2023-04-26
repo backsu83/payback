@@ -49,13 +49,14 @@ public class OrderUnit {
         .subtract(itemDiscountPrice());
   }
 
-  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice) {
+  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal extraDiscountPrice) {
     return orderUnitPrice()
-        .subtract(orElse(bundleDiscountPrice, BigDecimal.ZERO));
+        .subtract(orElse(bundleDiscountPrice, BigDecimal.ZERO))
+        .subtract(orElse(extraDiscountPrice, BigDecimal.ZERO));
   }
 
-  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal buyerMileageRate ) {
-    return orderUnitPrice(bundleDiscountPrice)
+  public BigDecimal orderUnitPrice(final BigDecimal bundleDiscountPrice, final BigDecimal extraDiscountPrice, final BigDecimal buyerMileageRate) {
+    return orderUnitPrice(bundleDiscountPrice, extraDiscountPrice)
         .multiply(buyerMileageRate)
         .multiply(BASIS_MONEY_RATE)
         .setScale(0, RoundingMode.FLOOR);
