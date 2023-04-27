@@ -21,10 +21,10 @@ logging:
     console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
     root: INFO
-    com.ebaykorea.saturn: DEBUG
+    com.ebaykorea.saturn: INFO
     MoAAppender: INFO
     MoALogger: INFO
-    com.ebaykorea.payback.infrastructure.gateway.client: DEBUG
+    com.ebaykorea.payback: DEBUG
 
 
 ###################################################

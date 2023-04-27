@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.core.service;
 
+import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
+
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
 import com.ebaykorea.payback.core.domain.entity.order.Buyer;
@@ -18,7 +20,7 @@ public class MemberService {
   private final UserGateway userGateway;
 
   public CompletableFuture<Member> getMemberAsync(final Buyer buyer) {
-    return CompletableFuture.supplyAsync(() -> getMember(buyer));
+    return CompletableFuture.supplyAsync(withMdc(() -> getMember(buyer)));
   }
 
   Member getMember(final Buyer buyer) {
@@ -38,12 +40,12 @@ public class MemberService {
   }
 
   private CompletableFuture<Club> getClubAsync(final String buyerNo) {
-    return CompletableFuture.supplyAsync(() -> clubGateway.findMembers(buyerNo))
+    return CompletableFuture.supplyAsync(withMdc(() -> clubGateway.findMembers(buyerNo)))
         .thenApply(club -> club.orElse(null));
   }
 
   private CompletableFuture<String> getUserKeyAsync(final String buyerNo) {
-    return CompletableFuture.supplyAsync(() -> userGateway.findUserKey(buyerNo))
+    return CompletableFuture.supplyAsync(withMdc(() -> userGateway.findUserKey(buyerNo)))
         .thenApply(userKey -> userKey.orElse(PaybackStrings.EMPTY));
   }
 }

@@ -74,7 +74,7 @@ public class CashbackApplicationService {
     //캐시백 중복 체크 FIXME: 임시 조정
     if (!cashbackAlreadySaved) {
       final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
-      log.info("domain entity payCashback : {}", GsonUtils.toJsonPretty(payCashback));
+      log.info("domain entity payCashback : {}", GsonUtils.toJson(payCashback));
 
       payCashbackRepository.save(payCashback);
     }
@@ -82,7 +82,7 @@ public class CashbackApplicationService {
     if (!ssgPointsAlreadySaved) {
       final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
       final var ssgPoint = ssgPointCreater.withReadyUnits(rewardCashbackPolicies, member , order, orderKeyMap, pointState);
-      log.info("domain entity ssgPoint: {}", GsonUtils.toJsonPretty(ssgPoint));
+      log.info("domain entity ssgPoint: {}", GsonUtils.toJson(ssgPoint));
 
       ssgPointRepository.save(ssgPoint);
     }
