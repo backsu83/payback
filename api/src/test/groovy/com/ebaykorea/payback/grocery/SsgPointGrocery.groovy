@@ -14,6 +14,8 @@ import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget
 
 import java.time.Instant
 
+import static com.ebaykorea.payback.constant.TestConstant.*
+
 class SsgPointGrocery {
   static def SaveSsgPointRequestDto_생성(Map map = [:]) {
     new SaveSsgPointRequestDto(
@@ -39,7 +41,7 @@ class SsgPointGrocery {
       receiptNo = (map.receiptNo ?: "GMK230411220000S0000") as String
       payAmount = (map.payAmount ?: 1000L) as BigDecimal
       saveAmount = (map.saveAmount ?: 1000L) as BigDecimal
-      orderDate = (map.orderDate ?: Instant.parse("2023-04-11T13:00:00.00Z")) as Instant
+      orderDate = (map.orderDate ?: SSGPOINT_ORDER_DATE) as Instant
       scheduleDate = (map.scheduleDate ?: "2023-04-16T13:00:00Z") as String
       pntApprId = (map.pntApprId ?: null) as String
       adminId = (map.adminId ?: null) as String
@@ -59,6 +61,7 @@ class SsgPointGrocery {
     SsgPoint.of(
         (map.packNo ?: 1L) as Long,
         (map.buyerNo ?: "buyerId") as String,
+        (map.isSsgMember ?: true) as Boolean,
         (map.orderDate ?: TestConstant.SSGPOINT_ORDER_DATE) as Instant,
         (map.siteType ?: OrderSiteType.Gmarket) as OrderSiteType,
         (map.ssgPointUnits ?: [SsgPointUnit_준비상태_생성()]) as List<SsgPointUnit>
@@ -70,11 +73,11 @@ class SsgPointGrocery {
         (map.orderNo ?: 1000000000L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,
-        (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
+        (map.scheduleDate ?: SSGPOINT_SCHEDULE_DATE) as Instant,
         (map.isPolicy) as Boolean,
         (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
-        (map.adminId ?: "adminId") as String
+        (map.adminId ?: null) as String
     )
   }
   
@@ -90,7 +93,7 @@ class SsgPointGrocery {
         (map.orderNo ?: 1000000000L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,
-        (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
+        (map.scheduleDate ?: SSGPOINT_SCHEDULE_DATE) as Instant,
         (map.accountDate ?: "20230416") as String,
         (map.pointToken ?: "pointToken") as String,
         (map.isPolicy) as Boolean,
@@ -104,7 +107,7 @@ class SsgPointGrocery {
         (map.orderNo ?: 1000000000L) as Long,
         (map.payAmount ?: 1000L) as BigDecimal,
         (map.saveAmount ?: 1000L) as BigDecimal,
-        (map.scheduleDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
+        (map.scheduleDate ?: SSGPOINT_SCHEDULE_DATE) as Instant,
         (map.isPolicy) as Boolean,
         (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,

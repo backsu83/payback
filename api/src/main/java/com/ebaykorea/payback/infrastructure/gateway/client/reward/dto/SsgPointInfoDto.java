@@ -10,5 +10,5 @@ import lombok.Data;
 public class SsgPointInfoDto {
   private BigDecimal ssgPointExpectSaveAmount;
   private Boolean isSsgPoint;
-  private String ssgPointExpectSaveDate;
+  private Integer ssgPointDatePlus;
 }

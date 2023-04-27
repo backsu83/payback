@@ -2,7 +2,6 @@ package com.ebaykorea.payback.core.service
 
 import com.ebaykorea.payback.core.gateway.ClubGateway
 import com.ebaykorea.payback.core.gateway.UserGateway
-import com.ebaykorea.payback.core.service.MemberService
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.ClubGrocery.Club_생성
@@ -17,7 +16,7 @@ class MemberServiceSpec extends Specification {
 
   def "Member가 정상적으로 생성되는지 확인"() {
     setup:
-    clubGateway.findMemberSynopsis(_ as String) >> Optional.ofNullable(클럽결과)
+    clubGateway.findMembers(_ as String) >> Optional.ofNullable(클럽결과)
     userGateway.findUserKey(_ as String) >> Optional.ofNullable(유저키결과)
 
     expect:
