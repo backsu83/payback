@@ -28,6 +28,7 @@ public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTa
   }
 
   @Override
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public void onProcessError(final SsgPointTargetEntity item, final Exception e) {
     var result = updateProcesserFail(item.getOrderNo() ,
         item.getSiteType(),
@@ -36,7 +37,6 @@ public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTa
     log.error("item processer error [{}][{}][{}]", item.getOrderNo(), result ,e.getLocalizedMessage());
   }
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public long updateProcesserFail(final long orderNo,
       final String orderSiteType,
       final String tradeType,
