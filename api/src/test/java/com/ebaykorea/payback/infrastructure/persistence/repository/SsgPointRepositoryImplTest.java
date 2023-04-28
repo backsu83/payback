@@ -4,7 +4,6 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
-import com.ebaykorea.payback.util.PaybackDateTimes;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

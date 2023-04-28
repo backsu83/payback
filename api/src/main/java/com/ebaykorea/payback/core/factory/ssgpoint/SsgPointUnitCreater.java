@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 

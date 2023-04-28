@@ -1,9 +1,9 @@
 package com.ebaykorea.payback.util;
 
-import static com.ebaykorea.payback.util.PaybackInstants.DATE_FORMATTER;
-
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
+
+import static com.ebaykorea.payback.util.PaybackDateTimeFormatters.DATE_FORMATTER;
 
 class PaybackDateTimesTest {
 

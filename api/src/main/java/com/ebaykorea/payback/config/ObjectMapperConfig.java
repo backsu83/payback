@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.config;
 
-import com.ebaykorea.payback.util.PaybackDateTimes;
+import com.ebaykorea.payback.util.PaybackDateTimeFormatters;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -21,7 +21,7 @@ public class ObjectMapperConfig {
         ObjectMapper objectMapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         LocalDateTimeSerializer localDateTimeSerializer
-                = new LocalDateTimeSerializer(PaybackDateTimes.DATE_TIME_FORMATTER);
+                = new LocalDateTimeSerializer(PaybackDateTimeFormatters.DATE_TIME_FORMATTER);
         javaTimeModule.addSerializer(LocalDateTime.class, localDateTimeSerializer);
         objectMapper.registerModule(javaTimeModule);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -35,9 +35,9 @@ public class ObjectMapperConfig {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
         return builder -> {
-            builder.simpleDateFormat(PaybackDateTimes.dateTimeFormat);
-            builder.serializers(new LocalDateSerializer(PaybackDateTimes.DATE_TIME_FORMATTER));
-            builder.serializers(new LocalDateTimeSerializer(PaybackDateTimes.DATE_FORMATTER));
+            builder.simpleDateFormat(PaybackDateTimeFormatters.dateTimeFormat);
+            builder.serializers(new LocalDateSerializer(PaybackDateTimeFormatters.DATE_TIME_FORMATTER));
+            builder.serializers(new LocalDateTimeSerializer(PaybackDateTimeFormatters.DATE_FORMATTER));
         };
     }
 }

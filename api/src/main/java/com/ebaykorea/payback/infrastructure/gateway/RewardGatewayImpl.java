@@ -25,6 +25,7 @@ import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBase
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.SsgPointInfoDto;
 import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper;
 import com.ebaykorea.payback.util.support.GsonUtils;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,10 @@ public class RewardGatewayImpl implements RewardGateway {
       final Payment payment,
       final Map<String, ItemSnapshot> itemSnapshotMap,
       final Map<String, OrderUnitKey> orderUnitKeyMap) {
+    if (!payment.hasMainPaymentAmount()) {
+      return RewardCashbackPolicies.EMPTY;
+    }
+
     final var request = toCashbackRewardRequestDto(order, payment, itemSnapshotMap, orderUnitKeyMap);
 
     final var cashbackRewardResponseFuture = getCashbackRewardAsync(request);
