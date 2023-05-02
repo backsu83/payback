@@ -4,8 +4,9 @@ apis:
     url: "http://smileclubapi-dev.gmarket.co.kr"
   ssgpoint:
     url: "https://devauthapi.shinsegaepoint.com"
+  teams:
+    url: "https://gmarketcorp.webhook.office.com"
 
-payback.dcm.access.enable: true
 #spring.jpa.hibernate.default_schema: O_PAYREWARD
 spring:
   batch:

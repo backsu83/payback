@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.batch.job.listener;
 
+import com.ebaykorea.payback.batch.client.teams.TeamsAlarmClient;
+import com.ebaykorea.payback.batch.client.teams.dto.TeamsMessageDto;
 import com.ebaykorea.payback.batch.config.properties.ApiInfoProperties;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 public class SsgPointStepListener implements StepExecutionListener {
 
   private final ApiInfoProperties apiInfoProperties;
+  private final TeamsAlarmClient teamsAlarmClient;
 
   @Override
   public void beforeStep(final StepExecution stepExecution) {
@@ -31,7 +34,7 @@ public class SsgPointStepListener implements StepExecutionListener {
   public ExitStatus afterStep(final StepExecution stepExecution) {
 
     String PREFIX = String.format(
-        "[%s][%s][%d]",
+        "[%s]\n\r[%s:%d]\n\r",
         apiInfoProperties.getName(),
         stepExecution.getStepName(),
         stepExecution.getJobExecutionId()
@@ -45,21 +48,31 @@ public class SsgPointStepListener implements StepExecutionListener {
         stepExecution.getFailureExceptions().size()
     );
 
+    long diffTime = stepExecution.getEndTime().getTime() - stepExecution.getStartTime().getTime();
+    long timeDifferenceMinutes = diffTime / (60 * 1000); //분단위
+    var message = PREFIX + String.format("[readCount:%d]\n\r"
+            + "[writeCount:%d]\n\r"
+            + "[duration:%d]\n\r"
+            + "[errorSize:%d]",
+        stepExecution.getReadCount(),
+        stepExecution.getWriteCount(),
+        timeDifferenceMinutes,
+        stepExecution.getFailureExceptions().size()
+    );
+
+    teamsAlarmClient.send(TeamsMessageDto.builder()
+        .title("[SSGPOINT_BATCH_JOB]")
+        .text(message)
+        .build());
+
     List<Throwable> exceptions = stepExecution.getFailureExceptions();
     if (CollectionUtils.isEmpty(exceptions)) {
-      log.info("{} sucess [readCount:{}][writeCount:{}]",
-          PREFIX,
-          stepExecution.getReadCount(),
-          stepExecution.getWriteCount()
-      );
-
       return ExitStatus.COMPLETED;
     } else {
       exceptions.forEach(e -> {
             log.error(e.getMessage(), e);
           }
       );
-
       return ExitStatus.FAILED;
     }
   }
