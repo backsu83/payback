@@ -40,6 +40,6 @@ ssgpoint:
     target:
       crontab: "0 */5 * * * *" #5분
     recover:
-      crontab: "30/10 * * * * *" #10분
+      crontab: "0 */10 * * * *" #10분
 
 
