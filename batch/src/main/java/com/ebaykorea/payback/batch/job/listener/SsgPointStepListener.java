@@ -34,7 +34,7 @@ public class SsgPointStepListener implements StepExecutionListener {
   public ExitStatus afterStep(final StepExecution stepExecution) {
 
     String PREFIX = String.format(
-        "[%s]\n[%s:%d]\n",
+        "[%s]\n\r[%s:%d]\n\r",
         apiInfoProperties.getName(),
         stepExecution.getStepName(),
         stepExecution.getJobExecutionId()
@@ -48,32 +48,31 @@ public class SsgPointStepListener implements StepExecutionListener {
         stepExecution.getFailureExceptions().size()
     );
 
+    long diffTime = stepExecution.getEndTime().getTime() - stepExecution.getStartTime().getTime();
+    long timeDifferenceMinutes = diffTime / (60 * 1000); //분단위
+    var message = PREFIX + String.format("[readCount:%d]\n\r"
+            + "[writeCount:%d]\n\r"
+            + "[duration:%d]\n\r"
+            + "[errorSize:%d]",
+        stepExecution.getReadCount(),
+        stepExecution.getWriteCount(),
+        timeDifferenceMinutes,
+        stepExecution.getFailureExceptions().size()
+    );
+
+    teamsAlarmClient.send(TeamsMessageDto.builder()
+        .title("[SSGPOINT_BATCH_JOB]")
+        .text(message)
+        .build());
+
     List<Throwable> exceptions = stepExecution.getFailureExceptions();
     if (CollectionUtils.isEmpty(exceptions)) {
-      log.info("{} sucess [readCount:{}][writeCount:{}]",
-          PREFIX,
-          stepExecution.getReadCount(),
-          stepExecution.getWriteCount()
-      );
-      long timeDifferenceMillis = stepExecution.getEndTime().getTime() - stepExecution.getStartTime().getTime();
-      long timeDifferenceMinutes = timeDifferenceMillis / (60 * 1000);
-      var message = PREFIX + String.format("[readCount:%d]\n[writeCount:%d]\n[duration:%d]",
-          stepExecution.getReadCount(),
-          stepExecution.getWriteCount(),
-          timeDifferenceMinutes
-      );
-
-      teamsAlarmClient.send(TeamsMessageDto.builder()
-          .text(message)
-          .build());
-
       return ExitStatus.COMPLETED;
     } else {
       exceptions.forEach(e -> {
             log.error(e.getMessage(), e);
           }
       );
-
       return ExitStatus.FAILED;
     }
   }

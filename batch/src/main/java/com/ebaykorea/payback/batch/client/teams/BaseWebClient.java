@@ -3,7 +3,6 @@ package com.ebaykorea.payback.batch.client.teams;
 import com.ebaykorea.payback.batch.config.WebClientConfig;
 import com.ebaykorea.payback.batch.domain.exception.PaybackException;
 import com.ebaykorea.payback.batch.domain.exception.PaybackExceptionCode;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -11,26 +10,15 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 @Component
-public class TeamsWebClient extends WebClientConfig {
+public class BaseWebClient extends WebClientConfig {
 
-  @Value("${apis.teams.url}")
-  private String teamsUrl;
-
-  public WebClient client() {
+  public WebClient client(String baseUrl) {
     return webClient()
         .mutate()
-        .baseUrl(teamsUrl)
+        .baseUrl(baseUrl)
         .build();
   }
 
-  /**
-   * Slack 웹 클라이언트 exchanged
-   *
-   * @param client        WebClient.RequestBodySpec
-   * @param typeReference ParameterizedTypeReference<T>
-   * @param <T>
-   * @return <T> Mono
-   */
   public <T> Mono<T> exchanged(WebClient.RequestBodySpec client,
       ParameterizedTypeReference<T> typeReference) {
     return client
