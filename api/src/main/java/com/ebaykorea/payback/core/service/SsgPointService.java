@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.service;
 
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackDateTimeFormatters.DATE_TIME_FORMATTER;
 
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;

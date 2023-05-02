@@ -10,8 +10,8 @@ import java.time.Instant;
 import lombok.Builder;
 import lombok.Value;
 
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
-import static com.ebaykorea.payback.util.PaybackDateTimes.TIME_STRING_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackDateTimeFormatters.DATE_TIME_STRING_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackDateTimeFormatters.TIME_STRING_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
 
 @Value
