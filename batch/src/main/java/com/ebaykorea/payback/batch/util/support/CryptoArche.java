@@ -10,7 +10,6 @@ public class CryptoArche {
     Cipher cipher = Cipher.getInstance(siteType); // gmarket | auction | auction-aes
     cipher.init(Cipher.DECRYPT_MODE, siteType, "credit-card-key");
     String result = cipher.doFinal(message);
-    log.info(String.format("crypto-arche-" + siteType + ": {}", result));
     return result;
   }
 }

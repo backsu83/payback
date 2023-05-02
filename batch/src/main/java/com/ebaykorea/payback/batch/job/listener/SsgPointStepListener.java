@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.batch.job.listener;
 
+import com.ebaykorea.payback.batch.client.teams.TeamsAlarmClient;
+import com.ebaykorea.payback.batch.client.teams.dto.TeamsMessageDto;
 import com.ebaykorea.payback.batch.config.properties.ApiInfoProperties;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 public class SsgPointStepListener implements StepExecutionListener {
 
   private final ApiInfoProperties apiInfoProperties;
+  private final TeamsAlarmClient teamsAlarmClient;
 
   @Override
   public void beforeStep(final StepExecution stepExecution) {
@@ -31,7 +34,7 @@ public class SsgPointStepListener implements StepExecutionListener {
   public ExitStatus afterStep(final StepExecution stepExecution) {
 
     String PREFIX = String.format(
-        "[%s][%s][%d]",
+        "[%s]\n[%s:%d]\n",
         apiInfoProperties.getName(),
         stepExecution.getStepName(),
         stepExecution.getJobExecutionId()
@@ -52,6 +55,17 @@ public class SsgPointStepListener implements StepExecutionListener {
           stepExecution.getReadCount(),
           stepExecution.getWriteCount()
       );
+      long timeDifferenceMillis = stepExecution.getEndTime().getTime() - stepExecution.getStartTime().getTime();
+      long timeDifferenceMinutes = timeDifferenceMillis / (60 * 1000);
+      var message = PREFIX + String.format("[readCount:%d]\n[writeCount:%d]\n[duration:%d]",
+          stepExecution.getReadCount(),
+          stepExecution.getWriteCount(),
+          timeDifferenceMinutes
+      );
+
+      teamsAlarmClient.send(TeamsMessageDto.builder()
+          .text(message)
+          .build());
 
       return ExitStatus.COMPLETED;
     } else {
