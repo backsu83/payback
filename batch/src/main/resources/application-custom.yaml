@@ -6,9 +6,7 @@ apis:
     url: "https://devauthapi.shinsegaepoint.com"
   teams:
     url: "https://gmarketcorp.webhook.office.com"
-      path-batch: "/webhookb2/f2cf4f9f-9e3a-41a4-82e1-c781182279bf@4d67598d-16bc-42f1-a18d-e8fb794aedca/IncomingWebhook/e0000f331ac64fc5a9f10cb2ae9975ac/4e33ec8e-01d9-4b42-a1e3-4b83a53b4a9b"
 
-payback.dcm.access.enable: true
 #spring.jpa.hibernate.default_schema: O_PAYREWARD
 spring:
   batch:

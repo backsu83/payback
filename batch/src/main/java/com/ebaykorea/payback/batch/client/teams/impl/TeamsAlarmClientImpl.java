@@ -19,11 +19,10 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class TeamsAlarmClientImpl implements TeamsAlarmClient {
 
+  private final static String teamsPath = "/webhookb2/f2cf4f9f-9e3a-41a4-82e1-c781182279bf@4d67598d-16bc-42f1-a18d-e8fb794aedca/IncomingWebhook/e0000f331ac64fc5a9f10cb2ae9975ac/4e33ec8e-01d9-4b42-a1e3-4b83a53b4a9b";
+
   @Value("${apis.teams.url}")
   private String teamsUrl;
-
-  @Value("${apis.teams.url.path-batch}")
-  private String teamsPath;
 
   private final BaseWebClient baseWebClient;
 
