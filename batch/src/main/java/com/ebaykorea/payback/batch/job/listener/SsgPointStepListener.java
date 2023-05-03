@@ -48,13 +48,13 @@ public class SsgPointStepListener implements StepExecutionListener {
     Duration stepExecutionDuration = BatchMetrics.calculateDuration(stepExecution.getStartTime(), stepExecution.getEndTime());
 
     var message = PREFIX + String.format("[readCount:%d]\n\r"
-                    + "[writeCount:%d]\n\r"
-                    + "[duration:%s]\n\r"
-                    + "[skipCount:%d]",
-            stepExecution.getReadCount(),
-            stepExecution.getWriteCount(),
-            BatchMetrics.formatDuration(stepExecutionDuration),
-            stepExecution.getSkipCount()
+            + "[writeCount:%d]\n\r"
+            + "[skipCount:%d]\n\r"
+            + "[duration:%s]",
+        stepExecution.getReadCount(),
+        stepExecution.getWriteCount(),
+        stepExecution.getSkipCount(),
+        BatchMetrics.formatDuration(stepExecutionDuration)
     );
 
     log.info(message);
