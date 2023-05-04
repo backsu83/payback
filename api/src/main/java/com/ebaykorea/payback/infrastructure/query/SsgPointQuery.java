@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query;
 
-import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetQueryResultMapper;
+import com.ebaykorea.payback.infrastructure.query.mapper.SsgPointTargetQueryResultMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
 import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
 import lombok.RequiredArgsConstructor;
