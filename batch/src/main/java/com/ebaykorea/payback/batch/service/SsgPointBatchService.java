@@ -121,8 +121,7 @@ public class SsgPointBatchService {
     try {
       final var cardNo = smileClubApiClient.getCardNo(auth.getMemberKey(), buyerId).getCardNo();
       log.info("smileclub carNo : [{}][{}][{}]", siteType, buyerId, cardNo);
-      final var toSiteType =  siteType.toString().toLowerCase();
-      final var decryptCardNo= CryptoArche.decrypt(cardNo, toSiteType);
+      final var decryptCardNo= CryptoArche.decrypt(cardNo, auth.getDecryptInstance());
       final var encryptCardNo = CryptoAES256.encrypt(decryptCardNo, auth.getEncryptKey(), auth.getEncryptIv());
       return encryptCardNo;
     } catch (Exception ex) {

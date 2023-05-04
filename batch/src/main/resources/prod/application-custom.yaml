@@ -23,6 +23,7 @@ ssgpoint:
       apiKey: 'E320844B8E294F3E8D69395737C8B194'
       encryptKey: '831A667A8A3015F85FF5824DCDFD4C58'
       encryptIv: '7552B56514CCA47A'
+      decryptInstance: 'gmarket'
       branchId: 'B200042500'
     auction:
       memberKey: 'S002'
@@ -30,6 +31,7 @@ ssgpoint:
       apiKey: '72787780CCA9F00A5D584991826752E2'
       encryptKey: '5D459675AEE24BEA36FF2B1B661B2F67'
       encryptIv: '73DDDFC9C36D49CB'
+      decryptInstance: 'auction-aes'
       branchId: 'B200042502'
   batch:
     fetchSize: 1000         #ItemReader에 읽는 Row수

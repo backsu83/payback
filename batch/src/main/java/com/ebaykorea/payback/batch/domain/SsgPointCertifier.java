@@ -12,6 +12,7 @@ public class SsgPointCertifier {
   String apiKey;
   String encryptKey;
   String encryptIv;
+  String decryptInstance;
   String branchId;
 
   private SsgPointCertifier(final String memberKey,
@@ -19,12 +20,14 @@ public class SsgPointCertifier {
       final String apiKey,
       final String encryptKey,
       final String encryptIv,
+      final String decryptInstance,
       final String branchId) {
     this.memberKey = memberKey;
     this.clientId = clientId;
     this.apiKey = apiKey;
     this.encryptKey = encryptKey;
     this.encryptIv = encryptIv;
+    this.decryptInstance = decryptInstance;
     this.branchId = branchId;
   }
 
@@ -36,6 +39,7 @@ public class SsgPointCertifier {
           gmarket.getApiKey(),
           gmarket.getEncryptKey(),
           gmarket.getEncryptIv(),
+          gmarket.getDecryptInstance(),
           gmarket.getBranchId());
     } else {
       final var auction = properties.getAuction();
@@ -44,6 +48,7 @@ public class SsgPointCertifier {
           auction.getApiKey(),
           auction.getEncryptKey(),
           auction.getEncryptIv(),
+          auction.getDecryptInstance(),
           auction.getBranchId());
     }
   }
