@@ -1,5 +1,6 @@
-package com.ebaykorea.payback.infrastructure.persistence.mapper;
+package com.ebaykorea.payback.infrastructure.query.mapper;
 
+import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
 import com.ebaykorea.payback.util.PaybackInstants;
@@ -20,6 +21,6 @@ public interface SsgPointTargetQueryResultMapper {
     SsgPointTargetQueryResult map(SsgPointTargetEntity source);
 
     default String mapToSavedYN(final String pointStatus) {
-        return pointStatus.equals("SS") ? "Y" : "N";
+        return pointStatus.equals(PointStatusType.Success.getCode()) ? "Y" : "N";
     }
 }
