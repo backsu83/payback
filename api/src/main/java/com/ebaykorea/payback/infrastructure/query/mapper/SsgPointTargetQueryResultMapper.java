@@ -20,6 +20,7 @@ public interface SsgPointTargetQueryResultMapper {
     @Mapping(source = "pointStatus", target = "ssgPointSavedYN")
     SsgPointTargetQueryResult map(SsgPointTargetEntity source);
 
+    /* mapToSavedYN */
     default String mapToSavedYN(final String pointStatus) {
         return pointStatus.equals(PointStatusType.Success.getCode()) ? "Y" : "N";
     }
