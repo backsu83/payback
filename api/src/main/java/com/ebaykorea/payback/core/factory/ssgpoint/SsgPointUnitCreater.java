@@ -52,7 +52,7 @@ public class SsgPointUnitCreater {
               orderUnit.getOrderItem().orderItemPrice(),
               policy.getPointExpectSaveAmount(),
               getScheduleDate(order.getOrderDate(), policy),
-              canSave(policy.getIsSsgPoint(), payment.isSmilePayPayment()),
+              policy.getIsSsgPoint(),
               ssgPointState,
               null,
               null);
