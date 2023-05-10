@@ -3,6 +3,7 @@ package com.ebaykorea.payback.core.factory.ssgpoint;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
@@ -25,6 +26,7 @@ public class SsgPointCreater {
       final Member member,
       final Order order,
       final KeyMap keyMap,
+      final Payment payment,
       final SsgPointState ssgPointState
       ) {
     return SsgPoint.of(
@@ -33,7 +35,7 @@ public class SsgPointCreater {
         member.isSsgMember(),
         order.getOrderDate(),
         ssgPointState.site(),
-        ssgPointUnitCreater.readyUnits(ssgPointPolicies.getSsgPointPolicyMap(), order, keyMap, ssgPointState)
+        ssgPointUnitCreater.readyUnits(ssgPointPolicies.getSsgPointPolicyMap(), order, keyMap, payment, ssgPointState)
     );
   }
 

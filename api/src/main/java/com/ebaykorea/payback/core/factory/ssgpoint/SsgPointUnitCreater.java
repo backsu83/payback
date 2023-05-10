@@ -2,6 +2,7 @@ package com.ebaykorea.payback.core.factory.ssgpoint;
 
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
@@ -34,10 +35,11 @@ public class SsgPointUnitCreater {
       final Map<Long, RewardSsgPointPolicy> policies,
       final Order order,
       final KeyMap keyMap,
+      final Payment payment,
       final SsgPointState ssgPointState
   ) {
     return policies.entrySet().stream()
-        .filter(entry -> entry.getValue().getIsSsgPoint())
+        .filter(entry -> canSave(entry.getValue().getIsSsgPoint(), payment.isSmilePayPayment()))
         .map(entry -> {
           final var policy = entry.getValue();
           final var orderUnitKey = keyMap.findByOrderNo(entry.getKey())
@@ -48,7 +50,7 @@ public class SsgPointUnitCreater {
           return SsgPointUnit.readyUnit(
               orderUnitKey.getContrNo(),
               orderUnit.getOrderItem().orderItemPrice(),
-              policy.getPointExpectSaveAmount(), // ssg api 대체
+              policy.getPointExpectSaveAmount(),
               getScheduleDate(order.getOrderDate(), policy),
               policy.getIsSsgPoint(),
               ssgPointState,
@@ -56,6 +58,10 @@ public class SsgPointUnitCreater {
               null);
         })
         .collect(Collectors.toUnmodifiableList());
+  }
+
+  private boolean canSave(final boolean isSsgPointPolicy, final boolean isSmilePay) {
+    return isSsgPointPolicy && isSmilePay;
   }
 
   private Instant getScheduleDate(final Instant orderDate, final RewardSsgPointPolicy ssgPointPolicy) {
