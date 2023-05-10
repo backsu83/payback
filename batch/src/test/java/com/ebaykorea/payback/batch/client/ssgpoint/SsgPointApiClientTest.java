@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
+//@Disabled
 @SpringBootTest
 class SsgPointApiClientTest {
 
@@ -32,7 +32,7 @@ class SsgPointApiClientTest {
        var gmktAuthInfo =  SsgPointCertifier.of(authProperties, OrderSiteType.Gmarket);
        final SsgPointVerifyDto gmktSaveResult = ssgPointBatchService.verify(gmktAuthInfo, OrderSiteType.Gmarket, VerifyTradeType.Save);
        //System.out.println(GsonUtils.toJsonPretty(gmktSaveResult));
-       ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
+       //ssgPointBatchService.saveVerifySuceess(gmktSaveResult);
        //System.out.println(GsonUtils.toJsonPretty(result));
     }
 }

@@ -123,6 +123,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
   }
 
   public SsgVerifySumEntity findSumCount(OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
+
     LocalDate yesterday = LocalDate.now().minusDays(1);
     Instant startDate = LocalDateTime.of(yesterday, LocalTime.MIN).atZone(SEOUL).toInstant();
     Instant endDate = LocalDateTime.of(yesterday, LocalTime.MAX).atZone(SEOUL).toInstant();
@@ -130,7 +131,6 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
 
     var result = factory.select(
             Projections.fields(SsgVerifySumEntity.class,
-                    dateAsString.as("requestDate"),
                     ssgPointTargetEntity.saveAmount.count().coalesce(0L).as("count"),
                     ssgPointTargetEntity.saveAmount.sum().coalesce(BigDecimal.ZERO).as("amount")
             )
@@ -139,10 +139,9 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             .where(ssgPointTargetEntity.requestDate.between(startDate, endDate),
                     ShopType(orderSiteType.getShortCode()),
                     TradeType(verifyTradeType.getShortCode()),
-                    TradeType("SS")
+                    TradeType(PointStatusType.Success.getCode())
             )
-            .groupBy(dateAsString,
-                    ssgPointTargetEntity.siteType,
+            .groupBy(ssgPointTargetEntity.siteType,
                     ssgPointTargetEntity.tradeType,
                     ssgPointTargetEntity.pointStatus
             ).fetchOne();
