@@ -1,7 +1,10 @@
 package com.ebaykorea.payback.core.domain.entity.cashback.member;
 
 import com.ebaykorea.payback.core.domain.constant.SmileClubMemberType;
+import com.ebaykorea.payback.util.PaybackBooleans;
 import lombok.Value;
+
+import static com.ebaykorea.payback.util.PaybackBooleans.asPrimitive;
 
 @Value
 public class Club {
@@ -9,9 +12,10 @@ public class Club {
   String payCycleType;
   String membershipGrade;
   Boolean isSSGMembership;
-  SmileClubMemberType statusCode;
+  Boolean isUnifyMembership;
+  Boolean isSSGPoint;
 
   public boolean isSsgMembership() {
-    return isSSGMembership && (statusCode == SmileClubMemberType.Free || statusCode == SmileClubMemberType.Premium);
+    return asPrimitive(isSSGMembership) && asPrimitive(isUnifyMembership) && asPrimitive(isSSGPoint);
   }
 }
