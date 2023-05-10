@@ -15,12 +15,14 @@ public interface ClubGatewayMapper {
     @Mapping(source = "member.membershipGrade", target = "membershipGrade")
     @Mapping(source = "member.payCycleType", target = "payCycleType")
     @Mapping(source = "member.partnerId", target = "partnerId")
+    @Mapping(source = "member.isUnifyMembership", target = "isUnifyMembership")
+    @Mapping(source = "member.isSSGMembership", target = "isSSGMembership")
+    @Mapping(source = "member.isSSGPoint", target = "isSSGPoint")
     Club map(ClubDataDto clubDataDto);
 
     @Mapping(source = "smileClubMemberInformation.membershipGrade", target = "membershipGrade")
     @Mapping(source = "smileClubMemberInformation.payCycleType", target = "payCycleType")
     @Mapping(source = "smileClubMemberInformation.joinPartnerId", target = "partnerId")
     @Mapping(source = "smileClubMemberInformation.isSSGMembership", target = "isSSGMembership")
-    @Mapping(expression = "java(SmileClubMemberType.forValue(smileClubMemberResponseDto.getSmileClubMemberInformation().getStatusCode()))", target = "statusCode")
     Club map(SmileClubMemberResponseDto smileClubMemberResponseDto);
 }
