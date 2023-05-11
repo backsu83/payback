@@ -19,6 +19,7 @@ public class ThreadExecutorConfig {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor(); // (2)
     executor.setCorePoolSize(20);
     executor.setMaxPoolSize(20);
+    executor.setQueueCapacity(2000);
     executor.setThreadNamePrefix("batch-thread-");
     executor.setWaitForTasksToCompleteOnShutdown(Boolean.TRUE);
     executor.initialize();

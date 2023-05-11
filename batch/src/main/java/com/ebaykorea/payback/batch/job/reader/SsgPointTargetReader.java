@@ -33,7 +33,7 @@ public class SsgPointTargetReader  {
         options,
         queryFactory -> ssgPointTargetRepositorySupport.findStatusByReady()
     );
-    reader.setTransacted(false); // 예시로 transacted 값을 false로 설정
+    reader.setTransacted(true); // 예시로 transacted 값을 false로 설정
     return reader;
   }
 }
