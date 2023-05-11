@@ -95,7 +95,7 @@ public class SsgPointTargetJobConfig {
         .skip(Exception.class)
         .skipLimit(10000)
         .taskExecutor(threadExecutorConfig.taskExecutor())
-        .throttleLimit(5)
+        .throttleLimit(20)
         .build();
   }
 
