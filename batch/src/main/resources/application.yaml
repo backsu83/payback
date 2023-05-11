@@ -21,16 +21,14 @@ spring:
 
 logging:
   pattern:
-    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
+    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
     root: INFO
     com.ebaykorea.saturn: DEBUG
     MoAAppender: INFO
     MoALogger: INFO
-    com.ebaykorea.payback.batch: DEBUG
-    org.org.hibernate.sql: DEBUG
-    org.org.hibernate.type: trace
-
+    com.ebaykorea.payback.batch: INFO
+    com.ebay.korea.security.crypto: WARN
 
 
 ###################################################
@@ -44,8 +42,8 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 10000  # resilience4j timeoutDuration
-      readTimeout: 10000
+      connectTimeout: 20000  # resilience4j timeoutDuration
+      readTimeout: 20000
 
 # Resilience4j Configurations
 # ???? - https://wiki.ebaykorea.com/display/ANNA/Resilience4j

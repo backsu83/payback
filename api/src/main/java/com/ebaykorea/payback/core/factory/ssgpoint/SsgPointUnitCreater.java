@@ -2,6 +2,7 @@ package com.ebaykorea.payback.core.factory.ssgpoint;
 
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
@@ -14,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
-import static com.ebaykorea.payback.util.PaybackDateTimes.DATE_TIME_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 
@@ -28,14 +29,17 @@ import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 public class SsgPointUnitCreater {
   private final SsgPointStateDelegate ssgPointStateDelegate;
 
+  private static final int DEFAULT_POLICY_DAY = 5;
+
   public List<SsgPointUnit> readyUnits(
       final Map<Long, RewardSsgPointPolicy> policies,
       final Order order,
       final KeyMap keyMap,
+      final Payment payment,
       final SsgPointState ssgPointState
   ) {
     return policies.entrySet().stream()
-        .filter(entry -> entry.getValue().getIsSsgPoint()) //TODO: ssgpoint 저장 조건 확인
+        .filter(entry -> canSave(entry.getValue().getIsSsgPoint(), payment.isSmilePayPayment()))
         .map(entry -> {
           final var policy = entry.getValue();
           final var orderUnitKey = keyMap.findByOrderNo(entry.getKey())
@@ -43,16 +47,25 @@ public class SsgPointUnitCreater {
           final var orderUnit = order.findOrderUnitBy(orderUnitKey.getOrderUnitKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnit"));
 
-          return SsgPointUnit.readyUnit(entry.getKey(),
+          return SsgPointUnit.readyUnit(
+              orderUnitKey.getContrNo(),
               orderUnit.getOrderItem().orderItemPrice(),
-              policy.getPointExpectSaveAmount(), // ssg api 대체
-              DATE_TIME_FORMATTER.parse(policy.getExpectSaveDate() + " 00:00:00", Instant::from),
+              policy.getPointExpectSaveAmount(),
+              getScheduleDate(order.getOrderDate(), policy),
               policy.getIsSsgPoint(),
               ssgPointState,
               null,
               null);
         })
         .collect(Collectors.toUnmodifiableList());
+  }
+
+  private boolean canSave(final boolean isSsgPointPolicy, final boolean isSmilePay) {
+    return isSsgPointPolicy && isSmilePay;
+  }
+
+  private Instant getScheduleDate(final Instant orderDate, final RewardSsgPointPolicy ssgPointPolicy) {
+    return orderDate.plus(ssgPointPolicy.findPolicyDay().orElse(DEFAULT_POLICY_DAY), ChronoUnit.DAYS);
   }
 
   public SsgPointUnit cancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {

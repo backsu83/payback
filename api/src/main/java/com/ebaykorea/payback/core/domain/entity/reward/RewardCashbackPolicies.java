@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.reward;
 
 import static com.ebaykorea.payback.util.PaybackCollections.toMapBy;
-import static com.ebaykorea.payback.util.PaybackInstants.DATE_FORMATTER;
+import static com.ebaykorea.payback.util.PaybackDateTimeFormatters.DATE_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 import static java.util.Collections.emptyList;

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
+import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class OrderGatewayImpl implements OrderGateway {
   private final OrderApiClient orderApiClient;
   private final OrderGatewayMapper orderGatewayMapper;
 
-  private static final String ORDER_QUERY_FIELDS = "orderKey,paySeq,orderBase,orderUnits,buyer,bundleDiscounts";
+  private static final String ORDER_QUERY_FIELDS = "orderKey,paySeq,orderBase,orderUnits,buyer,bundleDiscounts,extraDiscount";
 
   @Override
   public Order getOrder(final String orderKey) {
@@ -31,7 +32,7 @@ public class OrderGatewayImpl implements OrderGateway {
 
   @Override
   public CompletableFuture<ItemSnapshots> getItemSnapshotAsync(final List<String> itemSnapshotKeys) {
-    return CompletableFuture.supplyAsync(() -> orderApiClient.findItemSnapshots(itemSnapshotKeys))
+    return CompletableFuture.supplyAsync(withMdc(() -> orderApiClient.findItemSnapshots(itemSnapshotKeys)))
         .thenApply(itemSnapshots -> ItemSnapshots.of(orderGatewayMapper.map(itemSnapshots)));
   }
 }

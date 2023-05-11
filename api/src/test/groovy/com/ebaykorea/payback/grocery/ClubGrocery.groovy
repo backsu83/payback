@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.grocery
 
+import com.ebaykorea.payback.core.domain.constant.SmileClubMemberType
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Club
 
 class ClubGrocery {
@@ -8,6 +9,9 @@ class ClubGrocery {
         (map.partnerId ?: "S001") as String,
         (map.payCycleType ?: "ANNL") as String,
         (map.membershipGrade ?: "BASC") as String,
+        (map.isSSGMembership ?: true) as Boolean,
+        (map.isUnifyMembership ?: true) as Boolean,
+        (map.isSSGPoint ?: true) as Boolean
     )
   }
 }

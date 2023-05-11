@@ -120,8 +120,8 @@ public class SsgPointBatchService {
   public String getCardNo(final String buyerId, OrderSiteType siteType, SsgPointCertifier auth) {
     try {
       final var cardNo = smileClubApiClient.getCardNo(auth.getMemberKey(), buyerId).getCardNo();
-      final var toSiteType =  siteType.toString().toLowerCase();
-      final var decryptCardNo= CryptoArche.decrypt(cardNo, toSiteType);
+      log.info("smileclub carNo : [{}][{}][{}]", siteType, buyerId, cardNo);
+      final var decryptCardNo= CryptoArche.decrypt(cardNo, auth.getDecryptInstance());
       final var encryptCardNo = CryptoAES256.encrypt(decryptCardNo, auth.getEncryptKey(), auth.getEncryptIv());
       return encryptCardNo;
     } catch (Exception ex) {
@@ -137,7 +137,7 @@ public class SsgPointBatchService {
    */
   @Cacheable(cacheNames = "SSG_TOKEN_KEY", key = "#siteType")
   public String getSsgAuthToken(String clientId , String apiKey, String siteType) {
-    log.debug("getSsgAuthToken: [{}] [{}] [{}]", clientId , apiKey, siteType);
+    log.debug("getSsgAuthToken: [{}][{}][{}]", clientId , apiKey, siteType);
     SsgTokenEntity entity = ssgTokenRepository.findTopBySiteTypeAndExpireDateAfterOrderByExpireDateDesc(siteType ,now());
     if(Objects.nonNull(entity)) {
       return entity.getTokenKey();
@@ -159,7 +159,7 @@ public class SsgPointBatchService {
 
   @Transactional
   public void saveSsgAuthToken(String tokenKey, String siteType) {
-    log.debug("saveSsgAuthToken: [{}] [{}]", tokenKey , siteType);
+    log.debug("saveSsgAuthToken: [{}][{}]", tokenKey , siteType);
     ssgTokenRepository.save(SsgTokenEntity.builder()
         .tokenKey(tokenKey)
         .siteType(siteType)

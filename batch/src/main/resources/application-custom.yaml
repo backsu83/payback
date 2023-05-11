@@ -3,9 +3,10 @@ apis:
   smileclub:
     url: "http://smileclubapi-dev.gmarket.co.kr"
   ssgpoint:
-    url: "https://devauthapi.shinsegaepoint.com"
+    url: "https://devauthmemapi.shinsegaepoint.com"
+  teams:
+    url: "https://gmarketcorp.webhook.office.com"
 
-payback.dcm.access.enable: true
 #spring.jpa.hibernate.default_schema: O_PAYREWARD
 spring:
   batch:
@@ -22,6 +23,7 @@ ssgpoint:
       apiKey: 'E320844B8E294F3E8D69395737C8B194'
       encryptKey: '831A667A8A3015F85FF5824DCDFD4C58'
       encryptIv: '7552B56514CCA47A'
+      decryptInstance: 'gmarket'
       branchId: 'B200042500'
     auction:
       memberKey: 'S002'
@@ -29,17 +31,17 @@ ssgpoint:
       apiKey: '72787780CCA9F00A5D584991826752E2'
       encryptKey: '5D459675AEE24BEA36FF2B1B661B2F67'
       encryptIv: '73DDDFC9C36D49CB'
+      decryptInstance: 'auction-aes'
       branchId: 'B200042502'
   batch:
-    fetchSize: 10         #ItemReader에 읽는 Row수
-    chunkSize: 10         #Chunk 처리단위
+    fetchSize: 1000         #ItemReader에 읽는 Row수
+    chunkSize: 1000         #Chunk 처리단위
   scheduler:
     daily:
-      #crontab: "0 10,11 * * * *" #매일 10,11시 실행
       crontab: "0 2 * * * *" #매일 2시 실행
     target:
-      crontab: "0 */1 * * * *" #5분
+      crontab: "0 */5 * * * *" #5분
     recover:
-      crontab: "0 */10 * * * *" #10분
+      crontab: "0 */10 9-22 * * *" #10분
 
 

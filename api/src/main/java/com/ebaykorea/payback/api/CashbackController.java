@@ -23,12 +23,6 @@ public class CashbackController {
   private final CashbackApplicationService applicationService;
   private final CashbackQuery cashbackQuery;
 
-  /**
-   * 캐시백 데이터 저장
-   *
-   * @param request
-   * @return
-   */
   @PostMapping("/cashbacks")
   public CommonResponse<CashbackResponseDto> saveCashbacks(final @Valid @RequestBody SaveCashbackRequestDto request) {
     final var responseMessageType = applicationService.setCashback(request.getTxKey(), request.getOrderKey());

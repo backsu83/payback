@@ -65,4 +65,8 @@ public class Member {
   public boolean hasClub() {
     return findClub().isPresent();
   }
+
+  public boolean isSsgMember() {
+    return findClub().map(Club::isSsgMembership).orElse(false);
+  }
 }

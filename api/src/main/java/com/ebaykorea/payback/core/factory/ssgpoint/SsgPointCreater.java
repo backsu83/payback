@@ -1,7 +1,10 @@
 package com.ebaykorea.payback.core.factory.ssgpoint;
 
+import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
+import com.ebaykorea.payback.core.domain.entity.payment.Payment;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
@@ -19,17 +22,20 @@ public class SsgPointCreater {
   private final SsgPointUnitCreater ssgPointUnitCreater;
 
   public SsgPoint withReadyUnits(
-      final Map<Long, RewardSsgPointPolicy> ssgPointPolicies,
+      final RewardCashbackPolicies ssgPointPolicies,
+      final Member member,
       final Order order,
       final KeyMap keyMap,
+      final Payment payment,
       final SsgPointState ssgPointState
       ) {
     return SsgPoint.of(
         keyMap.getPackNo(),
-        order.getBuyer().getBuyerNo(),
+        member.getBuyerNo(),
+        member.isSsgMember(),
         order.getOrderDate(),
         ssgPointState.site(),
-        ssgPointUnitCreater.readyUnits(ssgPointPolicies, order, keyMap, ssgPointState)
+        ssgPointUnitCreater.readyUnits(ssgPointPolicies.getSsgPointPolicyMap(), order, keyMap, payment, ssgPointState)
     );
   }
 
@@ -37,6 +43,7 @@ public class SsgPointCreater {
     return SsgPoint.of(
         ssgPointTarget.getPackNo(),
         ssgPointTarget.getBuyerId(),
+        true,
         ssgPointTarget.getOrderDate(),
         request.getSiteType(),
         List.of(ssgPointUnitCreater.cancelUnit(request, ssgPointTarget)));
@@ -46,6 +53,7 @@ public class SsgPointCreater {
     return SsgPoint.of(
         ssgPointTarget.getPackNo(),
         ssgPointTarget.getBuyerId(),
+        true,
         ssgPointTarget.getOrderDate(),
         request.getSiteType(),
         List.of(ssgPointUnitCreater.withholdUnit(request, ssgPointTarget)));

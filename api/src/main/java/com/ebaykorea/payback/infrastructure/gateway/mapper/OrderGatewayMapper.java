@@ -7,11 +7,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Mapper(componentModel = "spring")
 public interface OrderGatewayMapper {
@@ -22,8 +26,14 @@ public interface OrderGatewayMapper {
         source.getPaySeq(),
         mapToBuyer(source.getBuyer()),
         source.getOrderBase().getOrderDate(),
-        orEmptyStream(source.getOrderUnits()).map(this::map).collect(Collectors.toUnmodifiableList()),
-        orEmptyStream(source.getBundleDiscounts()).map(this::map).collect(Collectors.toUnmodifiableList()));
+        orEmptyStream(source.getOrderUnits()).map(this::map).collect(toUnmodifiableList()),
+        orEmptyStream(source.getBundleDiscounts()).map(this::map).collect(toUnmodifiableList()),
+        Optional.ofNullable(source.getExtraDiscount())
+            .map(ExtraDiscountDto::getDiscountUnits).stream()
+            .flatMap(Collection::stream)
+            .map(this::map)
+            .collect(toUnmodifiableList())
+    );
   }
 
   @Mapping(source = "source.memberType", target = "member", qualifiedByName = "mapIsMember")
@@ -49,6 +59,7 @@ public interface OrderGatewayMapper {
   OrderItem map(OrderItemDto source);
 
   BundleDiscount map(BundleDiscountDto source);
+  ExtraDiscountUnit map(ExtraDiscountDto.ExtraDiscountUnitDto source);
 
   List<ItemSnapshot> map(List<ItemSnapshotDto> source);
 

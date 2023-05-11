@@ -33,9 +33,9 @@ public interface RewardGatewayMapper {
   @Mapping(source = "itemSnapshot.smileDelivery", target = "isSmileDelivery")
   @Mapping(source = "itemSnapshot.smileFresh", target = "isSmileFresh")
   @Mapping(source = "orderUnit.orderItem.quantity", target = "qty")
-  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPrice(bundleDiscountPrice)))", target = "price")
+  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice)))", target = "price")
   @Mapping(expression = "java(PaybackBooleans.toYN(itemSnapshot.isMoneyCategory()))", target = "marketabilityItemYn")
-  CashbackRewardGoodRequestDto map(Buyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice);
+  CashbackRewardGoodRequestDto map(Buyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice, BigDecimal extraDiscountPrice);
 
 
   @Mapping(expression = "java(Long.valueOf(goods.getKey()))", target = "policyKey")
@@ -53,6 +53,6 @@ public interface RewardGatewayMapper {
   @Mapping(source = "key", target = "policyKey")
   @Mapping(source = "ssgPointInfo.ssgPointExpectSaveAmount", target = "pointExpectSaveAmount")
   @Mapping(source = "ssgPointInfo.isSsgPoint", target = "isSsgPoint")
-  @Mapping(source = "ssgPointInfo.ssgPointExpectSaveDate", target = "expectSaveDate")
+  @Mapping(source = "ssgPointInfo.ssgPointDatePlus", target = "policyDay")
   RewardSsgPointPolicy mapToSsgPolicy(CashbackRewardGoodResponseDto source);
 }
