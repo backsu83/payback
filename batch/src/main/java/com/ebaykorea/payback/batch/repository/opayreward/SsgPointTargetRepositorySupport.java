@@ -130,16 +130,16 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     StringTemplate dateAsString = Expressions.stringTemplate("TO_CHAR({0}, '{1s}')", ssgPointTargetEntity.requestDate, "YYYY-MM-DD");
 
     var result = factory.select(
-            Projections.fields(SsgVerifySumEntity.class,
-                    ssgPointTargetEntity.saveAmount.count().coalesce(0L).as("count"),
-                    ssgPointTargetEntity.saveAmount.sum().coalesce(BigDecimal.ZERO).as("amount")
-            )
+              Projections.fields(SsgVerifySumEntity.class,
+                      ssgPointTargetEntity.saveAmount.count().as("sumCount"),
+                      ssgPointTargetEntity.saveAmount.sum().as("sumAmount")
+              )
             )
             .from(ssgPointTargetEntity)
             .where(ssgPointTargetEntity.requestDate.between(startDate, endDate),
                     ShopType(orderSiteType.getShortCode()),
                     TradeType(verifyTradeType.getShortCode()),
-                    TradeType(PointStatusType.Success.getCode())
+                    PointStatus(PointStatusType.Success.getCode())
             )
             .groupBy(ssgPointTargetEntity.siteType,
                     ssgPointTargetEntity.tradeType,
@@ -156,6 +156,10 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
 
   private BooleanExpression TradeType(String tradeType) {
     return (tradeType == null || "".equals(tradeType))? null : ssgPointTargetEntity.tradeType.eq(tradeType);
+  }
+
+  private BooleanExpression PointStatus(String pointStatus) {
+    return (pointStatus == null || "".equals(pointStatus))? null : ssgPointTargetEntity.pointStatus.eq(pointStatus);
   }
 
 
