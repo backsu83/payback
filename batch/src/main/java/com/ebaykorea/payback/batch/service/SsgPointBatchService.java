@@ -43,7 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SsgPointBatchService {
   private final SsgPointApiClient ssgPointApiClient;
   private final SmileClubApiClient smileClubApiClient;
-  private final SsgTokenRepository ssgTokenRepository;
 
   private final SsgPointDailyVerifyRepository ssgPointDailyVerifyRepository;
   private final SsgPointEarnProcesserMapper ssgPointEarnProcesserMapper;
@@ -51,12 +50,12 @@ public class SsgPointBatchService {
 
   private final SsgPointVerifyProcesserMapper ssgPointVerifyProcesserMapper;
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
-
+  private final SsgPointTokenService ssgPointTokenService;
 
 
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
     final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
-    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
+    final var tokenId = ssgPointTokenService.getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
     try {
       var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
       final var response = ssgPointApiClient.earnPoint(request);
@@ -68,7 +67,7 @@ public class SsgPointBatchService {
   }
 
   public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
-    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
+    final var tokenId = ssgPointTokenService.getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
     try {
       var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId);
       final var response = ssgPointApiClient.cancelPoint(request);
@@ -80,7 +79,7 @@ public class SsgPointBatchService {
   }
 
   public SsgPointVerifyDto verify(SsgPointCertifier certifier, OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
-    final var tokenId = getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), orderSiteType.getShortCode());
+    final var tokenId = ssgPointTokenService.getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), orderSiteType.getShortCode());
     final var sumEntity = ssgPointTargetRepositorySupport.findSumCount(orderSiteType, verifyTradeType);
     final var unit = new SsgPointBatchUnit();
     SsgPointVerifyRequest request = SsgPointVerifyRequest.builder()
@@ -128,42 +127,5 @@ public class SsgPointBatchService {
       log.error(ex.getLocalizedMessage());
       throw new BatchProcesserException(ERR_CARD_CRYPTO);
     }
-  }
-
-  /**
-   * ssgpoint tokenid 조회
-   * 최대 1일 사용가능
-   * @return
-   */
-  @Cacheable(cacheNames = "SSG_TOKEN_KEY", key = "#siteType")
-  public String getSsgAuthToken(String clientId , String apiKey, String siteType) {
-    log.debug("getSsgAuthToken: [{}][{}][{}]", clientId , apiKey, siteType);
-    SsgTokenEntity entity = ssgTokenRepository.findTopBySiteTypeAndExpireDateAfterOrderByExpireDateDesc(siteType ,now());
-    if(Objects.nonNull(entity)) {
-      return entity.getTokenKey();
-    }
-
-    try {
-      final var request = SsgPointAuthTokenRequest.builder()
-          .clientId(clientId)
-          .apiKey(apiKey)
-          .build();
-      final var tokenInfo = ssgPointApiClient.getAuthToken(request);
-      saveSsgAuthToken(tokenInfo.getTokenId() , siteType);
-      return tokenInfo.getTokenId();
-    } catch (Exception ex) {
-      log.error(ex.getLocalizedMessage());
-      throw new BatchProcesserException(ERR_TOKEN);
-    }
-  }
-
-  @Transactional
-  public void saveSsgAuthToken(String tokenKey, String siteType) {
-    log.debug("saveSsgAuthToken: [{}][{}]", tokenKey , siteType);
-    ssgTokenRepository.save(SsgTokenEntity.builder()
-        .tokenKey(tokenKey)
-        .siteType(siteType)
-        .expireDate(now().plus(Duration.ofDays(1)))
-        .build());
   }
 }
