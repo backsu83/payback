@@ -18,6 +18,7 @@ public interface SsgPointTargetQueryResultMapper {
     @Mapping(source = "saveAmount", target = "ssgPointSaveAmount")
     @Mapping(expression = "java(PaybackDateTimeFormatters.DATE_FORMATTER.format(source.getScheduleDate()))", target = "ssgPointSaveExpectDate")
     @Mapping(source = "pointStatus", target = "ssgPointSavedYN")
+    @Mapping(source = "tradeType", target = "ssgPointTradeType")
     SsgPointTargetQueryResult map(SsgPointTargetEntity source);
 
     /* mapToSavedYN */
