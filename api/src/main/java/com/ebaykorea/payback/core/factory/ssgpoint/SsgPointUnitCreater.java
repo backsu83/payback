@@ -46,10 +46,12 @@ public class SsgPointUnitCreater {
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnitKey"));
           final var orderUnit = order.findOrderUnitBy(orderUnitKey.getOrderUnitKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnit"));
+          final var bundleDiscountPrice = order.getBundleDiscountPrice(orderUnit.getOrderUnitKey());
+          final var extraDiscountPrice = order.getExtraDiscountPrice(orderUnit.getOrderUnitKey());
 
           return SsgPointUnit.readyUnit(
               orderUnitKey.getContrNo(),
-              orderUnit.getOrderItem().orderItemPrice(),
+              orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice),
               policy.getPointExpectSaveAmount(),
               getScheduleDate(order.getOrderDate(), policy),
               policy.getIsSsgPoint(),
