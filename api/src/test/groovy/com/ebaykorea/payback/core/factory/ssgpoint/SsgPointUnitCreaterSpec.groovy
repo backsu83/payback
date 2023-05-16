@@ -1,8 +1,7 @@
 package com.ebaykorea.payback.core.factory.ssgpoint
 
 import com.ebaykorea.payback.constant.TestConstant
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointGmarketState
-import com.ebaykorea.payback.core.service.SsgPointStateDelegate
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointStateImpl
 import spock.lang.Specification
 
 import java.time.Instant
@@ -11,12 +10,11 @@ import static com.ebaykorea.payback.grocery.OrderGrocery.*
 import static com.ebaykorea.payback.grocery.PaymentGrocery.스마일페이_Payment_생성
 import static com.ebaykorea.payback.grocery.PaymentGrocery.카드_Payment_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardSsgPointPolicy_생성
-import static com.ebaykorea.payback.grocery.SsgPointGrocery.SsgPointGmarketState_생성
 import static com.ebaykorea.payback.grocery.SsgPointGrocery.SsgPointUnit_준비상태_생성
+import static com.ebaykorea.payback.grocery.SsgPointGrocery.SsgPointState_생성
 
 class SsgPointUnitCreaterSpec extends Specification {
-  def delegates = new SsgPointStateDelegate(Set.of(new SsgPointGmarketState()))
-  def ssgPointUnitCreater = new SsgPointUnitCreater(delegates)
+  def ssgPointUnitCreater = new SsgPointUnitCreater()
 
   def "SsgPointUnit 생성시 날짜정보가 올바르게 생성되는지 확인"() {
 
@@ -26,7 +24,7 @@ class SsgPointUnitCreaterSpec extends Specification {
         Order_생성(orderDate: TestConstant.SSGPOINT_ORDER_DATE),
         KeyMap_생성(orderUnitKeys: List.of(OrderUnitKey_생성(contrNo: 1000000000L))),
         스마일페이_Payment_생성(),
-        SsgPointGmarketState_생성()
+        SsgPointState_생성()
     )
 
     result == List.of(SsgPointUnit_준비상태_생성(isPolicy: true, scheduleDate: expectScheduleDate))
@@ -44,7 +42,7 @@ class SsgPointUnitCreaterSpec extends Specification {
         Order_생성(orderDate: TestConstant.SSGPOINT_ORDER_DATE),
         KeyMap_생성(orderUnitKeys: List.of(OrderUnitKey_생성(contrNo: 1000000000L))),
         결제정보,
-        SsgPointGmarketState_생성()
+        SsgPointState_생성()
     )
 
     result == 결과

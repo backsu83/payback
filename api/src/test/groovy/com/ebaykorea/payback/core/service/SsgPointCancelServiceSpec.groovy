@@ -2,13 +2,11 @@ package com.ebaykorea.payback.core.service
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointAuctionState
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointGmarketState
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointStateImpl
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey
 import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointCreater
 import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointUnitCreater
-import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointUnitCreaterSpec
 import com.ebaykorea.payback.core.repository.SsgPointRepository
 import spock.lang.Specification
 
@@ -16,12 +14,11 @@ import static com.ebaykorea.payback.grocery.SsgPointGrocery.CancelSsgPointReques
 import static com.ebaykorea.payback.grocery.SsgPointGrocery.SsgPointTarget_생성
 
 class SsgPointCancelServiceSpec extends Specification {
-  def states = Set.of(new SsgPointGmarketState(), new SsgPointAuctionState())
-  def ssgPointStateDelegate = new SsgPointStateDelegate(states)
-  def ssgPointUnitCreater = new SsgPointUnitCreater(ssgPointStateDelegate)
+  def ssgPointUnitCreater = new SsgPointUnitCreater()
+  def ssgPointState = new SsgPointStateImpl()
   def ssgPointCreater = new SsgPointCreater(ssgPointUnitCreater)
   def ssgPointRepository = Mock(SsgPointRepository)
-  def ssgPointCancelService = new SsgPointCancelService(ssgPointRepository, ssgPointCreater)
+  def ssgPointCancelService = new SsgPointCancelService(ssgPointRepository, ssgPointCreater, ssgPointState)
 
   def "cancelPoint 정상 처리 확인"() {
     setup:

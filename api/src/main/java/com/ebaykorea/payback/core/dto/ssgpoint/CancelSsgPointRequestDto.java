@@ -32,4 +32,11 @@ public class CancelSsgPointRequestDto {
   public SsgPointRequestKey key(long orderNo, String buyerId) {
     return new SsgPointRequestKey(orderNo, buyerId, siteType, PointTradeType.Save);
   }
+
+  public String getAdminId() {
+    if(adminId == null) {
+      return "payback";
+    }
+    return adminId;
+  }
 }

@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint;
 
-import com.ebaykorea.payback.core.service.SsgPointStateDelegate;
 import com.ebaykorea.payback.infrastructure.gateway.client.ssgpoint.dto.SsgPointAuthTokenRequestDto;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import org.junit.jupiter.api.Disabled;
@@ -14,9 +13,6 @@ public class SsgPointApiClientTest_ {
 
     @Autowired
     SsgPointApiClient ssgPointApiClient;
-
-    @Autowired
-    SsgPointStateDelegate ssgPointStateDelegate;
 
     @Test
     void getAuthToken() {

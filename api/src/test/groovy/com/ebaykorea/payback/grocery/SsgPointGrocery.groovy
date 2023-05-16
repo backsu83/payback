@@ -2,12 +2,13 @@ package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType
+import com.ebaykorea.payback.core.domain.constant.PointStatusType
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointAuctionState
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointGmarketState
+
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointStateImpl
 import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto
 import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget
@@ -36,6 +37,7 @@ class SsgPointGrocery {
       packNo = (map.packNo ?: 1L) as Long
       orderNo = (map.orderNo ?: 1000000000L) as Long
       buyerId = (map.buyerId ?: "buyerId") as String
+      siteType = (map.siteType ?: OrderSiteType.Gmarket) as OrderSiteType
       pointStatus = (map.pointStatus ?: "RR") as String
       tradeType = (map.tradeType ?: "S") as String
       receiptNo = (map.receiptNo ?: "GMK230411220000S0000") as String
@@ -75,17 +77,14 @@ class SsgPointGrocery {
         (map.saveAmount ?: 1000L) as BigDecimal,
         (map.scheduleDate ?: SSGPOINT_SCHEDULE_DATE) as Instant,
         (map.isPolicy) as Boolean,
-        (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
+        (map.state ?: SsgPointState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
         (map.adminId ?: null) as String
     )
   }
   
-  static def SsgPointGmarketState_생성(Map map = [:]) {
-    new SsgPointGmarketState()
-  }
-  static def SsgPointAuctionState_생성(Map map = [:]) {
-    new SsgPointAuctionState()
+  static def SsgPointState_생성(Map map = [:]) {
+    new SsgPointStateImpl()
   }
 
   static def SsgPointUnit_취소상태_생성(Map map = [:]) {
@@ -97,9 +96,10 @@ class SsgPointGrocery {
         (map.accountDate ?: "20230416") as String,
         (map.pointToken ?: "pointToken") as String,
         (map.isPolicy) as Boolean,
-        (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
+        (map.state ?: SsgPointState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
-        (map.adminId ?: "adminId") as String
+        (map.adminId ?: "adminId") as String,
+        (map.cancelStatus ?: PointStatusType.Cancel) as PointStatusType
     )
   }
   static def SsgPointUnit_보류상태_생성(Map map = [:]) {
@@ -109,7 +109,7 @@ class SsgPointGrocery {
         (map.saveAmount ?: 1000L) as BigDecimal,
         (map.scheduleDate ?: SSGPOINT_SCHEDULE_DATE) as Instant,
         (map.isPolicy) as Boolean,
-        (map.state ?: SsgPointGmarketState_생성()) as SsgPointState,
+        (map.state ?: SsgPointState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
         (map.adminId ?: "adminId") as String
     )

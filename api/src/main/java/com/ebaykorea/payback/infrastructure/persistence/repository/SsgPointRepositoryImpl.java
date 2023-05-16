@@ -65,6 +65,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     //기존 적립건 cancelYn update
     ssgPoint.getSsgPointUnits().stream()
         .filter(SsgPointUnit::getIsPolicy)
+        .filter(unit -> unit.getCancelStatus() == PointStatusType.Cancel)
         .forEach(unit -> ssgPointTargetRepository.updateCancelYn(
             unit.getOrderNo(),
             ssgPoint.getBuyerNo(),

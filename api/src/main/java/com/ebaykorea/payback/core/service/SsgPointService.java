@@ -4,6 +4,7 @@ import static com.ebaykorea.payback.util.PaybackDateTimeFormatters.DATE_TIME_FOR
 
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointStateImpl;
 import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SsgPointService {
 
-  private final SsgPointStateDelegate ssgPointStateDelegate;
   private final SsgPointRepository ssgPointRepository;
 
   //TODO: 옥션과 지마켓 프로세스 통일 필요
@@ -35,7 +35,7 @@ public class SsgPointService {
       return maybeSsgPointSaveTarget.get();
     }
 
-    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
+    final var ssgPointStrategy = new SsgPointStateImpl();
 
     final var ssgPointUnit = SsgPointUnit.readyUnit(request.getOrderNo(),
         request.getPayAmount(),
