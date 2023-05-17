@@ -13,8 +13,7 @@ public enum PointStatusType {
   Success("SS","성공"),
   Fail("FF","실패"),
   Cancel("SC","취소"),
-  CacnelReady("RC","취소대기"),
-  WithHold("WW","보류"),
+  CancelBeforeSave("WW","적립전취소"),
   Admin("MR","어드민 수동");
 
   private final String code;

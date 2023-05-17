@@ -1,33 +1,41 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint.state;
 
-import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointStatus;
 
 public interface SsgPointState {
 
-  OrderSiteType site();
-
   /**
-   * SSG 포인트 저장
-   * 상태값 PointStatusType.Ready
+   * SSG 포인트 저장 상태값 PointStatusType.Ready
    */
-  SsgPointStatus ready();
+  default SsgPointStatus ready() {
+    return SsgPointStatus.builder()
+        .statusType(PointStatusType.Ready)
+        .tradeType(PointTradeType.Save)
+        .build();
+  }
 
   /**
    * SSG 포인트 취소
    * 상태값 PointStatusType.Cancel
    */
-  SsgPointStatus cancel();
+  default SsgPointStatus cancel() {
+    return SsgPointStatus.builder()
+        .statusType(PointStatusType.Ready)
+        .tradeType(PointTradeType.Cancel)
+        .build();
+  }
+
+  PointStatusType cancelStatus(String pointStatusType, String scheduleDate);
 
   /**
    * SSG 포인트 보류
    * 상태값 PointStatusType.WithHold
    */
-  default SsgPointStatus withhold() {
+  default SsgPointStatus cancelBeforeSave() {
     return SsgPointStatus.builder()
-        .statusType(PointStatusType.WithHold)
+        .statusType(PointStatusType.CancelBeforeSave)
         .tradeType(PointTradeType.Save)
         .build();
   }

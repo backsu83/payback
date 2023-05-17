@@ -1,11 +1,11 @@
 package com.ebaykorea.payback.core.dto.ssgpoint;
 
+import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
-
 import lombok.Data;
 
 @Data
@@ -14,6 +14,7 @@ public class SsgPointTarget {
   private Long packNo;
   private Long orderNo;
   private String buyerId;
+  private OrderSiteType siteType;
   private String pointStatus;
   private String tradeType;
   private String receiptNo;
@@ -32,4 +33,5 @@ public class SsgPointTarget {
   public boolean isSaveType() {
     return Objects.equals(tradeType, PointTradeType.Save.getCode());
   }
+
 }

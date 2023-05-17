@@ -41,7 +41,8 @@ public class SsgPointUnit {
                        final Boolean isPolicy,
                        final SsgPointStatus pointStatus,
                        final SsgPointOrigin pointOrigin,
-                       final String adminId) {
+                       final String adminId
+  ) {
     this.orderNo = orderNo;
     this.payAmount = payAmount;
     this.saveAmount = saveAmount;
@@ -64,6 +65,7 @@ public class SsgPointUnit {
                                 final SsgPointStatus pointState,
                                 final SsgPointOrigin pointOrigin,
                                 final String adminId
+
   ) {
     return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, pointState,
         pointOrigin, adminId);
@@ -75,11 +77,11 @@ public class SsgPointUnit {
       final BigDecimal saveAmount,
       final Instant scheduleDate,
       final Boolean isPolicy,
-      final SsgPointState state,
+      final SsgPointState status,
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.ready(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, status.ready(), pointOrigin, adminId);
   }
 
   public static SsgPointUnit cancelUnit(
@@ -90,14 +92,14 @@ public class SsgPointUnit {
       final String accountDate,
       final String pointToken,
       final Boolean isPolicy,
-      final SsgPointState state,
+      final SsgPointState status,
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, state.cancel(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, status.cancel(), pointOrigin, adminId);
   }
 
-  public static SsgPointUnit withholdUnit(
+  public static SsgPointUnit cancelBeforeSaveUnit(
       final Long orderNo,
       final BigDecimal payAmount,
       final BigDecimal saveAmount,
@@ -107,7 +109,7 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.withhold(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.cancelBeforeSave(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리

@@ -1,18 +1,16 @@
 package com.ebaykorea.payback.core.service;
 
-import com.ebaykorea.payback.core.domain.constant.PointStatusType;
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointCreater;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
-import com.ebaykorea.payback.util.PaybackOperators;
 import com.ebaykorea.payback.util.support.GsonUtils;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
 
 //TODO: SRP를 위해 조회결과를 리턴하지 않도록
 @Slf4j
@@ -21,6 +19,7 @@ import java.time.Instant;
 public class SsgPointCancelService {
   private final SsgPointRepository ssgPointRepository;
   private final SsgPointCreater ssgPointCreater;
+  private final SsgPointState ssgPointState;
 
   public SsgPointTarget cancelPoint(final Long orderNo, final CancelSsgPointRequestDto request) {
     final var ssgPoints = ssgPointRepository.findAllByOrderNoAndSiteType(orderNo, request.getSiteType());
@@ -50,19 +49,20 @@ public class SsgPointCancelService {
       return null;
     }
     final var savedSsgPoint = maybeSavedSsgPoint.get();
+    final var cancelStatus = ssgPointState.cancelStatus(savedSsgPoint.getPointStatus() , savedSsgPoint.getScheduleDate());
 
-    switch (PointStatusType.from(savedSsgPoint.getPointStatus())) {
-      case Success:
-        //적립건은 취소
-        final var ssgPoint = ssgPointCreater.withCancelUnit(request, savedSsgPoint);
-        log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(ssgPoint));
-        return ssgPointRepository.cancel(ssgPoint).stream()
+    switch (cancelStatus) {
+      case Cancel:
+        final var cancelUnit = ssgPointCreater.withCancelUnit(savedSsgPoint, ssgPointState, request.getAdminId());
+        log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(cancelUnit));
+        return ssgPointRepository.cancel(cancelUnit).stream()
             .findAny()
             .orElse(null);
-      case Ready:
-        //대기건은 보류 처리
-        final var withHoldSsgPoint = ssgPointCreater.withWithholdUnit(request, savedSsgPoint);
-        ssgPointRepository.setPointStatus(withHoldSsgPoint);
+
+      case CancelBeforeSave:
+        final var cancelBeforeSaveUnit = ssgPointCreater.withCancelBeforeSaveUnit(savedSsgPoint, ssgPointState, request.getAdminId());
+        log.info("domain entity cancelBeforeSaveUnit ssgPoint: {}", GsonUtils.toJson(cancelBeforeSaveUnit));
+        ssgPointRepository.setPointStatus(cancelBeforeSaveUnit);
         return ssgPointRepository.findByKey(request.key(orderNo, savedSsgPoint.getBuyerId()))
             .orElse(null);
       default:
