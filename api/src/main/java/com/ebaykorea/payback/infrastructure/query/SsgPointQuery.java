@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query;
 
+import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.infrastructure.query.mapper.SsgPointTargetQueryResultMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
 import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
@@ -16,8 +17,9 @@ public class SsgPointQuery {
     private final SsgPointTargetQueryResultMapper pointMapper;
 
     public List<SsgPointTargetQueryResult> getSsgPointQueryResult(final Long packNo, String siteType) {
+        String cancelBeforeSave = PointStatusType.WithHold.getCode();
         return ssgPointTargetRepository.findByPackNo(packNo)
-                .stream().filter(s -> siteType.equals(s.getSiteType()))
+                .stream().filter(s -> siteType.equals(s.getSiteType()) && !cancelBeforeSave.equals(s.getPointStatus()))
                 .map(pointMapper::map)
                 .collect(Collectors.toUnmodifiableList());
     }
