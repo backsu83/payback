@@ -134,11 +134,10 @@ public class PaybackComponentTest {
 
     private final Long packNo = 5085547185L;
     private static final String siteType = "G";
-    private static final String tradeType = "S";
     @Test
     @DisplayName("신세계 포인트 조회")
     void getSsgPoints() {
-      final var result = ssgPointController.getSsgPoints(packNo, siteType, tradeType);
+      final var result = ssgPointController.getSsgPoints(packNo, siteType);
     }
   }
 

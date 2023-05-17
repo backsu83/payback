@@ -55,7 +55,7 @@ public class SsgPointController {
   }
 
   @GetMapping
-  public List<SsgPointTargetQueryResult> getSsgPoints(Long packNo, String siteType, String tradeType) {
-   return ssgPointQuery.getSsgPointQueryResult(packNo, siteType, tradeType);
+  public List<SsgPointTargetQueryResult> getSsgPoints(Long packNo, String siteType) {
+   return ssgPointQuery.getSsgPointQueryResult(packNo, siteType);
   }
 }
