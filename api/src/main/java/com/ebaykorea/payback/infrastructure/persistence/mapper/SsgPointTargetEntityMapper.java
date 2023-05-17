@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.mapper;
 
+import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
@@ -12,7 +13,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(
     componentModel = "spring",
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
-    imports = {PaybackInstants.class}
+    imports = {
+        PaybackInstants.class,
+        OrderSiteType.class
+    }
 )
 public interface SsgPointTargetEntityMapper {
 
@@ -32,5 +36,6 @@ public interface SsgPointTargetEntityMapper {
   SsgPointTargetEntity map(SsgPoint point, SsgPointUnit unit);
 
   @Mapping(source = "insertOperator" , target = "adminId")
+  @Mapping(expression = "java(OrderSiteType.forValue(entity.getSiteType()))" , target = "siteType")
   SsgPointTarget mapToSsgTarget(SsgPointTargetEntity entity);
 }

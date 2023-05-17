@@ -32,11 +32,13 @@ class SsgPointControllerTest {
         + "  \"siteType\": \"A\",\n"
         + "  \"tradeType\": \"S\",\n"
         + "  \"payAmount\": \"1000\",\n"
-        + "  \"orderDate\": \"2022-10-17T09:35:24.00Z\",\n"
-        + "  \"scheduleDate\": \"2023-10-17\"\n"
+        + "  \"saveAmount\": \"1000\",\n"
+        + "  \"orderDate\": \"2022-10-17 09:35:24\",\n"
+        + "  \"adminId\": \"test\",\n"
+        + "  \"scheduleDate\": \"2023-10-17 00:00:00\"\n"
         + "}";
 
-    MockHttpServletRequestBuilder requestBuilder = post("/api/ssgpoint/save")
+    MockHttpServletRequestBuilder requestBuilder = post("/api/ssg-points")
         .contentType(MediaType.APPLICATION_JSON)
         .content(requestJson)
         .accept(MediaType.APPLICATION_JSON);
@@ -50,12 +52,12 @@ class SsgPointControllerTest {
   void cancelSsgPointTest() throws Exception {
 
     String requestJson = "{\n"
-        + "  \"packNo\": \"4228021987\",\n"
-        + "  \"orderNo\": \"5408169775\",\n"
+        + "  \"packNo\": \"788898608\",\n"
+        + "  \"buyerId\": \"109543617\",\n"
         + "  \"siteType\": \"G\"\n"
         + "}";
 
-    MockHttpServletRequestBuilder requestBuilder = post("/api/ssgpoint/cancel")
+    MockHttpServletRequestBuilder requestBuilder = post("/api/ssg-points/7888998608/cancel")
         .contentType(MediaType.APPLICATION_JSON)
         .content(requestJson)
         .accept(MediaType.APPLICATION_JSON);
