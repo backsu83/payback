@@ -42,8 +42,8 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 20000  # resilience4j timeoutDuration
-      readTimeout: 20000
+      connectTimeout: 5000  # resilience4j timeoutDuration
+      readTimeout: 5000
 
 # Resilience4j Configurations
 # ???? - https://wiki.ebaykorea.com/display/ANNA/Resilience4j
@@ -66,7 +66,7 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.batch
-    host: http://devmoafw.ebaykorea.com
+    host: http://moafw2.ebaykorea.com/bulk
   application:
     domain: "payback"
     tenantid: "gmarket"
@@ -77,8 +77,8 @@ saturn:
         major: "v1"
         full: "v1.0.0"
   datasource:
-    appName: PAYBACK_API
-    userName: daemon_app
+    appName: PAYREWARD_APP
+    userName: payback_app
     tenant: gmarketdev #??: gmarketdev, ??: gmarket
 
 ###################################################

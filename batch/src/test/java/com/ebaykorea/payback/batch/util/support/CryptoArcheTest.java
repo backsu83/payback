@@ -21,9 +21,9 @@ class CryptoArcheTest {
 
   @Test
   void decryptAuction() throws Exception {
-    String message = "TOrNDOb49cd7jAaLTZVMMkGFAb4kUp4+";
+    String message = "~Yc4z3M9GIq6Pv6veFXkmIA==";
     var result = CryptoArche.decrypt(message, "auction");
-    assertEquals(result, "9350-1302-6783-0229");
+    assertEquals(result, "9350163600012428");
   }
 
   @Test

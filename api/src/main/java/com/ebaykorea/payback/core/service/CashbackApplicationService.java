@@ -37,14 +37,12 @@ public class CashbackApplicationService {
   private final SsgPointRepository ssgPointRepository;
 
   public ResponseMessageType setCashback(final String txKey, final String orderKey) {
-    //주문 정보
     final var order = orderGateway.getOrder(orderKey);
 
     if (!order.isForCashback()) {
       return CASHBACK_INVALID_TARGET;
     }
 
-    //주문 키 매핑 정보
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
 
     final var cashbackAlreadySaved = payCashbackRepository.hasAlreadySaved(orderKeyMap);
@@ -54,24 +52,17 @@ public class CashbackApplicationService {
       return CASHBACK_DUPLICATED;
     }
 
-    //결제 정보
     final var paymentRecordFuture = paymentGateway.getPaymentRecordAsync(order.getPaySeq());
-    //상품 스냅샷 정보
     final var itemSnapshotsFuture = orderGateway.getItemSnapshotAsync(order.findItemSnapshotKeys());
-    //회원 정보
     final var memberFuture = memberService.getMemberAsync(order.getBuyer());
 
     final var paymentRecord = paymentRecordFuture.join();
     final var itemSnapshots = itemSnapshotsFuture.join();
 
-    //리워드 캐시백 정책 조회
-    final var rewardCashbackPolicies = paymentRecord.hasMainPaymentAmount() ? //주 결제수단 금액이 있는 경우에만 정책 조회
-        rewardGateway.getCashbackPolicies(order, paymentRecord, itemSnapshots.getItemSnapshotMap(), orderKeyMap.orderUnitKeyMap()) :
-        RewardCashbackPolicies.EMPTY;
+    final var rewardCashbackPolicies = rewardGateway.getCashbackPolicies(order, paymentRecord, itemSnapshots.getItemSnapshotMap(), orderKeyMap.orderUnitKeyMap());
 
     final var member = memberFuture.join();
 
-    //캐시백 중복 체크 FIXME: 임시 조정
     if (!cashbackAlreadySaved) {
       final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
       log.info("domain entity payCashback : {}", GsonUtils.toJson(payCashback));
@@ -81,7 +72,7 @@ public class CashbackApplicationService {
 
     if (!ssgPointsAlreadySaved) {
       final var pointState = ssgPointStateDelegate.find(OrderSiteType.Gmarket);
-      final var ssgPoint = ssgPointCreater.withReadyUnits(rewardCashbackPolicies, member , order, orderKeyMap, pointState);
+      final var ssgPoint = ssgPointCreater.withReadyUnits(rewardCashbackPolicies, member , order, orderKeyMap, paymentRecord, pointState);
       log.info("domain entity ssgPoint: {}", GsonUtils.toJson(ssgPoint));
 
       ssgPointRepository.save(ssgPoint);

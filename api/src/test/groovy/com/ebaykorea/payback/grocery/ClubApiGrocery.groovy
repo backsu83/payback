@@ -12,7 +12,10 @@ class ClubApiGrocery {
                     (map.unifyMasterId ?: 23268003L) as Long,
                     (map.membershipGrade ?: "BASC") as String,
                     (map.payCycleType ?: "ANNL") as String,
-                    (map.partnerId ?: "S001") as String
+                    (map.partnerId ?: "S001") as String,
+                    (map.isUnifyMembership ?: true) as Boolean,
+                    (map.isSSGMembership ?: true) as Boolean,
+                    (map.isSSGPoint ?: true) as Boolean
             )) as SmileClubSubscriptionDto
         )
     }

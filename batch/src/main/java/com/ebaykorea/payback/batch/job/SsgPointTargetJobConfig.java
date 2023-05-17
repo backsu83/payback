@@ -74,7 +74,7 @@ public class SsgPointTargetJobConfig {
     return stepBuilderFactory.get("excuteAllowStep")
         .tasklet((contribution, chunkContext) -> {
           var reqTime = LocalTime.parse(reqDateTime , DATE_TIME_FORMATTER).getHour();
-          if ( reqTime >= 0 && reqTime <= 9) {
+          if ( reqTime >= 0 && reqTime <= 8) {
               contribution.setExitStatus(ExitStatus.FAILED);
           }
           return RepeatStatus.FINISHED;
@@ -95,7 +95,7 @@ public class SsgPointTargetJobConfig {
         .skip(Exception.class)
         .skipLimit(10000)
         .taskExecutor(threadExecutorConfig.taskExecutor())
-        .throttleLimit(5)
+        .throttleLimit(30)
         .build();
   }
 

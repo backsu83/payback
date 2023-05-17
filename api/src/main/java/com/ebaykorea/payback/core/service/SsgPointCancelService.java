@@ -38,6 +38,7 @@ public class SsgPointCancelService {
         .filter(SsgPointTarget::isSaveType)
         .findAny();
 
+    // TODO: 비회원이나 ssg 비연동 고객인 경우 적립 데이터가 없을 수 있음 아래 로직은 추후 제거
     // 적립 데이터가 없는 시점에 취소가 들어온 경우 예외 데이터 저장
     if (maybeSavedSsgPoint.isEmpty()) {
       ssgPointRepository.saveExceptOrderNo(

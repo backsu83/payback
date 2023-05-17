@@ -24,6 +24,7 @@ public class SsgPointAuthProperties {
     private String apiKey;
     private String encryptKey;
     private String encryptIv;
+    private String decryptInstance;
     private String branchId;
   }
 
@@ -35,6 +36,7 @@ public class SsgPointAuthProperties {
     private String apiKey;
     private String encryptKey;
     private String encryptIv;
+    private String decryptInstance;
     private String branchId;
   }
 }

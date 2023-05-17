@@ -1,9 +1,9 @@
 
 apis:
   smileclub:
-    url: "http://smileclubapi-dev.gmarket.co.kr"
+    url: "http://smileclubapi.gmarket.co.kr"
   ssgpoint:
-    url: "https://devauthmemapi.shinsegaepoint.com"
+    url: "https://authmemapi.shinsegaepoint.com"
   teams:
     url: "https://gmarketcorp.webhook.office.com"
 
@@ -34,8 +34,8 @@ ssgpoint:
       decryptInstance: 'auction-aes'
       branchId: 'B200042502'
   batch:
-    fetchSize: 100         #ItemReader에 읽는 Row수
-    chunkSize: 100         #Chunk 처리단위
+    fetchSize: 1000         #ItemReader에 읽는 Row수
+    chunkSize: 1000         #Chunk 처리단위
   scheduler:
     daily:
       crontab: "0 2 * * * *" #매일 2시 실행

@@ -123,26 +123,25 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
   }
 
   public SsgVerifySumEntity findSumCount(OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
+
     LocalDate yesterday = LocalDate.now().minusDays(1);
     Instant startDate = LocalDateTime.of(yesterday, LocalTime.MIN).atZone(SEOUL).toInstant();
     Instant endDate = LocalDateTime.of(yesterday, LocalTime.MAX).atZone(SEOUL).toInstant();
     StringTemplate dateAsString = Expressions.stringTemplate("TO_CHAR({0}, '{1s}')", ssgPointTargetEntity.requestDate, "YYYY-MM-DD");
 
     var result = factory.select(
-            Projections.fields(SsgVerifySumEntity.class,
-                    dateAsString.as("requestDate"),
-                    ssgPointTargetEntity.saveAmount.count().coalesce(0L).as("count"),
-                    ssgPointTargetEntity.saveAmount.sum().coalesce(BigDecimal.ZERO).as("amount")
-            )
+              Projections.fields(SsgVerifySumEntity.class,
+                      ssgPointTargetEntity.saveAmount.count().as("sumCount"),
+                      ssgPointTargetEntity.saveAmount.sum().as("sumAmount")
+              )
             )
             .from(ssgPointTargetEntity)
             .where(ssgPointTargetEntity.requestDate.between(startDate, endDate),
                     ShopType(orderSiteType.getShortCode()),
                     TradeType(verifyTradeType.getShortCode()),
-                    TradeType("SS")
+                    PointStatus(PointStatusType.Success.getCode())
             )
-            .groupBy(dateAsString,
-                    ssgPointTargetEntity.siteType,
+            .groupBy(ssgPointTargetEntity.siteType,
                     ssgPointTargetEntity.tradeType,
                     ssgPointTargetEntity.pointStatus
             ).fetchOne();
@@ -157,6 +156,10 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
 
   private BooleanExpression TradeType(String tradeType) {
     return (tradeType == null || "".equals(tradeType))? null : ssgPointTargetEntity.tradeType.eq(tradeType);
+  }
+
+  private BooleanExpression PointStatus(String pointStatus) {
+    return (pointStatus == null || "".equals(pointStatus))? null : ssgPointTargetEntity.pointStatus.eq(pointStatus);
   }
 
 
