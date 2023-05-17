@@ -87,11 +87,11 @@ public class SsgPointUnitCreater {
     );
   }
 
-  public SsgPointUnit withholdUnit(final SsgPointTarget ssgPointTarget,
+  public SsgPointUnit cancelBeforeSaveUnit(final SsgPointTarget ssgPointTarget,
       final SsgPointState ssgPointState,
       final String adminId) {
 
-    return SsgPointUnit.withholdUnit(
+    return SsgPointUnit.cancelBeforeSaveUnit(
         ssgPointTarget.getOrderNo(),
         ssgPointTarget.getPayAmount(),
         ssgPointTarget.getSaveAmount(),

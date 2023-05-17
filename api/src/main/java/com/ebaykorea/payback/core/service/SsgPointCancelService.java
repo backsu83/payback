@@ -60,9 +60,9 @@ public class SsgPointCancelService {
             .orElse(null);
 
       case CancelBeforeSave:
-        final var withHoldUnit = ssgPointCreater.withWithholdUnit(savedSsgPoint, ssgPointState, request.getAdminId());
-        log.info("domain entity withHold ssgPoint: {}", GsonUtils.toJson(withHoldUnit));
-        ssgPointRepository.setPointStatus(withHoldUnit);
+        final var cancelBeforeSaveUnit = ssgPointCreater.withCancelBeforeSaveUnit(savedSsgPoint, ssgPointState, request.getAdminId());
+        log.info("domain entity cancelBeforeSaveUnit ssgPoint: {}", GsonUtils.toJson(cancelBeforeSaveUnit));
+        ssgPointRepository.setPointStatus(cancelBeforeSaveUnit);
         return ssgPointRepository.findByKey(request.key(orderNo, savedSsgPoint.getBuyerId()))
             .orElse(null);
       default:

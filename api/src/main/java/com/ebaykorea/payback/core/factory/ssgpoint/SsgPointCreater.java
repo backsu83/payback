@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.core.factory.ssgpoint;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
@@ -50,7 +49,7 @@ public class SsgPointCreater {
         List.of(ssgPointUnitCreater.cancelUnit(ssgPointTarget, ssgPointState, adminId)));
   }
 
-  public SsgPoint withWithholdUnit(final SsgPointTarget ssgPointTarget,
+  public SsgPoint withCancelBeforeSaveUnit(final SsgPointTarget ssgPointTarget,
       final SsgPointState ssgPointState,
       final String adminId) {
     return SsgPoint.of(
@@ -59,6 +58,6 @@ public class SsgPointCreater {
         true,
         ssgPointTarget.getOrderDate(),
         ssgPointTarget.getSiteType(),
-        List.of(ssgPointUnitCreater.withholdUnit(ssgPointTarget, ssgPointState, adminId)));
+        List.of(ssgPointUnitCreater.cancelBeforeSaveUnit(ssgPointTarget, ssgPointState, adminId)));
   }
 }

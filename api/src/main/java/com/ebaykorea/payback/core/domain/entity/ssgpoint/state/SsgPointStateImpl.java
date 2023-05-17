@@ -2,7 +2,6 @@ package com.ebaykorea.payback.core.domain.entity.ssgpoint.state;
 
 import static com.ebaykorea.payback.core.domain.constant.PointStatusType.Cancel;
 import static com.ebaykorea.payback.core.domain.constant.PointStatusType.CancelBeforeSave;
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.CancelReady;
 import static com.ebaykorea.payback.core.domain.constant.PointStatusType.Unknown;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
 
@@ -19,7 +18,7 @@ public class SsgPointStateImpl implements SsgPointState {
       case Success:
         return Cancel;
       case Ready:
-        if (Instant.parse(scheduleDate).isAfter(now())) {
+        if (Instant.parse(scheduleDate).isBefore(now())) {
           return Cancel;
         } else {
           return CancelBeforeSave;

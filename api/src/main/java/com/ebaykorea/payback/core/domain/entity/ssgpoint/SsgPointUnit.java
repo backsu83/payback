@@ -99,7 +99,7 @@ public class SsgPointUnit {
     return of(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, status.cancel(), pointOrigin, adminId);
   }
 
-  public static SsgPointUnit withholdUnit(
+  public static SsgPointUnit cancelBeforeSaveUnit(
       final Long orderNo,
       final BigDecimal payAmount,
       final BigDecimal saveAmount,
@@ -109,7 +109,7 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.withhold(), pointOrigin, adminId);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.cancelBeforeSave(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리

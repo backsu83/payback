@@ -33,7 +33,7 @@ public interface SsgPointState {
    * SSG 포인트 보류
    * 상태값 PointStatusType.WithHold
    */
-  default SsgPointStatus withhold() {
+  default SsgPointStatus cancelBeforeSave() {
     return SsgPointStatus.builder()
         .statusType(PointStatusType.CancelBeforeSave)
         .tradeType(PointTradeType.Save)
