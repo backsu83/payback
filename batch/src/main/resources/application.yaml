@@ -29,6 +29,7 @@ logging:
     MoALogger: INFO
     com.ebaykorea.payback.batch: INFO
     com.ebay.korea.security.crypto: WARN
+    org.springframework.batch.core.step.item.ChunkMonitor: ERROR
 
 
 ###################################################

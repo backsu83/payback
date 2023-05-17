@@ -51,7 +51,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
-        );
+        ).orderBy(ssgPointTargetEntity.tradeType.desc());
   }
 
   public JPAQuery<SsgPointTargetEntity> findStatusByFail() {
