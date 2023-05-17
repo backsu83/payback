@@ -43,7 +43,7 @@ class SsgPointGrocery {
       payAmount = (map.payAmount ?: 1000L) as BigDecimal
       saveAmount = (map.saveAmount ?: 1000L) as BigDecimal
       orderDate = (map.orderDate ?: SSGPOINT_ORDER_DATE) as Instant
-      scheduleDate = (map.scheduleDate ?: "2023-05-11T13:00:00Z") as String
+      scheduleDate = (map.scheduleDate ?: "2023-04-16T13:00:00Z") as String
       pntApprId = (map.pntApprId ?: null) as String
       adminId = (map.adminId ?: null) as String
     }
