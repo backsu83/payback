@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint;
 
-import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
 import com.google.common.base.Strings;
@@ -30,9 +29,8 @@ public class SsgPointUnit {
   SsgPointOrigin pointOrigin;
 
   String adminId;
-  PointStatusType cancelStatus;
 
-  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), null, null,false, null, null, null, null);
+  public static SsgPointUnit EMPTY = SsgPointUnit.of(0L, BigDecimal.ZERO, BigDecimal.ZERO, now(), null, null,false, null, null, null);
 
   private SsgPointUnit(final Long orderNo,
                        final BigDecimal payAmount,
@@ -43,8 +41,8 @@ public class SsgPointUnit {
                        final Boolean isPolicy,
                        final SsgPointStatus pointStatus,
                        final SsgPointOrigin pointOrigin,
-                       final String adminId,
-                       final PointStatusType cancelStatus) {
+                       final String adminId
+  ) {
     this.orderNo = orderNo;
     this.payAmount = payAmount;
     this.saveAmount = saveAmount;
@@ -55,7 +53,6 @@ public class SsgPointUnit {
     this.pointStatus = pointStatus;
     this.pointOrigin = pointOrigin;
     this.adminId = adminId;
-    this.cancelStatus = cancelStatus;
   }
 
   private static SsgPointUnit of(final Long orderNo,
@@ -67,12 +64,11 @@ public class SsgPointUnit {
                                 final Boolean isPolicy,
                                 final SsgPointStatus pointState,
                                 final SsgPointOrigin pointOrigin,
-                                final String adminId,
-                                final PointStatusType cancelStatus
+                                final String adminId
 
   ) {
     return new SsgPointUnit(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, pointState,
-        pointOrigin, adminId, cancelStatus);
+        pointOrigin, adminId);
   }
 
   public static SsgPointUnit readyUnit(
@@ -85,7 +81,7 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, status.ready(), pointOrigin, adminId, null);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, status.ready(), pointOrigin, adminId);
   }
 
   public static SsgPointUnit cancelUnit(
@@ -98,10 +94,9 @@ public class SsgPointUnit {
       final Boolean isPolicy,
       final SsgPointState status,
       final SsgPointOrigin pointOrigin,
-      final String adminId,
-      final PointStatusType cancelStatus
+      final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, status.cancel(), pointOrigin, adminId, cancelStatus);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, accountDate, pointToken, isPolicy, status.cancel(), pointOrigin, adminId);
   }
 
   public static SsgPointUnit withholdUnit(
@@ -114,7 +109,7 @@ public class SsgPointUnit {
       final SsgPointOrigin pointOrigin,
       final String adminId
   ) {
-    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.withhold(), pointOrigin, adminId, null);
+    return of(orderNo, payAmount, saveAmount, scheduleDate, null, null, isPolicy, state.withhold(), pointOrigin, adminId);
   }
 
   //"AAA" + "YYMMDDHH24MISS" + S or C + 주문번호 마지막 4자리

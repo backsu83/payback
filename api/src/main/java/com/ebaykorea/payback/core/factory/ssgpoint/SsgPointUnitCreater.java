@@ -68,7 +68,6 @@ public class SsgPointUnitCreater {
 
   public SsgPointUnit cancelUnit(final SsgPointTarget ssgPointTarget,
       final SsgPointState ssgPointState,
-      final PointStatusType cancelStatus,
       final String adminId) {
 
     return SsgPointUnit.cancelUnit(
@@ -84,8 +83,7 @@ public class SsgPointUnitCreater {
             .orgApproveId(ssgPointTarget.getPntApprId())
             .orgReceiptNo(ssgPointTarget.getReceiptNo())
             .build(),
-        adminId,
-        cancelStatus
+        adminId
     );
   }
 

@@ -2,7 +2,6 @@ package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType
-import com.ebaykorea.payback.core.domain.constant.PointStatusType
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit
@@ -98,8 +97,7 @@ class SsgPointGrocery {
         (map.isPolicy) as Boolean,
         (map.state ?: SsgPointState_생성()) as SsgPointState,
         (map.pointOrigin ?: null) as SsgPointOrigin,
-        (map.adminId ?: "adminId") as String,
-        (map.cancelStatus ?: PointStatusType.Cancel) as PointStatusType
+        (map.adminId ?: "adminId") as String
     )
   }
   static def SsgPointUnit_보류상태_생성(Map map = [:]) {

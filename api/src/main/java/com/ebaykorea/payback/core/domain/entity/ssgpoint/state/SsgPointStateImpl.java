@@ -1,9 +1,9 @@
 package com.ebaykorea.payback.core.domain.entity.ssgpoint.state;
 
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.CacnelReady;
 import static com.ebaykorea.payback.core.domain.constant.PointStatusType.Cancel;
+import static com.ebaykorea.payback.core.domain.constant.PointStatusType.CancelBeforeSave;
+import static com.ebaykorea.payback.core.domain.constant.PointStatusType.CancelReady;
 import static com.ebaykorea.payback.core.domain.constant.PointStatusType.Unknown;
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.WithHold;
 import static com.ebaykorea.payback.util.PaybackInstants.now;
 
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
@@ -20,9 +20,9 @@ public class SsgPointStateImpl implements SsgPointState {
         return Cancel;
       case Ready:
         if (Instant.parse(scheduleDate).isAfter(now())) {
-          return CacnelReady;
+          return Cancel;
         } else {
-          return WithHold;
+          return CancelBeforeSave;
         }
     }
     return Unknown;

@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.core.service
 
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint
+import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointStateImpl
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey
 import com.ebaykorea.payback.core.repository.SsgPointRepository
 import spock.lang.Specification
@@ -10,8 +11,8 @@ import static com.ebaykorea.payback.grocery.SsgPointGrocery.SsgPointTarget_생�
 
 class SsgPointServiceSpec extends Specification {
   def ssgPointRepository = Mock(SsgPointRepository)
-
-  def ssgPointService = new SsgPointService(ssgPointRepository)
+  def ssgPointState = new SsgPointStateImpl()
+  def ssgPointService = new SsgPointService(ssgPointRepository, ssgPointState)
 
   def "earnPoint 정상처리 확인"() {
     setup:

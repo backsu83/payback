@@ -40,7 +40,6 @@ public class SsgPointCreater {
 
   public SsgPoint withCancelUnit(final SsgPointTarget ssgPointTarget,
       final SsgPointState ssgPointState,
-      final PointStatusType cancelStatus,
       final String adminId) {
     return SsgPoint.of(
         ssgPointTarget.getPackNo(),
@@ -48,7 +47,7 @@ public class SsgPointCreater {
         true,
         ssgPointTarget.getOrderDate(),
         ssgPointTarget.getSiteType(),
-        List.of(ssgPointUnitCreater.cancelUnit(ssgPointTarget, ssgPointState, cancelStatus, adminId)));
+        List.of(ssgPointUnitCreater.cancelUnit(ssgPointTarget, ssgPointState, adminId)));
   }
 
   public SsgPoint withWithholdUnit(final SsgPointTarget ssgPointTarget,

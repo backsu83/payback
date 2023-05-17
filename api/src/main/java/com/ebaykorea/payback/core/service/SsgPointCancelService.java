@@ -53,28 +53,18 @@ public class SsgPointCancelService {
 
     switch (cancelStatus) {
       case Cancel:
-        final var cancelUnit = ssgPointCreater.withCancelUnit(savedSsgPoint, ssgPointState, cancelStatus, request.getAdminId());
+        final var cancelUnit = ssgPointCreater.withCancelUnit(savedSsgPoint, ssgPointState, request.getAdminId());
         log.info("domain entity cancel ssgPoint: {}", GsonUtils.toJson(cancelUnit));
         return ssgPointRepository.cancel(cancelUnit).stream()
             .findAny()
             .orElse(null);
 
-      case CacnelReady:
-        final var cancelReadyUnit = ssgPointCreater.withCancelUnit(savedSsgPoint, ssgPointState, cancelStatus, request.getAdminId());
-        log.info("domain entity cancelReady ssgPoint: {}", GsonUtils.toJson(cancelReadyUnit));
-        ssgPointRepository.cancel(cancelReadyUnit).stream()
-            .findAny()
-            .orElse(null);
-        return ssgPointRepository.findByKey(request.key(orderNo, savedSsgPoint.getBuyerId()))
-            .orElse(null);
-
-      case WithHold:
+      case CancelBeforeSave:
         final var withHoldUnit = ssgPointCreater.withWithholdUnit(savedSsgPoint, ssgPointState, request.getAdminId());
         log.info("domain entity withHold ssgPoint: {}", GsonUtils.toJson(withHoldUnit));
         ssgPointRepository.setPointStatus(withHoldUnit);
         return ssgPointRepository.findByKey(request.key(orderNo, savedSsgPoint.getBuyerId()))
             .orElse(null);
-
       default:
         return savedSsgPoint;
     }

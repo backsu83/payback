@@ -1,14 +1,16 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository;
 
+import static com.ebaykorea.payback.util.PaybackStrings.YES;
+
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
+import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
-import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointDailyVerifyEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointOrderNoEntityMapper;
@@ -16,20 +18,15 @@ import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEnt
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointOrderNoRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
-import com.google.common.collect.Lists;
+import java.time.Instant;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static com.ebaykorea.payback.util.PaybackStrings.EMPTY;
-import static com.ebaykorea.payback.util.PaybackStrings.YES;
 
 @Slf4j
 @Service
@@ -65,7 +62,6 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     //기존 적립건 cancelYn update
     ssgPoint.getSsgPointUnits().stream()
         .filter(SsgPointUnit::getIsPolicy)
-        .filter(unit -> unit.getCancelStatus() == PointStatusType.Cancel)
         .forEach(unit -> ssgPointTargetRepository.updateCancelYn(
             unit.getOrderNo(),
             ssgPoint.getBuyerNo(),

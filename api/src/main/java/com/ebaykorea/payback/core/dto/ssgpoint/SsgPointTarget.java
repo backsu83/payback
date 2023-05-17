@@ -1,20 +1,11 @@
 package com.ebaykorea.payback.core.dto.ssgpoint;
 
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.CacnelReady;
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.Cancel;
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.Success;
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.Unknown;
-import static com.ebaykorea.payback.core.domain.constant.PointStatusType.WithHold;
-import static com.ebaykorea.payback.util.PaybackInstants.now;
-
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
-
 import lombok.Data;
 
 @Data

@@ -35,7 +35,7 @@ public interface SsgPointState {
    */
   default SsgPointStatus withhold() {
     return SsgPointStatus.builder()
-        .statusType(PointStatusType.WithHold)
+        .statusType(PointStatusType.CancelBeforeSave)
         .tradeType(PointTradeType.Save)
         .build();
   }
