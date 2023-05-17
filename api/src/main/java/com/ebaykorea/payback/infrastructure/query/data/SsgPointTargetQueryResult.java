@@ -16,4 +16,5 @@ public class SsgPointTargetQueryResult {
     private BigDecimal ssgPointSaveAmount;
     private String ssgPointSaveExpectDate;
     private String ssgPointSavedYN;
+    private String ssgPointTradeType;
 }

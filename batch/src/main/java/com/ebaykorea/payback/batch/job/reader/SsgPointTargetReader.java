@@ -23,17 +23,12 @@ public class SsgPointTargetReader  {
   @Value("${ssgpoint.batch.fetchSize}")
   private int fetchSize;
 
-  public QuerydslPagingItemReader<SsgPointTargetEntity> queryDslReader() {
-    QuerydslNoOffsetNumberOptions<SsgPointTargetEntity, Long> options =
-        new QuerydslNoOffsetNumberOptions<>(ssgPointTargetEntity.orderNo, Expression.DESC);
-
-    QuerydslNoOffsetPagingItemReader<SsgPointTargetEntity> reader = new QuerydslNoOffsetPagingItemReader<>(
-        entityManagerFactory,
-        fetchSize,
-        options,
-        queryFactory -> ssgPointTargetRepositorySupport.findStatusByReady()
+  public QuerydslPagingItemReader<SsgPointTargetEntity> queryDslReader(){
+    QuerydslPagingItemReader<SsgPointTargetEntity> reader = new QuerydslPagingItemReader<>(
+            entityManagerFactory,
+            fetchSize,
+            queryFactory -> ssgPointTargetRepositorySupport.findStatusByReady()
     );
-    reader.setTransacted(true); // 예시로 transacted 값을 false로 설정
     return reader;
   }
 }
