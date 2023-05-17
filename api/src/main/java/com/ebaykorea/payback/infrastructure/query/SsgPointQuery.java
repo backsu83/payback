@@ -17,9 +17,8 @@ public class SsgPointQuery {
     private final SsgPointTargetQueryResultMapper pointMapper;
 
     public List<SsgPointTargetQueryResult> getSsgPointQueryResult(final Long packNo, String siteType) {
-        String cancelBeforeSave = PointStatusType.WithHold.getCode();
         return ssgPointTargetRepository.findByPackNo(packNo)
-                .stream().filter(s -> siteType.equals(s.getSiteType()) && !cancelBeforeSave.equals(s.getPointStatus()))
+                .stream().filter(s -> siteType.equals(s.getSiteType()) && !PointStatusType.CancelBeforeSave.getCode().equals(s.getPointStatus()))
                 .map(pointMapper::map)
                 .collect(Collectors.toUnmodifiableList());
     }
