@@ -1,5 +1,9 @@
 package com.ebaykorea.payback.core.factory.ssgpoint;
 
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
+import static com.ebaykorea.payback.util.PaybackInstants.now;
+
+import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
@@ -7,27 +11,19 @@ import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointOrigin;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
-import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.core.service.SsgPointStateDelegate;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
-import static com.ebaykorea.payback.util.PaybackInstants.now;
-import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class SsgPointUnitCreater {
-  private final SsgPointStateDelegate ssgPointStateDelegate;
 
   private static final int DEFAULT_POLICY_DAY = 5;
 
@@ -46,10 +42,12 @@ public class SsgPointUnitCreater {
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnitKey"));
           final var orderUnit = order.findOrderUnitBy(orderUnitKey.getOrderUnitKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "orderUnit"));
+          final var bundleDiscountPrice = order.getBundleDiscountPrice(orderUnit.getOrderUnitKey());
+          final var extraDiscountPrice = order.getExtraDiscountPrice(orderUnit.getOrderUnitKey());
 
           return SsgPointUnit.readyUnit(
               orderUnitKey.getContrNo(),
-              orderUnit.getOrderItem().orderItemPrice(),
+              orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice),
               policy.getPointExpectSaveAmount(),
               getScheduleDate(order.getOrderDate(), policy),
               policy.getIsSsgPoint(),
@@ -68,38 +66,40 @@ public class SsgPointUnitCreater {
     return orderDate.plus(ssgPointPolicy.findPolicyDay().orElse(DEFAULT_POLICY_DAY), ChronoUnit.DAYS);
   }
 
-  public SsgPointUnit cancelUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
-    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
+  public SsgPointUnit cancelUnit(final SsgPointTarget ssgPointTarget,
+      final SsgPointState ssgPointState,
+      final String adminId) {
 
     return SsgPointUnit.cancelUnit(
         ssgPointTarget.getOrderNo(),
         ssgPointTarget.getPayAmount(),
         ssgPointTarget.getSaveAmount(),
-        now(), //취소는 현재날짜 (yyyy-mm-dd)
+        Instant.parse(ssgPointTarget.getScheduleDate()).plus(1,ChronoUnit.SECONDS),
         ssgPointTarget.getAccountDate(),
         ssgPointTarget.getPointToken(),
         true,
-        ssgPointStrategy,
+        ssgPointState,
         SsgPointOrigin.builder()
             .orgApproveId(ssgPointTarget.getPntApprId())
             .orgReceiptNo(ssgPointTarget.getReceiptNo())
             .build(),
-        isBlank(request.getAdminId()) ? "payback" : request.getAdminId()
+        adminId
     );
   }
 
-  public SsgPointUnit withholdUnit(final CancelSsgPointRequestDto request, final SsgPointTarget ssgPointTarget) {
-    final var ssgPointStrategy = ssgPointStateDelegate.find(request.getSiteType());
+  public SsgPointUnit cancelBeforeSaveUnit(final SsgPointTarget ssgPointTarget,
+      final SsgPointState ssgPointState,
+      final String adminId) {
 
-    return SsgPointUnit.withholdUnit(
+    return SsgPointUnit.cancelBeforeSaveUnit(
         ssgPointTarget.getOrderNo(),
         ssgPointTarget.getPayAmount(),
         ssgPointTarget.getSaveAmount(),
         now(), //보류는 현재날짜 (yyyy-mm-dd)
         true,
-        ssgPointStrategy,
+        ssgPointState,
         null,
-        isBlank(request.getAdminId()) ? "payback" : request.getAdminId()
+        adminId
     );
   }
 }
