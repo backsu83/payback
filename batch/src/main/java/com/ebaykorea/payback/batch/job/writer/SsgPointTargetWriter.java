@@ -25,9 +25,8 @@ public class SsgPointTargetWriter implements ItemWriter<SsgPointTargetDto> {
 
   @Override
   public void write(final List<? extends SsgPointTargetDto> items) {
-    log.info("===== start writer =====");
     for (SsgPointTargetDto item : items) {
-      log.info("itemWriter item  : {}" + GsonUtils.toJsonPretty(item));
+
       updateWriterSuceess(item);
     }
   }
