@@ -1,5 +1,10 @@
 package com.ebaykorea.payback.batch.job.writer;
 
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.CANCEL_DUPLICATED;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.EARN_DUPLICATED;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.SUCCESS;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.codeOf;
+
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
@@ -20,7 +25,6 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
 
   @Override
   public void write(final List<? extends SsgPointTargetDto> items) {
-    log.info("===== start recover writer =====");
     for (SsgPointTargetDto item : items) {
       log.info("recover itemWriter item  : {}" + GsonUtils.toJsonPretty(item));
       updateWriterRecoverSuceess(item);
@@ -29,7 +33,18 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
 
   @Transactional
   public long updateWriterRecoverSuceess(final SsgPointTargetDto item) {
-    return ssgPointTargetRepositorySupport.updatePointTarget(item , PointStatusType.Fail.getCode()
+    return ssgPointTargetRepositorySupport.updatePointTarget(item ,
+        item.getSaveAmount(),
+        item.getPntApprId(),
+        isSuccess(item.getResponseCode()),
+        PointStatusType.Fail.getCode()
     );
+  }
+
+  public boolean isSuccess(String responseCode) {
+    if(codeOf(responseCode) == SUCCESS) {
+      return true;
+    }
+    return false;
   }
 }

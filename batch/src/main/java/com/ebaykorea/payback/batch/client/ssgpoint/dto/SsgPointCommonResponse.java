@@ -19,11 +19,20 @@ public class SsgPointCommonResponse {
   private String ubpoint;
   private String gpoint;
   private String pntApprId;
+  private String dupApprid;
+  private String dupApoint;
 
   public String getGpoint() {
     if(StringUtils.isEmpty(gpoint)) {
       return "0";
     }
     return gpoint;
+  }
+
+  public String getDupApoint() {
+    if(StringUtils.isEmpty(dupApoint)) {
+      return "0";
+    }
+    return dupApoint;
   }
 }

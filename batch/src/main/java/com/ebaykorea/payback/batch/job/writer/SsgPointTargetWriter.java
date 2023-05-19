@@ -1,5 +1,10 @@
 package com.ebaykorea.payback.batch.job.writer;
 
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.CANCEL_DUPLICATED;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.EARN_DUPLICATED;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.SUCCESS;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.codeOf;
+
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
@@ -29,11 +34,33 @@ public class SsgPointTargetWriter implements ItemWriter<SsgPointTargetDto> {
 
   @Transactional
   public long updateWriterSuceess(final SsgPointTargetDto item) {
-    if(item.getResponseCode().equals("PRC4081") && item.getStatus() != PointStatusType.Ready) {
-      //TODO 중복처리 responseMsg 파싱 필요
-      return 1L;
+    if(codeOf(item.getResponseCode()) == EARN_DUPLICATED || codeOf(item.getResponseCode()) == CANCEL_DUPLICATED) {
+      if(ssgPointTargetRepositorySupport.existsPntApprId(item.getOrderNo() , item.getTradeType().getCode())) {
+        return 1L;
+      }
     }
-    return ssgPointTargetRepositorySupport.updatePointTarget(item , PointStatusType.Ready.getCode()
-    );
+
+    switch (codeOf(item.getResponseCode())) {
+      case EARN_DUPLICATED:
+      case CANCEL_DUPLICATED:
+        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
+            item.getDupApoint(),
+            item.getDupApprid(),
+            isSuccess(item.getResponseCode()),
+            PointStatusType.Ready.getCode());
+      default:
+        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
+            item.getSaveAmount(),
+            item.getPntApprId(),
+            isSuccess(item.getResponseCode()),
+            PointStatusType.Ready.getCode());
+    }
+  }
+
+  public boolean isSuccess(String responseCode) {
+    if(codeOf(responseCode) == SUCCESS || codeOf(responseCode) == EARN_DUPLICATED || codeOf(responseCode) == CANCEL_DUPLICATED) {
+        return true;
+    }
+    return false;
   }
 }

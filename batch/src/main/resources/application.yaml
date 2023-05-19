@@ -21,7 +21,7 @@ spring:
 
 logging:
   pattern:
-    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
+    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level) [%X{uuid}] %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
     root: INFO
     com.ebaykorea.saturn: DEBUG

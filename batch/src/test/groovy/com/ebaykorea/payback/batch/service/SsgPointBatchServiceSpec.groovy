@@ -17,7 +17,6 @@ class SsgPointBatchServiceSpec extends Specification {
   def ssgPointTargetWriter = new SsgPointTargetWriter(ssgPointTargetRepositorySupport)
   def ssgPointTargetRecoverWriter = new SsgPointTargetRecoverWriter(ssgPointTargetRepositorySupport)
 
-
   def "SSG_POINT_TARET_데이터_업데이트"() {
 
     given:
@@ -27,24 +26,27 @@ class SsgPointBatchServiceSpec extends Specification {
             pointToken: "pointToken",
             requestDate: "20230411110717", //신세계 API 호출시간
             saveAmount: 10L,
-            pntApprId: "APPRID0000",
             accountDate: "20230411",
             responseCode: API응답결과,
-            status: 포인트상태,
-            tradeType: PointTradeType.Save
+            status: PointStatusType.Ready,
+            tradeType: PointTradeType.Save,
+            dupApprid: 중복승인번호
     )
+
     when:
     ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
 
     then:
-    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as String)
+    ssgPointTargetRepositorySupport.existsPntApprId(_ as Long, _ as String) >> 중복조회
+    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
 
     where:
-    결과 | API응답결과 | 포인트상태
-    1 | "API0000" | PointStatusType.Ready
-    0 | "PRC4081" | PointStatusType.Fail
-    1 | "PRC0000" | PointStatusType.Ready
-
+    결과 | 중복조회 | API응답결과 | 중복승인번호
+    1 | false | "API0000" | "APPRID0000"
+    0 | true  | "PRC4081" | "APPRID0000"
+    1 | false | "PRC4081" | "APPRID0000"
+    0 | false | "PRC4081" | null
+    1 | false | "PRC0000" | "APPRID0000"
   }
 
   def "SSG_POINT_TARET_실패건_데이터_업데이트"() {
@@ -66,6 +68,6 @@ class SsgPointBatchServiceSpec extends Specification {
     ssgPointTargetRecoverWriter.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
-    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as String)
+    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
   }
 }

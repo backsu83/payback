@@ -14,6 +14,7 @@ import com.ebaykorea.payback.batch.util.PaybackInstants;
 import com.google.common.collect.Lists;
 import java.math.BigDecimal;
 import java.util.List;
+import org.apache.logging.log4j.util.Strings;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -63,7 +64,9 @@ public interface SsgPointEarnProcesserMapper {
   @Mapping(source = "processerDto.tradeType", target = "tradeType")
   @Mapping(source = "processerDto.status", target = "status")
   @Mapping(source = "response.pntApprId", target = "pntApprId")
+  @Mapping(source = "response.dupApprid", target = "dupApprid", qualifiedByName = "mapDupApprid")
   @Mapping(expression = "java(PaybackDecimals.from(response.getGpoint()))", target = "saveAmount")
+  @Mapping(expression = "java(PaybackDecimals.from(response.getDupApoint()))", target = "dupApoint")
   @Mapping(source = "response.responseCd", target = "responseCode")
   @Mapping(source = "busiDt", target = "accountDate")
   @Mapping(source = "cardNo", target = "pointToken")
@@ -79,4 +82,11 @@ public interface SsgPointEarnProcesserMapper {
         .build());
   }
 
+  @Named("mapDupApprid")
+  default String mapDupApprid(String dupApprid) {
+    if(Strings.isEmpty(dupApprid)) {
+      return null;
+    }
+    return dupApprid;
+  }
 }
