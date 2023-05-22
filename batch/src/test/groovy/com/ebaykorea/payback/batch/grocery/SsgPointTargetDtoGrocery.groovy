@@ -21,6 +21,8 @@ class SsgPointTargetDtoGrocery {
       accountDate = (map.accountDate ?: "accountDate") as String
       requestDate = (map.requestDate ?: "requestDate") as String
       responseCode = (map.responseCode ?: "responseCode") as String
+      dupApprid = (map.dupApprid ?: null) as String
+      dupApoint = (map.dupApoint ?: BigDecimal.ZERO) as BigDecimal
     }
   }
 }
