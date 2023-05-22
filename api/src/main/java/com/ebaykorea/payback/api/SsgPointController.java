@@ -49,11 +49,6 @@ public class SsgPointController {
    return CommonResponse.success(SSGPOINT_RETRIED, ssgPointService.retryFailed(orderNo, request));
   }
 
-  @PostMapping("/dailyVerify")
-  public SsgPointResponse<Object> ssgPointDailyVerify(final @Valid @RequestBody VerifyDailySsgPointDto request) {
-   return new SsgPointResponse("0000", "success", ssgPointService.verifyDailyPoint(request));
-  }
-
   @GetMapping
   public List<SsgPointTargetQueryResult> getSsgPoints(Long packNo, String siteType) {
    return ssgPointQuery.getSsgPointQueryResult(packNo, siteType);
