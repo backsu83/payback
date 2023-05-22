@@ -33,16 +33,31 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
 
   @Transactional
   public long updateWriterRecoverSuceess(final SsgPointTargetDto item) {
-    return ssgPointTargetRepositorySupport.updatePointTarget(item ,
-        item.getSaveAmount(),
-        item.getPntApprId(),
-        isSuccess(item.getResponseCode()),
-        PointStatusType.Fail.getCode()
-    );
+    if(codeOf(item.getResponseCode()) == EARN_DUPLICATED || codeOf(item.getResponseCode()) == CANCEL_DUPLICATED) {
+      if(ssgPointTargetRepositorySupport.existsPntApprId(item.getOrderNo() , item.getTradeType().getCode())) {
+        return 1L;
+      }
+    }
+
+    switch (codeOf(item.getResponseCode())) {
+      case EARN_DUPLICATED:
+      case CANCEL_DUPLICATED:
+        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
+                item.getDupApoint(),
+                item.getDupApprid(),
+                isSuccess(item.getResponseCode()),
+                PointStatusType.Fail.getCode());
+      default:
+        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
+                item.getSaveAmount(),
+                item.getPntApprId(),
+                isSuccess(item.getResponseCode()),
+                PointStatusType.Fail.getCode());
+    }
   }
 
   public boolean isSuccess(String responseCode) {
-    if(codeOf(responseCode) == SUCCESS) {
+    if(codeOf(responseCode) == SUCCESS || codeOf(responseCode) == EARN_DUPLICATED || codeOf(responseCode) == CANCEL_DUPLICATED) {
       return true;
     }
     return false;
