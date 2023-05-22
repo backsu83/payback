@@ -23,12 +23,12 @@ public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTa
   @Override
   public void beforeProcess(final SsgPointTargetEntity item) {
     final var uuid = CharMatcher.anyOf("-").removeFrom(UUID.randomUUID().toString());
-    MDC.put("uuid", uuid);
+    MDC.put("moa.requestid", uuid);
   }
 
   @Override
   public void afterProcess(final SsgPointTargetEntity item, final SsgPointTargetDto result) {
-
+    MDC.clear();
   }
 
   @Override
