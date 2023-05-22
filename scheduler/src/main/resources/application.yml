@@ -72,7 +72,7 @@ saturn:
   artifactId: payback
   moa:
     domainGroup: payreward
-    domain: payback.api
+    domain: payback.scheduler
     host: http://devmoafw.ebaykorea.com
   application:
     domain: "payback"
