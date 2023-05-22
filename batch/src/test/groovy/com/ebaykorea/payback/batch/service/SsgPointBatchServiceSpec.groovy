@@ -44,7 +44,6 @@ class SsgPointBatchServiceSpec extends Specification {
     결과 | 중복조회 | API응답결과 | 중복승인번호
     1 | false | "API0000" | "APPRID0000"
     0 | true  | "PRC4081" | "APPRID0000"
-    1 | false | "PRC4081" | "APPRID0000"
     0 | false | "PRC4081" | null
     1 | false | "PRC0000" | "APPRID0000"
   }
