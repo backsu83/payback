@@ -21,7 +21,7 @@ spring:
 
 logging:
   pattern:
-    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
+    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level)[%X{moa.requestid}] %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
     root: INFO
     com.ebaykorea.saturn: DEBUG
@@ -29,6 +29,8 @@ logging:
     MoALogger: INFO
     com.ebaykorea.payback.batch: INFO
     com.ebay.korea.security.crypto: WARN
+    org.springframework.batch.core.step.item.ChunkMonitor: ERROR
+
 
 
 ###################################################
