@@ -13,7 +13,7 @@ public final class SmileClubSubscriptionDto {
   private String membershipGrade;
   private String payCycleType;
   private String partnerId;
-  private Boolean isUnifyMembership;
+  private Boolean isSmileClubMember;
   private Boolean isSSGMembership;
   private Boolean isSSGPoint;
 }

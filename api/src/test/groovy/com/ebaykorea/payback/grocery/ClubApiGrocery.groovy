@@ -13,7 +13,7 @@ class ClubApiGrocery {
                     (map.membershipGrade ?: "BASC") as String,
                     (map.payCycleType ?: "ANNL") as String,
                     (map.partnerId ?: "S001") as String,
-                    (map.isUnifyMembership ?: true) as Boolean,
+                    (map.isSmileClubMember ?: true) as Boolean,
                     (map.isSSGMembership ?: true) as Boolean,
                     (map.isSSGPoint ?: true) as Boolean
             )) as SmileClubSubscriptionDto
@@ -30,7 +30,7 @@ class ClubApiGrocery {
                         (map.payCycleType ?: "ANNL") as String,
                         (map.joinPartnerId ?: "S001") as String,
                         (map.memberType ?: "P") as String,
-                        (map.isUnifyMembership ?: true) as Boolean,
+                        (map.isSmileClubMember ?: true) as Boolean,
                         (map.isSSGMembership ?: true) as Boolean
                 )) as SmileClubMemberInfoDto
         )
