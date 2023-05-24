@@ -4,7 +4,7 @@ import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.COMPLET
 import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.FAIL;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
-import com.ebaykorea.payback.scheduler.repository.CashbackOrderBatchRepository;
+import com.ebaykorea.payback.scheduler.repository.stardb.CashbackOrderBatchRepository;
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto;
 import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto;

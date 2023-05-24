@@ -13,8 +13,9 @@ public class DependencyTest {
   void coreDependencyTest() {
     final var importedClasses = new ClassFileImporter().importPackages("com.ebaykorea.payback");
 
-    final var rule = noClasses().that().resideInAPackage("..core..")
-            .should().dependOnClassesThat().resideInAnyPackage("..api..", "..infrastructure..");
+    final var rule = noClasses().that()
+        .resideInAPackage("..core..").and().haveNameNotMatching(".*Test")
+        .should().dependOnClassesThat().resideInAnyPackage("..api..", "..infrastructure..");
 
     rule.check(importedClasses);
   }

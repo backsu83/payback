@@ -1,18 +1,27 @@
 package com.ebaykorea.payback.consumer;
 
+import com.ebaykorea.payback.consumer.config.properties.ApiInfoProperties;
+import com.ebaykorea.saturn.datasource.EnableSaturnDataSource;
 import com.ebaykorea.saturn.moa.EnableMoA;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.event.EventListener;
 
 @EnableMoA
 @EnableFeignClients
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@EnableSaturnDataSource
+@SpringBootApplication
 public class ConsumerApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(ConsumerApplication.class, args);
   }
 
+  @EventListener(ApplicationReadyEvent.class)
+  public void ready() {
+    System.out.println("payback-consumer is ready");
+  }
 }

@@ -6,6 +6,7 @@ import com.ebaykorea.payback.core.domain.entity.order.OrderUnit;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackInfoDto;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto;
@@ -32,9 +33,9 @@ public interface RewardGatewayMapper {
   @Mapping(source = "itemSnapshot.smileDelivery", target = "isSmileDelivery")
   @Mapping(source = "itemSnapshot.smileFresh", target = "isSmileFresh")
   @Mapping(source = "orderUnit.orderItem.quantity", target = "qty")
-  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPrice(bundleDiscountPrice)))", target = "price")
+  @Mapping(expression = "java(PaybackNumbers.toInteger(orderUnit.orderUnitPrice(bundleDiscountPrice, extraDiscountPrice)))", target = "price")
   @Mapping(expression = "java(PaybackBooleans.toYN(itemSnapshot.isMoneyCategory()))", target = "marketabilityItemYn")
-  CashbackRewardGoodRequestDto map(Buyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice);
+  CashbackRewardGoodRequestDto map(Buyer buyer, OrderUnit orderUnit, OrderUnitKey orderUnitKey, ItemSnapshot itemSnapshot, BigDecimal bundleDiscountPrice, BigDecimal extraDiscountPrice);
 
 
   @Mapping(expression = "java(Long.valueOf(goods.getKey()))", target = "policyKey")
@@ -49,4 +50,9 @@ public interface RewardGatewayMapper {
   @Mapping(source = "ifSmileCardT2T3CashbackAmount", target = "cashbackAmount")
   RewardT2T3SmileCardCashbackPolicy map(CashbackRewardGoodResponseDto source);
 
+  @Mapping(source = "key", target = "policyKey")
+  @Mapping(source = "ssgPointInfo.ssgPointExpectSaveAmount", target = "pointExpectSaveAmount")
+  @Mapping(source = "ssgPointInfo.isSsgPoint", target = "isSsgPoint")
+  @Mapping(source = "ssgPointInfo.ssgPointDatePlus", target = "policyDay")
+  RewardSsgPointPolicy mapToSsgPolicy(CashbackRewardGoodResponseDto source);
 }

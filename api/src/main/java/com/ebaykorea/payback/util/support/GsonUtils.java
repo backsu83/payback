@@ -1,32 +1,36 @@
 package com.ebaykorea.payback.util.support;
 
-import com.ebaykorea.payback.util.PaybackDateTimes;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonSyntaxException;
+import java.lang.reflect.Type;
+import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Type;
-import java.time.LocalDateTime;
 
 public class GsonUtils {
 
     private static final Logger log = LoggerFactory.getLogger(GsonUtils.class);
-    private static JsonSerializer<LocalDateTime> jsonSerializer = new JsonSerializer<LocalDateTime>() {
+    private static JsonSerializer<Instant> jsonSerializer = new JsonSerializer<Instant>() {
         @Override
-        public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
-            return new JsonPrimitive(PaybackDateTimes.LOCAL_DATE_TIME_FORMATTER.format(localDateTime));
+        public JsonElement serialize(Instant src, Type srcType, JsonSerializationContext context) {
+            return new JsonPrimitive(src.toString());
         }
     };
 
     private static Gson gson = new GsonBuilder()
             .disableHtmlEscaping()
-            .registerTypeAdapter(LocalDateTime.class, jsonSerializer)
+            .registerTypeAdapter(Instant.class, jsonSerializer)
             .create();
 
     private static Gson gsonPretty = new GsonBuilder()
             .disableHtmlEscaping()
             .setPrettyPrinting()
-            .registerTypeAdapter(LocalDateTime.class, jsonSerializer)
+            .registerTypeAdapter(Instant.class, jsonSerializer)
             .create();
 
     public static String toJson(Object o) {

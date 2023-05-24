@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.api.advice;
 
-import com.ebaykorea.payback.api.dto.common.CommonResponse;
+import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -28,6 +28,11 @@ public class ApiResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                   ServerHttpResponse response
     ) {
         HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
+
+        if (request.getURI().toString().contains("SmilePoint")
+        || request.getURI().toString().contains("ssgpoint")) {
+            return body;
+        }
         if(body instanceof CommonResponse) {
             ((CommonResponse) body).setCode(servletResponse.getStatus());
             return body;

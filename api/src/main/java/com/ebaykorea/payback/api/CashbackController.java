@@ -1,9 +1,9 @@
 package com.ebaykorea.payback.api;
 
-import com.ebaykorea.payback.api.dto.CashbackResponseDto;
-import com.ebaykorea.payback.api.dto.SaveCashbackRequestDto;
-import com.ebaykorea.payback.api.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.CashbackApplicationService;
+import com.ebaykorea.payback.core.dto.cashback.CashbackResponseDto;
+import com.ebaykorea.payback.core.dto.cashback.SaveCashbackRequestDto;
+import com.ebaykorea.payback.core.dto.common.CommonResponse;
+import com.ebaykorea.payback.core.service.CashbackApplicationService;
 import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
 import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,12 +23,6 @@ public class CashbackController {
   private final CashbackApplicationService applicationService;
   private final CashbackQuery cashbackQuery;
 
-  /**
-   * 캐시백 데이터 저장
-   *
-   * @param request
-   * @return
-   */
   @PostMapping("/cashbacks")
   public CommonResponse<CashbackResponseDto> saveCashbacks(final @Valid @RequestBody SaveCashbackRequestDto request) {
     final var responseMessageType = applicationService.setCashback(request.getTxKey(), request.getOrderKey());

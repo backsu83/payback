@@ -1,16 +1,41 @@
+spring:
+  application.name: payback-consumer
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers:
+        listener-1: localhost:9092
+        listener-2: localhost:9092
 
-saturn:
-  application:
-    domain: "payback"
-    tenantid: "gmarket"
-    api-info:
-      name: "payback-api"
-      api-package: "com.ebaykorea.payback.api"
-      version:
-        major: "v1"
-        full: "v1.0.0"
-
+# KafKa Configuration
 kafka:
   consumer:
+    concurrency:
+      gmarket:
+        order-created: 1
+      gmarket-global:
+        order-created: 1
     topic:
-      OrderCompletedEvent: bz_carbon_order_completed_gmkt
+      gmarket:
+        order-created-event: bz_carbon_order_created_gmkt
+      gmarket-global:
+        order-created-event: bz_carbon_order_created_gg
+
+payback:
+  topic:
+    order-created: bz_carbon_order_created
+    order-canceled-gmkt: bz_refund_completed_gmkt
+    order-canceled-iac: bz_claim_order_cancel_iac
+  consumers:
+    order-created-cashback-listener:
+      group-id: payback-cashback-group
+    order-canceled-ssgpoint-gmkt-listener:
+      group-id: ssgpoint-canceled-gmkt-group
+    order-canceled-ssgpoint-iac-listener:
+      group-id: ssgpoint-canceled-iac-group
+
+apis:
+  payback:
+    url: "http://payback-api-dev.gmarket.co.kr"

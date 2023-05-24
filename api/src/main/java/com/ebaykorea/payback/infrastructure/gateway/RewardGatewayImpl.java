@@ -1,33 +1,28 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
-import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
-
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
-import com.ebaykorea.payback.core.domain.entity.reward.RewardBackendCashbackPolicy;
-import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
-import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicy;
-import com.ebaykorea.payback.core.domain.entity.reward.RewardT2T3SmileCardCashbackPolicy;
+import com.ebaykorea.payback.core.domain.entity.reward.*;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardBackendResponseDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardGoodRequestDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardResponseDto;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse;
+import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
+import static com.ebaykorea.payback.util.PaybackNumbers.toInteger;
+import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +37,10 @@ public class RewardGatewayImpl implements RewardGateway {
       final Payment payment,
       final Map<String, ItemSnapshot> itemSnapshotMap,
       final Map<String, OrderUnitKey> orderUnitKeyMap) {
+    if (!payment.hasMainPaymentAmount()) {
+      return RewardCashbackPolicies.EMPTY;
+    }
+
     final var request = toCashbackRewardRequestDto(order, payment, itemSnapshotMap, orderUnitKeyMap);
 
     final var cashbackRewardResponseFuture = getCashbackRewardAsync(request);
@@ -54,13 +53,21 @@ public class RewardGatewayImpl implements RewardGateway {
         toRewardCashbackPolicies(cashbackRewardResponse),
         toRewardBackendCashbackPolicies(cashbackRewardBackendsResponse),
         toRewardSmileCardCashbackPolicy(cashbackRewardResponse),
+        toRewardSsgPointPolicy(cashbackRewardResponse),
         cashbackRewardResponse.getUseEnableDate(),
         BigDecimal.valueOf(cashbackRewardResponse.getIfSmileCardCashbackAmount()),
         BigDecimal.valueOf(cashbackRewardResponse.getIfNewSmileCardCashbackAmount()));
   }
 
+  private List<RewardSsgPointPolicy> toRewardSsgPointPolicy(final CashbackRewardResponseDto cashbackRewardResponse) {
+    return cashbackRewardResponse.getGoods()
+        .stream()
+        .map(rewardGatewayMapper::mapToSsgPolicy)
+        .collect(Collectors.toUnmodifiableList());
+  }
+
   private CompletableFuture<CashbackRewardResponseDto> getCashbackRewardAsync(final CashbackRewardRequestDto request) {
-    return CompletableFuture.supplyAsync(() -> rewardApiClient.getCashbackReward(request))
+    return CompletableFuture.supplyAsync(withMdc(() -> rewardApiClient.getCashbackReward(request)))
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
@@ -68,7 +75,7 @@ public class RewardGatewayImpl implements RewardGateway {
   }
 
   private CompletableFuture<List<CashbackRewardBackendResponseDto>> getCashbackBackendRewardAsync(final CashbackRewardRequestDto request) {
-    return CompletableFuture.supplyAsync(() -> rewardApiClient.getCashbackRewardBackend(request))
+    return CompletableFuture.supplyAsync(withMdc(() -> rewardApiClient.getCashbackRewardBackend(request)))
         .thenApply(a -> a.map(RewardBaseResponse::findSuccessData)
             .filter(Optional::isPresent)
             .map(Optional::get)
@@ -100,7 +107,9 @@ public class RewardGatewayImpl implements RewardGateway {
                 orderUnit,
                 orderUnitKeyMap.get(orderUnit.getOrderUnitKey()),
                 itemSnapshotMap.get(orderUnit.getOrderItem().getItemSnapshotKey()),
-                order.getBundleDiscountPrice(orderUnit.getOrderUnitKey())))
+                order.getBundleDiscountPrice(orderUnit.getOrderUnitKey()),
+                order.getExtraDiscountPrice(orderUnit.getOrderUnitKey())
+            ))
         .collect(Collectors.toUnmodifiableList());
   }
 

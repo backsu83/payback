@@ -5,6 +5,8 @@ import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.RewardCashbackPolicies;
+import com.ebaykorea.payback.core.domain.entity.reward.RewardSsgPointPolicy;
+import java.util.List;
 import java.util.Map;
 
 public interface RewardGateway {

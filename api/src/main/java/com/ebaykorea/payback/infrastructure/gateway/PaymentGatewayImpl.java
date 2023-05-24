@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway;
 
+import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
+
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.gateway.PaymentGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.payment.PaymentApiClient;
@@ -17,7 +19,7 @@ public class PaymentGatewayImpl implements PaymentGateway {
 
     @Override
     public CompletableFuture<Payment> getPaymentRecordAsync(Long paySeq) {
-        return CompletableFuture.supplyAsync(() -> paymentApiClient.findPaymentRecord(paySeq))
+        return CompletableFuture.supplyAsync(withMdc(() -> paymentApiClient.findPaymentRecord(paySeq)))
             .thenApply(paymentGatewayMapper::map);
     }
 }

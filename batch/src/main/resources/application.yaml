@@ -1,0 +1,98 @@
+###################################################
+# LOCAL
+###################################################
+server:
+  port: 8080
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: payback
+  profiles:
+    include: custom
+  jpa:
+    open-in-view: false
+    hibernate:
+      show_sql: true
+      format_sql: true
+      inspect_stacktrace: true
+      naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
+
+logging:
+  pattern:
+    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level)[%X{moa.requestid}] %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
+  level:
+    root: INFO
+    com.ebaykorea.saturn: DEBUG
+    MoAAppender: INFO
+    MoALogger: INFO
+    com.ebaykorea.payback.batch: INFO
+    com.ebay.korea.security.crypto: WARN
+    org.springframework.batch.core.step.item.ChunkMonitor: ERROR
+
+
+###################################################
+# feign Configurations
+###################################################
+feign:
+  httpclient:
+    enabled: true
+    maxConnections: 1000
+    maxConnectionsPerRoute: 100
+  circuitbreaker.enabled: false
+  client.config:
+    default:
+      connectTimeout: 5000  # resilience4j timeoutDuration
+      readTimeout: 5000
+
+# Resilience4j Configurations
+# ???? - https://wiki.ebaykorea.com/display/ANNA/Resilience4j
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 2
+        waitDuration: 500
+    instances:
+      retryApi: # retry name
+        baseConfig: default
+
+###################################################
+# Saturn Configurations
+###################################################
+saturn:
+  groupId: com.ebaykorea
+  artifactId: payback
+  moa:
+    domainGroup: payreward
+    domain: payback.batch
+    host: http://devmoafw.ebaykorea.com
+  application:
+    domain: "payback"
+    tenantid: "gmarket"
+    api-info:
+      name: "payback-batch"
+      api-package: "com.ebaykorea.payback.batch"
+      version:
+        major: "v1"
+        full: "v1.0.0"
+  datasource:
+    appName: PAYBACK_API
+    userName: daemon_app
+    tenant: gmarketdev #??: gmarketdev, ??: gmarket
+
+###################################################
+# Common Management Configurations - DO NOT EDIT
+###################################################
+management:
+  server.port: 8081
+  endpoints.web.exposure.include: "*"
+  endpoint.health.show-details: ALWAYS
+  health:
+    db.enabled: false
+    redis.enabled: false
+  metrics:
+    export.prometheus.enabled: true
+    cache.instrument: true
+    web.server.request.auto-time.enable: false

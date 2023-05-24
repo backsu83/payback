@@ -3,6 +3,7 @@ package com.ebaykorea.payback.grocery
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscount
 import com.ebaykorea.payback.core.domain.entity.order.BundleDiscountUnit
+import com.ebaykorea.payback.core.domain.entity.order.ExtraDiscountUnit
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshot
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap
@@ -26,7 +27,8 @@ class OrderGrocery {
         (map.buyer ?: Buyer_생성(map)) as Buyer,
         (map.orderDate ?: TestConstant.ORDER_DATE) as Instant,
         (map.orderUnits ?: [OrderUnit_생성(map)]) as List<OrderUnit>,
-        (map.bundleDiscounts ?: []) as List<BundleDiscount>
+        (map.bundleDiscounts ?: []) as List<BundleDiscount>,
+        (map.extraDiscountUnits ?: []) as List<ExtraDiscountUnit>
     )
   }
 
@@ -98,6 +100,13 @@ class OrderGrocery {
 
   static def BundleDiscountUnit_생성(Map map = [:]) {
     BundleDiscountUnit.builder()
+        .orderUnitKey((map.orderUnitKey ?: "orderUnitKey1") as String)
+        .discountAmount((map.discountAmount ?: 100L) as BigDecimal)
+        .build()
+  }
+
+  static def ExtraDiscountUnit_생성(Map map = [:]) {
+    ExtraDiscountUnit.builder()
         .orderUnitKey((map.orderUnitKey ?: "orderUnitKey1") as String)
         .discountAmount((map.discountAmount ?: 100L) as BigDecimal)
         .build()

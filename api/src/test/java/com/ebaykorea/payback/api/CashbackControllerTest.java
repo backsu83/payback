@@ -29,8 +29,8 @@ class CashbackControllerTest {
   void getCashbackReward() throws Exception {
 
     String requestJson = "{\n"
-        + "  \"txKey\": \"16642afa39800100w459dgk\",\n"
-        + "  \"orderKey\": \"16642afa8ac004004b7p7gk\"\n"
+        + "  \"txKey\": \"16ba4b4be4c00200m6dhzgk\",\n"
+        + "  \"orderKey\": \"16ba4b7548400400wvknjgk\"\n"
         + "}";
 
     MockHttpServletRequestBuilder requestBuilder = post("/api/cashbacks")

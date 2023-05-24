@@ -18,6 +18,7 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface CashbackOrderDetailEntityMapper {
 
+
   @Mapping(expression = "java(cashback.getCashbackAmount(CashbackType.Item))", target = "itemAmount")
   @Mapping(expression = "java(cashback.getCashbackAmount(CashbackType.Seller))", target = "sellerAmount")
   @Mapping(expression = "java(cashback.getNonClubAmount(CashbackType.SmilePay))", target = "payAmount")
