@@ -95,8 +95,8 @@ public class SsgPointTargetDummyCreteadTest {
   @Test
   void ssgPointTargetCancelDataDummy() {
 
-    var lists = ssgPointTargetRepository.findByBuyerIdAndPointStatus("109543617", "SS");
-    System.out.println(lists.size());
+//    var lists = ssgPointTargetRepository.findByBuyerIdAndPointStatus("109543617", "SS");
+    List<SsgPointTargetEntity> lists = Lists.newArrayList();
     for (SsgPointTargetEntity entity: lists) {
       var request = CancelSsgPointRequestDto.builder()
           .buyerId(entity.getBuyerId())

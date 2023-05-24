@@ -46,5 +46,4 @@ public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEn
     List<SsgPointTargetEntity> findAllByOrderNoAndSiteType(Long orderNo,  String siteType);
     List<SsgPointTargetEntity> findByPackNo(Long packNo);
 
-    List<SsgPointTargetEntity> findByBuyerIdAndPointStatus(String buyerId, String pointStatus);
 }
