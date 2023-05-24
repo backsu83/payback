@@ -1,12 +1,6 @@
 
-kafka.consumer.concurrency.order.created: 40 #POD 3개 가정시 40
-
 payback:
-  topic:
-    order-created: bz_carbon_order_created
   consumers:
-    order-created-cashback-listener:
-      group-id: payback-cashback-group
     order-canceled-ssgpoint-gmkt-listener:
       group-id: ssgpoint-canceled-gmkt-group
     order-canceled-ssgpoint-iac-listener:
