@@ -10,7 +10,7 @@ class ClubGrocery {
         (map.payCycleType ?: "ANNL") as String,
         (map.membershipGrade ?: "BASC") as String,
         (map.isSSGMembership ?: true) as Boolean,
-        (map.isUnifyMembership ?: true) as Boolean,
+        (map.isSmileClubMember ?: true) as Boolean,
         (map.isSSGPoint ?: true) as Boolean
     )
   }
