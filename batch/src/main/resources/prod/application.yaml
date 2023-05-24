@@ -81,7 +81,7 @@ saturn:
   datasource:
     appName: PAYREWARD_APP
     userName: payback_app
-    tenant: gmarketdev #??: gmarketdev, ??: gmarket
+    tenant: gmarket
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
