@@ -14,7 +14,7 @@ spring:
       show_sql: true
       format_sql: true
       inspect_stacktrace: true
-      naming_physical_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy   #naming.physical-strategy
+      naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
 
 logging:
   pattern:
