@@ -76,10 +76,6 @@ saturn:
     appName: PAYREWARD_APP
     userName: payback_app
     tenant: gmarket #개발: gmarketdev, 운영: gmarket
-    configs:
-      - beanName: "tiger_readDataSource"
-        hikariCp:
-          minimumIdle: 1
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
