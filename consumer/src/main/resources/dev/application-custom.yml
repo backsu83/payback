@@ -7,6 +7,7 @@ spring:
       enable-auto-commit: true
       bootstrap-servers:
         listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
+        listener-2: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
 
 payback:
   topic:
@@ -15,8 +16,11 @@ payback:
   consumers:
     order-canceled-ssgpoint-gmkt-listener:
       group-id: ssgpoint-canceled-gmkt-group
+      concurrency: 1
     order-canceled-ssgpoint-iac-listener:
       group-id: ssgpoint-canceled-iac-group
+      concurrency: 1
+
 apis:
   payback:
     url: "http://payback-api-dev.gmarket.co.kr"
