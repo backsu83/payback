@@ -1,13 +1,5 @@
 description = "batch"
 
-tasks.withType(Jar) {
-  destinationDirectory = file("$rootDir/build/libs")
-}
-
-jar {
-  enabled = false
-}
-
 dependencies {
 
   //openfeign
