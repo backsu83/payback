@@ -1,28 +1,30 @@
 ###################################################
-# LOCAL
+# PROD
 ###################################################
-server:
-  port: 8080
-
 spring:
-  application.name: payback-consumer
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: payback
   profiles:
     include: custom
-  kafka:
-    consumer:
-      group-id: payback-group
-      auto-offset-reset: latest
-      enable-auto-commit: true
-      bootstrap-servers: StrBroker01em:9092,StrBroker02em:9092,StrBroker03em:9092,StrBroker01ep:9092,StrBroker02ep:9092,StrBroker03ep:9092
+  jpa:
+    open-in-view: false
+    hibernate:
+      show_sql: true
+      format_sql: true
+      inspect_stacktrace: true
+      naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
 
 logging:
   pattern:
     console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
-    root: WARN
+    root: INFO
     com.ebaykorea.saturn: DEBUG
     MoAAppender: INFO
     MoALogger: INFO
+    com.ebaykorea.payback.consumer: INFO
 
 ###################################################
 # feign Configurations
@@ -74,3 +76,7 @@ saturn:
     domainGroup: payreward
     domain: payback.consumer
     host: http://moafw2.ebaykorea.com/bulk
+  datasource:
+    appName: PAYREWARD_APP
+    userName: payback_app
+    tenant: gmarket #개발: gmarketdev, 운영: gmarket

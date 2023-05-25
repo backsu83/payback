@@ -44,6 +44,9 @@ public class KafkaConfig implements KafkaListenerConfigurer {
   @Value("${spring.kafka.consumer.bootstrap-servers.listener-1}")
   private String bootstrapServers1;
 
+  @Value("${spring.kafka.consumer.bootstrap-servers.listener-2}")
+  private String bootstrapServers2;
+
   @Bean(name = "kafkaListenerContainerFactory1")
   public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory1(
       @Qualifier(value = "consumerFactory1") ConsumerFactory<String, String> consumerFactory) {
@@ -62,6 +65,26 @@ public class KafkaConfig implements KafkaListenerConfigurer {
     customizers.orderedStream().forEach((customizer) -> customizer.customize(factory));
     return factory;
   }
+
+  @Bean(name = "kafkaListenerContainerFactory2")
+  public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory2(
+      @Qualifier(value = "consumerFactory2") ConsumerFactory<String, String> consumerFactory) {
+    ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    factory.setConsumerFactory(consumerFactory);
+    factory.setMessageConverter(new StringJsonMessageConverter());
+    return factory;
+  }
+
+  @Bean(name = "consumerFactory2")
+  public ConsumerFactory<String, String> consumerFactory2(ObjectProvider<DefaultKafkaConsumerFactoryCustomizer> customizers) {
+    final var factory = new DefaultKafkaConsumerFactory<>(
+        configs(bootstrapServers2),
+        new ErrorHandlingDeserializer<>(new StringDeserializer()),
+        new ErrorHandlingDeserializer<>(new StringDeserializer()));
+    customizers.orderedStream().forEach((customizer) -> customizer.customize(factory));
+    return factory;
+  }
+
 
   private Map<String, Object> configs(final String bootstrapServers) {
     Map<String, Object> props = new HashMap<>();
