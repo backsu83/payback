@@ -21,10 +21,10 @@ logging:
     console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) [%X{moa.requestid}] %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
     root: INFO
-    com.ebaykorea.saturn: DEBUG
+    com.ebaykorea.saturn: WARN
     MoAAppender: INFO
     MoALogger: INFO
-    com.ebaykorea.payback.infrastructure.gateway.client: DEBUG
+    com.ebaykorea.payback.infrastructure.gateway.client: INFO
 
 ###################################################
 # feign Configurations
@@ -75,10 +75,6 @@ saturn:
     appName: PAYREWARD_APP
     userName: payback_app
     tenant: gmarket #개발: gmarketdev, 운영: gmarket
-    configs:
-      - beanName: "tiger_readDataSource"
-        hikariCp:
-          minimumIdle: 1
 
 ###################################################
 # Common Management Configurations - DO NOT EDIT
