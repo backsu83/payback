@@ -1,7 +1,7 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'org.springframework.boot' version '2.4.13'
+    id 'org.springframework.boot' version '2.7.6'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
     id 'idea'
@@ -17,6 +17,10 @@ repositories {
 }
 
 bootJar {
+    enabled = false
+}
+
+jar {
     enabled = false
 }
 
@@ -41,10 +45,10 @@ subprojects {
     }
 
     ext {
-        set("saturnStarterVersion", "2.4.15")
+        set("saturnStarterVersion", "2.7.0-SNAPSHOT")
         set("mapstructVersion", "1.4.2.Final")
         set("lombokVersion", "1.18.24")
-        set("springCloudVersion", '2020.0.5')
+        set("springCloudVersion", "2021.0.5")
         set('resilience4jVersion', "1.7.0")
         set("springSpockVersion", "2.3-groovy-4.0")
         set("kafkaVersion", "2.7.10")
@@ -70,6 +74,8 @@ subprojects {
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-datasource:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-mssql:${saturnStarterVersion}"
         implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-moa:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-web:${saturnStarterVersion}"
+        implementation "com.ebaykorea.saturn:saturn-spring-boot-starter-jpa:${saturnStarterVersion}"
         runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 
         //crypto
