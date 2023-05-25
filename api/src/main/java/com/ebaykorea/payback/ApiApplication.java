@@ -1,5 +1,6 @@
 package com.ebaykorea.payback;
 
+import com.ebaykorea.saturn.datasource.EnableSaturnDataSource;
 import com.ebaykorea.saturn.moa.EnableMoA;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @Slf4j
 @EnableMoA
 @EnableFeignClients
+@EnableSaturnDataSource
 @SpringBootApplication
 public class ApiApplication implements CommandLineRunner {
 
