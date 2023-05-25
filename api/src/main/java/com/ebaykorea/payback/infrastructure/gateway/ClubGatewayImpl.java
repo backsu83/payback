@@ -3,7 +3,6 @@ package com.ebaykorea.payback.infrastructure.gateway;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Club;
 import com.ebaykorea.payback.core.gateway.ClubGateway;
 import com.ebaykorea.payback.infrastructure.gateway.client.club.ClubApiClient;
-import com.ebaykorea.payback.infrastructure.gateway.client.smileclub.SmileClubApiClient;
 import com.ebaykorea.payback.infrastructure.gateway.mapper.ClubGatewayMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClubGatewayImpl implements ClubGateway {
   private final ClubApiClient clubApiClient;
-  private final SmileClubApiClient smileClubApiClient;
   private final ClubGatewayMapper clubGatewayMapper;
-  public static final String PARTNER_ID = "S001";
 
   @Override
   public Optional<Club> findMemberSynopsis(String custNo) {
@@ -24,10 +21,5 @@ public class ClubGatewayImpl implements ClubGateway {
         .map(clubApiClient
             .getMemberSynopsis(custNo)
             .getData()));
-  }
-
-  @Override
-  public Optional<Club> findMembers(final String custNo) {
-    return Optional.of(clubGatewayMapper.map(smileClubApiClient.getMembers(PARTNER_ID, custNo)));
   }
 }
