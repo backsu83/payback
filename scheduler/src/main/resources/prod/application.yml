@@ -22,8 +22,8 @@ logging:
   level:
     root: WARN
     com.ebaykorea.saturn: DEBUG
-    MoAAppender: ERROR
-    MoALogger: ERROR
+    MoAAppender: INFO
+    MoALogger: INFO
 
 ###################################################
 # feign Configurations
@@ -62,7 +62,7 @@ saturn:
   artifactId: payback
   moa:
     domainGroup: payreward
-    domain: payback.api
+    domain: payback.scheduler
     host: http://moafw2.ebaykorea.com/bulk
   application:
     domain: "payback"
@@ -77,7 +77,3 @@ saturn:
     appName: PAYREWARD_APP
     userName: payback_app
     tenant: gmarket #개발: gmarketdev, 운영: gmarket
-    configs:
-      - beanName: "tiger_readDataSource"
-        hikariCp:
-          minimumIdle: 1

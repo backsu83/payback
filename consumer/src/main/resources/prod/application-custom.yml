@@ -1,13 +1,26 @@
-
-kafka.consumer.concurrency.order.created: 40 #POD 3개 가정시 40
+spring:
+  application.name: payback-consumer
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers:
+        listener-1: kafka-st-v2.gmarket.co.kr:9092 #지마켓
+        listener-2: centralkafka.auction.co.kr:9092 #옥션
 
 payback:
   topic:
-    order-created: bz_carbon_order_created
+    order-canceled-gmkt: bz_refund_completed_gmkt
+    order-canceled-iac: bz_claim_order_cancel_iac
   consumers:
-    order-created-cashback-listener:
-      group-id: payback-cashback-group
     order-canceled-ssgpoint-gmkt-listener:
       group-id: ssgpoint-canceled-gmkt-group
+      concurrency: 8
     order-canceled-ssgpoint-iac-listener:
       group-id: ssgpoint-canceled-iac-group
+      concurrency: 1
+
+apis:
+  payback:
+    url: "http://payback-api.gmarket.co.kr"

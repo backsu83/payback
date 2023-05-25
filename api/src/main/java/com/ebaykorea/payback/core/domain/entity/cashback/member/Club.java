@@ -11,11 +11,11 @@ public class Club {
   String partnerId;
   String payCycleType;
   String membershipGrade;
+  Boolean isSmileClubMember;
   Boolean isSSGMembership;
-  Boolean isUnifyMembership;
   Boolean isSSGPoint;
 
   public boolean isSsgMembership() {
-    return asPrimitive(isSSGMembership) && asPrimitive(isUnifyMembership) && asPrimitive(isSSGPoint);
+    return asPrimitive(isSSGMembership) && asPrimitive(isSmileClubMember) && asPrimitive(isSSGPoint);
   }
 }

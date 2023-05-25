@@ -24,9 +24,10 @@ public class SsgPointTargetDto {
   private String receiptNo;
   private String pntApprId;
   private BigDecimal saveAmount;
+  private String dupApprid;
+  private BigDecimal dupApoint;
   private String pointToken;
   private String accountDate;
   private String requestDate;
   private String responseCode;
-
 }

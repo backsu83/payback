@@ -1,5 +1,10 @@
 package com.ebaykorea.payback.batch.job.writer;
 
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.CANCEL_DUPLICATED;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.EARN_DUPLICATED;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.SUCCESS;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.codeOf;
+
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
@@ -20,16 +25,41 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
 
   @Override
   public void write(final List<? extends SsgPointTargetDto> items) {
-    log.info("===== start recover writer =====");
     for (SsgPointTargetDto item : items) {
-      log.info("recover itemWriter item  : {}" + GsonUtils.toJsonPretty(item));
+      log.info("recover itemWriter item  : {}", GsonUtils.toJson(item));
       updateWriterRecoverSuceess(item);
     }
   }
 
   @Transactional
   public long updateWriterRecoverSuceess(final SsgPointTargetDto item) {
-    return ssgPointTargetRepositorySupport.updatePointTarget(item , PointStatusType.Fail.getCode()
-    );
+    if(codeOf(item.getResponseCode()) == EARN_DUPLICATED || codeOf(item.getResponseCode()) == CANCEL_DUPLICATED) {
+      if(ssgPointTargetRepositorySupport.existsPntApprId(item.getOrderNo() , item.getTradeType().getCode())) {
+        return 1L;
+      }
+    }
+
+    switch (codeOf(item.getResponseCode())) {
+      case EARN_DUPLICATED:
+      case CANCEL_DUPLICATED:
+        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
+                item.getDupApoint(),
+                item.getDupApprid(),
+                isSuccess(item.getResponseCode()),
+                PointStatusType.Fail.getCode());
+      default:
+        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
+                item.getSaveAmount(),
+                item.getPntApprId(),
+                isSuccess(item.getResponseCode()),
+                PointStatusType.Fail.getCode());
+    }
+  }
+
+  public boolean isSuccess(String responseCode) {
+    if(codeOf(responseCode) == SUCCESS || codeOf(responseCode) == EARN_DUPLICATED || codeOf(responseCode) == CANCEL_DUPLICATED) {
+      return true;
+    }
+    return false;
   }
 }

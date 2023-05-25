@@ -12,8 +12,10 @@ import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
 import com.ebaykorea.payback.batch.util.PaybackDecimals;
 import com.ebaykorea.payback.batch.util.PaybackInstants;
 import java.math.BigDecimal;
+import org.apache.logging.log4j.util.Strings;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -63,11 +65,19 @@ public interface SsgPointCancelProcesserMapper {
     @Mapping(source = "processerDto.status", target = "status")
     @Mapping(source = "processerDto.pointToken", target = "pointToken")
     @Mapping(source = "response.pntApprId", target = "pntApprId")
+    @Mapping(source = "response.dupApprid", target = "dupApprid", qualifiedByName = "mapDupApprid")
     @Mapping(expression = "java(PaybackDecimals.from(response.getGpoint()))", target = "saveAmount")
+    @Mapping(expression = "java(PaybackDecimals.from(response.getDupApoint()))", target = "dupApoint")
     @Mapping(source = "response.responseCd", target = "responseCode")
     @Mapping(source = "busiDt", target = "accountDate")
     @Mapping(source = "requestDate", target = "requestDate")
     SsgPointTargetDto mapToTarget(String busiDt, String requestDate, SsgPointCommonResponse response ,SsgPointProcesserDto processerDto);
 
-
+    @Named("mapDupApprid")
+    default String mapDupApprid(String dupApprid) {
+        if(Strings.isEmpty(dupApprid)) {
+            return null;
+        }
+        return dupApprid;
+    }
 }

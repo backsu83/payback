@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward;
 
+import com.ebaykorea.payback.core.domain.constant.PointStatusType;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntityId;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
@@ -43,4 +45,5 @@ public interface SsgPointTargetRepository extends JpaRepository<SsgPointTargetEn
 
     List<SsgPointTargetEntity> findAllByOrderNoAndSiteType(Long orderNo,  String siteType);
     List<SsgPointTargetEntity> findByPackNo(Long packNo);
+
 }

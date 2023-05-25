@@ -22,12 +22,6 @@ class SsgPointTargetRepositorySupportTest {
   SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
 
   @Test
-  void findByStatusReadyBy() {
-    var result = ssgPointTargetRepositorySupport.findStatusTest();
-      System.out.println(GsonUtils.toJsonPretty(result));
-  }
-
-  @Test
   @Transactional
   void updateFailBy() {
     var result = ssgPointTargetRepositorySupport.updatePrcoesserFailBy(
