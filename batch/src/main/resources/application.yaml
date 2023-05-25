@@ -21,7 +21,7 @@ spring:
 
 logging:
   pattern:
-    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level) %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
+    console: "[%-20(%cyan(%date{HH:mm:ss.SSS})] [%thread]) %highlight(%-5level)[%X{moa.requestid}] %magenta(%marker|%logger{36}): %msg%n%rEx" # console pattern
   level:
     root: INFO
     com.ebaykorea.saturn: DEBUG
@@ -29,6 +29,7 @@ logging:
     MoALogger: INFO
     com.ebaykorea.payback.batch: INFO
     com.ebay.korea.security.crypto: WARN
+    org.springframework.batch.core.step.item.ChunkMonitor: ERROR
 
 
 ###################################################
@@ -42,8 +43,8 @@ feign:
   circuitbreaker.enabled: false
   client.config:
     default:
-      connectTimeout: 20000  # resilience4j timeoutDuration
-      readTimeout: 20000
+      connectTimeout: 5000  # resilience4j timeoutDuration
+      readTimeout: 5000
 
 # Resilience4j Configurations
 # ???? - https://wiki.ebaykorea.com/display/ANNA/Resilience4j

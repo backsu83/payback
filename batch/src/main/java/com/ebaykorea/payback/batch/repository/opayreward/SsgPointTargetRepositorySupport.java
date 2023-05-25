@@ -5,7 +5,6 @@ import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExcepti
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADD;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
-import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointDailyVerifyEntity.ssgPointDailyVerifyEntity;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 
@@ -32,7 +31,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -51,7 +49,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
-        );
+        ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
   }
 
   public JPAQuery<SsgPointTargetEntity> findStatusByFail() {
@@ -65,16 +63,6 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             ssgPointTargetEntity.tryCount.lt(3),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         );
-  }
-
-  public Long findStatusTest() {
-    return factory.selectFrom(ssgPointTargetEntity)
-        .where(
-            ssgPointTargetEntity.scheduleDate.between(
-                    Instant.now().minus(41, ChronoUnit.DAYS),
-                    Instant.now())
-        )
-        .fetchCount();
   }
 
   public long updatePrcoesserFailBy(final long orderNo ,
@@ -93,13 +81,16 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         )
         .execute();
   }
-
-  public long updatePointTarget(final SsgPointTargetDto target, final String pointStatus) {
+  public long updatePointTarget(final SsgPointTargetDto target,
+      final BigDecimal saveAmount ,
+      final String pntApprId,
+      final boolean isSuccess,
+      final String pointStatus) {
     JPAUpdateClause updateClause = factory.update(ssgPointTargetEntity);
     updateClause.set(ssgPointTargetEntity.responseCode, target.getResponseCode())
         .set(ssgPointTargetEntity.accountDate, target.getAccountDate())
         .set(ssgPointTargetEntity.requestDate,  DATE_TIME_STRING_FORMATTER.parse(target.getRequestDate(), Instant::from))
-        .set(ssgPointTargetEntity.pntApprId, target.getPntApprId())
+        .set(ssgPointTargetEntity.pntApprId, pntApprId)
         .set(ssgPointTargetEntity.updateDate, Instant.now())
         .where(ssgPointTargetEntity.pointStatus.eq(pointStatus),
             ssgPointTargetEntity.buyerId.eq(target.getBuyerId()),
@@ -110,16 +101,37 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
 
     if(target.getTradeType() == PointTradeType.Save) {
       updateClause.set(ssgPointTargetEntity.pointToken, target.getPointToken());
+      updatePntApprId(target.getOrderNo() , pntApprId);
     }
 
-    if(target.getResponseCode().equals("API0000")) {
+    if(isSuccess) {
       updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Success.getCode());
-      updateClause.set(ssgPointTargetEntity.saveAmount, target.getSaveAmount());
+      updateClause.set(ssgPointTargetEntity.saveAmount, saveAmount);
     } else {
       updateClause.set(ssgPointTargetEntity.pointStatus, PointStatusType.Fail.getCode());
       updateClause.set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L));
     }
     return updateClause.execute();
+  }
+
+  public boolean existsPntApprId(final long orderNo, final String tradeType) {
+    return factory.selectFrom(ssgPointTargetEntity)
+        .where(ssgPointTargetEntity.orderNo.eq(orderNo),
+            ssgPointTargetEntity.tradeType.eq(tradeType),
+            ssgPointTargetEntity.pntApprId.isNull()
+        ).fetch()
+        .isEmpty();
+  }
+
+  public long updatePntApprId(final long orderNo, final String pntApprId)
+  {
+    return factory.update(ssgPointTargetEntity)
+        .set(ssgPointTargetEntity.pntApprId, pntApprId)
+        .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
+            ssgPointTargetEntity.orderNo.eq(orderNo)
+        )
+        .execute();
   }
 
   public SsgVerifySumEntity findSumCount(OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {

@@ -3,12 +3,9 @@ package com.ebaykorea.payback.batch.service;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_CARD_CRYPTO;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADD;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
-import static com.ebaykorea.payback.batch.util.PaybackInstants.now;
 
 import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient;
 import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
-import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointAuthTokenRequest;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyRequest;
 import com.ebaykorea.payback.batch.domain.SsgPointBatchUnit;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
@@ -23,17 +20,12 @@ import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper;
 import com.ebaykorea.payback.batch.job.mapper.SsgPointVerifyProcesserMapper;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
-import com.ebaykorea.payback.batch.repository.opayreward.SsgTokenRepository;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointDailyVerifyEntity;
-import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgTokenEntity;
 import com.ebaykorea.payback.batch.util.support.CryptoAES256;
 import com.ebaykorea.payback.batch.util.support.CryptoArche;
-import java.time.Duration;
 import java.time.Instant;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +46,7 @@ public class SsgPointBatchService {
 
 
   public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
-    final var cardNo = getCardNo(item.getBuyerId(), item.getSiteType(), certifier);
+    final var cardNo = getCardNo(item.getBuyerId(), certifier);
     final var tokenId = ssgPointTokenService.getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
     try {
       var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
@@ -116,10 +108,9 @@ public class SsgPointBatchService {
 
   }
 
-  public String getCardNo(final String buyerId, OrderSiteType siteType, SsgPointCertifier auth) {
+  public String getCardNo(final String buyerId, SsgPointCertifier auth) {
     try {
       final var cardNo = smileClubApiClient.getCardNo(auth.getMemberKey(), buyerId).getCardNo();
-      log.info("smileclub carNo : [{}][{}][{}]", siteType, buyerId, cardNo);
       final var decryptCardNo= CryptoArche.decrypt(cardNo, auth.getDecryptInstance());
       final var encryptCardNo = CryptoAES256.encrypt(decryptCardNo, auth.getEncryptKey(), auth.getEncryptIv());
       return encryptCardNo;

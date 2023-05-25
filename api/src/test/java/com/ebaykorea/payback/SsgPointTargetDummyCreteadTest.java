@@ -1,8 +1,12 @@
 package com.ebaykorea.payback;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto;
+import com.ebaykorea.payback.core.service.SsgPointCancelService;
 import com.ebaykorea.payback.core.service.SsgPointService;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,8 +16,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,12 @@ public class SsgPointTargetDummyCreteadTest {
   @Autowired
   SsgPointService ssgPointService;
 
+  @Autowired
+  SsgPointCancelService ssgPointCancelService;
+
+  @Autowired
+  SsgPointTargetRepository ssgPointTargetRepository;
+
   /**
    * 테스트 데이터 생성
    */
@@ -34,8 +42,8 @@ public class SsgPointTargetDummyCreteadTest {
   void ssgPointTargetDataDummy() {
 
     //스케줄 시간 5분
-    String startDateString = "2023-04-20 00:00:00";
-    String endDateString = "2023-04-20 23:59:59";
+    String startDateString = "2023-05-22 00:00:00";
+    String endDateString = "2023-05-22 00:11:11";
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime startDateTime = LocalDateTime.parse(startDateString, formatter);
@@ -60,7 +68,7 @@ public class SsgPointTargetDummyCreteadTest {
             .packNo(startPackNo--)
             .payAmount(BigDecimal.valueOf(10000L))
             .saveAmount(BigDecimal.valueOf(10L))
-            .buyerId("132871942") //SSGPOINT 카드가 있는 계정
+            .buyerId("109543617") //SSGPOINT 카드가 있는 계정
             .siteType(OrderSiteType.Gmarket)
             .orderDate(currentDateTime.format(formatter))
             .scheduleDate(currentDateTime.format(formatter))
@@ -81,6 +89,21 @@ public class SsgPointTargetDummyCreteadTest {
             return result;
           }).join();
       count=0;
+    }
+  }
+
+  @Test
+  void ssgPointTargetCancelDataDummy() {
+
+//    var lists = ssgPointTargetRepository.findByBuyerIdAndPointStatus("109543617", "SS");
+    List<SsgPointTargetEntity> lists = Lists.newArrayList();
+    for (SsgPointTargetEntity entity: lists) {
+      var request = CancelSsgPointRequestDto.builder()
+          .buyerId(entity.getBuyerId())
+          .packNo(entity.getPackNo())
+          .siteType(OrderSiteType.forValue(entity.getSiteType()))
+          .build();
+        ssgPointCancelService.cancelPoint(entity.getOrderNo(), request);
     }
   }
 }
