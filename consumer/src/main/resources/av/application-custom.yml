@@ -1,6 +1,0 @@
-payback:
-  consumers:
-    order-canceled-ssgpoint-gmkt-listener:
-      group-id: ssgpoint-canceled-gmkt-group
-    order-canceled-ssgpoint-iac-listener:
-      group-id: ssgpoint-canceled-iac-group
