@@ -27,7 +27,7 @@ public class JobConfiguration extends JpaBatchConfigurer {
       TransactionManagerCustomizers transactionManagerCustomizers,
       EntityManagerFactory entityManagerFactory) {
     super(properties, dataSource, transactionManagerCustomizers, entityManagerFactory);
-    this.tablePrefix = properties.getJdbc().getTablePrefix();
+    this.tablePrefix = properties.getTablePrefix();
     this.dataSource = dataSource;
   }
 

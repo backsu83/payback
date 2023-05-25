@@ -1,16 +1,23 @@
 package com.ebaykorea.payback;
 
+import com.ebaykorea.payback.config.properties.ApiInfoProperties;
 import com.ebaykorea.saturn.moa.EnableMoA;
+import com.ebaykorea.saturn.starter.config.SaturnApplicationProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @Slf4j
 @EnableMoA
 @EnableFeignClients
 @SpringBootApplication
+@EnableConfigurationProperties({
+    ApiInfoProperties.class,
+    SaturnApplicationProperties.class
+})
 public class ApiApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
