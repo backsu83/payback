@@ -16,10 +16,10 @@ payback:
   consumers:
     order-canceled-ssgpoint-gmkt-listener:
       group-id: ssgpoint-canceled-gmkt-group
-      concurrency: 16
+      concurrency: 8
     order-canceled-ssgpoint-iac-listener:
       group-id: ssgpoint-canceled-iac-group
-      concurrency: 2
+      concurrency: 1
 
 apis:
   payback:
