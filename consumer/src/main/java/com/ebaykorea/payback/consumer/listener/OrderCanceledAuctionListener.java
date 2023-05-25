@@ -23,7 +23,8 @@ public class OrderCanceledAuctionListener {
   @KafkaListener(
       topics = "${payback.topic.order-canceled-iac}",
       groupId = "${payback.consumers.order-canceled-ssgpoint-iac-listener.group-id}",
-      containerFactory = "kafkaListenerContainerFactory1"
+      containerFactory = "kafkaListenerContainerFactory2",
+      concurrency = "${payback.consumers.order-canceled-ssgpoint-gmkt-listener.concurrency}"
   )
   public void consumeForSsgPoints(@Payload @Valid final OrderCanceledAuctionEvent event) {
     log.info("auction listener payload : [{}][{}]'",

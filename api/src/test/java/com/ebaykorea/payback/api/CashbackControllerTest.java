@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import spock.lang.Ignore;
 
-@Disabled
 @AutoConfigureMockMvc
 @SpringBootTest
 class CashbackControllerTest {
@@ -29,8 +28,8 @@ class CashbackControllerTest {
   void getCashbackReward() throws Exception {
 
     String requestJson = "{\n"
-        + "  \"txKey\": \"16ba4b4be4c00200m6dhzgk\",\n"
-        + "  \"orderKey\": \"16ba4b7548400400wvknjgk\"\n"
+        + "  \"txKey\": \"170ef736ee000200t4thfgk\",\n"
+        + "  \"orderKey\": \"170ef737618004006wqx8gk\"\n"
         + "}";
 
     MockHttpServletRequestBuilder requestBuilder = post("/api/cashbacks")
