@@ -12,18 +12,5 @@ apis:
     url: "http://transaction-api-dev.gmarket.co.kr/v1"
   quilt:
     url: "https://quilt-overmind-dev.gmarket.co.kr/api"
-  smileclub:
-    url: "http://smileclubapi-dev.gmarket.co.kr"
-  ssgpoint:
-    url: "https://devauthapi.shinsegaepoint.com"
 
 payback.dcm.access.enable: true
-
-ssgpint:
-  auth:
-    gamarket:
-      clientId: '49E615F309BC23C5CA7E4603E2036977'
-      apiKey: 'E320844B8E294F3E8D69395737C8B194'
-    auction:
-      clientId: '3C24A0D1FADA47F07F9A79D30D4C9A2E'
-      apiKey: '72787780CCA9F00A5D584991826752E2'
