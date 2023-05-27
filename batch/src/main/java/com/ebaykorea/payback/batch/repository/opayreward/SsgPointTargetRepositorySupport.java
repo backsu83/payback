@@ -44,10 +44,20 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     this.factory = factory;
   }
 
-  public JPAQuery<SsgPointTargetEntity> findStatusByReady() {
+  public JPAQuery<SsgPointTargetEntity> findStatusForEarn() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
+        ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
+  }
+
+  public JPAQuery<SsgPointTargetEntity> findStatusForCancel() {
+    return factory.selectFrom(ssgPointTargetEntity)
+        .where(
+            ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
         ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
   }
@@ -101,7 +111,6 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
 
     if(target.getTradeType() == PointTradeType.Save) {
       updateClause.set(ssgPointTargetEntity.pointToken, target.getPointToken());
-      updatePntApprId(target.getOrderNo() , pntApprId);
     }
 
     if(isSuccess) {
@@ -123,13 +132,18 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .isEmpty();
   }
 
-  public long updatePntApprId(final long orderNo, final String pntApprId)
+  public long updatePntApprId(final SsgPointTargetDto target)
   {
+    if(target.getTradeType() != PointTradeType.Save) {
+      return 1L;
+    }
     return factory.update(ssgPointTargetEntity)
-        .set(ssgPointTargetEntity.pntApprId, pntApprId)
+        .set(ssgPointTargetEntity.orgPntApprId, target.getPntApprId())
+        .set(ssgPointTargetEntity.pointToken, target.getPointToken())
+        .set(ssgPointTargetEntity.accountDate, target.getAccountDate())
         .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
-            ssgPointTargetEntity.orderNo.eq(orderNo)
+            ssgPointTargetEntity.orderNo.eq(target.getOrderNo())
         )
         .execute();
   }
