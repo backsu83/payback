@@ -34,7 +34,7 @@ class SsgPointBatchServiceSpec extends Specification {
     )
 
     when:
-    ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
+    ssgPointTargetRecoverWriter.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
     ssgPointTargetRepositorySupport.existsPntApprId(_ as Long, _ as String) >> 중복조회
