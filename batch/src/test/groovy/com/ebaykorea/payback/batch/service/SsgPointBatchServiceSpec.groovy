@@ -60,15 +60,20 @@ class SsgPointBatchServiceSpec extends Specification {
             accountDate: "20230411",
             responseCode: "API0000",
             status: PointStatusType.Ready,
-            tradeType: PointTradeType.Save,
+            tradeType: 포인트타입
     )
 
     when:
     ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
 
     then:
-    1 * ssgPointTargetRepositorySupport.updatePntApprId(_ as SsgPointTargetDto)
+    취소대기업데이트 * ssgPointTargetRepositorySupport.updatePntApprId(_ as SsgPointTargetDto)
     1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
+
+    where:
+    취소대기업데이트 | 포인트타입
+    1 | PointTradeType.Save
+    0 | PointTradeType.Cancel
   }
 
 
