@@ -23,11 +23,20 @@ public class SsgPointTargetReader  {
   @Value("${ssgpoint.batch.fetchSize}")
   private int fetchSize;
 
-  public QuerydslPagingItemReader<SsgPointTargetEntity> queryDslReader(){
+  public QuerydslPagingItemReader<SsgPointTargetEntity> earnReader(){
     QuerydslPagingItemReader<SsgPointTargetEntity> reader = new QuerydslPagingItemReader<>(
-            entityManagerFactory,
-            fetchSize,
-            queryFactory -> ssgPointTargetRepositorySupport.findStatusByReady()
+        entityManagerFactory,
+        fetchSize,
+        queryFactory -> ssgPointTargetRepositorySupport.findStatusForEarn()
+    );
+    return reader;
+  }
+
+  public QuerydslPagingItemReader<SsgPointTargetEntity> cancelReader(){
+    QuerydslPagingItemReader<SsgPointTargetEntity> reader = new QuerydslPagingItemReader<>(
+        entityManagerFactory,
+        fetchSize,
+        queryFactory -> ssgPointTargetRepositorySupport.findStatusForCancel()
     );
     return reader;
   }

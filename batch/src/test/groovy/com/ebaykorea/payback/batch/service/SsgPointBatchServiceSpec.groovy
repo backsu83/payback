@@ -34,7 +34,7 @@ class SsgPointBatchServiceSpec extends Specification {
     )
 
     when:
-    ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
+    ssgPointTargetRecoverWriter.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
     ssgPointTargetRepositorySupport.existsPntApprId(_ as Long, _ as String) >> 중복조회
@@ -47,6 +47,35 @@ class SsgPointBatchServiceSpec extends Specification {
     0 | false | "PRC4081" | null
     1 | false | "PRC0000" | "APPRID0000"
   }
+
+  def "SSG_POINT_TARET_데이터_취소대기_업데이트"() {
+
+    given:
+    var ssgPointTargetDto = SsgPointTargetDto_생성(orderNo: 111L,
+            buyerId: "testUser",
+            receiptNo: "GMK0000",
+            pointToken: "pointToken",
+            requestDate: "20230411110717", //신세계 API 호출시간
+            saveAmount: 10L,
+            accountDate: "20230411",
+            responseCode: "API0000",
+            status: PointStatusType.Ready,
+            tradeType: 포인트타입
+    )
+
+    when:
+    ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
+
+    then:
+    취소대기업데이트 * ssgPointTargetRepositorySupport.updatePntApprId(_ as SsgPointTargetDto)
+    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
+
+    where:
+    취소대기업데이트 | 포인트타입
+    1 | PointTradeType.Save
+    0 | PointTradeType.Cancel
+  }
+
 
   def "SSG_POINT_TARET_실패건_데이터_업데이트"() {
 

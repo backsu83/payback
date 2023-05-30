@@ -58,36 +58,17 @@ public class SsgPointTargetJobConfig {
   @Bean
   public Job ssgpointTargetJob() {
     return jobBuilderFactory.get(JOB_NAME)
-        .start(excuteAllowStep(null))
-          .on("FAILED")
-          .end()
-        .from(excuteAllowStep(null))
-          .on("*")
-          .to(ssgPointTargetStep())
-        .end()
+        .start(ssgPointEarnStep())
+        .next(ssgPointCancelStep())
         .build();
   }
 
   @Bean
-  @JobScope
-  public Step excuteAllowStep(@Value("#{jobParameters[targetTime]}") String reqDateTime) {
-    return stepBuilderFactory.get("excuteAllowStep")
-        .tasklet((contribution, chunkContext) -> {
-          var reqTime = LocalTime.parse(reqDateTime , DATE_TIME_FORMATTER).getHour();
-          if ( reqTime >= 0 && reqTime <= 8) {
-              contribution.setExitStatus(ExitStatus.FAILED);
-          }
-          return RepeatStatus.FINISHED;
-        })
-        .build();
-  }
-
-  @Bean
-  public Step ssgPointTargetStep() {
-    return stepBuilderFactory.get("ssgPointTargetStep")
+  public Step ssgPointEarnStep() {
+    return stepBuilderFactory.get("ssgPointEarnStep")
         .listener(ssgPointStepListener)
         .<SsgPointTargetEntity, SsgPointTargetDto>chunk(chunkSize)
-        .reader(ssgPointTargetReader.queryDslReader())
+        .reader(ssgPointTargetReader.earnReader())
         .processor(compositeItemProcessor())
         .writer(ssgPointTargetWriter)
         .listener(ssgPointProcesserListener)
@@ -96,7 +77,25 @@ public class SsgPointTargetJobConfig {
         .skipLimit(10000)
         .noRollback(Exception.class)
         .taskExecutor(threadExecutorConfig.taskExecutor())
-        .throttleLimit(30)
+        .throttleLimit(20)
+        .build();
+  }
+
+  @Bean
+  public Step ssgPointCancelStep() {
+    return stepBuilderFactory.get("ssgPointCancelStep")
+        .listener(ssgPointStepListener)
+        .<SsgPointTargetEntity, SsgPointTargetDto>chunk(chunkSize)
+        .reader(ssgPointTargetReader.cancelReader())
+        .processor(compositeItemProcessor())
+        .writer(ssgPointTargetWriter)
+        .listener(ssgPointProcesserListener)
+        .faultTolerant()
+        .skip(Exception.class)
+        .skipLimit(10000)
+        .noRollback(Exception.class)
+        .taskExecutor(threadExecutorConfig.taskExecutor())
+        .throttleLimit(10)
         .build();
   }
 
