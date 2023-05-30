@@ -67,7 +67,7 @@ class SsgPointBatchServiceSpec extends Specification {
     ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
 
     then:
-    취소대기업데이트 * ssgPointTargetRepositorySupport.updatePntApprId(_ as SsgPointTargetDto)
+    취소대기업데이트 * ssgPointTargetRepositorySupport.updatePntApprIdForCancelTradeType(_ as SsgPointTargetDto)
     1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
 
     where:
