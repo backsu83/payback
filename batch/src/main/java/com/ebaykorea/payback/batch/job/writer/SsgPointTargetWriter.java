@@ -7,6 +7,7 @@ import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.code
 
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
+import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import com.ebaykorea.payback.batch.util.support.GsonUtils;
 import java.util.List;
@@ -32,7 +33,10 @@ public class SsgPointTargetWriter implements ItemWriter<SsgPointTargetDto> {
 
   @Transactional
   public long updateWriterSuceess(final SsgPointTargetDto item) {
-    ssgPointTargetRepositorySupport.updatePntApprId(item);
+    if(item.getTradeType() == PointTradeType.Save) {
+      ssgPointTargetRepositorySupport.updatePntApprIdForCancelTradeType(item);
+    }
+
     return ssgPointTargetRepositorySupport.updatePointTarget(item,
         item.getSaveAmount(),
         item.getPntApprId(),

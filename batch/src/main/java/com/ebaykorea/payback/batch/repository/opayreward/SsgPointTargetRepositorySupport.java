@@ -132,11 +132,8 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .isEmpty();
   }
 
-  public long updatePntApprId(final SsgPointTargetDto target)
+  public long updatePntApprIdForCancelTradeType(final SsgPointTargetDto target)
   {
-    if(target.getTradeType() != PointTradeType.Save) {
-      return 1L;
-    }
     return factory.update(ssgPointTargetEntity)
         .set(ssgPointTargetEntity.orgPntApprId, target.getPntApprId())
         .set(ssgPointTargetEntity.pointToken, target.getPointToken())
