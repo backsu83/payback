@@ -26,39 +26,23 @@ public class SsgPointTargetWriter implements ItemWriter<SsgPointTargetDto> {
   @Override
   public void write(final List<? extends SsgPointTargetDto> items) {
     for (SsgPointTargetDto item : items) {
-
       updateWriterSuceess(item);
     }
   }
 
   @Transactional
   public long updateWriterSuceess(final SsgPointTargetDto item) {
-    if(codeOf(item.getResponseCode()) == EARN_DUPLICATED || codeOf(item.getResponseCode()) == CANCEL_DUPLICATED) {
-      if(ssgPointTargetRepositorySupport.existsPntApprId(item.getOrderNo() , item.getTradeType().getCode())) {
-        return 1L;
-      }
-    }
-
-    switch (codeOf(item.getResponseCode())) {
-      case EARN_DUPLICATED:
-      case CANCEL_DUPLICATED:
-        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
-            item.getDupApoint(),
-            item.getDupApprid(),
-            isSuccess(item.getResponseCode()),
-            PointStatusType.Ready.getCode());
-      default:
-        return ssgPointTargetRepositorySupport.updatePointTarget(item ,
-            item.getSaveAmount(),
-            item.getPntApprId(),
-            isSuccess(item.getResponseCode()),
-            PointStatusType.Ready.getCode());
-    }
+    ssgPointTargetRepositorySupport.updatePntApprId(item);
+    return ssgPointTargetRepositorySupport.updatePointTarget(item,
+        item.getSaveAmount(),
+        item.getPntApprId(),
+        isSuccess(item.getResponseCode()),
+        PointStatusType.Ready.getCode());
   }
 
   public boolean isSuccess(String responseCode) {
-    if(codeOf(responseCode) == SUCCESS || codeOf(responseCode) == EARN_DUPLICATED || codeOf(responseCode) == CANCEL_DUPLICATED) {
-        return true;
+    if (codeOf(responseCode) == SUCCESS) {
+      return true;
     }
     return false;
   }
