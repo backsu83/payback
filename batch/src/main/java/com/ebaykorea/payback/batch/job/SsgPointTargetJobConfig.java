@@ -77,7 +77,6 @@ public class SsgPointTargetJobConfig {
         .skipLimit(10000)
         .noRollback(Exception.class)
         .taskExecutor(threadExecutorConfig.taskExecutor())
-        .throttleLimit(20)
         .build();
   }
 
@@ -95,7 +94,6 @@ public class SsgPointTargetJobConfig {
         .skipLimit(10000)
         .noRollback(Exception.class)
         .taskExecutor(threadExecutorConfig.taskExecutor())
-        .throttleLimit(10)
         .build();
   }
 
