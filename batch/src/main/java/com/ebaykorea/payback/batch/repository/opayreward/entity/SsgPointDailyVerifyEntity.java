@@ -16,6 +16,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @SequenceGenerator(
+        schema = "O_PAYREWARD",
         name = "SEQ_POINT_DAILY_VERIFI",
         sequenceName = "SEQ_SS_POINT_DAILY_VERIFI",
         allocationSize = 1
