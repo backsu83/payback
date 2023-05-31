@@ -11,9 +11,9 @@ public class ThreadExecutorConfig {
   @Bean
   public TaskExecutor taskExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor(); // (2)
-    executor.setCorePoolSize(20);
+    executor.setCorePoolSize(5);
     executor.setMaxPoolSize(5);
-    executor.setQueueCapacity(100);
+    executor.setQueueCapacity(25);
     executor.setKeepAliveSeconds(0);      // QueueCapacity 초과한 max 스레드 유지 시간
     executor.setThreadNamePrefix("batch-thread-");
     executor.setWaitForTasksToCompleteOnShutdown(Boolean.TRUE);
