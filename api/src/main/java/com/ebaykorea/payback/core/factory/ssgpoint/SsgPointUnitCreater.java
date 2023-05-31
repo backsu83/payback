@@ -74,7 +74,7 @@ public class SsgPointUnitCreater {
         ssgPointTarget.getOrderNo(),
         ssgPointTarget.getPayAmount(),
         ssgPointTarget.getSaveAmount(),
-        Instant.parse(ssgPointTarget.getScheduleDate()).plus(1,ChronoUnit.SECONDS),
+        now(),
         ssgPointTarget.getAccountDate(),
         ssgPointTarget.getPointToken(),
         true,
