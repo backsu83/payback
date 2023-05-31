@@ -95,7 +95,7 @@ public class SsgPointUnitCreater {
         ssgPointTarget.getOrderNo(),
         ssgPointTarget.getPayAmount(),
         ssgPointTarget.getSaveAmount(),
-        now(), //보류는 현재날짜 (yyyy-mm-dd)
+        now(),
         true,
         ssgPointState,
         null,
