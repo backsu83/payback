@@ -20,17 +20,17 @@ ssgpoint:
     gmarket:
       memberKey: 'S001'
       clientId: '49E615F309BC23C5CA7E4603E2036977'
-      apiKey: 'E320844B8E294F3E8D69395737C8B194'
-      encryptKey: '831A667A8A3015F85FF5824DCDFD4C58'
-      encryptIv: '7552B56514CCA47A'
+      apiKey: '067B23515D3077BE30F66A0E4E081B99'
+      encryptKey: 'CDC99D6D86C2BE9B494FAAE6F0769DBD'
+      encryptIv: '243B73255BB5E245'
       decryptInstance: 'gmarket'
       branchId: 'B200042500'
     auction:
       memberKey: 'S002'
       clientId: '3C24A0D1FADA47F07F9A79D30D4C9A2E'
-      apiKey: '72787780CCA9F00A5D584991826752E2'
-      encryptKey: '5D459675AEE24BEA36FF2B1B661B2F67'
-      encryptIv: '73DDDFC9C36D49CB'
+      apiKey: 'C9409188BBFC5D635D505BD2AC98EFCB'
+      encryptKey: 'D2F413909370347B64D4100F4C039741'
+      encryptIv: 'B48FD506BD1E4410'
       decryptInstance: 'auction-aes'
       branchId: 'B200042502'
   batch:
@@ -40,7 +40,7 @@ ssgpoint:
     daily:
       crontab: "0 0 2 * * *" #매일 2시 실행
     target:
-      crontab: "0 */5 * * * *" #5분
+      crontab: "30 */5 9-23 * * *" #5분30초
     recover:
       crontab: "0 */10 9-22 * * *" #10분
 
