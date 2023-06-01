@@ -71,7 +71,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                 ERR_CARD_CRYPTO.name(),
                 ERR_TOKEN.name()),
             ssgPointTargetEntity.tryCount.lt(3),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(7, ChronoUnit.DAYS) ,Instant.now())
         );
   }
 
