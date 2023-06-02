@@ -1,10 +1,7 @@
 package com.ebaykorea.payback.batch.repository.opayreward;
 
 
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_CARD_CRYPTO;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADD;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.*;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 
@@ -69,7 +66,8 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             ssgPointTargetEntity.responseCode.in(ERR_PNTADD.name(),
                 ERR_PNTADDCNCL.name(),
                 ERR_CARD_CRYPTO.name(),
-                ERR_TOKEN.name()),
+                ERR_TOKEN.name(),
+                ERR_ADMIN.name()),
             ssgPointTargetEntity.tryCount.lt(3),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(7, ChronoUnit.DAYS) ,Instant.now())
         );
