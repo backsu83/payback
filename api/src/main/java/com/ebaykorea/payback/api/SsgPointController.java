@@ -45,7 +45,7 @@ public class SsgPointController {
   }
 
   @PutMapping("/{order-no}/retry")
-  public CommonResponse<SsgPointTarget> retryFailPointStatus(@PathVariable(value = "order-no") Long orderNo, final @Valid @RequestBody UpdateSsgPointTradeStatusRequestDto request) {
+  public CommonResponse<SsgPointTarget> retryFailResponseCode(@PathVariable(value = "order-no") Long orderNo, final @Valid @RequestBody UpdateSsgPointTradeStatusRequestDto request) {
    return CommonResponse.success(SSGPOINT_RETRIED, ssgPointService.retryFailed(orderNo, request));
   }
 
