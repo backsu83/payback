@@ -66,6 +66,7 @@ public class SsgPointTargetRecoverJobConfig {
         .faultTolerant()
         .skip(Exception.class)
         .skipLimit(10000)
+        .noRollback(Exception.class)
         .build();
   }
 

@@ -4,5 +4,6 @@ public enum BatchProcesserExceptionCode {
   ERR_PNTADD,
   ERR_PNTADDCNCL,
   ERR_CARD_CRYPTO,
-  ERR_TOKEN
+  ERR_TOKEN,
+  ERR_ADMIN
 }

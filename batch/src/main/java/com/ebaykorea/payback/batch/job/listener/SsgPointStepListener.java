@@ -58,10 +58,13 @@ public class SsgPointStepListener implements StepExecutionListener {
     );
 
     log.info(message);
+    /*
     teamsAlarmClient.sendSync(TeamsMessageDto.builder()
-            .title("[SSGPOINT_BATCH_JOB]")
-            .text(message)
-            .build());
+        .title("[SSGPOINT_BATCH_JOB]")
+        .text(message)
+        .build());
+     */
+
 
     List<Throwable> exceptions = stepExecution.getFailureExceptions();
     if (CollectionUtils.isEmpty(exceptions)) {
