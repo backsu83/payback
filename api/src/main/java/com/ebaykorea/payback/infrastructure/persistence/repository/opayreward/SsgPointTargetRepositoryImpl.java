@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward;
 
 
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -23,19 +24,16 @@ public class SsgPointTargetRepositoryImpl implements SsgPointTargetRepositoryCus
   public long retryFailResponseCode(final Long tryCount,
       final String manualOprt,
       final Instant updateDate,
-      final Long orderNo,
-      final String buyerId,
-      final String siteType,
-      final String tradeType) {
+      final SsgPointRequestKey key) {
     return factory.update(ssgPointTargetEntity)
         .set(ssgPointTargetEntity.responseCode , adminErrorCode)
         .set(ssgPointTargetEntity.tryCount , tryCount)
         .set(ssgPointTargetEntity.manualOprt , manualOprt)
         .set(ssgPointTargetEntity.updateDate , updateDate)
-        .where(ssgPointTargetEntity.orderNo.eq(orderNo),
-            ssgPointTargetEntity.buyerId.eq(buyerId),
-            ssgPointTargetEntity.siteType.eq(siteType),
-            ssgPointTargetEntity.tradeType.eq(tradeType),
+        .where(ssgPointTargetEntity.orderNo.eq(key.getOrderNo()),
+            ssgPointTargetEntity.buyerId.eq(key.getBuyerId()),
+            ssgPointTargetEntity.siteType.eq(key.getSiteType().getShortCode()),
+            ssgPointTargetEntity.tradeType.eq(key.getPointTradeType().getCode()),
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode())
         )
         .execute();

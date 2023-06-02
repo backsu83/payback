@@ -80,10 +80,7 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     return ssgPointTargetRepository.retryFailResponseCode(0L,
         manualOprt,
         updateDate,
-        key.getOrderNo(),
-        key.getBuyerId(),
-        key.getSiteType().getShortCode(),
-        key.getPointTradeType().getCode());
+        key);
   }
 
   @Transactional
