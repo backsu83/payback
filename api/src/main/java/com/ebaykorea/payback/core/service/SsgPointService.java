@@ -60,15 +60,11 @@ public class SsgPointService {
   }
 
   public SsgPointTarget retryFailed(final Long orderNo, final UpdateSsgPointTradeStatusRequestDto request) {
-    final var updateCount = ssgPointRepository.retryFailedPointStatus(request.key(orderNo), request.getAdminId(), Instant.now());
+    final var updateCount = ssgPointRepository.retryFailResponseCode(request.key(orderNo), request.getAdminId(), Instant.now());
     if (updateCount > 0) {
       return ssgPointRepository.findByKey(request.key(orderNo))
           .orElse(null);
     }
     return null;
-  }
-
-  public VerifyDailySsgPointDto verifyDailyPoint(final VerifyDailySsgPointDto request){
-    return ssgPointRepository.verifyDailyPoint(request);
   }
 }

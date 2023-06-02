@@ -3,19 +3,15 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 import static com.ebaykorea.payback.util.PaybackStrings.YES;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
-import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
-import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
-import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointDailyVerifyEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointOrderNoEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SsgPointTargetEntityMapper;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointOrderNoRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.SsgPointTargetRepository;
 import java.time.Instant;
@@ -38,9 +34,6 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
 
   private final SsgPointTargetEntityMapper ssgPointTargetEntityMapper;
   private final SsgPointOrderNoEntityMapper ssgPointOrderNoEntityMapper;
-
-  private final SsgPointDailyVerifyRepository ssgPointDailyVerifyRepository;
-  private final SsgPointDailyVerifyEntityMapper ssgPointDailyVerifyEntityMapper;
 
   @Transactional
   @Override
@@ -81,6 +74,19 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     return ssgPointTargetEntityMapper.mapToSsgTarget(ssgPointTargetRepository.save(ssgPointTargetEntity));
   }
 
+  @Transactional
+  @Override
+  public long retryFailResponseCode(SsgPointRequestKey key, String manualOprt, Instant updateDate) {
+    return ssgPointTargetRepository.retryFailResponseCode(0L,
+        manualOprt,
+        updateDate,
+        key.getOrderNo(),
+        key.getBuyerId(),
+        key.getSiteType().getShortCode(),
+        key.getPointTradeType().getCode());
+  }
+
+  @Transactional
   @Override
   public void setPointStatus(final SsgPoint ssgPoint) {
     ssgPoint.getSsgPointUnits()
@@ -94,20 +100,6 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
             ssgPoint.getOrderSiteType().getShortCode(),
             ssgPointUnit.getPointStatus().getTradeType().getCode()
         ));
-  }
-
-  @Override
-  public int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, Instant updateDate) {
-    return ssgPointTargetRepository.retryFailPointStatus(
-        PointStatusType.Ready.getCode(),
-        0L,
-        manualOprt,
-        updateDate,
-        key.getOrderNo(),
-        key.getBuyerId(),
-        key.getSiteType().getShortCode(),
-        key.getPointTradeType().getCode(),
-        PointStatusType.Fail.getCode());
   }
 
   @Transactional(readOnly = true)
@@ -133,13 +125,5 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
     return ssgPointTargetRepository.findAllByOrderNoAndSiteType(orderNo, siteType.getShortCode()).stream()
         .map(ssgPointTargetEntityMapper::mapToSsgTarget)
         .collect(Collectors.toUnmodifiableList());
-  }
-  
-  @Transactional
-  @Override
-  public VerifyDailySsgPointDto verifyDailyPoint(VerifyDailySsgPointDto verifyDailySsgPointDto) {
-    return ssgPointDailyVerifyEntityMapper.map(
-            ssgPointDailyVerifyRepository.save(ssgPointDailyVerifyEntityMapper.map(verifyDailySsgPointDto))
-    );
   }
 }

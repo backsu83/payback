@@ -37,15 +37,14 @@ class SsgPointBatchServiceSpec extends Specification {
     ssgPointTargetRecoverWriter.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
-    ssgPointTargetRepositorySupport.existsPntApprId(_ as Long, _ as String) >> 중복조회
     결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
 
     where:
-    결과 | 중복조회 | API응답결과 | 중복승인번호
-    1 | false | "API0000" | "APPRID0000"
-    0 | true  | "PRC4081" | "APPRID0000"
-    0 | false | "PRC4081" | null
-    1 | false | "PRC0000" | "APPRID0000"
+    결과 | API응답결과 | 중복승인번호
+    1 | "API0000" | "APPRID0000"
+    1 | "PRC4081" | "APPRID0000"
+    0 | "PRC4081" | null
+    1 | "PRC0000" | "APPRID0000"
   }
 
   def "SSG_POINT_TARET_데이터_취소대기_업데이트"() {

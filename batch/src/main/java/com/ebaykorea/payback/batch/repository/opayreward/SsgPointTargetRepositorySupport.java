@@ -123,15 +123,6 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     return updateClause.execute();
   }
 
-  public boolean existsPntApprId(final long orderNo, final String tradeType) {
-    return factory.selectFrom(ssgPointTargetEntity)
-        .where(ssgPointTargetEntity.orderNo.eq(orderNo),
-            ssgPointTargetEntity.tradeType.eq(tradeType),
-            ssgPointTargetEntity.pntApprId.isNull()
-        ).fetch()
-        .isEmpty();
-  }
-
   public long updatePntApprIdForCancelTradeType(final SsgPointTargetDto target)
   {
     return factory.update(ssgPointTargetEntity)
