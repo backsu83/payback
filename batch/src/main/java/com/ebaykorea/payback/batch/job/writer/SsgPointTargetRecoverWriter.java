@@ -33,11 +33,6 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
 
   @Transactional
   public long updateWriterRecoverSuceess(final SsgPointTargetDto item) {
-    if(codeOf(item.getResponseCode()) == EARN_DUPLICATED || codeOf(item.getResponseCode()) == CANCEL_DUPLICATED) {
-      if(ssgPointTargetRepositorySupport.existsPntApprId(item.getOrderNo() , item.getTradeType().getCode())) {
-        return 1L;
-      }
-    }
 
     switch (codeOf(item.getResponseCode())) {
       case EARN_DUPLICATED:
