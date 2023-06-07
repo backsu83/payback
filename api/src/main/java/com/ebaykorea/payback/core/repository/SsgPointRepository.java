@@ -18,7 +18,7 @@ public interface SsgPointRepository {
 
   void setPointStatus(final SsgPoint ssgPoint);
 
-  int retryFailedPointStatus(SsgPointRequestKey key, String manualOprt, Instant updateDate);
+  long retryFailResponseCode(SsgPointRequestKey key, String manualOprt, Instant updateDate);
 
   Optional<SsgPointTarget> findByKey(SsgPointRequestKey key);
 
@@ -27,6 +27,5 @@ public interface SsgPointRepository {
   boolean hasAlreadySaved(final Long packNo, final String buyerId, final OrderSiteType siteType);
 
   List<SsgPointTarget> findAllByOrderNoAndSiteType(Long orderNo, OrderSiteType siteType);
-  
-  VerifyDailySsgPointDto verifyDailyPoint(VerifyDailySsgPointDto verifyDailySsgPointDto);
+
 }
