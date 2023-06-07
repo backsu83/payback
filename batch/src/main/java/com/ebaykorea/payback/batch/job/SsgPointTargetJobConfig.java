@@ -74,9 +74,10 @@ public class SsgPointTargetJobConfig {
         .listener(ssgPointProcesserListener)
         .faultTolerant()
         .skip(Exception.class)
-        .skipLimit(10000)
+        .skipLimit(5000)
         .noRollback(Exception.class)
         .taskExecutor(threadExecutorConfig.taskExecutor())
+        .throttleLimit(10)
         .build();
   }
 
@@ -91,9 +92,10 @@ public class SsgPointTargetJobConfig {
         .listener(ssgPointProcesserListener)
         .faultTolerant()
         .skip(Exception.class)
-        .skipLimit(10000)
+        .skipLimit(5000)
         .noRollback(Exception.class)
         .taskExecutor(threadExecutorConfig.taskExecutor())
+        .throttleLimit(10)
         .build();
   }
 
