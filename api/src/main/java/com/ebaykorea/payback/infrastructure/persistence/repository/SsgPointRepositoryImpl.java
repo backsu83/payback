@@ -62,7 +62,6 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
             PointTradeType.Save.getCode(), //기존 적립건
             YES,
             unit.getAdminId(),
-            unit.getAdminId(),
             Instant.now()
             ));
     //취소 데이터 입력

@@ -67,12 +67,10 @@ public class SsgPointTargetRepositoryImpl implements SsgPointTargetRepositoryCus
       final String siteType,
       final String tradeType,
       final String cancelYn,
-      final String manualOprt,
       final String updateOperator,
       final Instant updateDate) {
     factory.update(ssgPointTargetEntity)
         .set(ssgPointTargetEntity.cancelYn , cancelYn)
-        .set(ssgPointTargetEntity.manualOprt , manualOprt)
         .set(ssgPointTargetEntity.updateOperator , updateOperator)
         .set(ssgPointTargetEntity.updateDate , updateDate)
         .where(ssgPointTargetEntity.orderNo.eq(orderNo),
