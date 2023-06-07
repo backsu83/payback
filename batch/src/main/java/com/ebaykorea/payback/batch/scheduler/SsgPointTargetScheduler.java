@@ -31,8 +31,8 @@ public class SsgPointTargetScheduler {
       return;
     }
 
-    String now = LocalDateTime.now().format(PaybackDateTimes.DATE_TIME_FORMATTER);
-    JobParameters jobParameters = new JobParametersBuilder().addString("targetTime", now).toJobParameters();
+    JobParameters jobParameters = new JobParametersBuilder()
+            .addString("targetTime", currentTime.format(PaybackDateTimes.DATE_TIME_FORMATTER)).toJobParameters();
 
     try {
       log.debug("jobLauncher start...");
