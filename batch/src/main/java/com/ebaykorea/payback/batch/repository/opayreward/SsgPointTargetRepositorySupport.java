@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.batch.repository.opayreward;
 
 
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.CANCEL_DUPLICATED;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.EARN_DUPLICATED;
 import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.*;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
@@ -47,7 +49,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
-        ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
+        );
   }
 
   public JPAQuery<SsgPointTargetEntity> findStatusForCancel() {
@@ -56,7 +58,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
-        ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
+        );
   }
 
   public JPAQuery<SsgPointTargetEntity> findStatusByFail() {
@@ -67,10 +69,12 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                 ERR_PNTADDCNCL.name(),
                 ERR_CARD_CRYPTO.name(),
                 ERR_TOKEN.name(),
-                ERR_ADMIN.name()),
+                ERR_ADMIN.name(),
+                EARN_DUPLICATED.getCode(),
+                CANCEL_DUPLICATED.getCode()),
             ssgPointTargetEntity.tryCount.lt(3),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(7, ChronoUnit.DAYS) ,Instant.now())
-        );
+        ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
   }
 
   public long updatePrcoesserFailBy(final long orderNo ,

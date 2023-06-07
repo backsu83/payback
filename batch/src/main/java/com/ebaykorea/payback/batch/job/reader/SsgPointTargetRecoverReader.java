@@ -24,7 +24,6 @@ public class SsgPointTargetRecoverReader {
         fetchSize,
         queryFactory -> ssgPointTargetRepositorySupport.findStatusByFail()
     );
-    reader.setTransacted(false); // 예시로 transacted 값을 false로 설정
     return reader;
   }
 

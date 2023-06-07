@@ -23,21 +23,23 @@ public class SsgPointTargetReader  {
   @Value("${ssgpoint.batch.fetchSize}")
   private int fetchSize;
 
-  public QuerydslPagingItemReader<SsgPointTargetEntity> earnReader(){
-    QuerydslPagingItemReader<SsgPointTargetEntity> reader = new QuerydslPagingItemReader<>(
-        entityManagerFactory,
-        fetchSize,
-        queryFactory -> ssgPointTargetRepositorySupport.findStatusForEarn()
-    );
+  public QuerydslNoOffsetPagingItemReader<SsgPointTargetEntity> earnReader(){
+    QuerydslNoOffsetNumberOptions<SsgPointTargetEntity, Long> options = new QuerydslNoOffsetNumberOptions<>(ssgPointTargetEntity.orderNo, Expression.DESC);
+    QuerydslNoOffsetPagingItemReader<SsgPointTargetEntity> reader = new QuerydslNoOffsetPagingItemReader<>(
+            entityManagerFactory,
+            fetchSize,
+            options,
+            queryFactory -> ssgPointTargetRepositorySupport.findStatusForEarn());
     return reader;
   }
 
   public QuerydslPagingItemReader<SsgPointTargetEntity> cancelReader(){
-    QuerydslPagingItemReader<SsgPointTargetEntity> reader = new QuerydslPagingItemReader<>(
-        entityManagerFactory,
-        fetchSize,
-        queryFactory -> ssgPointTargetRepositorySupport.findStatusForCancel()
-    );
+    QuerydslNoOffsetNumberOptions<SsgPointTargetEntity, Long> options = new QuerydslNoOffsetNumberOptions<>(ssgPointTargetEntity.orderNo, Expression.DESC);
+    QuerydslNoOffsetPagingItemReader<SsgPointTargetEntity> reader = new QuerydslNoOffsetPagingItemReader<>(
+            entityManagerFactory,
+            fetchSize,
+            options,
+            queryFactory -> ssgPointTargetRepositorySupport.findStatusForCancel());
     return reader;
   }
 }
