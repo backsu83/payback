@@ -24,10 +24,10 @@ public class SsgPointTargetScheduler {
   @Scheduled(cron = "${ssgpoint.scheduler.target.crontab}")
   public void runJob() {
     LocalDateTime currentTime = LocalDateTime.now();
-    LocalDateTime startDateTime = currentTime.with(LocalTime.of(23, 30));
-    LocalDateTime endDateTime = startDateTime.plusMinutes(31);
-    if (currentTime.isAfter(startDateTime) && currentTime.isBefore(endDateTime)) {
-      log.info("jobLauncher fail to start : {}", currentTime);
+    LocalDateTime limitStartTime = currentTime.with(LocalTime.of(23, 30));
+    LocalDateTime limitEndTime = limitStartTime.plusMinutes(31);
+    if (currentTime.isAfter(limitStartTime) && currentTime.isBefore(limitEndTime)) {
+      log.info("jobLauncher restrict  : {}", currentTime);
       return;
     }
 
