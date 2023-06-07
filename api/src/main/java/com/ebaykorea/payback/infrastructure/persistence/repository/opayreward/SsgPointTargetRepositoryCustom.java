@@ -24,7 +24,6 @@ public interface SsgPointTargetRepositoryCustom {
      final String siteType,
      final String tradeType,
      final String cancelYn,
-     final String manualOprt,
      final String updateOperator,
      final Instant updateDate);
 }

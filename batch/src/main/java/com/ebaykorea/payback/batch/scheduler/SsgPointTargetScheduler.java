@@ -3,6 +3,8 @@ package com.ebaykorea.payback.batch.scheduler;
 import com.ebaykorea.payback.batch.job.SsgPointTargetJobConfig;
 import com.ebaykorea.payback.batch.util.PaybackDateTimes;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecutionException;
@@ -21,10 +23,16 @@ public class SsgPointTargetScheduler {
 
   @Scheduled(cron = "${ssgpoint.scheduler.target.crontab}")
   public void runJob() {
-    String now = LocalDateTime.now()
-        .format(PaybackDateTimes.DATE_TIME_FORMATTER);
+    LocalDateTime currentTime = LocalDateTime.now();
+    LocalDateTime startDateTime = currentTime.with(LocalTime.of(23, 30));
+    LocalDateTime endDateTime = startDateTime.plusMinutes(31);
+    if (currentTime.isAfter(startDateTime) && currentTime.isBefore(endDateTime)) {
+      log.info("jobLauncher fail to start : {}", currentTime);
+      return;
+    }
+
     JobParameters jobParameters = new JobParametersBuilder()
-        .addString("targetTime", now).toJobParameters();
+            .addString("targetTime", currentTime.format(PaybackDateTimes.DATE_TIME_FORMATTER)).toJobParameters();
 
     try {
       log.debug("jobLauncher start...");
