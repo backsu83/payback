@@ -133,7 +133,9 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .set(ssgPointTargetEntity.accountDate, target.getAccountDate())
         .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
-            ssgPointTargetEntity.orderNo.eq(target.getOrderNo())
+            ssgPointTargetEntity.orderNo.eq(target.getOrderNo()),
+            ssgPointTargetEntity.siteType.eq(target.getSiteType().getShortCode()),
+            ssgPointTargetEntity.buyerId.eq(target.getBuyerId())
         )
         .execute();
   }
