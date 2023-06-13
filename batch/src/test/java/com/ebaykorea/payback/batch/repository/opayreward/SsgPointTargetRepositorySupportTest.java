@@ -24,7 +24,7 @@ class SsgPointTargetRepositorySupportTest {
   @Test
   @Transactional
   void updateFailBy() {
-    var result = ssgPointTargetRepositorySupport.updatePrcoesserFailBy(
+    var result = ssgPointTargetRepositorySupport.updateItemPrcoesserFailure(
         12345677889L ,
         "G",
         "S",

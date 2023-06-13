@@ -46,7 +46,7 @@ public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTa
       final String tradeType,
       final String errorCode
   ) {
-    return ssgPointTargetRepositorySupport.updatePrcoesserFailBy(orderNo , orderSiteType , tradeType , errorCode);
+    return ssgPointTargetRepositorySupport.updateItemPrcoesserFailure(orderNo , orderSiteType , tradeType , errorCode);
   }
 
 }

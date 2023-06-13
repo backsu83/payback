@@ -10,6 +10,8 @@ import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import com.ebaykorea.payback.batch.util.support.GsonUtils;
 import java.util.List;
+import java.util.Objects;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemWriter;
@@ -35,6 +37,12 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
   public long updateWriterRecoverSuceess(final SsgPointTargetDto item) {
 
     switch (codeOf(item.getResponseCode())) {
+      case REQUEST_ERROR:
+        final var entity = ssgPointTargetRepositorySupport.findStatusForCancelRetry(item);
+        if(Objects.nonNull(entity)) {
+          return ssgPointTargetRepositorySupport.updatePntApprIdForCancelRetry(item, entity);
+        }
+        return ssgPointTargetRepositorySupport.updateTrCountForCancelTradeType(item);
       case EARN_DUPLICATED:
       case CANCEL_DUPLICATED:
         return ssgPointTargetRepositorySupport.updatePointTarget(item ,

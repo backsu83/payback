@@ -7,6 +7,7 @@ import com.ebaykorea.payback.batch.domain.constant.PointTradeType
 import com.ebaykorea.payback.batch.job.writer.SsgPointTargetRecoverWriter
 import com.ebaykorea.payback.batch.job.writer.SsgPointTargetWriter
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport
+import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.batch.grocery.SsgPointTargetDtoGrocery.SsgPointTargetDto_생성
@@ -17,16 +18,32 @@ class SsgPointBatchServiceSpec extends Specification {
   def ssgPointTargetWriter = new SsgPointTargetWriter(ssgPointTargetRepositorySupport)
   def ssgPointTargetRecoverWriter = new SsgPointTargetRecoverWriter(ssgPointTargetRepositorySupport)
 
-  def "SSG_POINT_TARET_데이터_업데이트"() {
+  def "신세계포인트_적립배치_취소대기"() {
 
     given:
-    var ssgPointTargetDto = SsgPointTargetDto_생성(orderNo: 111L,
-            buyerId: "testUser",
-            receiptNo: "GMK0000",
-            pointToken: "pointToken",
-            requestDate: "20230411110717", //신세계 API 호출시간
-            saveAmount: 10L,
-            accountDate: "20230411",
+    var ssgPointTargetDto = SsgPointTargetDto_생성(
+            responseCode: "API0000",
+            status: PointStatusType.Ready,
+            tradeType: 포인트타입
+    )
+
+    when:
+    ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
+
+    then:
+    취소대기업데이트 * ssgPointTargetRepositorySupport.updatePntApprIdForCancelTradeType(_ as SsgPointTargetDto)
+    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
+
+    where:
+    취소대기업데이트 | 포인트타입
+    1 | PointTradeType.Save
+    0 | PointTradeType.Cancel
+  }
+
+  def "신세계포인트_실패배치_중복호출처리"() {
+
+    given:
+    var ssgPointTargetDto = SsgPointTargetDto_생성(
             responseCode: API응답결과,
             status: PointStatusType.Ready,
             tradeType: PointTradeType.Save,
@@ -47,54 +64,27 @@ class SsgPointBatchServiceSpec extends Specification {
     1 | "PRC0000" | "APPRID0000"
   }
 
-  def "SSG_POINT_TARET_데이터_취소대기_업데이트"() {
+  def "신세계포인트_실패배치_전문오류"() {
 
     given:
     var ssgPointTargetDto = SsgPointTargetDto_생성(orderNo: 111L,
-            buyerId: "testUser",
-            receiptNo: "GMK0000",
-            pointToken: "pointToken",
-            requestDate: "20230411110717", //신세계 API 호출시간
-            saveAmount: 10L,
-            accountDate: "20230411",
-            responseCode: "API0000",
-            status: PointStatusType.Ready,
-            tradeType: 포인트타입
-    )
-
-    when:
-    ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
-
-    then:
-    취소대기업데이트 * ssgPointTargetRepositorySupport.updatePntApprIdForCancelTradeType(_ as SsgPointTargetDto)
-    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
-
-    where:
-    취소대기업데이트 | 포인트타입
-    1 | PointTradeType.Save
-    0 | PointTradeType.Cancel
-  }
-
-
-  def "SSG_POINT_TARET_실패건_데이터_업데이트"() {
-
-    given:
-    var ssgPointTargetDto = SsgPointTargetDto_생성(orderNo: 111L,
-            buyerId: "testUser",
-            receiptNo: "GMK0000",
-            pointToken: "pointToken",
-            requestDate: "20230411110717", //신세계 API 호출시간
-            saveAmount: 10L,
-            pntApprId: "APPRID0000",
-            accountDate: "20230411",
-            responseCode: "API0000",
+            responseCode: API응답결과,
             status: PointStatusType.Fail,
-            tradeType: PointTradeType.Save
+            tradeType: PointTradeType.Cancel,
     )
+    ssgPointTargetRepositorySupport.findStatusForCancelRetry(ssgPointTargetDto) >> 원적립거래조회
+
     when:
     ssgPointTargetRecoverWriter.updateWriterRecoverSuceess(ssgPointTargetDto)
 
     then:
-    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
+    결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
+    재시도결과 * ssgPointTargetRepositorySupport.updateTrCountForCancelTradeType(_ as SsgPointTargetDto)
+
+    where:
+    결과 | 재시도결과 | API응답결과 | 원적립거래조회
+    1 | 0 | "API0000" | null
+    0 | 0 | "API0100" | new SsgPointTargetEntity()
+    0 | 1 | "API0100" | null
   }
 }
