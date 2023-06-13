@@ -33,9 +33,6 @@ public class SsgPointTargetWriter implements ItemWriter<SsgPointTargetDto> {
 
   @Transactional
   public long updateWriterSuceess(final SsgPointTargetDto item) {
-    if(item.getTradeType() == PointTradeType.Save) {
-      ssgPointTargetRepositorySupport.updatePntApprIdForCancelTradeType(item);
-    }
 
     return ssgPointTargetRepositorySupport.updatePointTarget(item,
         item.getSaveAmount(),

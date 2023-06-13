@@ -85,7 +85,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                 REQUEST_ERROR.getCode()),
             ssgPointTargetEntity.tryCount.lt(3),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(7, ChronoUnit.DAYS) ,Instant.now())
-        ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
+        );
   }
 
   public long updateItemPrcoesserFailure(final long orderNo ,

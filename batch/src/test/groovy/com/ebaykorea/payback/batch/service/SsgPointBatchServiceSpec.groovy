@@ -18,28 +18,6 @@ class SsgPointBatchServiceSpec extends Specification {
   def ssgPointTargetWriter = new SsgPointTargetWriter(ssgPointTargetRepositorySupport)
   def ssgPointTargetRecoverWriter = new SsgPointTargetRecoverWriter(ssgPointTargetRepositorySupport)
 
-  def "신세계포인트_적립배치_취소대기"() {
-
-    given:
-    var ssgPointTargetDto = SsgPointTargetDto_생성(
-            responseCode: "API0000",
-            status: PointStatusType.Ready,
-            tradeType: 포인트타입
-    )
-
-    when:
-    ssgPointTargetWriter.updateWriterSuceess(ssgPointTargetDto)
-
-    then:
-    취소대기업데이트 * ssgPointTargetRepositorySupport.updatePntApprIdForCancelTradeType(_ as SsgPointTargetDto)
-    1 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
-
-    where:
-    취소대기업데이트 | 포인트타입
-    1 | PointTradeType.Save
-    0 | PointTradeType.Cancel
-  }
-
   def "신세계포인트_실패배치_중복호출처리"() {
 
     given:
