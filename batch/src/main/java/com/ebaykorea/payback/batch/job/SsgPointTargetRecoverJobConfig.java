@@ -1,13 +1,13 @@
 package com.ebaykorea.payback.batch.job;
 
-import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
+import com.ebaykorea.payback.batch.domain.SsgPointProcessorDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
-import com.ebaykorea.payback.batch.job.listener.SsgPointProcesserListener;
+import com.ebaykorea.payback.batch.job.listener.SsgPointProcessorListener;
 import com.ebaykorea.payback.batch.job.listener.SsgPointStepListener;
-import com.ebaykorea.payback.batch.job.mapper.SsgPointProcesserMapper;
-import com.ebaykorea.payback.batch.job.processer.SsgPointCancelProcesser;
-import com.ebaykorea.payback.batch.job.processer.SsgPointEarnProcesser;
-import com.ebaykorea.payback.batch.job.processer.SsgPointTradeTypeClassifier;
+import com.ebaykorea.payback.batch.job.mapper.SsgPointProcessorMapper;
+import com.ebaykorea.payback.batch.job.processor.SsgPointCancelProcessor;
+import com.ebaykorea.payback.batch.job.processor.SsgPointEarnProcessor;
+import com.ebaykorea.payback.batch.job.processor.SsgPointTradeTypeClassifier;
 import com.ebaykorea.payback.batch.job.reader.SsgPointTargetRecoverReader;
 import com.ebaykorea.payback.batch.job.writer.SsgPointTargetRecoverWriter;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
@@ -36,13 +36,13 @@ public class SsgPointTargetRecoverJobConfig {
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
 
-  private final SsgPointEarnProcesser ssgPointEarnProcesser;
-  private final SsgPointCancelProcesser ssgPointCancelProcesser;
+  private final SsgPointEarnProcessor ssgPointEarnProcessor;
+  private final SsgPointCancelProcessor ssgPointCancelProcessor;
   private final SsgPointTargetRecoverWriter ssgPointTargetRecoverWriter;
-  private final SsgPointProcesserMapper ssgPointProcesserMapper;
+  private final SsgPointProcessorMapper ssgPointProcessorMapper;
   private final SsgPointStepListener ssgPointStepListener;
   private final SsgPointTargetRecoverReader ssgPointTargetRecoverReader;
-  private final SsgPointProcesserListener ssgPointProcesserListener;
+  private final SsgPointProcessorListener ssgPointProcessorListener;
 
   @Value("${ssgpoint.batch.chunkSize}")
   private int chunkSize;
@@ -62,33 +62,32 @@ public class SsgPointTargetRecoverJobConfig {
         .reader(ssgPointTargetRecoverReader.queryDslReader())
         .processor(compositeItemProcessor())
         .writer(ssgPointTargetRecoverWriter)
-        .listener(ssgPointProcesserListener)
+        .listener(ssgPointProcessorListener)
         .faultTolerant()
         .skip(Exception.class)
-        .skipLimit(10000)
-        .noRollback(Exception.class)
+        .skipLimit(1000)
         .build();
   }
 
   public Classifier classifier() {
-    return new SsgPointTradeTypeClassifier(ssgPointEarnProcesser , ssgPointCancelProcesser);
+    return new SsgPointTradeTypeClassifier(ssgPointEarnProcessor , ssgPointCancelProcessor);
   }
 
   public CompositeItemProcessor compositeItemProcessor() {
     final var processor = new CompositeItemProcessor<>();
     List<ItemProcessor<?, ?>> delegates = new ArrayList<>();
-    delegates.add(mapperProcesser());
+    delegates.add(mapperProcessor());
     delegates.add(classifierProcessor());
     processor.setDelegates(delegates);
     return processor;
   }
 
-  public ItemProcessor<SsgPointTargetEntity , SsgPointProcesserDto> mapperProcesser() {
-    return item -> ssgPointProcesserMapper.map(item);
+  public ItemProcessor<SsgPointTargetEntity , SsgPointProcessorDto> mapperProcessor() {
+    return item -> ssgPointProcessorMapper.map(item);
   }
 
-  public ItemProcessor<SsgPointProcesserDto , SsgPointTargetDto> classifierProcessor() {
-    ClassifierCompositeItemProcessor<SsgPointProcesserDto, SsgPointTargetDto> itemProcessor
+  public ItemProcessor<SsgPointProcessorDto , SsgPointTargetDto> classifierProcessor() {
+    ClassifierCompositeItemProcessor<SsgPointProcessorDto, SsgPointTargetDto> itemProcessor
         = new ClassifierCompositeItemProcessor<>();
     itemProcessor.setClassifier(classifier());
     return itemProcessor;

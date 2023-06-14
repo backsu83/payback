@@ -1,9 +1,8 @@
 package com.ebaykorea.payback.batch.repository.opayreward;
 
 
-import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.CANCEL_DUPLICATED;
-import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.EARN_DUPLICATED;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.*;
+import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.*;
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcessorExceptionCode.*;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 
@@ -43,7 +42,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     this.factory = factory;
   }
 
-  public JPAQuery<SsgPointTargetEntity> findStatusForEarn() {
+  public JPAQuery<SsgPointTargetEntity> findPointStatusForReady() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
@@ -52,7 +51,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         );
   }
 
-  public JPAQuery<SsgPointTargetEntity> findStatusForCancel() {
+  public JPAQuery<SsgPointTargetEntity> findPointStatusForCancelReady() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
@@ -61,7 +60,18 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         );
   }
 
-  public JPAQuery<SsgPointTargetEntity> findStatusByFail() {
+  public SsgPointTargetEntity findPointStatusForSucess(final SsgPointTargetDto item) {
+    return factory.selectFrom(ssgPointTargetEntity).
+            where(ssgPointTargetEntity.orderNo.eq(item.getOrderNo()),
+                    ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
+                    ssgPointTargetEntity.siteType.eq(item.getSiteType().getShortCode()),
+                    ssgPointTargetEntity.buyerId.eq(item.getBuyerId()),
+                    ssgPointTargetEntity.pointStatus.eq(PointStatusType.Success.getCode())
+            )
+            .fetchOne();
+  }
+
+  public JPAQuery<SsgPointTargetEntity> findResponseCodeForRetry() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode()),
@@ -71,13 +81,14 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                 ERR_TOKEN.name(),
                 ERR_ADMIN.name(),
                 EARN_DUPLICATED.getCode(),
-                CANCEL_DUPLICATED.getCode()),
+                CANCEL_DUPLICATED.getCode(),
+                REQUEST_ERROR.getCode()),
             ssgPointTargetEntity.tryCount.lt(3),
             ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(7, ChronoUnit.DAYS) ,Instant.now())
-        ).orderBy(ssgPointTargetEntity.scheduleDate.desc());
+        );
   }
 
-  public long updatePrcoesserFailBy(final long orderNo ,
+  public long updateItemPrcoessorFailure(final long orderNo ,
       final String siteType ,
       final String tradeType,
       final String errorCode
@@ -139,6 +150,36 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         )
         .execute();
   }
+
+  public long updatePntApprIdForCancelRetry(final SsgPointTargetDto target, final SsgPointTargetEntity entity)
+  {
+    return factory.update(ssgPointTargetEntity)
+            .set(ssgPointTargetEntity.orgPntApprId, entity.getPntApprId())
+            .set(ssgPointTargetEntity.pointToken, entity.getPointToken())
+            .set(ssgPointTargetEntity.accountDate, entity.getAccountDate())
+            .set(ssgPointTargetEntity.responseCode, ERR_PNTADDCNCL.name())
+            .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode()),
+                    ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
+                    ssgPointTargetEntity.orderNo.eq(target.getOrderNo()),
+                    ssgPointTargetEntity.siteType.eq(target.getSiteType().getShortCode()),
+                    ssgPointTargetEntity.buyerId.eq(target.getBuyerId())
+            )
+            .execute();
+  }
+
+  public long updateTryCountForCancelTradeType(final SsgPointTargetDto target)
+  {
+    return factory.update(ssgPointTargetEntity)
+            .set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L))
+            .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode()),
+                    ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
+                    ssgPointTargetEntity.orderNo.eq(target.getOrderNo()),
+                    ssgPointTargetEntity.siteType.eq(target.getSiteType().getShortCode()),
+                    ssgPointTargetEntity.buyerId.eq(target.getBuyerId())
+            )
+            .execute();
+  }
+
 
   public SsgVerifySumEntity findSumCount(OrderSiteType orderSiteType, VerifyTradeType verifyTradeType) {
 
