@@ -42,7 +42,7 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
         if(Objects.nonNull(entity)) {
           return ssgPointTargetRepositorySupport.updatePntApprIdForCancelRetry(item, entity);
         }
-        return ssgPointTargetRepositorySupport.updateTrCountForCancelTradeType(item);
+        return ssgPointTargetRepositorySupport.updateTryCountForCancelTradeType(item);
       case EARN_DUPLICATED:
       case CANCEL_DUPLICATED:
         return ssgPointTargetRepositorySupport.updatePointTarget(item ,

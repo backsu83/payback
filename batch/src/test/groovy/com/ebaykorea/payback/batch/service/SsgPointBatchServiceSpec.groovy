@@ -57,7 +57,7 @@ class SsgPointBatchServiceSpec extends Specification {
 
     then:
     결과 * ssgPointTargetRepositorySupport.updatePointTarget(_ as SsgPointTargetDto, _ as BigDecimal, _ as String, _ as Boolean, _ as String)
-    재시도결과 * ssgPointTargetRepositorySupport.updateTrCountForCancelTradeType(_ as SsgPointTargetDto)
+    재시도결과 * ssgPointTargetRepositorySupport.updateTryCountForCancelTradeType(_ as SsgPointTargetDto)
 
     where:
     결과 | 재시도결과 | API응답결과 | 원적립거래조회

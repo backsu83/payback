@@ -167,7 +167,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             .execute();
   }
 
-  public long updateTrCountForCancelTradeType(final SsgPointTargetDto target)
+  public long updateTryCountForCancelTradeType(final SsgPointTargetDto target)
   {
     return factory.update(ssgPointTargetEntity)
             .set(ssgPointTargetEntity.tryCount, ssgPointTargetEntity.tryCount.add(1L))
