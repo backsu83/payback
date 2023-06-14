@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.batch.domain.exception;
 
-public enum BatchProcesserExceptionCode {
+public enum BatchProcessorExceptionCode {
   ERR_PNTADD,
   ERR_PNTADDCNCL,
   ERR_CARD_CRYPTO,

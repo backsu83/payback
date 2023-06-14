@@ -14,7 +14,7 @@ import org.mapstruct.ReportingPolicy;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface SsgPointVerifyProcesserMapper {
+public interface SsgPointVerifyProcessorMapper {
     @Mapping(source = "request.reqDate", target = "tradeDate")
     @Mapping(source = "siteType", target = "siteType")
     @Mapping(source = "tradeType", target = "tradeType")

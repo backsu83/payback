@@ -2,16 +2,15 @@ package com.ebaykorea.payback.batch.job.mapper
 
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointCommonResponse
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointEarnRequest
-import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto
+import com.ebaykorea.payback.batch.domain.SsgPointProcessorDto
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType
 import com.ebaykorea.payback.batch.util.PaybackDecimals
-import com.ebaykorea.payback.batch.util.PaybackInstants
 
 import static com.ebaykorea.payback.batch.grocery.SsgPointCertifierGrocery.SsgPointCertifier_생성
 import static com.ebaykorea.payback.batch.grocery.SsgPointEarnRequestGrocery.SsgPointEarnRequest_생성
-import static com.ebaykorea.payback.batch.grocery.SsgPointProcesserDtoGrocery.SsgPointProcesserDto_생성
+import static com.ebaykorea.payback.batch.grocery.SsgPointProcessorDtoGrocery.SsgPointProcessorDto_생성
 
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
@@ -19,22 +18,22 @@ import spock.lang.Specification
 import static com.ebaykorea.payback.batch.grocery.SsgPointTargetDtoGrocery.SsgPointTargetDto_생성
 
 
-class SsgPointEarnProcesserMapperTest extends Specification {
-  def mapper = Mappers.getMapper(SsgPointEarnProcesserMapper)
+class SsgPointEarnProcessorMapperTest extends Specification {
+  def mapper = Mappers.getMapper(SsgPointEarnProcessorMapper)
 
 
   def "SSG_POINT_적립API_리퀘스트_생성"() {
 
     expect:
-    def result = mapper.mapToRequest(processerDto, certifier, "tokenId", "cardNo" )
+    def result = mapper.mapToRequest(processorDto, certifier, "tokenId", "cardNo" )
     result.setTradeGentdTm("000000")
     result == expectResult
 
     where:
     _________________________________________________
-    desc | processerDto | certifier
-    "지마켓 적립 request" | SsgPointProcesserDto_생성(orderNo:111L) | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Gmarket)
-    "옥션 적립 reqest" | SsgPointProcesserDto_생성(orderNo:222L) | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Auction)
+    desc | processorDto | certifier
+    "지마켓 적립 request" | SsgPointProcessorDto_생성(orderNo:111L) | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Gmarket)
+    "옥션 적립 reqest" | SsgPointProcessorDto_생성(orderNo:222L) | SsgPointCertifier_생성(orderSiteType: OrderSiteType.Auction)
     _________________________________________________
     expectResult | _ | _
     SsgPointEarnRequest_생성(clientId: "49E615F309BC23C5CA7E4603E2036977", apiKey:"E320844B8E294F3E8D69395737C8B194", brchId:"B200042500", orgSaleTradeNo: 111L) | _ | _
@@ -56,7 +55,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             .responseCd("API0000") //적립승인코드
             .build()
 
-    var processer =  SsgPointProcesserDto.builder()
+    var processor =  SsgPointProcessorDto.builder()
             .orderNo(111L)
             .receiptNo("GMK0000")
             .buyerId("testUser")
@@ -66,7 +65,7 @@ class SsgPointEarnProcesserMapperTest extends Specification {
             .build()
 
     when:
-    def result = mapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), request.getCardNo(), response, processer)
+    def result = mapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), request.getCardNo(), response, processor)
 
     then:
     result == SsgPointTargetDto_생성(buyerId: "testUser",

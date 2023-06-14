@@ -3,7 +3,7 @@ package com.ebaykorea.payback.batch.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
-import com.ebaykorea.payback.batch.job.listener.SsgPointProcesserListener;
+import com.ebaykorea.payback.batch.job.listener.SsgPointProcessorListener;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ class SsgPointBatchServiceTest {
   SsgPointTokenService ssgPointTokenService;
 
   @Autowired
-  SsgPointProcesserListener ssgPointProcesserListener;
+  SsgPointProcessorListener ssgPointProcessorListener;
 
   @Test
   @Transactional
-  void updateProcesserFail() {
-    var result = ssgPointProcesserListener.updateProcesserFail(5408227299L ,
+  void updateProcessorFail() {
+    var result = ssgPointProcessorListener.updateProcessorFail(5408227299L ,
         "G",
         "S",
         PointStatusType.Fail.getCode());

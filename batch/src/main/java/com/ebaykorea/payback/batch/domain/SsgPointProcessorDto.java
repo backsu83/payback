@@ -14,7 +14,7 @@ import org.mapstruct.Mapping;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SsgPointProcesserDto {
+public class SsgPointProcessorDto {
 
   private Long orderNo;
   private String buyerId;

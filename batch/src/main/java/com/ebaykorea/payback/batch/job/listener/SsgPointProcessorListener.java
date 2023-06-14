@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTargetEntity, SsgPointTargetDto> {
+public class SsgPointProcessorListener implements ItemProcessListener<SsgPointTargetEntity, SsgPointTargetDto> {
 
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
 
@@ -34,19 +34,19 @@ public class SsgPointProcesserListener implements ItemProcessListener<SsgPointTa
   @Override
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public void onProcessError(final SsgPointTargetEntity item, final Exception e) {
-    var result = updateProcesserFail(item.getOrderNo() ,
+    var result = updateProcessorFail(item.getOrderNo() ,
         item.getSiteType(),
         item.getTradeType(),
         e.getMessage());
-    log.error("item processer error [{}][{}][{}]", item.getOrderNo(), result ,e.getLocalizedMessage());
+    log.error("item processor error [{}][{}][{}]", item.getOrderNo(), result ,e.getLocalizedMessage());
   }
 
-  public long updateProcesserFail(final long orderNo,
+  public long updateProcessorFail(final long orderNo,
       final String orderSiteType,
       final String tradeType,
       final String errorCode
   ) {
-    return ssgPointTargetRepositorySupport.updateItemPrcoesserFailure(orderNo , orderSiteType , tradeType , errorCode);
+    return ssgPointTargetRepositorySupport.updateItemPrcoessorFailure(orderNo , orderSiteType , tradeType , errorCode);
   }
 
 }

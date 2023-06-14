@@ -2,7 +2,7 @@ package com.ebaykorea.payback.batch.repository.opayreward;
 
 
 import static com.ebaykorea.payback.batch.domain.constant.ReturnMessageType.*;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.*;
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcessorExceptionCode.*;
 import static com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 import static com.ebaykorea.payback.batch.util.PaybackDateTimes.DATE_TIME_STRING_FORMATTER;
 
@@ -88,7 +88,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         );
   }
 
-  public long updateItemPrcoesserFailure(final long orderNo ,
+  public long updateItemPrcoessorFailure(final long orderNo ,
       final String siteType ,
       final String tradeType,
       final String errorCode
