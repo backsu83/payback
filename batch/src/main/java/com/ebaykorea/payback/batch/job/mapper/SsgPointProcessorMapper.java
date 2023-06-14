@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.batch.job.mapper;
 
-import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
+import com.ebaykorea.payback.batch.domain.SsgPointProcessorDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
@@ -18,11 +18,11 @@ import org.mapstruct.ReportingPolicy;
         PointTradeType.class,
     }
 )
-public interface SsgPointProcesserMapper {
+public interface SsgPointProcessorMapper {
 
     @Mapping(expression = "java(OrderSiteType.forValue(entity.getSiteType()))", target = "siteType")
     @Mapping(expression = "java(PointTradeType.from(entity.getTradeType()))", target = "tradeType")
     @Mapping(expression = "java(PointStatusType.from(entity.getPointStatus()))", target = "status")
-    SsgPointProcesserDto map(SsgPointTargetEntity entity);
+    SsgPointProcessorDto map(SsgPointTargetEntity entity);
 
 }

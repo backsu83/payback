@@ -29,7 +29,7 @@ public class SsgPointTargetReader  {
             entityManagerFactory,
             fetchSize,
             options,
-            queryFactory -> ssgPointTargetRepositorySupport.findStatusForEarn());
+            queryFactory -> ssgPointTargetRepositorySupport.findPointStatusForReady());
     return reader;
   }
 
@@ -39,7 +39,7 @@ public class SsgPointTargetReader  {
             entityManagerFactory,
             fetchSize,
             options,
-            queryFactory -> ssgPointTargetRepositorySupport.findStatusForCancel());
+            queryFactory -> ssgPointTargetRepositorySupport.findPointStatusForCancelReady());
     return reader;
   }
 }

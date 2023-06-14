@@ -1,14 +1,14 @@
 package com.ebaykorea.payback.batch.grocery
 
-import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto
+import com.ebaykorea.payback.batch.domain.SsgPointProcessorDto
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType
 
-class SsgPointProcesserDtoGrocery {
+class SsgPointProcessorDtoGrocery {
 
-  static def SsgPointProcesserDto_생성(Map map = [:]) {
-    new SsgPointProcesserDto().tap {
+  static def SsgPointProcessorDto_생성(Map map = [:]) {
+    new SsgPointProcessorDto().tap {
       orderNo = (map.orderNo ?: 111L) as Long
       buyerId = (map.buyerId ?: "buyerId") as String
       siteType = (map.siteType ?: OrderSiteType.Gmarket ) as OrderSiteType

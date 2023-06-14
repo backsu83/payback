@@ -1,23 +1,20 @@
 package com.ebaykorea.payback.batch.service;
 
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_CARD_CRYPTO;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADD;
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_PNTADDCNCL;
 
 import com.ebaykorea.payback.batch.client.smileclub.SmileClubApiClient;
 import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointVerifyRequest;
 import com.ebaykorea.payback.batch.domain.SsgPointBatchUnit;
 import com.ebaykorea.payback.batch.domain.SsgPointCertifier;
-import com.ebaykorea.payback.batch.domain.SsgPointProcesserDto;
+import com.ebaykorea.payback.batch.domain.SsgPointProcessorDto;
 import com.ebaykorea.payback.batch.domain.SsgPointTargetDto;
 import com.ebaykorea.payback.batch.domain.SsgPointVerifyDto;
 import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
-import com.ebaykorea.payback.batch.domain.exception.BatchProcesserException;
-import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcesserMapper;
-import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcesserMapper;
-import com.ebaykorea.payback.batch.job.mapper.SsgPointVerifyProcesserMapper;
+import com.ebaykorea.payback.batch.domain.exception.BatchProcessorException;
+import com.ebaykorea.payback.batch.job.mapper.SsgPointCancelProcessorMapper;
+import com.ebaykorea.payback.batch.job.mapper.SsgPointEarnProcessorMapper;
+import com.ebaykorea.payback.batch.job.mapper.SsgPointVerifyProcessorMapper;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointDailyVerifyRepository;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgPointTargetRepositorySupport;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointDailyVerifyEntity;
@@ -29,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcessorExceptionCode.*;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -37,36 +36,36 @@ public class SsgPointBatchService {
   private final SmileClubApiClient smileClubApiClient;
 
   private final SsgPointDailyVerifyRepository ssgPointDailyVerifyRepository;
-  private final SsgPointEarnProcesserMapper ssgPointEarnProcesserMapper;
-  private final SsgPointCancelProcesserMapper ssgPointCancelProcesserMapper;
+  private final SsgPointEarnProcessorMapper ssgPointEarnProcessorMapper;
+  private final SsgPointCancelProcessorMapper ssgPointCancelProcessorMapper;
 
-  private final SsgPointVerifyProcesserMapper ssgPointVerifyProcesserMapper;
+  private final SsgPointVerifyProcessorMapper ssgPointVerifyProcessorMapper;
   private final SsgPointTargetRepositorySupport ssgPointTargetRepositorySupport;
   private final SsgPointTokenService ssgPointTokenService;
 
 
-  public SsgPointTargetDto earn(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
+  public SsgPointTargetDto earn(final SsgPointProcessorDto item, SsgPointCertifier certifier) {
     final var cardNo = getCardNo(item.getBuyerId(), certifier);
     final var tokenId = ssgPointTokenService.getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
     try {
-      var request = ssgPointEarnProcesserMapper.mapToRequest(item, certifier, tokenId, cardNo);
+      var request = ssgPointEarnProcessorMapper.mapToRequest(item, certifier, tokenId, cardNo);
       final var response = ssgPointApiClient.earnPoint(request);
-      return ssgPointEarnProcesserMapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), cardNo, response, item);
+      return ssgPointEarnProcessorMapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), cardNo, response, item);
     } catch (Exception ex) {
       log.error("orderNo:[{}] errorMessage:[{}]", item.getOrderNo(), ex.getLocalizedMessage());
-      throw new BatchProcesserException(ERR_PNTADD);
+      throw new BatchProcessorException(ERR_PNTADD);
     }
   }
 
-  public SsgPointTargetDto cancel(final SsgPointProcesserDto item, SsgPointCertifier certifier) {
+  public SsgPointTargetDto cancel(final SsgPointProcessorDto item, SsgPointCertifier certifier) {
     final var tokenId = ssgPointTokenService.getSsgAuthToken(certifier.getClientId(), certifier.getApiKey(), item.getSiteType().getShortCode());
     try {
-      var request = ssgPointCancelProcesserMapper.mapToRequest(item, certifier, tokenId);
+      var request = ssgPointCancelProcessorMapper.mapToRequest(item, certifier, tokenId);
       final var response = ssgPointApiClient.cancelPoint(request);
-      return ssgPointCancelProcesserMapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), response, item);
+      return ssgPointCancelProcessorMapper.mapToTarget(request.getBusiDt(), request.getRequestDate(), response, item);
     } catch (Exception ex) {
       log.error("orderNo:[{}] errorMessage:[{}]", item.getOrderNo(), ex.getLocalizedMessage());
-      throw new BatchProcesserException(ERR_PNTADDCNCL);
+      throw new BatchProcessorException(ERR_PNTADDCNCL);
     }
   }
 
@@ -86,7 +85,7 @@ public class SsgPointBatchService {
             .brchId(certifier.getBranchId())
             .build();
     var response = ssgPointApiClient.verifyPoint(request);
-    return ssgPointVerifyProcesserMapper.mapToVerify(request, response, orderSiteType, verifyTradeType);
+    return ssgPointVerifyProcessorMapper.mapToVerify(request, response, orderSiteType, verifyTradeType);
   }
 
   @Transactional
@@ -116,7 +115,7 @@ public class SsgPointBatchService {
       return encryptCardNo;
     } catch (Exception ex) {
       log.error(ex.getLocalizedMessage());
-      throw new BatchProcesserException(ERR_CARD_CRYPTO);
+      throw new BatchProcessorException(ERR_CARD_CRYPTO);
     }
   }
 }

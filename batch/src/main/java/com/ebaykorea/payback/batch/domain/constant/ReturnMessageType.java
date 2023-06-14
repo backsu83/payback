@@ -13,7 +13,8 @@ public enum ReturnMessageType {
   Unknown(""),
   SUCCESS("API0000"),
   EARN_DUPLICATED("PRC4051"),
-  CANCEL_DUPLICATED("PRC4081");
+  CANCEL_DUPLICATED("PRC4081"),
+  REQUEST_ERROR("API0100");
 
   private String code;
 

@@ -1,11 +1,11 @@
 package com.ebaykorea.payback.batch.service;
 
-import static com.ebaykorea.payback.batch.domain.exception.BatchProcesserExceptionCode.ERR_TOKEN;
+import static com.ebaykorea.payback.batch.domain.exception.BatchProcessorExceptionCode.ERR_TOKEN;
 import static com.ebaykorea.payback.batch.util.PaybackInstants.now;
 
 import com.ebaykorea.payback.batch.client.ssgpoint.SsgPointApiClient;
 import com.ebaykorea.payback.batch.client.ssgpoint.dto.SsgPointAuthTokenRequest;
-import com.ebaykorea.payback.batch.domain.exception.BatchProcesserException;
+import com.ebaykorea.payback.batch.domain.exception.BatchProcessorException;
 import com.ebaykorea.payback.batch.repository.opayreward.SsgTokenRepository;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgTokenEntity;
 import java.time.Duration;
@@ -47,7 +47,7 @@ public class SsgPointTokenService {
             return tokenInfo.getTokenId();
         } catch (Exception ex) {
             log.error(ex.getLocalizedMessage());
-            throw new BatchProcesserException(ERR_TOKEN);
+            throw new BatchProcessorException(ERR_TOKEN);
         }
     }
 
