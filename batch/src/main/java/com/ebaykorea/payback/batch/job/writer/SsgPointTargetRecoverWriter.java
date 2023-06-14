@@ -38,7 +38,7 @@ public class SsgPointTargetRecoverWriter implements ItemWriter<SsgPointTargetDto
 
     switch (codeOf(item.getResponseCode())) {
       case REQUEST_ERROR:
-        final var entity = ssgPointTargetRepositorySupport.findStatusForCancelRetry(item);
+        final var entity = ssgPointTargetRepositorySupport.findPointStatusForSucess(item);
         if(Objects.nonNull(entity)) {
           return ssgPointTargetRepositorySupport.updatePntApprIdForCancelRetry(item, entity);
         }

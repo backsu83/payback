@@ -50,7 +50,7 @@ class SsgPointBatchServiceSpec extends Specification {
             status: PointStatusType.Fail,
             tradeType: PointTradeType.Cancel,
     )
-    ssgPointTargetRepositorySupport.findStatusForCancelRetry(ssgPointTargetDto) >> 원적립거래조회
+    ssgPointTargetRepositorySupport.findPointStatusForSucess(ssgPointTargetDto) >> 원적립거래조회
 
     when:
     ssgPointTargetRecoverWriter.updateWriterRecoverSuceess(ssgPointTargetDto)

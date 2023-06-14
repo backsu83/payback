@@ -42,7 +42,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     this.factory = factory;
   }
 
-  public JPAQuery<SsgPointTargetEntity> findStatusForEarn() {
+  public JPAQuery<SsgPointTargetEntity> findPointStatusForReady() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
@@ -51,7 +51,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         );
   }
 
-  public JPAQuery<SsgPointTargetEntity> findStatusForCancel() {
+  public JPAQuery<SsgPointTargetEntity> findPointStatusForCancelReady() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
@@ -60,7 +60,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         );
   }
 
-  public SsgPointTargetEntity findStatusForCancelRetry(final SsgPointTargetDto item) {
+  public SsgPointTargetEntity findPointStatusForSucess(final SsgPointTargetDto item) {
     return factory.selectFrom(ssgPointTargetEntity).
             where(ssgPointTargetEntity.orderNo.eq(item.getOrderNo()),
                     ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
@@ -71,7 +71,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             .fetchOne();
   }
 
-  public JPAQuery<SsgPointTargetEntity> findStatusByFail() {
+  public JPAQuery<SsgPointTargetEntity> findResponseCodeForRetry() {
     return factory.selectFrom(ssgPointTargetEntity)
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Fail.getCode()),

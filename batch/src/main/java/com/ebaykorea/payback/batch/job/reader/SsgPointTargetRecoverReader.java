@@ -28,7 +28,7 @@ public class SsgPointTargetRecoverReader {
             entityManagerFactory,
             fetchSize,
             options,
-            queryFactory -> ssgPointTargetRepositorySupport.findStatusByFail());
+            queryFactory -> ssgPointTargetRepositorySupport.findResponseCodeForRetry());
     return reader;
   }
 
