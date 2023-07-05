@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.core.repository;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
@@ -24,7 +25,7 @@ public interface SsgPointRepository {
 
   void saveExceptOrderNo(SsgPointOrderNoDto ssgPointOrderNoDto);
 
-  boolean hasAlreadySaved(final Long packNo, final String buyerId, final OrderSiteType siteType);
+  boolean hasAlreadySaved(final List<OrderUnitKey> orderUnitKeys, final String buyerId, final OrderSiteType siteType);
 
   List<SsgPointTarget> findAllByOrderNoAndSiteType(Long orderNo, OrderSiteType siteType);
 

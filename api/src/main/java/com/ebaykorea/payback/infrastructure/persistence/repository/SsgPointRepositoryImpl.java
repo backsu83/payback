@@ -4,6 +4,7 @@ import static com.ebaykorea.payback.util.PaybackStrings.YES;
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.PointTradeType;
+import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
@@ -111,9 +112,14 @@ public class SsgPointRepositoryImpl implements SsgPointRepository {
   }
 
   @Override
-  public boolean hasAlreadySaved(final Long packNo, final String buyerId, final OrderSiteType siteType) {
-    return !ssgPointTargetRepository.findAllByPackNoAndBuyerIdAndSiteTypeAndTradeType(
-        packNo, buyerId, siteType.getShortCode(), PointTradeType.Save.getCode()).isEmpty();
+  public boolean hasAlreadySaved(final List<OrderUnitKey> orderUnitKeys, final String buyerId, final OrderSiteType siteType) {
+    return orderUnitKeys.stream()
+        .anyMatch(unitKey -> ssgPointTargetRepository.findFirstByOrderNoAndBuyerIdAndSiteTypeAndTradeType(
+            unitKey.getContrNo(),
+            buyerId,
+            siteType.getShortCode(),
+            PointTradeType.Save.getCode()
+        ).isPresent());
   }
 
   @Override
