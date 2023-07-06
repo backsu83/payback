@@ -49,7 +49,7 @@ public class CashbackApplicationService {
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
 
     final var cashbackAlreadySaved = payCashbackRepository.hasAlreadySaved(orderKeyMap);
-    final var ssgPointsAlreadySaved = ssgPointRepository.hasAlreadySaved(orderKeyMap.getPackNo(), order.getBuyer().getBuyerNo(), OrderSiteType.Gmarket);
+    final var ssgPointsAlreadySaved = ssgPointRepository.hasAlreadySaved(orderKeyMap.getOrderUnitKeys(), order.getBuyer().getBuyerNo(), OrderSiteType.Gmarket);
 
     if (cashbackAlreadySaved && ssgPointsAlreadySaved) {
       return CASHBACK_DUPLICATED;
