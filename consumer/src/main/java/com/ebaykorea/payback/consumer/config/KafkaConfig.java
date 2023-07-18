@@ -32,8 +32,6 @@ public class KafkaConfig implements KafkaListenerConfigurer {
 
   private final LocalValidatorFactoryBean validator;
 
-  private final KafkaProperties kafkaProperties;
-
   @Value("${spring.kafka.consumer.group-id}")
   private String groupId;
   @Value("${spring.kafka.consumer.auto-offset-reset}")

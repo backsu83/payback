@@ -1,0 +1,7 @@
+payback:
+  topic:
+    order-canceled: bz_refund_completed_gmkt
+  consumers:
+    order-canceled-ssgpoint-listener:
+      group-id: ssgpoint-canceled-gmkt-group
+      concurrency: 8
