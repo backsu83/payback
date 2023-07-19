@@ -8,6 +8,7 @@ spring:
         enable-auto-commit: true
         bootstrap-servers:
           listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
+          order: satbroker-01-kafka-dev-staturn:9092,satbroker-02-kafka-dev-staturn:9092,satbroker-03-kafka-dev-staturn:9092,satbroker-04-kafka-dev-staturn:9092,satbroker-05-kafka-dev-staturn:9092
 ---
 spring:
   config.activate.on-profile: "auction"
@@ -19,6 +20,7 @@ spring:
         enable-auto-commit: true
         bootstrap-servers:
           listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
+          order: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
 ---
 
 apis:

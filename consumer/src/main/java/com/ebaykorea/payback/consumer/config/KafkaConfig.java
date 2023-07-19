@@ -8,7 +8,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaConsumerFactoryCustomizer;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -42,8 +41,8 @@ public class KafkaConfig implements KafkaListenerConfigurer {
   @Value("${spring.kafka.consumer.bootstrap-servers.listener-1}")
   private String bootstrapServers1;
 
-  @Value("${spring.kafka.consumer.bootstrap-servers.listener-2}")
-  private String bootstrapServers2;
+  @Value("${spring.kafka.consumer.bootstrap-servers.order}")
+  private String orderBootStrapServers;
 
   @Bean(name = "kafkaListenerContainerFactory1")
   public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory1(
@@ -76,7 +75,7 @@ public class KafkaConfig implements KafkaListenerConfigurer {
   @Bean(name = "consumerFactory2")
   public ConsumerFactory<String, String> consumerFactory2(ObjectProvider<DefaultKafkaConsumerFactoryCustomizer> customizers) {
     final var factory = new DefaultKafkaConsumerFactory<>(
-        configs(bootstrapServers2),
+        configs(orderBootStrapServers),
         new ErrorHandlingDeserializer<>(new StringDeserializer()),
         new ErrorHandlingDeserializer<>(new StringDeserializer()));
     customizers.orderedStream().forEach((customizer) -> customizer.customize(factory));

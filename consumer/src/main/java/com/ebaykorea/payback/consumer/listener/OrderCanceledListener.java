@@ -5,12 +5,14 @@ import com.ebaykorea.payback.consumer.service.CancelSsgPointService;
 import com.ebaykorea.payback.consumer.util.GsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 
+@Profile("!av") //av 환경에서는 제외
 @Slf4j
 @Component
 @RequiredArgsConstructor
