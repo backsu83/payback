@@ -1,26 +1,24 @@
 spring:
   config.activate.on-profile: "gmarket"
-  application.name: payback-consumer
-    kafka:
-      consumer:
-        group-id: payback-group
-        auto-offset-reset: latest
-        enable-auto-commit: true
-        bootstrap-servers:
-          listener-1: kafka-st-v2.gmarket.co.kr:9092 #지마켓
-          order: StrBroker01em:9092,StrBroker02em:9092,StrBroker03em:9092,StrBroker01ep:9092,StrBroker02ep:9092,StrBroker03ep:9092
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers:
+        listener-1: kafka-st-v2.gmarket.co.kr:9092 #지마켓
+        order: StrBroker01em:9092,StrBroker02em:9092,StrBroker03em:9092,StrBroker01ep:9092,StrBroker02ep:9092,StrBroker03ep:9092
 ---
 spring:
   config.activate.on-profile: "auction"
-  application.name: payback-consumer
-    kafka:
-      consumer:
-        group-id: payback-group
-        auto-offset-reset: latest
-        enable-auto-commit: true
-        bootstrap-servers:
-          listener-1: centralkafka.auction.co.kr:9092 #옥션
-          order: centralkafka.auction.co.kr:9092 #옥션
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers:
+        listener-1: centralkafka.auction.co.kr:9092 #옥션
+        order: centralkafka.auction.co.kr:9092 #옥션
 ---
 
 apis:

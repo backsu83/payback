@@ -1,26 +1,24 @@
 spring:
   config.activate.on-profile: "gmarket"
-  application.name: payback-consumer
-    kafka:
-      consumer:
-        group-id: payback-group
-        auto-offset-reset: latest
-        enable-auto-commit: true
-        bootstrap-servers:
-          listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092 #지마켓
-          order: SaBrokerStg01em:9092,SaBrokerStg02em:9092,SaBrokerStg03em:9092
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers:
+        listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092 #지마켓
+        order: SaBrokerStg01em:9092,SaBrokerStg02em:9092,SaBrokerStg03em:9092
 ---
 spring:
   config.activate.on-profile: "auction"
-  application.name: payback-consumer
-    kafka:
-      consumer:
-        group-id: payback-group
-        auto-offset-reset: latest
-        enable-auto-commit: true
-        bootstrap-servers:
-          listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
-          order: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers:
+        listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
+        order: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
 ---
 
 apis:
