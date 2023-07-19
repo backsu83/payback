@@ -1,0 +1,8 @@
+
+payback:
+  topic:
+    order-canceled: bz_claim_order_cancel_iac
+  consumers:
+    order-canceled-ssgpoint-listener:
+      group-id: ssgpoint-canceled-iac-group
+      concurrency: 1

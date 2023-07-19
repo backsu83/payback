@@ -1,25 +1,25 @@
 spring:
+  config.activate.on-profile: "gmarket"
   application.name: payback-consumer
-  kafka:
-    consumer:
-      group-id: payback-group
-      auto-offset-reset: latest
-      enable-auto-commit: true
-      bootstrap-servers:
-        listener-1: localhost:9092
-        listener-2: localhost:9092
-
-payback:
-  topic:
-    order-canceled-gmkt: bz_refund_completed_gmkt
-    order-canceled-iac: bz_claim_order_cancel_iac
-  consumers:
-    order-canceled-ssgpoint-gmkt-listener:
-      group-id: ssgpoint-canceled-gmkt-group
-      concurrency: 1
-    order-canceled-ssgpoint-iac-listener:
-      group-id: ssgpoint-canceled-iac-group
-      concurrency: 1
+    kafka:
+      consumer:
+        group-id: payback-group
+        auto-offset-reset: latest
+        enable-auto-commit: true
+        bootstrap-servers:
+          listener-1: localhost:9092
+---
+spring:
+  config.activate.on-profile: "auction"
+  application.name: payback-consumer
+    kafka:
+      consumer:
+        group-id: payback-group
+        auto-offset-reset: latest
+        enable-auto-commit: true
+        bootstrap-servers:
+          listener-1: localhost:9092
+---
 
 apis:
   payback:
