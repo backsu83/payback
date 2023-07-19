@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 
-@Profile("!av") //av 환경에서는 제외
+@Profile("!av") //취소의 경우 av 환경 제외
 @Slf4j
 @Component
 @RequiredArgsConstructor

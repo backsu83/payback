@@ -21,8 +21,8 @@ public class OrderCreatedListener {
   @KafkaListener(
       topics = {"${payback.topic.order-created}_gmkt", "${payback.topic.order-created}_gg"},
       groupId = "${payback.consumers.order-created-listener.group-id}",
-      concurrency = "${payback.consumers.order-created-listener.concurrency}",
-      containerFactory = "kafkaListenerContainerFactory2"
+      containerFactory = "kafkaListenerContainerFactory2",
+      concurrency = "${payback.consumers.order-created-listener.concurrency}"
   )
   public void consume(@Payload @Valid final OrderCreatedEvent orderCreatedEvent) {
     log.info("listener payload : 'txKey: {},' ' orderKey: {}'",
