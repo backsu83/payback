@@ -5,7 +5,7 @@ payback:
   consumers:
     order-created-listener:
       group-id: payback-cashback-group
-      concurrency: 40
+      concurrency: 25
     order-canceled-ssgpoint-listener:
       group-id: ssgpoint-canceled-gmkt-group
       concurrency: 8
