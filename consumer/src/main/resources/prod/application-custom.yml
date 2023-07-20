@@ -1,5 +1,5 @@
 spring:
-  application.name: payback-consumer
+  config.activate.on-profile: "gmarket"
   kafka:
     consumer:
       group-id: payback-group
@@ -7,19 +7,19 @@ spring:
       enable-auto-commit: true
       bootstrap-servers:
         listener-1: kafka-st-v2.gmarket.co.kr:9092 #지마켓
-        listener-2: centralkafka.auction.co.kr:9092 #옥션
-
-payback:
-  topic:
-    order-canceled-gmkt: bz_refund_completed_gmkt
-    order-canceled-iac: bz_claim_order_cancel_iac
-  consumers:
-    order-canceled-ssgpoint-gmkt-listener:
-      group-id: ssgpoint-canceled-gmkt-group
-      concurrency: 8
-    order-canceled-ssgpoint-iac-listener:
-      group-id: ssgpoint-canceled-iac-group
-      concurrency: 1
+        order: StrBroker01em:9092,StrBroker02em:9092,StrBroker03em:9092,StrBroker01ep:9092,StrBroker02ep:9092,StrBroker03ep:9092
+---
+spring:
+  config.activate.on-profile: "auction"
+  kafka:
+    consumer:
+      group-id: payback-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      bootstrap-servers:
+        listener-1: centralkafka.auction.co.kr:9092 #옥션
+        order: centralkafka.auction.co.kr:9092 #옥션
+---
 
 apis:
   payback:
