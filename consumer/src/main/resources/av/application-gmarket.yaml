@@ -8,4 +8,4 @@ payback:
       concurrency: 25
     order-canceled-ssgpoint-listener:
       group-id: ssgpoint-canceled-gmkt-group
-      concurrency: 1
+      concurrency: 8
