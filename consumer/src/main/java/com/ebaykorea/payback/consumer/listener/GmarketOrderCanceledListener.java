@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.consumer.listener;
 
-import com.ebaykorea.payback.consumer.event.OrderCanceledEvent;
+import com.ebaykorea.payback.consumer.event.OrderCanceledGmarketEvent;
 import com.ebaykorea.payback.consumer.service.CancelSsgPointService;
 import com.ebaykorea.payback.consumer.util.GsonUtils;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 
-@Profile("!av") //취소의 경우 av 환경 제외
+@Profile("gmarket & !av") //취소의 경우 av 환경 제외
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderCanceledListener {
+public class GmarketOrderCanceledListener {
   private final CancelSsgPointService requestSsgPointService;
 
   @KafkaListener(
@@ -25,11 +25,11 @@ public class OrderCanceledListener {
       containerFactory = "kafkaListenerContainerFactory1",
       concurrency = "${payback.consumers.order-canceled-ssgpoint-listener.concurrency}"
   )
-  public void consumeForSsgPoints(@Payload @Valid final OrderCanceledEvent event) {
+  public void consume(@Payload @Valid final OrderCanceledGmarketEvent event) {
     log.info("listener payload : [{}][{}]'",
-        GsonUtils.toJson(event.getOrderNos()),
-        event.getPayNo()
+        GsonUtils.toJson(event.getContrNoList()),
+        event.getPackNo()
     );
-    requestSsgPointService.cancelSsgPoint(event.getPayNo(), event.getOrderNos());
+    requestSsgPointService.cancelSsgPoint(event.getPackNo(), event.getContrNoList());
   }
 }

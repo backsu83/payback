@@ -18,7 +18,7 @@ import spock.lang.Specification
 class OrderCanceledAuctionListenerSpec extends Specification {
 
   def requestSsgPointService = Mock(CancelSsgPointService)
-  def listener = new OrderCanceledListener(requestSsgPointService)
+  def listener = new AuctionOrderCanceledListener(requestSsgPointService)
 
   def "옥션_카프카_취소이벤트_컨슘_성공"() {
     given:
