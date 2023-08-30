@@ -15,11 +15,10 @@ public class ClubGatewayImpl implements ClubGateway {
   private final ClubApiClient clubApiClient;
   private final ClubGatewayMapper clubGatewayMapper;
 
+  private static final String FIELDS = "Member";
+
   @Override
   public Optional<Club> findMemberSynopsis(String custNo) {
-    return Optional.of(clubGatewayMapper
-        .map(clubApiClient
-            .getMemberSynopsis(custNo)
-            .getData()));
+    return Optional.of(clubGatewayMapper.map(clubApiClient.getMemberSynopsis(custNo, FIELDS).getData()));
   }
 }

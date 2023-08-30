@@ -11,10 +11,10 @@ class ClubApiClientTest extends Specification {
 
     def "GetMemberSynopsis"() {
         setup:
-        clubApiClient.getMemberSynopsis(_ as String) >> response
+        clubApiClient.getMemberSynopsis(_ as String, _ as String) >> response
 
         expect:
-        def result = clubApiClient.getMemberSynopsis(memberid);
+        def result = clubApiClient.getMemberSynopsis(memberid, "Member");
         result == response;
 
         where:
