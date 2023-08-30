@@ -16,7 +16,7 @@ class ClubGatewaySpec extends Specification {
 
     def "Club 변환 확인"() {
         setup:
-        clubApiClient.getMemberSynopsis(_ as String) >> ClubBaseResponseDto.builder().message("Success").data(response).build()
+        clubApiClient.getMemberSynopsis(_ as String, _ as String) >> ClubBaseResponseDto.builder().message("Success").data(response).build()
 
         expect:
         def result = clubGatewayImpl.findMemberSynopsis("custNo")

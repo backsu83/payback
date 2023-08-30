@@ -84,7 +84,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                 CANCEL_DUPLICATED.getCode(),
                 REQUEST_ERROR.getCode()),
             ssgPointTargetEntity.tryCount.lt(3),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(40, ChronoUnit.DAYS) ,Instant.now())
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(120, ChronoUnit.DAYS) ,Instant.now())
         );
   }
 
