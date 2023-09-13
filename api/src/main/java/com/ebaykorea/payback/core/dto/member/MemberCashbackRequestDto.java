@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto.post;
+package com.ebaykorea.payback.core.dto.member;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
