@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.query;
+package com.ebaykorea.payback.infrastructure.query;
 
 import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
 

@@ -1,9 +1,8 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.smilepoint.*;
-import com.ebaykorea.payback.core.query.SmilePointTradeQuery;
+import com.ebaykorea.payback.infrastructure.query.SmilePointTradeQuery;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.SmilePointRepository;
-import com.ebaykorea.payback.infrastructure.query.gmkt.GmarketSmilePointTradeQuery;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;

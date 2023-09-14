@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query.gmkt;
 
-import com.ebaykorea.payback.core.query.SmilePointTradeQuery;
+import com.ebaykorea.payback.infrastructure.query.SmilePointTradeQuery;
 import com.ebaykorea.payback.infrastructure.query.data.SmilePointTradeQueryResult;
 import com.ebaykorea.payback.infrastructure.query.mapper.SmilePointTradeMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.customer.SmilePointTradeRepository;

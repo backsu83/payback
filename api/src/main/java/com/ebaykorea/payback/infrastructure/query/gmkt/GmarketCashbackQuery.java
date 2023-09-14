@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query.gmkt;
 
-import com.ebaykorea.payback.core.query.CashbackQuery;
+import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
 import com.ebaykorea.payback.infrastructure.gateway.TransactionGatewayImpl;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderRepository;
 import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
