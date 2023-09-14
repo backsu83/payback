@@ -17,7 +17,7 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 @Profile(GMARKET_TENANT)
 @Repository
 @SaturnDataSource(name = Gmkt.TIGER_READ)
-public class SmileCashEventRepository {
+public class SmileCashEventEntityRepository {
   @SaturnProcedure(
       procedureName = SmileCashEventResultEntity.SAVE,
       parameters = {
