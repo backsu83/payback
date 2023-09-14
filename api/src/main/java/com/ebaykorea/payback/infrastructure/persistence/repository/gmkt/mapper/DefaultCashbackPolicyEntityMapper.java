@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.mapper;
+package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
 
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;

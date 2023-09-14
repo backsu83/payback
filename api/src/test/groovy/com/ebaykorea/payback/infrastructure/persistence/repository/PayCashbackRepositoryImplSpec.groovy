@@ -1,13 +1,13 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository
 
-import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderDetailEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderMemberEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.mapper.ChargePayPolicyEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.mapper.ClubDayPolicyEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.mapper.DefaultCashbackPolicyEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.mapper.SmilecardCashbackOrderEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.mapper.SmilecardT2T3CashbackEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderDetailEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderMemberEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.ChargePayPolicyEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.ClubDayPolicyEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.DefaultCashbackPolicyEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmilecardCashbackOrderEntityMapper
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmilecardT2T3CashbackEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.GmarketCashbackRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderDetailRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderMemberRepository
