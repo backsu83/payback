@@ -4,7 +4,7 @@ import com.ebaykorea.payback.core.domain.constant.CashbackType;
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderDetailEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderDetailEntity;
 import com.ebaykorea.payback.util.PaybackBooleans;
 import com.ebaykorea.payback.util.PaybackTimestamps;
 import org.mapstruct.Mapper;

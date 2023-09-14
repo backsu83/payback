@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query.mapper;
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.query.data.CashbackOrderQueryData;
 import com.ebaykorea.payback.util.PaybackInstants;
 import org.mapstruct.Mapper;

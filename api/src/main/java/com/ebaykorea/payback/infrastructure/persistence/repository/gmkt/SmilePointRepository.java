@@ -1,9 +1,13 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository;
+package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.SmilePointTradeRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.customer.SmilePointTradeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
+
+@Profile(GMARKET_TENANT)
 @Service
 @RequiredArgsConstructor
 public class SmilePointRepository {

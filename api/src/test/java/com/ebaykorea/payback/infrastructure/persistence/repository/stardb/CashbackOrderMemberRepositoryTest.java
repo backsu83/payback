@@ -1,7 +1,8 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
 
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderMemberRepository;
 import com.ebaykorea.payback.util.support.GsonUtils;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderMemberEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderMemberEntity;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;

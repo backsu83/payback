@@ -1,7 +1,8 @@
 package com.ebaykorea.payback.infrastructure.query
 
 import com.ebaykorea.payback.infrastructure.gateway.TransactionGatewayImpl
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderRepository
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderRepository
+import com.ebaykorea.payback.infrastructure.query.gmkt.GmarketCashbackQuery
 import com.ebaykorea.payback.infrastructure.query.mapper.CashbackOrderQueryDataMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
@@ -14,7 +15,7 @@ class CashbackQuerySpec extends Specification {
   def cashbackOrderRepository = Mock(CashbackOrderRepository)
   def cashbackOrderQueryDataMapper = Mappers.getMapper(CashbackOrderQueryDataMapper)
 
-  def cashbackQuery = new CashbackQuery(transactionGateway, cashbackOrderRepository, cashbackOrderQueryDataMapper)
+  def cashbackQuery = new GmarketCashbackQuery(transactionGateway, cashbackOrderRepository, cashbackOrderQueryDataMapper)
 
   def "파라미터에 따라 올바른 조건으로 조회로직을 호출하는지 확인"() {
     when:

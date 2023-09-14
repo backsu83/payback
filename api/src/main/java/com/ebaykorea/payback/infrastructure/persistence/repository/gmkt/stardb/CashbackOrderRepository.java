@@ -1,10 +1,11 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.stardb;
+package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb;
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
@@ -12,7 +13,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 
+@Profile(GMARKET_TENANT)
 @Repository
 @SaturnDataSource(name = Gmkt.TIGER_READ)
 public class CashbackOrderRepository {

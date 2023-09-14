@@ -3,7 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper;
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCardCashback;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardT2T3CashbackEntity;
 import com.ebaykorea.payback.util.PaybackTimestamps;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

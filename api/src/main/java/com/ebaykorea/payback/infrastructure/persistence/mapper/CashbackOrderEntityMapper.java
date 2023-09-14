@@ -4,7 +4,7 @@ import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 

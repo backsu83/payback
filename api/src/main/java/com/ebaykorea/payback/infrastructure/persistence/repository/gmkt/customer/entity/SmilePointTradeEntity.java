@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity;
+package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.customer.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

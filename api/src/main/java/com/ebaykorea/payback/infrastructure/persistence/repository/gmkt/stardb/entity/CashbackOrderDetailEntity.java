@@ -1,8 +1,7 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity;
+package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;

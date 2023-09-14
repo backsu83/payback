@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository;
+package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
@@ -15,14 +15,14 @@ import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackOrderMemb
 import com.ebaykorea.payback.infrastructure.persistence.mapper.CashbackPolicyEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SmilecardCashbackOrderEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.mapper.SmilecardT2T3CashbackEntityMapper;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderDetailRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderMemberRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderPolicyRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.SmilecardCashbackOrderRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.SmilecardT2T3CashbackRepository;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity;
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderDetailRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderMemberRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderPolicyRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmilecardCashbackOrderRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmilecardT2T3CashbackRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderPolicyEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardT2T3CashbackEntity;
 import com.ebaykorea.payback.util.support.Conditioner;
 
 import java.util.List;
@@ -30,12 +30,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
+
+@Profile(GMARKET_TENANT)
 @Service
 @RequiredArgsConstructor
-public class PayCashbackRepositoryImpl implements PayCashbackRepository {
+public class GmarketCashbackRepository implements PayCashbackRepository {
 
   private final CashbackOrderRepository cashbackOrderRepository;
   private final CashbackOrderPolicyRepository cashbackOrderPolicyRepository;
