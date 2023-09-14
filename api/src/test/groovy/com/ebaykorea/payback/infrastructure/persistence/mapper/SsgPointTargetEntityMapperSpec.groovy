@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.mapper
 
 import com.ebaykorea.payback.constant.TestConstant
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SsgPointTargetEntityMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 

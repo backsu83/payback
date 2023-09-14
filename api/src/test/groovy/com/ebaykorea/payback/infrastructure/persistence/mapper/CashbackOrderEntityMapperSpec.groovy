@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper
 
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.ShopType
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderEntityMapper
 import com.ebaykorea.payback.util.PaybackTimestamps
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification

@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.mapper
 
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType
 import com.ebaykorea.payback.core.domain.constant.SmileCardType
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmilecardT2T3CashbackEntityMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
