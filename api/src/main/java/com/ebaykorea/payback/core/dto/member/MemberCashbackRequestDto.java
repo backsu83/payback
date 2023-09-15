@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.dto.member;
 
-import com.ebaykorea.payback.core.domain.constant.SaveType;
+import com.ebaykorea.payback.core.domain.constant.EventType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ public class MemberCashbackRequestDto {
   private long payNo;
   @Schema(description = "적립금액", required = true)
   private BigDecimal saveAmount;
-  @Schema(description = "적립타입", example = "Normal or Toss", required = true)
-  private SaveType saveType;
+  @Schema(description = "이벤트타입", example = "Normal or Toss", required = true)
+  private EventType eventType;
 
 }

@@ -13,9 +13,10 @@ import java.util.List;
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
 
-@Tag(name = "Member", description = "회원별 적립")
+@Tag(name = "Member", description = "회원별 이벤트 적립")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/event")
 public class MemberController {
 
   @Operation(summary = "회원 별 캐시백 적립 요청", description = "결제번호 별 적립 금액으로 적립 요청")
