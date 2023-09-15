@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.mapper
 
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderMemberEntityMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
