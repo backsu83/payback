@@ -8,8 +8,7 @@ import lombok.Getter;
 public enum SaveType {
   Unknown(""),
   Normal("G3"),
-  Toss("TODO"), //TODO
-  Linkrew("TODO2");//TODO
+  Toss("TODO"); //TODO
 
   private final String code;
 }
