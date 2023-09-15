@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SaveType {
+public enum EventType {
   Unknown(""),
   Normal("G3"),
   Toss("TODO"); //TODO
