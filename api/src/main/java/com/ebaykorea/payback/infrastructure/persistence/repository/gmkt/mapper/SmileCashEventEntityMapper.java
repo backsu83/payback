@@ -9,7 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.sql.Timestamp;
-import java.time.temporal.ChronoUnit;
+
+import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
 @Mapper(
     componentModel = "spring"
@@ -28,7 +29,7 @@ public interface SmileCashEventEntityMapper {
 
   //TODO: 만료 정책 확인
   default Timestamp getExpireDate() {
-    return Timestamp.from(PaybackInstants.now().plus(365, ChronoUnit.DAYS));
+    return Timestamp.from(getDefaultEnableDate(PaybackInstants.now()));
   }
 
   @Mapping(source = "source.result", target = "resultCode")

@@ -1,13 +1,17 @@
 package com.ebaykorea.payback.core.dto.member;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberCashbackResultDto {
   @Schema(description = "적립 요청 번호")
   private long requestNo;
