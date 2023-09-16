@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.AUCTION_TENANT;
@@ -16,8 +17,8 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.AUCTION_TENA
 @RequiredArgsConstructor
 public class AuctionSmileCashEventRepository implements SmileCashEventRepository {
   @Override
-  public MemberCashbackResultDto save(final String memberKey, final List<MemberCashbackRequestDto> requests) {
+  public List<MemberCashbackResultDto> save(final String memberKey, final List<MemberCashbackRequestDto> requests) {
     //TODO
-    return null;
+    return Collections.emptyList();
   }
 }

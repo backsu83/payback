@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum EventType {
-  Unknown(""),
-  Normal("G3"),
-  Toss("TODO"); //TODO
+  Unknown("", 0),
+  Toss("G9", 8166);
 
-  private final String code;
+  private final String cashBalanceCode;
+  private final int eventNo;
 }

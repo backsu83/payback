@@ -1,36 +1,39 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
 import com.ebaykorea.payback.core.dto.member.MemberCashbackRequestDto;
+import com.ebaykorea.payback.core.dto.member.MemberCashbackResultDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventResultEntity;
+import com.ebaykorea.payback.util.PaybackInstants;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.sql.Timestamp;
+import java.time.temporal.ChronoUnit;
 
 @Mapper(
-    componentModel = "spring",
-    unmappedTargetPolicy = ReportingPolicy.IGNORE
+    componentModel = "spring"
 )
 public interface SmileCashEventEntityMapper {
 
-  default List<SmileCashEventEntity> map(final String memberKey, final List<MemberCashbackRequestDto> requests) {
-    return requests.stream()
-        .map(request -> map(memberKey, request))
-        .collect(Collectors.toUnmodifiableList());
-  }
-
-  @Mapping(source = "request.payNo", target = "packNo")
-  @Mapping(constant = "L", target = "commnType")
-  @Mapping(constant = "SV", target = "tradeCode")
-  @Mapping(constant = "A003", target = "smileCashCode")
   @Mapping(source = "request.saveAmount", target = "requestMoney")
   @Mapping(source = "request.saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(constant = "G3", target = "cashBalanceType")//TODO
+  @Mapping(source = "request.eventType.cashBalanceCode", target = "cashBalanceType")
   @Mapping(source = "memberKey", target = "custNo")
-  //@Mapping(constant = "0", target = "refNo") //TODO
-  //@Mapping(constant = "0", target = "ersNo") //TODO
+  @Mapping(expression = "java(getExpireDate())", target = "expireDate")
+  @Mapping(source = "request.requestNo", target = "refNo")
+  @Mapping(source = "request.eventType.eventNo", target = "ersNo")
   @Mapping(source = "memberKey", target = "regId")
   SmileCashEventEntity map(String memberKey, MemberCashbackRequestDto request);
+
+  //TODO: 만료 정책 확인
+  default Timestamp getExpireDate() {
+    return Timestamp.from(PaybackInstants.now().plus(365, ChronoUnit.DAYS));
+  }
+
+  @Mapping(source = "source.result", target = "resultCode")
+  MemberCashbackResultDto map(final Long requestNo, final SmileCashEventResultEntity source);
+
+
+
 }

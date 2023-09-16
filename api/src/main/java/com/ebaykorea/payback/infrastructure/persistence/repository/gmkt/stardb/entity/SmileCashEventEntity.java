@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -15,31 +14,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SmileCashEventEntity {
-
-  @Id
-  @Column(name = "SMILEPAY_NO")
-  private long smilePayNo;
-
-  @Column(name = "PACK_NO")
-  private long packNo;
-
-  @Column(name = "CONTR_NO")
-  private long contrNo;
-
-  @Column(name = "COMMN_TYPE")
-  private String commnType;
-
-  @Column(name = "TRADE_CD")
-  private String tradeCode;
-
-  @Column(name = "SMILECASH_CD")
-  private String smileCashCode;
+  public static final String SAVE = "stardb.dbo.UPGMKT_Reward_InsertSmileCashEvent";
 
   @Column(name = "REQ_MONEY")
   private BigDecimal requestMoney;
-
-  @Column(name = "REQ_OUTPUT_ENABLE_MONEY")
-  private BigDecimal requestOutputEnabledMoney;
 
   @Column(name = "REQ_OUTPUT_IMPB_MONEY")
   private BigDecimal requestOutputDisabledMoney;
@@ -49,9 +27,6 @@ public class SmileCashEventEntity {
 
   @Column(name = "CUST_NO")
   private String custNo;
-
-  @Column(name = "COMMENTS")
-  private String comments;
 
   @Column(name = "EXPIRE_DT")
   private Timestamp expireDate;

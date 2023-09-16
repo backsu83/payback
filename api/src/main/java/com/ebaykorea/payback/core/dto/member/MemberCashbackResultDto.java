@@ -9,11 +9,10 @@ import java.time.Instant;
 @Data
 @Builder
 public class MemberCashbackResultDto {
-  private long payNo;
-  @Schema(description = "적립 요청 키")
-  private String saveRequestKey;
-  @Schema(description = "적립 예정 일")
-  private Instant expectSaveDate;
-  @Schema(description = "요청 결과", example = "'SUCCESS' OR 'ALREADY_PROCESSED'")
-  private String resultMessage;
+  @Schema(description = "적립 요청 번호")
+  private long requestNo;
+  @Schema(description = "적립 요청 스마일페이 번호")
+  private long smilePayNo;
+  @Schema(description = "요청 결과", example = "0: 성공")
+  private int resultCode;
 }
