@@ -13,8 +13,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SmileCashEventResultEntity {
-  public static final String SAVE = "stardb.dbo.up_gmkt_payment_insert_smilecash_event";
-
   @Column(name = "RET_NO")
   private int result;
 
