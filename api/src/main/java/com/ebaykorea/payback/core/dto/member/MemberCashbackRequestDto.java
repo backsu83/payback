@@ -14,11 +14,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberCashbackRequestDto {
-  @Schema(description = "결제번호", required = true)
-  private long payNo;
-  @Schema(description = "적립금액", required = true)
+  @Schema(description = "적립 요청 번호", required = true)
+  private long requestNo;
+  @Schema(description = "적립 금액", required = true)
   private BigDecimal saveAmount;
-  @Schema(description = "이벤트타입", example = "Normal or Toss", required = true)
+  @Schema(description = "이벤트 타입", example = "Toss", required = true)
   private EventType eventType;
 
 }

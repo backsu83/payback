@@ -14,7 +14,9 @@ public enum ResponseMessageType {
   SSGPOINT_CREATED("SSG 포인트 생성"),
   SSGPOINT_CANCELED("SSG 포인트 취소"),
   SSGPOINT_RETRIED("SSG 포인트 재처리"),
-  SSGPOINT_DUPLICATED("SSG 포인트 중복건");
+  SSGPOINT_DUPLICATED("SSG 포인트 중복건"),
+
+  SUCCESS("처리 완료");
 
   private final String message;
 }
