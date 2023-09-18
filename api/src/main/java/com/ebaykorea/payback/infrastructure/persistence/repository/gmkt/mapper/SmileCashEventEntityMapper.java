@@ -19,15 +19,14 @@ public interface SmileCashEventEntityMapper {
 
   @Mapping(source = "request.saveAmount", target = "requestMoney")
   @Mapping(source = "request.saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(source = "request.eventType.cashBalanceCode", target = "cashBalanceType")
+  @Mapping(constant = "G9", target = "cashBalanceType")
   @Mapping(source = "memberKey", target = "custNo")
   @Mapping(expression = "java(getExpireDate())", target = "expireDate")
   @Mapping(source = "request.requestNo", target = "refNo")
-  @Mapping(source = "request.eventType.eventNo", target = "ersNo")
+  @Mapping(constant = "8166", target = "ersNo")
   @Mapping(source = "memberKey", target = "regId")
   SmileCashEventEntity map(String memberKey, MemberCashbackRequestDto request);
 
-  //TODO: 만료 정책 확인
   default Timestamp getExpireDate() {
     return Timestamp.from(getDefaultEnableDate(PaybackInstants.now()));
   }
