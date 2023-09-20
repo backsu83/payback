@@ -22,7 +22,7 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "memberKey", target = "memberId")
   @Mapping(constant = "RM02Y", target = "reasonCode")
   @Mapping(constant = "토스 사후 적립(이벤트성)", target = "reasonComment")
-  @Mapping(constant = "토스 적립", target = "additionalReasonComment")
+  @Mapping(constant = "토스-신세계유니버스 가입 축하금 적립", target = "additionalReasonComment")
   @Mapping(constant = "9", target = "bizType")
   @Mapping(source = "request.requestNo", target = "bizKey")
   @Mapping(constant = "2", target = "smileCashType")
