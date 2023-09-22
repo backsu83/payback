@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity;
 
 
+import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,10 @@ public class EventSaveRequestDetailEntity extends BaseEntity {
 
   @Column(name = "REQUEST_ID")
   private String requestId;
+
+  @Column(name = "EVENT_TYPE")
+  @Enumerated(EnumType.STRING)
+  private EventType eventType;
 
   @Column(name = "DETAIL_ID")
   private String detailId; //approvalNo
