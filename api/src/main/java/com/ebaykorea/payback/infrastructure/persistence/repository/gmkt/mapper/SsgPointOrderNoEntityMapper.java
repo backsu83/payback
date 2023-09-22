@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointOrderNoDto;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointOrderNoEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity.SsgPointOrderNoEntity;
 import com.ebaykorea.payback.util.PaybackInstants;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

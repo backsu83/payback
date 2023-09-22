@@ -4,7 +4,7 @@ import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPoint;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.SsgPointUnit;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.util.PaybackInstants;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

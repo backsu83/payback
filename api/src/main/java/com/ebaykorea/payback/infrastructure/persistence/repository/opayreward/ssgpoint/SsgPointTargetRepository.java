@@ -1,7 +1,7 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward;
+package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint;
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntityId;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity.SsgPointTargetEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity.SsgPointTargetEntityId;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

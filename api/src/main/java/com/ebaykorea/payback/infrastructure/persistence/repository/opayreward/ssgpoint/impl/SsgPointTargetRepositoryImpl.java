@@ -1,16 +1,16 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward;
+package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.impl;
 
 
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.SsgPointTargetRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 
-import static com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
-
+import static com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity.QSsgPointTargetEntity.ssgPointTargetEntity;
 
 
 @Repository
