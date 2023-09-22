@@ -4,5 +4,5 @@ public enum EventRequestStatusType {
   Unknown,
   Created,
   Requested,
-  Failed
+  RequestFailed
 }
