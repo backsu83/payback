@@ -18,14 +18,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@IdClass(EventSaveRequestEntityId.class)
-@Table(schema = "O_PAYREWARD", name = "EVENT_SAVE_REQUEST")
-public class EventSaveRequestEntity extends BaseEntity {
+@Table(schema = "O_PAYREWARD", name = "EVENT_REWARD_REQUEST")
+public class EventRewardRequestEntity extends BaseEntity {
   @Id
+  @Column(name = "EVENT_REQUEST_NO")
+  private Long eventRequestNo;
+
   @Column(name = "REQUEST_ID")
   private String requestId;
 
-  @Id
   @Column(name = "EVENT_TYPE")
   @Enumerated(EnumType.STRING)
   private EventType eventType;
