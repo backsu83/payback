@@ -19,18 +19,14 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(schema = "O_PAYREWARD", name = "EVENT_SAVE_REQUEST_DETAIL")
-public class EventSaveRequestDetailEntity extends BaseEntity {
+@Table(schema = "O_PAYREWARD", name = "EVENT_REWARD_REQUEST_DETAIL")
+public class EventRewardRequestDetailEntity extends BaseEntity {
   @Id
   @Column(name = "SEQ")
   private Long seq;
 
-  @Column(name = "REQUEST_ID")
-  private String requestId;
-
-  @Column(name = "EVENT_TYPE")
-  @Enumerated(EnumType.STRING)
-  private EventType eventType;
+  @Column(name = "EVENT_REQUEST_NO")
+  private Long eventRequestNo;
 
   @Column(name = "DETAIL_ID")
   private String detailId; //approvalNo
