@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 
-import com.ebaykorea.payback.core.dto.member.MemberCashbackRequestDto;
-import com.ebaykorea.payback.core.dto.member.MemberCashbackResultDto;
+import com.ebaykorea.payback.core.dto.event.MemberCashbackRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberCashbackResultDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmileCashEventEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;

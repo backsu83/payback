@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto.member;
+package com.ebaykorea.payback.core.dto.event;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import io.swagger.v3.oas.annotations.media.Schema;

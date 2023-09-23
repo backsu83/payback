@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.repository;
 
-import com.ebaykorea.payback.core.dto.member.MemberCashbackRequestDto;
-import com.ebaykorea.payback.core.dto.member.MemberCashbackResultDto;
+import com.ebaykorea.payback.core.dto.event.MemberCashbackRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberCashbackResultDto;
 
 import java.util.List;
 

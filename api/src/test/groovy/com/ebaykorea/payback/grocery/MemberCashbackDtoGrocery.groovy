@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.EventType
-import com.ebaykorea.payback.core.dto.member.MemberCashbackRequestDto
-import com.ebaykorea.payback.core.dto.member.MemberCashbackResultDto
+import com.ebaykorea.payback.core.dto.event.MemberCashbackRequestDto
+import com.ebaykorea.payback.core.dto.event.MemberCashbackResultDto
 
 class MemberCashbackDtoGrocery {
   static def MemberCashbackRequestDto_생성(Map map = [:]) {

@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto.member;
+package com.ebaykorea.payback.core.dto.event;
 
 import lombok.Builder;
 import lombok.Data;

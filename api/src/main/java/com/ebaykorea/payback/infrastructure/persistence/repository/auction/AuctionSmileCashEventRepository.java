@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 
-import com.ebaykorea.payback.core.dto.member.MemberCashbackRequestDto;
-import com.ebaykorea.payback.core.dto.member.MemberCashbackResultDto;
+import com.ebaykorea.payback.core.dto.event.MemberCashbackRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberCashbackResultDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository;
@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;

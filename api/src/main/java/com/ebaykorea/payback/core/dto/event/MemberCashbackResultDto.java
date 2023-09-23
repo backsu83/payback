@@ -1,12 +1,10 @@
-package com.ebaykorea.payback.core.dto.member;
+package com.ebaykorea.payback.core.dto.event;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 @Data
 @Builder
