@@ -6,6 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum EventType {
-  Unknown,
-  Toss
+  Unknown(""),
+  Toss("Toss");
+
+  private final String name;
 }

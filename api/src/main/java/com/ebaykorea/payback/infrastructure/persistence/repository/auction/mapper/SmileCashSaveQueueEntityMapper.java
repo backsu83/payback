@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
-import com.ebaykorea.payback.core.dto.event.MemberCashbackRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberCashbackResultDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
 import com.ebaykorea.payback.util.PaybackInstants;
 import org.mapstruct.Mapper;
@@ -29,12 +29,12 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "request.saveAmount", target = "saveAmount")
   @Mapping(expression = "java(getExpireDate())", target = "expireDate")
   @Mapping(source = "memberKey", target = "insertOperator")
-  SmileCashSaveQueueEntity map(Long txId, String memberKey, MemberCashbackRequestDto request);
+  SmileCashSaveQueueEntity map(Long txId, String memberKey, MemberEventRewardRequestDto request);
 
   default Timestamp getExpireDate() {
     return Timestamp.from(getDefaultEnableDate(PaybackInstants.now()));
   }
 
   @Mapping(source = "txId", target = "smilePayNo")
-  MemberCashbackResultDto map(Long requestNo, Integer resultCode, Long txId);
+  MemberEventRewardResultDto map(Long requestNo, Integer resultCode, Long txId);
 }

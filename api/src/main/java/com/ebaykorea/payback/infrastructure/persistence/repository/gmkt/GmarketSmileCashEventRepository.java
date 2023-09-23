@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 
-import com.ebaykorea.payback.core.dto.event.MemberCashbackRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberCashbackResultDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmileCashEventEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
@@ -23,7 +23,7 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   private final SmileCashEventEntityMapper mapper;
 
   @Override
-  public List<MemberCashbackResultDto> save(final String memberKey, final List<MemberCashbackRequestDto> requests) {
+  public List<MemberEventRewardResultDto> save(final String memberKey, final List<MemberEventRewardRequestDto> requests) {
     return requests.stream()
         .map(request -> mapper.map(memberKey, request))
         .flatMap(entity -> repository.save(entity).stream()

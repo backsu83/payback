@@ -34,11 +34,11 @@ public class EventRewardRequestDetailEntity extends BaseEntity {
   @Column(name = "EVENT_AMOUNT")
   private BigDecimal eventAmount; //payAmount
 
-  @Column(name = "CARD_NO")
-  private String cardNo;
+  @Column(name = "ENC_CARD_NO")
+  private String encryptedCardNo;
 
-  @Column(name = "CORPORATE_REG_NO")
-  private String corporateRegNo;
+  @Column(name = "ENC_CORPORATE_REG_NO")
+  private String encryptedCorporateRegNo;
 
   @Column(name = "EVENT_DATE")
   private Instant eventDate; //transactAt

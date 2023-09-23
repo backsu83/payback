@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 
-import com.ebaykorea.payback.core.dto.event.MemberCashbackRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberCashbackResultDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository;
@@ -34,7 +34,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   private static final int DUPLICATED_REQUEST = -322;
 
   @Override
-  public List<MemberCashbackResultDto> save(final String memberKey, final List<MemberCashbackRequestDto> requests) {
+  public List<MemberEventRewardResultDto> save(final String memberKey, final List<MemberEventRewardRequestDto> requests) {
     return requests.stream()
         .map(request ->
             //중복 요청 체크

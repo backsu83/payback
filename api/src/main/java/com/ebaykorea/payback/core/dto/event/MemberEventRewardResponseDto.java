@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class MemberCashbackResponseDto {
+public class MemberEventRewardResponseDto {
   private String memberKey;
-  private List<MemberCashbackResultDto> cashbackResults;
+  private List<MemberEventRewardResultDto> cashbackResults;
 }
