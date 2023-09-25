@@ -33,7 +33,7 @@ public class EventRewardApplicationService {
   public EventRewardResponseDto saveEventReward(final EventRewardRequestDto request) {
     final var alreadySaved = eventRewardRepository.alreadySaved(request.getRequestId(), request.getEventType());
     if (alreadySaved) {
-      return build(request.getRequestId(), PaybackStrings.EMPTY, DUPLICATED);
+      return buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, DUPLICATED);
     }
     // 요청 내역 저장 및 적립 요청 번호 채번
     final var eventRequestNo = eventRewardRepository.save(request);
@@ -54,9 +54,9 @@ public class EventRewardApplicationService {
             eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
 
             final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
-            return build(request.getRequestId(), saveProcessId, resultCode);
+            return buildEventRewardResponse(request.getRequestId(), saveProcessId, resultCode);
           })
-          .orElse(build(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
+          .orElse(buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
     } else {
       // 옥션 아이디일 경우 옥션 적립 호출
       return rewardGateway.saveEventCashback("auctionMemberKey", List.of(memberEventRewardRequest))
@@ -66,9 +66,9 @@ public class EventRewardApplicationService {
             eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
 
             final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
-            return build(request.getRequestId(), saveProcessId, resultCode);
+            return buildEventRewardResponse(request.getRequestId(), saveProcessId, resultCode);
           })
-          .orElse(build(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
+          .orElse(buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
     }
   }
 
@@ -80,7 +80,7 @@ public class EventRewardApplicationService {
         .build();
   }
 
-  private EventRewardResponseDto build(final String requestId, final String saveProcessId, final String resultCode) {
+  private EventRewardResponseDto buildEventRewardResponse(final String requestId, final String saveProcessId, final String resultCode) {
     return EventRewardResponseDto.builder()
         .requestId(requestId)
         .saveProcessId(saveProcessId)
