@@ -15,24 +15,25 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableJpaRepositories(
     basePackages = OraclePayrewardConfig.REPOSITORY_PACKAGE_NAME,
-    entityManagerFactoryRef = "opayrewrdJpaEntityManagerFactory",
+    entityManagerFactoryRef = "opayrewardJpaEntityManagerFactory",
     transactionManagerRef = "opayrewardJpaTransactionManager"
 )
 @RequiredArgsConstructor
 public class OraclePayrewardConfig extends HibernateAdapterFactory {
 
-  public final static String ENTITY_PACKAGE_NAME = "com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity";
+  public final static String SSG_ENTITY_PACKAGE_NAME = "com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity";
+  public final static String EVENT_ENTITY_PACKAGE_NAME = "com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity";
   public final static String REPOSITORY_PACKAGE_NAME = "com.ebaykorea.payback.infrastructure.persistence.repository.opayreward";
 
   @Primary
   @Bean
-  public LocalContainerEntityManagerFactoryBean opayrewrdJpaEntityManagerFactory(@Qualifier("o_payrewardDataSource") DataSource datasource) {
-    return getJpaEntityManagerFactory(datasource, ENTITY_PACKAGE_NAME);
+  public LocalContainerEntityManagerFactoryBean opayrewardJpaEntityManagerFactory(@Qualifier("o_payrewardDataSource") DataSource datasource) {
+    return getJpaEntityManagerFactory(datasource, SSG_ENTITY_PACKAGE_NAME, EVENT_ENTITY_PACKAGE_NAME);
   }
 
   @Primary
   @Bean
   public PlatformTransactionManager opayrewardJpaTransactionManager(@Qualifier("o_payrewardDataSource") DataSource datasource) {
-    return new JpaTransactionManager(opayrewrdJpaEntityManagerFactory(datasource).getObject());
+    return new JpaTransactionManager(opayrewardJpaEntityManagerFactory(datasource).getObject());
   }
 }

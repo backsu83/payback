@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EventType {
   Unknown,
-  Toss;
+  Toss
 }

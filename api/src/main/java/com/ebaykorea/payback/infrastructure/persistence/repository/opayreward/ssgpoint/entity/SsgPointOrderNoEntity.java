@@ -1,5 +1,6 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity;
+package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity;
 
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

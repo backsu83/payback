@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity;
+package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward;
 
 import java.io.Serializable;
 import java.time.Instant;

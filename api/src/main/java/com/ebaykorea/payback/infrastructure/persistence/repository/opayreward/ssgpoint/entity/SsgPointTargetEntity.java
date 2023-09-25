@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity;
+package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Persistable;

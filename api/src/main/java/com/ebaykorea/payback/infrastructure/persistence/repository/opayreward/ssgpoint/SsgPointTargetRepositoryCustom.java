@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward;
+package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint;
 
 import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointRequestKey;
 
