@@ -1,8 +1,10 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.dto.member.MemberCashbackRequestDto;
-import com.ebaykorea.payback.core.dto.member.MemberCashbackResponseDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardResponseDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,16 +24,24 @@ public class EventController {
 
   private final SmileCashEventRepository repository;
 
-  @Operation(summary = "회원 별 캐시백 적립 요청", description = "결제번호 별 적립 금액으로 적립 요청")
+  @Operation(summary = "회원 별 캐시백 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
   @PostMapping("/members/{member-key}/cashback")
-  public CommonResponse<MemberCashbackResponseDto> cashback(
+  public CommonResponse<MemberEventRewardResponseDto> eventSaveByMember(
       final @PathVariable(value = "member-key") String memberKey,
-      final @Valid @RequestBody List<MemberCashbackRequestDto> requests) {
+      final @Valid @RequestBody List<MemberEventRewardRequestDto> requests) {
     final var result = repository.save(memberKey, requests);
     return CommonResponse.success(SUCCESS,
-        MemberCashbackResponseDto.builder()
+        MemberEventRewardResponseDto.builder()
             .memberKey(memberKey)
             .cashbackResults(result)
             .build());
+  }
+
+  @Operation(summary = "이벤트 적립 요청", description = "이벤트 적립")
+  @PostMapping("/rewards")
+  public CommonResponse<EventRewardResponseDto> eventSave(
+      final @Valid @RequestBody EventRewardRequestDto request) {
+
+    return CommonResponse.success(SUCCESS, null);
   }
 }

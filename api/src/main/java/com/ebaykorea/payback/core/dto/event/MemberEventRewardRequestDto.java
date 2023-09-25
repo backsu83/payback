@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto.member;
+package com.ebaykorea.payback.core.dto.event;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,12 +13,11 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberCashbackRequestDto {
+public class MemberEventRewardRequestDto {
   @Schema(description = "적립 요청 번호", required = true)
   private long requestNo;
   @Schema(description = "적립 금액", required = true)
   private BigDecimal saveAmount;
   @Schema(description = "이벤트 타입", example = "Toss", required = true)
   private EventType eventType;
-
 }
