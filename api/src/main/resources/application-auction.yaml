@@ -7,6 +7,8 @@ saturn:
     tenant: auctiondev
 
 apis:
+  payback-another-tenant:
+    url: "http://payback-api-dev.gmarket.co.kr"
   reward:
     url: "http://payreward-api-dev.auction.co.kr"
   order:

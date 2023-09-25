@@ -16,6 +16,6 @@ public class EventRewardResponseDto {
   @Schema(description = "적립 처리 유형", example = "SMILE_CASH")
   private String saveProcessType;
 
-  @Schema(description = "적립 처리 결과", example = "SUCCESS, NOT_FOUND, ALREADY_PROCESSED")
+  @Schema(description = "적립 처리 결과", example = "SUCCESS, FAILED, ALREADY_PROCESSED")
   private String resultCode;
 }
