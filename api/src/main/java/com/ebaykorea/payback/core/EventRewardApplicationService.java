@@ -44,7 +44,7 @@ public class EventRewardApplicationService {
     final var memberEventRewardRequest = buildMemberEventRequest(eventRequestNo, request);
 
     final var gmarket = true;
-    if(!gmarket) {
+    if(gmarket) {
       // 지마켓 아이디 일 경우 적립 호출
       return smileCashEventRepository.save("gmarketMemberKey", List.of(memberEventRewardRequest)).stream()
           .findAny()
