@@ -60,6 +60,7 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
     detailRepository.saveAll(detailEntities);
   }
 
+  @Override
   public void saveStatus(final String requestId, final EventType eventType, final EventRequestStatusType statusType) {
     final var statusEntity = mapper.map(requestId, eventType, statusType);
     statusRepository.save(statusEntity);
