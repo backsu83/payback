@@ -40,7 +40,7 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
 
   @Override
   public boolean alreadySaved(final String requestId, final EventType eventType) {
-    return repository.findByRequestIdAndEvnetType(requestId, eventType)
+    return repository.findByRequestIdAndEventType(requestId, eventType)
         .isPresent();
   }
 
