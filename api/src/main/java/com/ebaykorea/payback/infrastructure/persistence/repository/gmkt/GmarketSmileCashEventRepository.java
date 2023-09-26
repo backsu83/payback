@@ -8,11 +8,11 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.S
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
-import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Profile(GMARKET_TENANT)
 @Service
@@ -22,12 +22,11 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   private final SmileCashEventEntityRepository repository;
   private final SmileCashEventEntityMapper mapper;
 
+  @Transactional
   @Override
-  public List<MemberEventRewardResultDto> save(final String memberKey, final List<MemberEventRewardRequestDto> requests) {
-    return requests.stream()
-        .map(request -> mapper.map(memberKey, request))
-        .flatMap(entity -> repository.save(entity).stream()
-            .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity)))
-        .collect(toUnmodifiableList());
+  public Optional<MemberEventRewardResultDto> save(final String memberKey, final MemberEventRewardRequestDto request) {
+    final var entity = mapper.map(memberKey, request);
+    return repository.save(entity)
+        .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
   }
 }

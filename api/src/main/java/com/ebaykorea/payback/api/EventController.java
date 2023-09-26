@@ -28,12 +28,12 @@ public class EventController {
   @PostMapping("/members/{member-key}/cashback")
   public CommonResponse<MemberEventRewardResponseDto> eventSaveByMember(
       final @PathVariable(value = "member-key") String memberKey,
-      final @Valid @RequestBody List<MemberEventRewardRequestDto> requests) {
-    final var result = repository.save(memberKey, requests);
+      final @Valid @RequestBody MemberEventRewardRequestDto request) {
+    final var result = repository.save(memberKey, request).orElse(null);
     return CommonResponse.success(SUCCESS,
         MemberEventRewardResponseDto.builder()
             .memberKey(memberKey)
-            .cashbackResults(result)
+            .eventRewardResult(result)
             .build());
   }
 

@@ -10,11 +10,10 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mappe
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.AUCTION_TENANT;
 
@@ -33,23 +32,21 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   private static final int DUPLICATED_REQUEST = -322;
 
+  @Transactional
   @Override
-  public List<MemberEventRewardResultDto> save(final String memberKey, final List<MemberEventRewardRequestDto> requests) {
-    return requests.stream()
-        .map(request ->
-            //중복 요청 체크
-            smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-                .filter(alreadyRequested(memberKey))
-                .findAny()
-                .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
-                .or(() -> { //중복 요청 건이 아닌 경우
-                  final var txId = smileCashTransactionRepository.getIacTxId(memberKey);
-                  final var entity = mapper.map(txId, memberKey, request);
-                  smileCashSaveQueueRepository.save(entity);
-                  return Optional.of(mapper.map(request.getRequestNo(), 0, txId));
-                })
-        ).flatMap(Optional::stream)
-        .collect(Collectors.toUnmodifiableList());
+  public Optional<MemberEventRewardResultDto> save(final String memberKey, final MemberEventRewardRequestDto request) {
+    return
+        //중복 요청 체크
+        smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
+            .filter(alreadyRequested(memberKey))
+            .findAny()
+            .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
+            .or(() -> { //중복 요청 건이 아닌 경우
+              final var txId = smileCashTransactionRepository.getIacTxId(memberKey);
+              final var entity = mapper.map(txId, memberKey, request);
+              smileCashSaveQueueRepository.save(entity);
+              return Optional.of(mapper.map(request.getRequestNo(), 0, txId));
+            });
   }
 
   private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String memberKey) {

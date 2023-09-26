@@ -3,6 +3,7 @@ package com.ebaykorea.payback.core;
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
 import com.ebaykorea.payback.core.dto.event.*;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
+import com.ebaykorea.payback.core.gateway.UserGateway;
 import com.ebaykorea.payback.core.repository.EventRewardRepository;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.util.PaybackStrings;
@@ -21,7 +22,7 @@ import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 public class EventRewardApplicationService {
   private final EventRewardRepository eventRewardRepository;
   private final SmileCashEventRepository smileCashEventRepository;
-  private final RewardGateway rewardGateway;
+  private final UserGateway userGateway;
 
   private static final String SMILE_CASH = "SMILE_CASH";
 
@@ -35,41 +36,22 @@ public class EventRewardApplicationService {
     if (alreadySaved) {
       return buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, DUPLICATED);
     }
-    // 요청 내역 저장 및 적립 요청 번호 채번
-    final var eventRequestNo = eventRewardRepository.save(request);
 
-    // memberApi 호출 후 G/A 여부 및 사이트 아이디 조회
-    //TODO
+    final var eventRequestNo = eventRewardRepository.save(request);
+    final var userId = userGateway.getUserId(request.getUserToken());
 
     final var memberEventRewardRequest = buildMemberEventRequest(eventRequestNo, request);
 
-    final var gmarket = true;
-    if(gmarket) {
-      // 지마켓 아이디 일 경우 적립 호출
-      return smileCashEventRepository.save("gmarketMemberKey", List.of(memberEventRewardRequest)).stream()
-          .findAny()
-          .map(this::getSaveProcessId)
-          .map(saveProcessId -> {
-            //결과 저장
-            eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
+    return smileCashEventRepository.save(userId, memberEventRewardRequest)
+        .map(this::getSaveProcessId)
+        .map(saveProcessId -> {
+          //적립 요청 상태 저장
+          eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
 
-            final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
-            return buildEventRewardResponse(request.getRequestId(), saveProcessId, resultCode);
-          })
-          .orElse(buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
-    } else {
-      // 옥션 아이디일 경우 옥션 적립 호출
-      return rewardGateway.saveEventCashback("auctionMemberKey", List.of(memberEventRewardRequest))
-          .map(this::getSaveProcessId)
-          .map(saveProcessId -> {
-            //결과 저장
-            eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
-
-            final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
-            return buildEventRewardResponse(request.getRequestId(), saveProcessId, resultCode);
-          })
-          .orElse(buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
-    }
+          final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
+          return buildEventRewardResponse(request.getRequestId(), saveProcessId, resultCode);
+        })
+        .orElse(buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
   }
 
   private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final EventRewardRequestDto request) {
@@ -89,14 +71,6 @@ public class EventRewardApplicationService {
         .build();
   }
 
-  private String getSaveProcessId(final MemberEventRewardResponseDto memberEventRewardResponse) {
-    return Optional.ofNullable(memberEventRewardResponse)
-        .map(result -> orEmptyStream(result.getCashbackResults()))
-        .flatMap(Stream::findAny)
-        .map(MemberEventRewardResultDto::getSmilePayNo)
-        .map(String::valueOf)
-        .orElse(PaybackStrings.EMPTY);
-  }
   private String getSaveProcessId(final MemberEventRewardResultDto memberEventRewardResult) {
     return Optional.ofNullable(memberEventRewardResult)
         .map(MemberEventRewardResultDto::getSmilePayNo)

@@ -3,8 +3,8 @@ package com.ebaykorea.payback.core.repository;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface SmileCashEventRepository {
-  List<MemberEventRewardResultDto> save(String memberKey, List<MemberEventRewardRequestDto> requests);
+  Optional<MemberEventRewardResultDto> save(String memberKey, MemberEventRewardRequestDto request);
 }

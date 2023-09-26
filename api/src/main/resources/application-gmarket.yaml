@@ -7,8 +7,6 @@ saturn:
     tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
 
 apis:
-  payback-another-tenant:
-    url: "http://payback-api-dev.auction.co.kr"
   reward:
     url: "http://rewardservice-dev.gmarket.co.kr"
   order:

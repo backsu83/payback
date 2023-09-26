@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository;
 
 
+import com.ebaykorea.payback.config.properties.SaturnApplicationProperties;
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDetailDto;
@@ -25,6 +26,7 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
   private final EventRewardRequestStatusRepository statusRepository;
 
   private final EventRewardMapper mapper;
+  private final SaturnApplicationProperties tenantProperties;
 
   @Transactional
   @Override
@@ -45,7 +47,7 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
   }
 
   private void save(final long eventRequestNo, final EventRewardRequestDto request) {
-    final var entity = mapper.map(eventRequestNo, request);
+    final var entity = mapper.map(eventRequestNo, tenantProperties.getTenantId(), request);
     repository.save(entity);
   }
 

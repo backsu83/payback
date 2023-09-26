@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.PaybackApiClient
+
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse

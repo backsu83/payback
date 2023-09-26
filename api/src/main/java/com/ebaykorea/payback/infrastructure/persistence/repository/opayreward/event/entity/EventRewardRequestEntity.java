@@ -37,4 +37,7 @@ public class EventRewardRequestEntity extends BaseEntity {
   @Column(name = "TOTAL_SAVE_AMOUNT")
   private BigDecimal totalSaveAmount;
 
+  @Column(name = "TENANT_ID")
+  private String tenantId;
+
 }
