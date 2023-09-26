@@ -38,6 +38,12 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
     return eventRequestNo;
   }
 
+  @Override
+  public boolean alreadySaved(final String requestId, final EventType eventType) {
+    return repository.findByRequestIdAndEventType(requestId, eventType)
+        .isPresent();
+  }
+
   private void save(final long eventRequestNo, final EventRewardRequestDto request) {
     final var entity = mapper.map(eventRequestNo, request);
     repository.save(entity);
@@ -54,7 +60,8 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
     detailRepository.saveAll(detailEntities);
   }
 
-  private void saveStatus(final String requestId, final EventType eventType, final EventRequestStatusType statusType) {
+  @Override
+  public void saveStatus(final String requestId, final EventType eventType, final EventRequestStatusType statusType) {
     final var statusEntity = mapper.map(requestId, eventType, statusType);
     statusRepository.save(statusEntity);
   }
