@@ -8,8 +8,8 @@ import spock.lang.Specification
 
 import java.sql.Timestamp
 
-import static com.ebaykorea.payback.grocery.MemberCashbackDtoGrocery.MemberCashbackRequestDto_생성
-import static com.ebaykorea.payback.grocery.MemberCashbackDtoGrocery.MemberCashbackResultDto_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardRequestDto_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventResultEntity_생성
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate
@@ -20,7 +20,7 @@ class SmileCashEventEntityMapperSpec extends Specification {
   def "MemberCashbackRequestDto -> SmileCashEventEntity 매핑 테스트"() {
     expect:
     def result = mapper.map("memberKey",
-        MemberCashbackRequestDto_생성(
+        MemberEventRewardRequestDto_생성(
             requestNo: 1234L,
             saveAmount: 1000L,
             eventType: EventType.Toss
@@ -46,7 +46,7 @@ class SmileCashEventEntityMapperSpec extends Specification {
             comment: "중복처리",
             smilePayNo: 11L
         ))
-    result == MemberCashbackResultDto_생성(
+    result == MemberEventRewardResultDto_생성(
         requestNo: 1234L,
         smilePayNo: 11L,
         resultCode: -1

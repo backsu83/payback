@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.api;
 
+import com.ebaykorea.payback.core.EventRewardApplicationService;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
@@ -23,6 +24,7 @@ import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SUC
 public class EventController {
 
   private final SmileCashEventRepository repository;
+  private final EventRewardApplicationService service;
 
   @Operation(summary = "회원 별 캐시백 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
   @PostMapping("/members/{member-key}/cashback")
@@ -41,7 +43,6 @@ public class EventController {
   @PostMapping("/rewards")
   public CommonResponse<EventRewardResponseDto> eventSave(
       final @Valid @RequestBody EventRewardRequestDto request) {
-
-    return CommonResponse.success(SUCCESS, null);
+    return CommonResponse.success(SUCCESS, service.saveEventReward(request));
   }
 }

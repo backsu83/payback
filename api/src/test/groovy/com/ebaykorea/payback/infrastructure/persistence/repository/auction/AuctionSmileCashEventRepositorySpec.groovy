@@ -8,8 +8,8 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mappe
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
-import static com.ebaykorea.payback.grocery.MemberCashbackDtoGrocery.MemberCashbackRequestDto_생성
-import static com.ebaykorea.payback.grocery.MemberCashbackDtoGrocery.MemberCashbackResultDto_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardRequestDto_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
 
 class AuctionSmileCashEventRepositorySpec extends Specification {
@@ -31,9 +31,9 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     where:
     _________________________________________________
     desc | BizKey조회결과 | request
-    "중복요청이 있을 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | [MemberCashbackRequestDto_생성(requestNo: 1L)]
-    "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | [MemberCashbackRequestDto_생성(requestNo: 5L)]
-    "BizKey 조회건이 없는 경우" | [] | [MemberCashbackRequestDto_생성(requestNo: 5L)]
+    "중복요청이 있을 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | [MemberEventRewardRequestDto_생성(requestNo: 1L)]
+    "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | [MemberEventRewardRequestDto_생성(requestNo: 5L)]
+    "BizKey 조회건이 없는 경우" | [] | [MemberEventRewardRequestDto_생성(requestNo: 5L)]
     _________________________________________________
     BizKey조회횟수 | txId채번횟수 | 적립요청횟수
     1 | 0 | 0
@@ -62,11 +62,11 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     "중복요청 + 저장대상" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] |  [] | _
     _________________________________________________
     request | expectResult | _
-    [MemberCashbackRequestDto_생성(requestNo: 1L)] | [MemberCashbackResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322)] | _
-    [MemberCashbackRequestDto_생성(requestNo: 1L), MemberCashbackRequestDto_생성(requestNo: 2L)] | [MemberCashbackResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322), MemberCashbackResultDto_생성(requestNo: 2L, smilePayNo: 1L, resultCode: -322)] | _
-    [MemberCashbackRequestDto_생성(requestNo: 5L)] | [MemberCashbackResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0)] | _
-    [MemberCashbackRequestDto_생성(requestNo: 5L)] | [MemberCashbackResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0)] | _
-    [MemberCashbackRequestDto_생성(requestNo: 5L), MemberCashbackRequestDto_생성(requestNo: 6L)] | [MemberCashbackResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0), MemberCashbackResultDto_생성(requestNo: 6L, smilePayNo: 2L, resultCode: 0)] | _
-    [MemberCashbackRequestDto_생성(requestNo: 5L), MemberCashbackRequestDto_생성(requestNo: 6L)] | [MemberCashbackResultDto_생성(requestNo: 5L, smilePayNo: 1L, resultCode: -322), MemberCashbackResultDto_생성(requestNo: 6L, smilePayNo: 2L, resultCode: 0)] | _
+    [MemberEventRewardRequestDto_생성(requestNo: 1L)] | [MemberEventRewardResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322)] | _
+    [MemberEventRewardRequestDto_생성(requestNo: 1L), MemberEventRewardRequestDto_생성(requestNo: 2L)] | [MemberEventRewardResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322), MemberEventRewardResultDto_생성(requestNo: 2L, smilePayNo: 1L, resultCode: -322)] | _
+    [MemberEventRewardRequestDto_생성(requestNo: 5L)] | [MemberEventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0)] | _
+    [MemberEventRewardRequestDto_생성(requestNo: 5L)] | [MemberEventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0)] | _
+    [MemberEventRewardRequestDto_생성(requestNo: 5L), MemberEventRewardRequestDto_생성(requestNo: 6L)] | [MemberEventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0), MemberEventRewardResultDto_생성(requestNo: 6L, smilePayNo: 2L, resultCode: 0)] | _
+    [MemberEventRewardRequestDto_생성(requestNo: 5L), MemberEventRewardRequestDto_생성(requestNo: 6L)] | [MemberEventRewardResultDto_생성(requestNo: 5L, smilePayNo: 1L, resultCode: -322), MemberEventRewardResultDto_생성(requestNo: 6L, smilePayNo: 2L, resultCode: 0)] | _
   }
 }

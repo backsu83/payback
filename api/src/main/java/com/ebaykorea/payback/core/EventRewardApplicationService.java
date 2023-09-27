@@ -1,8 +1,10 @@
 package com.ebaykorea.payback.core;
 
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
-import com.ebaykorea.payback.core.dto.event.*;
-import com.ebaykorea.payback.core.gateway.RewardGateway;
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.core.gateway.UserGateway;
 import com.ebaykorea.payback.core.repository.EventRewardRepository;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
@@ -10,11 +12,8 @@ import com.ebaykorea.payback.util.PaybackStrings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 
 @Service
@@ -29,7 +28,6 @@ public class EventRewardApplicationService {
   private static final String SUCCESS = "SUCCESS";
   private static final String FAILED = "FAILED";
   private static final String DUPLICATED = "ALREADY_PROCESSED";
-
 
   public EventRewardResponseDto saveEventReward(final EventRewardRequestDto request) {
     final var alreadySaved = eventRewardRepository.alreadySaved(request.getRequestId(), request.getEventType());
@@ -74,6 +72,7 @@ public class EventRewardApplicationService {
   private String getSaveProcessId(final MemberEventRewardResultDto memberEventRewardResult) {
     return Optional.ofNullable(memberEventRewardResult)
         .map(MemberEventRewardResultDto::getSmilePayNo)
+        .filter(smilePayNo -> smilePayNo > 0L)
         .map(String::valueOf)
         .orElse(PaybackStrings.EMPTY);
   }

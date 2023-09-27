@@ -7,8 +7,8 @@ import spock.lang.Specification
 
 import java.sql.Timestamp
 
-import static com.ebaykorea.payback.grocery.MemberCashbackDtoGrocery.MemberCashbackRequestDto_생성
-import static com.ebaykorea.payback.grocery.MemberCashbackDtoGrocery.MemberCashbackResultDto_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardRequestDto_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate
 
@@ -18,7 +18,7 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
   def "SmileCashSaveQueueEntity 으로의 매핑 테스트"() {
     expect:
     def result = mapper.map(1L , "memberKey",
-        MemberCashbackRequestDto_생성(
+        MemberEventRewardRequestDto_생성(
             requestNo: 123L,
             saveAmount: 1000,
             eventType: EventType.Toss
@@ -39,6 +39,6 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
   def "MemberCashbackResultDto 으로의 매핑 테스트"() {
     expect:
     def result = mapper.map(1234L, -322, 12345L)
-    result == MemberCashbackResultDto_생성(requestNo: 1234L, smilePayNo: 12345L, resultCode: -322)
+    result == MemberEventRewardResultDto_생성(requestNo: 1234L, smilePayNo: 12345L, resultCode: -322)
   }
 }

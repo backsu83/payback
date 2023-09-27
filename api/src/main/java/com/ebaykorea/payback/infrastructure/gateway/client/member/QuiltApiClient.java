@@ -26,9 +26,9 @@ public interface QuiltApiClient {
   Optional<QuiltBaseResponse<String>> findUserKey(@RequestParam("custNo") final String custNo);
 
   @RequestMapping(
-      method = RequestMethod.POST,
-      value = "/v1/user-token/member-id",
+      method = RequestMethod.GET,
+      value = "${apis.quilt.user-id-query-path}",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Optional<QuiltBaseResponse<String>> findUserId(@RequestBody final String userToken);
+  Optional<QuiltBaseResponse<String>> findUserId(@RequestParam("userToken") final String userToken);
 }
