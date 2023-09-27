@@ -1,11 +1,15 @@
 package com.ebaykorea.payback.core.dto.event;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class EventRewardResponseDto {
   @Schema(description = "요청 아이디")
   private String requestId;

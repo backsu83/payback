@@ -5,12 +5,8 @@ import com.ebaykorea.payback.core.domain.entity.order.Order;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
 import com.ebaykorea.payback.core.domain.entity.payment.Payment;
 import com.ebaykorea.payback.core.domain.entity.reward.*;
-import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardResponseDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.PaybackApiClient;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient;
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.*;
 import com.ebaykorea.payback.infrastructure.gateway.mapper.RewardGatewayMapper;
@@ -33,7 +29,6 @@ import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
 public class RewardGatewayImpl implements RewardGateway {
 
   private final RewardApiClient rewardApiClient;
-  private final PaybackApiClient paybackApiClient;
   private final RewardGatewayMapper rewardGatewayMapper;
 
   @Override
@@ -62,12 +57,6 @@ public class RewardGatewayImpl implements RewardGateway {
         cashbackRewardResponse.getUseEnableDate(),
         BigDecimal.valueOf(cashbackRewardResponse.getIfSmileCardCashbackAmount()),
         BigDecimal.valueOf(cashbackRewardResponse.getIfNewSmileCardCashbackAmount()));
-  }
-
-  @Override
-  public Optional<MemberEventRewardResponseDto> saveEventCashback(final String memberKey, final List<MemberEventRewardRequestDto> requests) {
-    return paybackApiClient.eventSaveByMember(memberKey, requests)
-        .map(CommonResponse::getData);
   }
 
   private List<RewardSsgPointPolicy> toRewardSsgPointPolicy(final CashbackRewardResponseDto cashbackRewardResponse) {

@@ -7,8 +7,6 @@ saturn:
     tenant: auctiondev
 
 apis:
-  payback-another-tenant:
-    url: "http://payback-api-dev.gmarket.co.kr"
   reward:
     url: "http://payreward-api-dev.auction.co.kr"
   order:
@@ -20,4 +18,5 @@ apis:
   transaction:
     url: "http://transaction-api-dev.gmarket.co.kr/v1" #TODO
   quilt:
-    url: "https://quilt-overmind-dev.gmarket.co.kr/api" #TODO
+    url: "https://quilt-overmind-dev.auction.co.kr/api"
+    user-id-query-path: "/v1/user-token/member-id"

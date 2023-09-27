@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.gateway
 
 import com.ebaykorea.payback.core.domain.constant.CashbackType
-import com.ebaykorea.payback.infrastructure.gateway.client.reward.PaybackApiClient
+
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.RewardApiClient
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.CashbackRewardRequestDto
 import com.ebaykorea.payback.infrastructure.gateway.client.reward.dto.RewardBaseResponse
@@ -22,9 +22,8 @@ import static com.ebaykorea.payback.grocery.RewardGrocery.*
 
 class RewardGatewaySpec extends Specification {
   def rewardApiClient = Stub(RewardApiClient)
-  def paybackApiClient = Stub(PaybackApiClient)
   def rewardGatewayMapper = Mappers.getMapper(RewardGatewayMapper)
-  def rewardGatewayImpl = new RewardGatewayImpl(rewardApiClient, paybackApiClient, rewardGatewayMapper)
+  def rewardGatewayImpl = new RewardGatewayImpl(rewardApiClient, rewardGatewayMapper)
 
   def "RewardCashbackPolicies 결과가 정상인지 확인한다"() {
     setup:

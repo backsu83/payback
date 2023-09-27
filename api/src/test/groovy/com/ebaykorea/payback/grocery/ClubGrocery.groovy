@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.grocery
 
-import com.ebaykorea.payback.core.domain.constant.SmileClubMemberType
+
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Club
 
 class ClubGrocery {
