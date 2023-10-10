@@ -6,7 +6,7 @@ spring:
       auto-offset-reset: latest
       enable-auto-commit: true
       bootstrap-servers:
-        listener-1: centralkafka.gmarket.com:9092 #지마켓
+        listener-1: kafka-st-v2.gmarket.co.kr:9092 #지마켓
         listener-2: centralkafka.auction.co.kr:9092 #옥션
 
 payback:
