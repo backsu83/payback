@@ -23,8 +23,6 @@ public class EventRewardApplicationService {
   private final SmileCashEventRepository smileCashEventRepository;
   private final UserGateway userGateway;
 
-  private static final String SMILE_CASH = "SMILE_CASH";
-
   private static final String SUCCESS = "SUCCESS";
   private static final String FAILED = "FAILED";
   private static final String DUPLICATED = "ALREADY_PROCESSED";
