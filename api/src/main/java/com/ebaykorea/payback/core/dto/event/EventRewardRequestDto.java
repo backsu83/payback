@@ -30,8 +30,8 @@ public class EventRewardRequestDto {
   private String userToken;
 
   @Schema(description = "적립 금액", required = true)
-  @NotNull(message = "totalSaveAmount cannot be null")
-  private BigDecimal totalSaveAmount;
+  @NotNull(message = "saveAmount cannot be null")
+  private BigDecimal saveAmount;
 
   @Schema(description = "이벤트 상세")
   private List<EventRewardRequestDetailDto> details;

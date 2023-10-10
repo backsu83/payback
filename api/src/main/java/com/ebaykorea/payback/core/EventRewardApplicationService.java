@@ -32,7 +32,7 @@ public class EventRewardApplicationService {
   public EventRewardResponseDto saveEventReward(final EventRewardRequestDto request) {
     final var alreadySaved = eventRewardRepository.alreadySaved(request.getRequestId(), request.getEventType());
     if (alreadySaved) {
-      return buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, DUPLICATED);
+      return buildEventRewardResponse(PaybackStrings.EMPTY, DUPLICATED);
     }
 
     final var eventRequestNo = eventRewardRepository.save(request);
@@ -47,24 +47,22 @@ public class EventRewardApplicationService {
           eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
 
           final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
-          return buildEventRewardResponse(request.getRequestId(), saveProcessId, resultCode);
+          return buildEventRewardResponse(saveProcessId, resultCode);
         })
-        .orElse(buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
+        .orElse(buildEventRewardResponse(PaybackStrings.EMPTY, FAILED));
   }
 
   private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final EventRewardRequestDto request) {
     return MemberEventRewardRequestDto.builder()
         .requestNo(eventRequestNo)
         .eventType(request.getEventType())
-        .saveAmount(request.getTotalSaveAmount())
+        .saveAmount(request.getSaveAmount())
         .build();
   }
 
-  private EventRewardResponseDto buildEventRewardResponse(final String requestId, final String saveProcessId, final String resultCode) {
+  private EventRewardResponseDto buildEventRewardResponse(final String saveProcessId, final String resultCode) {
     return EventRewardResponseDto.builder()
-        .requestId(requestId)
         .saveProcessId(saveProcessId)
-        .saveProcessType(SMILE_CASH)
         .resultCode(resultCode)
         .build();
   }

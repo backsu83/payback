@@ -11,15 +11,13 @@ class EventRewardDtoGrocery {
       requestId = (map.requestId ?: "1") as String
       eventType = (map.eventType ?: EventType.Toss) as EventType
       userToken = (map.userToken ?: "userToken") as String
-      totalSaveAmount = (map.totalSaveAmount ?: 0) as BigDecimal
+      saveAmount = (map.saveAmount ?: 0) as BigDecimal
       details = (map.details ?: []) as List<EventRewardRequestDetailDto>
     }
   }
   static def EventRewardResponseDto_생성(Map map = [:]) {
     new EventRewardResponseDto().tap{
-      requestId = (map.requestId ?: "1") as String
       saveProcessId = (map.saveProcessId ?: "") as String
-      saveProcessType = (map.saveProcessType ?: "SMILE_CASH") as String
       resultCode = (map.resultCode ?: "") as String
     }
   }
