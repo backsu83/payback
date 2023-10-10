@@ -33,6 +33,9 @@ public class EventRewardRequestDto {
   @NotNull(message = "saveAmount cannot be null")
   private BigDecimal saveAmount;
 
+  @Schema(description = "적립 사유")
+  private String message;
+
   @Schema(description = "이벤트 상세")
   private List<EventRewardRequestDetailDto> details;
 }
