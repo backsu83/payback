@@ -53,7 +53,7 @@ public class EventController {
     return mapper.map(result);
   }
 
-  @Operation(summary = "토스 리워드 적립 요청", description = "토스 리워드 적립")
+  @Operation(summary = "토스 리워드 적립 요청 결과 조회")
   @PostMapping("/rewards/toss/get-result")
   public TossEventRewardResponseDto getEventReward(
       final @Valid @RequestBody TossEventRewardResultRequestDto request) {
