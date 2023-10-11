@@ -27,6 +27,6 @@ public interface TossEventRewardMapper {
   @Mapping(source = "transactAt", target = "eventDate")
   EventRewardRequestDetailDto map(TossEventRewardRequestDetailDto source);
 
-  @Mapping(source = "saveProcessId", target = "transactionId")
+  @Mapping(source = "smilePayNo", target = "transactionId")
   TossEventRewardResponseDto map(EventRewardResponseDto source);
 }

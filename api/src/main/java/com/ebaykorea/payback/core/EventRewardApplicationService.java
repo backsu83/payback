@@ -39,13 +39,13 @@ public class EventRewardApplicationService {
     final var memberEventRewardRequest = buildMemberEventRequest(eventRequestNo, request);
 
     return smileCashEventRepository.save(userId, memberEventRewardRequest)
-        .map(this::getSaveProcessId)
-        .map(saveProcessId -> {
+        .map(this::getSmilePayNo)
+        .map(smilePayNo -> {
           //적립 요청 상태 저장
-          eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
+          eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(smilePayNo));
 
-          final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
-          return buildEventRewardResponse(saveProcessId, resultCode);
+          final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
+          return buildEventRewardResponse(smilePayNo, resultCode);
         })
         .orElse(buildEventRewardResponse(PaybackStrings.EMPTY, FAILED));
   }
@@ -58,14 +58,14 @@ public class EventRewardApplicationService {
         .build();
   }
 
-  private EventRewardResponseDto buildEventRewardResponse(final String saveProcessId, final String resultCode) {
+  private EventRewardResponseDto buildEventRewardResponse(final String smilePayNo, final String resultCode) {
     return EventRewardResponseDto.builder()
-        .saveProcessId(saveProcessId)
+        .smilePayNo(smilePayNo)
         .resultCode(resultCode)
         .build();
   }
 
-  private String getSaveProcessId(final MemberEventRewardResultDto memberEventRewardResult) {
+  private String getSmilePayNo(final MemberEventRewardResultDto memberEventRewardResult) {
     return Optional.ofNullable(memberEventRewardResult)
         .map(MemberEventRewardResultDto::getSmilePayNo)
         .filter(smilePayNo -> smilePayNo > 0L)

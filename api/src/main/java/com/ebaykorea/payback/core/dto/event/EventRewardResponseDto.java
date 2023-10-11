@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventRewardResponseDto {
-  @Schema(description = "적립 처리 식별 아이디")
-  private String saveProcessId;
+  @Schema(description = "적립 요청 스마일페이 번호")
+  private String smilePayNo;
 
   @Schema(description = "적립 처리 결과", example = "SUCCESS, FAILED, ALREADY_PROCESSED")
   private String resultCode;

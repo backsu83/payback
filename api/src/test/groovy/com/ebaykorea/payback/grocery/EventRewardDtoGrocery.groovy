@@ -32,7 +32,7 @@ class EventRewardDtoGrocery {
   }
   static def EventRewardResponseDto_생성(Map map = [:]) {
     new EventRewardResponseDto().tap{
-      saveProcessId = (map.saveProcessId ?: "") as String
+      smilePayNo = (map.smilePayNo ?: "") as String
       resultCode = (map.resultCode ?: "") as String
       resultMessage = (map.resultMessage ?: null) as String
     }
