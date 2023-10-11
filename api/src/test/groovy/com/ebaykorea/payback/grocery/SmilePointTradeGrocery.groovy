@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.grocery
 
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.customer.entity.SmilePointTradeEntity
 import com.ebaykorea.payback.infrastructure.query.data.SmilePointTradeQueryResult
 
 import java.time.Instant

@@ -1,30 +1,27 @@
 package com.ebaykorea.payback.api;
 
-import com.ebaykorea.payback.api.dto.common.SsgPointResponse;
-import com.ebaykorea.payback.core.dto.VerifyDailySsgPointDto;
-import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.dto.ssgpoint.*;
+import com.ebaykorea.payback.core.dto.ssgpoint.CancelSsgPointRequestDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SaveSsgPointRequestDto;
+import com.ebaykorea.payback.core.dto.ssgpoint.SsgPointTarget;
+import com.ebaykorea.payback.core.dto.ssgpoint.UpdateSsgPointTradeStatusRequestDto;
 import com.ebaykorea.payback.core.service.SsgPointCancelService;
-import com.ebaykorea.payback.infrastructure.query.SsgPointQuery;
 import com.ebaykorea.payback.core.service.SsgPointService;
+import com.ebaykorea.payback.infrastructure.query.SsgPointQuery;
 import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.bind.annotation.RequestBody;
-
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.*;
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 
+@Profile(GMARKET_TENANT)
 @Tag(name = "SSG Point", description = "SSG 포인트 관련 Api")
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/ssg-points")
