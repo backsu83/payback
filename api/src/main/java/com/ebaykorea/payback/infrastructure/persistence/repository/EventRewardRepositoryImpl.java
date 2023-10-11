@@ -4,6 +4,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 import com.ebaykorea.payback.config.properties.SaturnApplicationProperties;
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
 import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.entity.event.EventReward;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDetailDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.EventRewardRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,9 +43,9 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
   }
 
   @Override
-  public boolean alreadySaved(final String requestId, final EventType eventType) {
-    return repository.findByRequestIdAndEventType(requestId, eventType)
-        .isPresent();
+  public Optional<EventReward> findEventReward(final EventRewardRequestDto request) {
+    return repository.findByRequestIdAndUserTokenAndEventType(request.getRequestId(), request.getUserToken(), request.getEventType())
+        .map(mapper::map);
   }
 
   private void save(final long requestNo, final EventRewardRequestDto request) {

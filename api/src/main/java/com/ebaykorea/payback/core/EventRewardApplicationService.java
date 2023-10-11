@@ -1,6 +1,8 @@
 package com.ebaykorea.payback.core;
 
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
+import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
@@ -12,9 +14,13 @@ import com.ebaykorea.payback.util.PaybackStrings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.function.Function;
 
+import static com.ebaykorea.payback.core.domain.constant.EventRequestStatusType.getStatusBySaveProcessId;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
+import static com.ebaykorea.payback.util.PaybackStrings.EMPTY;
 
 @Service
 @RequiredArgsConstructor
@@ -26,42 +32,64 @@ public class EventRewardApplicationService {
   private static final String SUCCESS = "SUCCESS";
   private static final String FAILED = "FAILED";
   private static final String DUPLICATED = "ALREADY_PROCESSED";
+  private static final String NOT_FOUND = "NOT_FOUND";
 
   public EventRewardResponseDto saveEventReward(final EventRewardRequestDto request) {
-    final var alreadySaved = eventRewardRepository.alreadySaved(request.getRequestId(), request.getEventType());
-    if (alreadySaved) {
-      return buildEventRewardResponse(PaybackStrings.EMPTY, DUPLICATED);
+    final var maybeEventReward = eventRewardRepository.findEventReward(request);
+    if (maybeEventReward.isPresent()) {
+      return buildResponse(EMPTY, DUPLICATED);
     }
 
     final var requestNo = eventRewardRepository.save(request);
     final var userId = userGateway.getUserId(request.getUserToken());
 
-    final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request);
+    final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request.getEventType(), request.getSaveAmount());
 
     return smileCashEventRepository.save(userId, memberEventRewardRequest)
         .map(this::getSmilePayNo)
         .map(smilePayNo -> {
           //적립 요청 상태 저장
-          eventRewardRepository.saveStatus(requestNo, request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(smilePayNo));
+          eventRewardRepository.saveStatus(requestNo, request.getEventType(), getStatusBySaveProcessId(smilePayNo));
 
           final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
-          return buildEventRewardResponse(smilePayNo, resultCode);
+          return buildResponse(smilePayNo, resultCode);
         })
-        .orElse(buildEventRewardResponse(PaybackStrings.EMPTY, FAILED));
+        .orElse(buildResponse(EMPTY, FAILED));
   }
 
-  private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final EventRewardRequestDto request) {
+  public EventRewardResponseDto getEventReward(final EventRewardRequestDto request) {
+    return eventRewardRepository.findEventReward(request)
+        .map(eventReward -> {
+          final var userId = userGateway.getUserId(request.getUserToken());
+          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), eventReward.getEventType(), BigDecimal.ZERO);
+
+          return smileCashEventRepository.find(userId, memberEventRewardRequest)
+              .map(buildResponseFromSmileCashEvent())
+              .orElse(buildResponse(EMPTY, FAILED));
+        })
+        .orElse(buildResponse(EMPTY, NOT_FOUND));
+  }
+
+  private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final EventType eventType, final BigDecimal saveAmount) {
     return MemberEventRewardRequestDto.builder()
         .requestNo(eventRequestNo)
-        .eventType(request.getEventType())
-        .saveAmount(request.getSaveAmount())
+        .eventType(eventType)
+        .saveAmount(saveAmount)
         .build();
   }
 
-  private EventRewardResponseDto buildEventRewardResponse(final String smilePayNo, final String resultCode) {
+  private EventRewardResponseDto buildResponse(final String smilePayNo, final String resultCode) {
     return EventRewardResponseDto.builder()
         .smilePayNo(smilePayNo)
         .resultCode(resultCode)
+        .build();
+  }
+
+  private Function<SmileCashEvent, EventRewardResponseDto> buildResponseFromSmileCashEvent() {
+    return smileCashEvent -> EventRewardResponseDto.builder()
+        .smilePayNo(smileCashEvent.getSmilePayNo())
+        .resultCode(smileCashEvent.getResultCode())
+        .resultMessage(smileCashEvent.getResultMessage())
         .build();
   }
 
@@ -70,6 +98,6 @@ public class EventRewardApplicationService {
         .map(MemberEventRewardResultDto::getSmilePayNo)
         .filter(smilePayNo -> smilePayNo > 0L)
         .map(String::valueOf)
-        .orElse(PaybackStrings.EMPTY);
+        .orElse(EMPTY);
   }
 }

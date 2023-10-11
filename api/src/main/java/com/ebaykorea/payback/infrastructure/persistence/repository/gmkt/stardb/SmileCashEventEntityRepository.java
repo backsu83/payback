@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb;
 
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventRequestEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventResultEntity;
 import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
@@ -19,7 +20,7 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 @SaturnDataSource(name = Gmkt.TIGER_READ)
 public class SmileCashEventEntityRepository {
   @SaturnProcedure(
-      procedureName = SmileCashEventEntity.SAVE,
+      procedureName = SmileCashEventRequestEntity.SAVE,
       parameters = {
           @SaturnProcedureParameter(name = "REQ_MONEY", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "REQ_OUTPUT_IMPB_MONEY", sqlType = Types.DECIMAL),
@@ -32,7 +33,21 @@ public class SmileCashEventEntityRepository {
       },
       throwEx = true
   )
-  public Optional<SmileCashEventResultEntity> save(final SmileCashEventEntity entity) {
+  public Optional<SmileCashEventResultEntity> save(final SmileCashEventRequestEntity entity) {
+    return Optional.empty();
+  }
+
+  @SaturnProcedure(
+      procedureName = SmileCashEventRequestEntity.FIND,
+      parameters = {
+          @SaturnProcedureParameter(name = "CASH_BALANCE_TYPE", sqlType = Types.CHAR, scale = 2),
+          @SaturnProcedureParameter(name = "CUST_NO", sqlType = Types.VARCHAR, scale = 10),
+          @SaturnProcedureParameter(name = "REF_NO", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "ERS_NO", sqlType = Types.INTEGER)
+      },
+      throwEx = true
+  )
+  public Optional<SmileCashEventEntity> find(final SmileCashEventRequestEntity entity) {
     return Optional.empty();
   }
 }

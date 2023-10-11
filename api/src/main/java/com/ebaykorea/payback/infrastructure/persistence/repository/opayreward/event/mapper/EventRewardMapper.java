@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.e
 
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
 import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.entity.event.EventReward;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDetailDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity.EventRewardRequestDetailEntity;
@@ -21,4 +22,6 @@ public interface EventRewardMapper {
   EventRewardRequestDetailEntity map(Long seq, Long requestNo, EventRewardRequestDetailDto source);
 
   EventRewardRequestStatusEntity map(Long requestNo, EventType eventType, EventRequestStatusType eventRequestStatus);
+
+  EventReward map(EventRewardRequestEntity source);
 }

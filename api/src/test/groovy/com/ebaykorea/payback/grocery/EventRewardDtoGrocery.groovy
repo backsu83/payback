@@ -14,9 +14,9 @@ class EventRewardDtoGrocery {
       requestId = (map.requestId ?: "1") as String
       eventType = (map.eventType ?: EventType.Toss) as EventType
       userToken = (map.userToken ?: "userToken") as String
-      saveAmount = (map.saveAmount ?: 0) as BigDecimal
-      message = (map.message ?: "") as String
-      details = (map.details ?: []) as List<EventRewardRequestDetailDto>
+      saveAmount = (map.saveAmount ?: null) as BigDecimal
+      message = (map.message ?: null) as String
+      details = (map.details ?: null) as List<EventRewardRequestDetailDto>
     }
   }
 

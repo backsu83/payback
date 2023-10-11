@@ -8,13 +8,15 @@ import spock.lang.Specification
 
 import java.sql.Timestamp
 
+import static com.ebaykorea.payback.grocery.EventRewardGrocery.SmileCashEvent_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardRequestDto_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventEntity_생성
+import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventRequestEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventResultEntity_생성
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate
 
-class SmileCashEventEntityMapperSpec extends Specification {
+class SmileCashEventRequestEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SmileCashEventEntityMapper.class)
 
   def "MemberCashbackRequestDto -> SmileCashEventEntity 매핑 테스트"() {
@@ -26,7 +28,7 @@ class SmileCashEventEntityMapperSpec extends Specification {
             eventType: EventType.Toss
         ))
 
-    result == SmileCashEventEntity_생성(
+    result == SmileCashEventRequestEntity_생성(
         requestMoney: 1000L,
         requestOutputDisabledMoney: 1000L,
         cashBalanceType: "G9",
@@ -51,6 +53,17 @@ class SmileCashEventEntityMapperSpec extends Specification {
         smilePayNo: 11L,
         resultCode: -1
     )
+  }
 
+  def "SmileCashEvent 매핑 테스트"() {
+    expect:
+    def result = mapper.map(request)
+    result == expectResult
+
+    where:
+    desc | request | expectResult
+    "진행중" | SmileCashEventEntity_생성()             | SmileCashEvent_생성()
+    "성공" | SmileCashEventEntity_생성(status: 50) | SmileCashEvent_생성(saved: true)
+    "실패" | SmileCashEventEntity_생성(status: 90) | SmileCashEvent_생성(failed: true)
   }
 }

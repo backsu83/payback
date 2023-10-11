@@ -15,5 +15,5 @@ public interface EventRewardRequestRepository extends JpaRepository<EventRewardR
   @Query(value = "SELECT O_PAYREWARD.SEQ_EVENT_REWARD_REQUEST.nextval FROM dual", nativeQuery = true)
   Long getNextRequestNo();
 
-  Optional<EventRewardRequestEntity> findByRequestIdAndEventType(String requestId, EventType eventType);
+  Optional<EventRewardRequestEntity> findByRequestIdAndUserTokenAndEventType(String requestId, String userToken, EventType eventType);
 }

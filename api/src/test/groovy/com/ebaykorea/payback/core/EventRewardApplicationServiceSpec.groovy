@@ -2,6 +2,7 @@ package com.ebaykorea.payback.core
 
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType
 import com.ebaykorea.payback.core.domain.constant.EventType
+import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto
 import com.ebaykorea.payback.core.gateway.UserGateway
@@ -11,6 +12,8 @@ import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.EventRewardDtoGrocery.EventRewardRequestDto_생성
 import static com.ebaykorea.payback.grocery.EventRewardDtoGrocery.EventRewardResponseDto_생성
+import static com.ebaykorea.payback.grocery.EventRewardGrocery.EventReward_생성
+import static com.ebaykorea.payback.grocery.EventRewardGrocery.SmileCashEvent_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardResultDto_생성
 
 class EventRewardApplicationServiceSpec extends Specification {
@@ -22,9 +25,9 @@ class EventRewardApplicationServiceSpec extends Specification {
 
   def "이벤트 리워드 적립 요청 처리 테스트"() {
     setup:
-    eventRewardRepository.alreadySaved(_ as String, _ as EventType) >> 중복처리여부
+    eventRewardRepository.findEventReward(_ as EventRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     eventRewardRepository.save(_ as EventRewardRequestDto) >> 1L
-    eventRewardRepository.saveStatus(_ as String, _ as EventType, _ as EventRequestStatusType) >> {}
+    eventRewardRepository.saveStatus(_ as Long, _ as EventType, _ as EventRequestStatusType) >> {}
     smileCashEventRepository.save(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(회원적립결과)
     userGateway.getUserId(_ as String) >> "userId"
 
@@ -40,12 +43,38 @@ class EventRewardApplicationServiceSpec extends Specification {
     "적립실패_회원적립 결과가 없을때" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "FAILED")
     "적립성공" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "2", resultCode: "SUCCESS")
     ________________________________________________
-    중복처리여부 | 회원적립결과
-    true | MemberEventRewardResultDto_생성()
-    false | MemberEventRewardResultDto_생성()
-    false | null
-    false | MemberEventRewardResultDto_생성(smilePayNo: 2L)
+    eventReward결과 | 회원적립결과
+    EventReward_생성() | MemberEventRewardResultDto_생성()
+    null | MemberEventRewardResultDto_생성()
+    null | null
+    null | MemberEventRewardResultDto_생성(smilePayNo: 2L)
+  }
 
+  def "이벤트 리워드 조회 테스트"() {
+    setup:
+    eventRewardRepository.findEventReward(_ as EventRewardRequestDto) >> Optional.ofNullable(eventReward결과)
+    userGateway.getUserId(_ as String) >> "userId"
+    smileCashEventRepository.find(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(smileCashEvent결과)
+
+    expect:
+    def result = service.getEventReward(request)
+    result == expectResult
+
+    where:
+    ________________________________________________
+    desc | request | expectResult
+    "이벤트 리워드 요청이 없었던 경우" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "NOT_FOUND")
+    "스마일캐시 적립 요청이 없었던 경우" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "FAILED")
+    "스마일캐시 적립 요청은 되었지만 적립 대기중인 경우" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "1", resultCode: "IN_PROGRESS")
+    "스마일캐시 적립 요청은 되었지만 적립 실패된 경우" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "1", resultCode: "FAILED", resultMessage: "T999")
+    "스마일캐시 적립 성공된 경우" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "1", resultCode: "SUCCESS")
+    ________________________________________________
+    eventReward결과 | smileCashEvent결과
+    null | null
+    EventReward_생성() | null
+    EventReward_생성() | SmileCashEvent_생성()
+    EventReward_생성() | SmileCashEvent_생성(failed: true, returnCode: "T999")
+    EventReward_생성() | SmileCashEvent_생성(saved: true)
 
   }
 }
