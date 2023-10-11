@@ -38,7 +38,7 @@ class EventRewardApplicationServiceSpec extends Specification {
     "중복요청" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "ALREADY_PROCESSED")
     "적립실패_회원적립 결과가 실패" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "FAILED")
     "적립실패_회원적립 결과가 없을때" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "FAILED")
-    "적립성공" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(saveProcessId: "2", resultCode: "SUCCESS")
+    "적립성공" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "2", resultCode: "SUCCESS")
     ________________________________________________
     중복처리여부 | 회원적립결과
     true | MemberEventRewardResultDto_생성()

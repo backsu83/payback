@@ -1,6 +1,5 @@
-package com.ebaykorea.payback.core.dto.event;
+package com.ebaykorea.payback.api.dto.toss;
 
-import com.ebaykorea.payback.core.domain.constant.EventType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,26 +15,22 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventRewardRequestDto {
+public class TossEventRewardRequestDto {
   @Schema(description = "요청 아이디", required = true)
   @NotEmpty(message = "requestId cannot be empty")
   private String requestId;
-
-  @Schema(description = "이벤트 타입", example = "Toss", required = true)
-  @NotNull(message = "eventType cannot be null")
-  private EventType eventType;
 
   @Schema(description = "유저 정보", required = true)
   @NotEmpty(message = "userToken cannot be empty")
   private String userToken;
 
   @Schema(description = "적립 금액", required = true)
-  @NotNull(message = "saveAmount cannot be null")
-  private BigDecimal saveAmount;
+  @NotNull(message = "amount cannot be null")
+  private BigDecimal amount;
 
   @Schema(description = "적립 사유")
   private String message;
 
-  @Schema(description = "이벤트 상세")
-  private List<EventRewardRequestDetailDto> details;
+  @Schema(description = "사후적립의 근거가 되는 사용자 거래내역 목록")
+  private List<TossEventRewardRequestDetailDto> transactions;
 }

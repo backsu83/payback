@@ -23,8 +23,6 @@ public class EventRewardApplicationService {
   private final SmileCashEventRepository smileCashEventRepository;
   private final UserGateway userGateway;
 
-  private static final String SMILE_CASH = "SMILE_CASH";
-
   private static final String SUCCESS = "SUCCESS";
   private static final String FAILED = "FAILED";
   private static final String DUPLICATED = "ALREADY_PROCESSED";
@@ -32,7 +30,7 @@ public class EventRewardApplicationService {
   public EventRewardResponseDto saveEventReward(final EventRewardRequestDto request) {
     final var alreadySaved = eventRewardRepository.alreadySaved(request.getRequestId(), request.getEventType());
     if (alreadySaved) {
-      return buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, DUPLICATED);
+      return buildEventRewardResponse(PaybackStrings.EMPTY, DUPLICATED);
     }
 
     final var eventRequestNo = eventRewardRepository.save(request);
@@ -41,35 +39,33 @@ public class EventRewardApplicationService {
     final var memberEventRewardRequest = buildMemberEventRequest(eventRequestNo, request);
 
     return smileCashEventRepository.save(userId, memberEventRewardRequest)
-        .map(this::getSaveProcessId)
-        .map(saveProcessId -> {
+        .map(this::getSmilePayNo)
+        .map(smilePayNo -> {
           //적립 요청 상태 저장
-          eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(saveProcessId));
+          eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(smilePayNo));
 
-          final var resultCode = isBlank(saveProcessId) ? FAILED : SUCCESS;
-          return buildEventRewardResponse(request.getRequestId(), saveProcessId, resultCode);
+          final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
+          return buildEventRewardResponse(smilePayNo, resultCode);
         })
-        .orElse(buildEventRewardResponse(request.getRequestId(), PaybackStrings.EMPTY, FAILED));
+        .orElse(buildEventRewardResponse(PaybackStrings.EMPTY, FAILED));
   }
 
   private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final EventRewardRequestDto request) {
     return MemberEventRewardRequestDto.builder()
         .requestNo(eventRequestNo)
         .eventType(request.getEventType())
-        .saveAmount(request.getTotalSaveAmount())
+        .saveAmount(request.getSaveAmount())
         .build();
   }
 
-  private EventRewardResponseDto buildEventRewardResponse(final String requestId, final String saveProcessId, final String resultCode) {
+  private EventRewardResponseDto buildEventRewardResponse(final String smilePayNo, final String resultCode) {
     return EventRewardResponseDto.builder()
-        .requestId(requestId)
-        .saveProcessId(saveProcessId)
-        .saveProcessType(SMILE_CASH)
+        .smilePayNo(smilePayNo)
         .resultCode(resultCode)
         .build();
   }
 
-  private String getSaveProcessId(final MemberEventRewardResultDto memberEventRewardResult) {
+  private String getSmilePayNo(final MemberEventRewardResultDto memberEventRewardResult) {
     return Optional.ofNullable(memberEventRewardResult)
         .map(MemberEventRewardResultDto::getSmilePayNo)
         .filter(smilePayNo -> smilePayNo > 0L)

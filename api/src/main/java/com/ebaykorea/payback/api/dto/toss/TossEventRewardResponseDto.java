@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto.event;
+package com.ebaykorea.payback.api.dto.toss;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventRewardResponseDto {
-  @Schema(description = "적립 요청 스마일페이 번호")
-  private String smilePayNo;
+public class TossEventRewardResponseDto {
+  @Schema(description = "적립 처리 식별 아이디")
+  private String transactionId;
 
-  @Schema(description = "적립 처리 결과", example = "SUCCESS, FAILED, ALREADY_PROCESSED")
+  @Schema(description = "적립 처리 결과 코드", example = "SUCCESS, FAILED, ALREADY_PROCESSED")
   private String resultCode;
 
   @Schema(description = "적립 처리 실패 사유")

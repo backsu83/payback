@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.EventType
-import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto
 
