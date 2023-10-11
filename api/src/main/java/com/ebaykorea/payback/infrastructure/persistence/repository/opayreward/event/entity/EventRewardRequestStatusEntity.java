@@ -21,8 +21,8 @@ import javax.persistence.*;
 @Table(schema = "O_PAYREWARD", name = "EVENT_REWARD_REQUEST_STATUS")
 public class EventRewardRequestStatusEntity extends BaseEntity {
   @Id
-  @Column(name = "REQUEST_ID")
-  private String requestId;
+  @Column(name = "REQUEST_NO")
+  private Long requestNo;
 
   @Id
   @Column(name = "EVENT_TYPE")

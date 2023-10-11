@@ -31,13 +31,13 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
   @Transactional
   @Override
   public long save(final EventRewardRequestDto request) {
-    final var eventRequestNo = repository.getNextEventRequestNo();
+    final var requestNo = repository.getNextRequestNo();
 
-    save(eventRequestNo, request);
-    saveDetails(eventRequestNo, request.getDetails());
-    saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.Created);
+    save(requestNo, request);
+    saveDetails(requestNo, request.getDetails());
+    saveStatus(requestNo, request.getEventType(), EventRequestStatusType.Created);
 
-    return eventRequestNo;
+    return requestNo;
   }
 
   @Override
@@ -46,16 +46,16 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
         .isPresent();
   }
 
-  private void save(final long eventRequestNo, final EventRewardRequestDto request) {
-    final var entity = mapper.map(eventRequestNo, tenantProperties.getTenantId(), request);
+  private void save(final long requestNo, final EventRewardRequestDto request) {
+    final var entity = mapper.map(requestNo, tenantProperties.getTenantId(), request);
     repository.save(entity);
   }
 
-  private void saveDetails(final long eventRequestNo, final List<EventRewardRequestDetailDto> details) {
+  private void saveDetails(final long requestNo, final List<EventRewardRequestDetailDto> details) {
     final var detailEntities = details.stream()
         .map(detail -> {
           final var seq = detailRepository.getNextSeq();
-          return mapper.map(seq, eventRequestNo, detail);
+          return mapper.map(seq, requestNo, detail);
         })
         .collect(Collectors.toUnmodifiableList());
 
@@ -63,8 +63,8 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
   }
 
   @Override
-  public void saveStatus(final String requestId, final EventType eventType, final EventRequestStatusType statusType) {
-    final var statusEntity = mapper.map(requestId, eventType, statusType);
+  public void saveStatus(final Long requestNo, final EventType eventType, final EventRequestStatusType statusType) {
+    final var statusEntity = mapper.map(requestNo, eventType, statusType);
     statusRepository.save(statusEntity);
   }
 }

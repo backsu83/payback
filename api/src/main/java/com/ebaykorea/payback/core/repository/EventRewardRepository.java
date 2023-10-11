@@ -10,5 +10,5 @@ public interface EventRewardRepository {
 
   boolean alreadySaved(String requestId, EventType eventType);
 
-  void saveStatus(final String requestId, final EventType eventType, final EventRequestStatusType statusType);
+  void saveStatus(final Long requestNo, final EventType eventType, final EventRequestStatusType statusType);
 }

@@ -16,9 +16,9 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface EventRewardMapper {
 
-  EventRewardRequestEntity map(Long eventRequestNo, String tenantId, EventRewardRequestDto source);
+  EventRewardRequestEntity map(Long requestNo, String tenantId, EventRewardRequestDto source);
 
-  EventRewardRequestDetailEntity map(Long seq, Long eventRequestNo, EventRewardRequestDetailDto source);
+  EventRewardRequestDetailEntity map(Long seq, Long requestNo, EventRewardRequestDetailDto source);
 
-  EventRewardRequestStatusEntity map(String requestId, EventType eventType, EventRequestStatusType eventRequestStatus);
+  EventRewardRequestStatusEntity map(Long requestNo, EventType eventType, EventRequestStatusType eventRequestStatus);
 }

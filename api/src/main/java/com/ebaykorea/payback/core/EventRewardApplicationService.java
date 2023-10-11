@@ -33,16 +33,16 @@ public class EventRewardApplicationService {
       return buildEventRewardResponse(PaybackStrings.EMPTY, DUPLICATED);
     }
 
-    final var eventRequestNo = eventRewardRepository.save(request);
+    final var requestNo = eventRewardRepository.save(request);
     final var userId = userGateway.getUserId(request.getUserToken());
 
-    final var memberEventRewardRequest = buildMemberEventRequest(eventRequestNo, request);
+    final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request);
 
     return smileCashEventRepository.save(userId, memberEventRewardRequest)
         .map(this::getSmilePayNo)
         .map(smilePayNo -> {
           //적립 요청 상태 저장
-          eventRewardRepository.saveStatus(request.getRequestId(), request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(smilePayNo));
+          eventRewardRepository.saveStatus(requestNo, request.getEventType(), EventRequestStatusType.getStatusBySaveProcessId(smilePayNo));
 
           final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
           return buildEventRewardResponse(smilePayNo, resultCode);
