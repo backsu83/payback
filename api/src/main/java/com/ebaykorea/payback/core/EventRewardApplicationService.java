@@ -35,26 +35,34 @@ public class EventRewardApplicationService {
   private static final String NOT_FOUND = "NOT_FOUND";
 
   public EventRewardResponseDto saveEventReward(final EventRewardRequestDto request) {
-    final var maybeEventReward = eventRewardRepository.findEventReward(request);
-    if (maybeEventReward.isPresent()) {
-      return buildResponse(EMPTY, DUPLICATED);
-    }
 
-    final var requestNo = eventRewardRepository.save(request);
-    final var userId = userGateway.getUserId(request.getUserToken());
+    return eventRewardRepository.findEventReward(request)
+        .map(eventReward -> {
+          //중복 요청 된 경우
+          final var userId = userGateway.getUserId(request.getUserToken());
+          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), request.getEventType(), request.getSaveAmount());
 
-    final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request.getEventType(), request.getSaveAmount());
-
-    return smileCashEventRepository.save(userId, memberEventRewardRequest)
-        .map(this::getSmilePayNo)
-        .map(smilePayNo -> {
-          //적립 요청 상태 저장
-          eventRewardRepository.saveStatus(requestNo, getStatusBySaveProcessId(smilePayNo));
-
-          final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
-          return buildResponse(smilePayNo, resultCode);
+          return smileCashEventRepository.find(userId, memberEventRewardRequest)
+              .map(smileCashEvent -> buildResponse(smileCashEvent.getSmilePayNo(), DUPLICATED))
+              .orElse(buildResponse(EMPTY, DUPLICATED));
         })
-        .orElse(buildResponse(EMPTY, FAILED));
+        .or(() -> {
+          //중복 요청이 아닌경우 요청 정보 저장 후 적립 요청
+          final var requestNo = eventRewardRepository.save(request);
+
+          final var userId = userGateway.getUserId(request.getUserToken());
+          final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request.getEventType(), request.getSaveAmount());
+
+          return smileCashEventRepository.save(userId, memberEventRewardRequest)
+              .map(this::getSmilePayNo)
+              .map(smilePayNo -> {
+                //적립 요청 상태 저장
+                eventRewardRepository.saveStatus(requestNo, getStatusBySaveProcessId(smilePayNo));
+
+                final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
+                return buildResponse(smilePayNo, resultCode);
+              });
+        }).orElse(buildResponse(EMPTY, FAILED));
   }
 
   public EventRewardResponseDto getEventReward(final EventRewardRequestDto request) {

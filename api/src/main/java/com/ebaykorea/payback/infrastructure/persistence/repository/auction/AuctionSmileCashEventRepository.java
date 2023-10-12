@@ -50,10 +50,10 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
             });
   }
 
-  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String memberKey) {
+  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId) {
     return entity -> entity.getBizType() == BIZ_TYPE &&
         entity.getReasonCode().equals(TOSS_REASON_CODE) &&
-        entity.getMemberId().equals(memberKey);
+        entity.getMemberId().equals(buyerId);
   }
 
   @Override

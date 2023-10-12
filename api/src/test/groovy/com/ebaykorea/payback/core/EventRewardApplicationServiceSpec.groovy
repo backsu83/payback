@@ -27,9 +27,10 @@ class EventRewardApplicationServiceSpec extends Specification {
     setup:
     eventRewardRepository.findEventReward(_ as EventRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     eventRewardRepository.save(_ as EventRewardRequestDto) >> 1L
-    eventRewardRepository.saveStatus(_ as Long, _ as EventType, _ as EventRequestStatusType) >> {}
+    eventRewardRepository.saveStatus(_ as Long, _ as EventRequestStatusType) >> {}
     smileCashEventRepository.save(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(회원적립결과)
     userGateway.getUserId(_ as String) >> "userId"
+    smileCashEventRepository.find(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(SmileCashEvent_생성())
 
     expect:
     def result = service.saveEventReward(request)
@@ -38,7 +39,7 @@ class EventRewardApplicationServiceSpec extends Specification {
     where:
     ________________________________________________
     desc | request | expectResult
-    "중복요청" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "ALREADY_PROCESSED")
+    "중복요청" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "1", resultCode: "ALREADY_PROCESSED")
     "적립실패_회원적립 결과가 실패" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "FAILED")
     "적립실패_회원적립 결과가 없을때" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(resultCode: "FAILED")
     "적립성공" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "2", resultCode: "SUCCESS")
