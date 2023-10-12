@@ -18,6 +18,7 @@ class SmileCashSaveQueueEntityGrocery {
       bizKey = (map.bizKey ?: "") as String
       smileCashType = (map.smileCashType ?: 0) as int
       saveAmount = (map.saveAmount ?: 0) as BigDecimal
+      saveStatus = (map.saveStatus ?: 0) as int
       expireDate = (map.expireDate ?: Timestamp.from(TestConstant.ORDER_DATE)) as Timestamp
       insertOperator = (map.insertOperator ?: "") as String
     }

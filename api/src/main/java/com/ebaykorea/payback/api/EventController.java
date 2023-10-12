@@ -2,6 +2,7 @@ package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardRequestDto;
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardResponseDto;
+import com.ebaykorea.payback.api.dto.toss.TossEventRewardResultRequestDto;
 import com.ebaykorea.payback.api.mapper.TossEventRewardMapper;
 import com.ebaykorea.payback.core.EventRewardApplicationService;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
@@ -46,15 +47,23 @@ public class EventController {
 
   @Operation(summary = "토스 리워드 적립 요청", description = "토스 리워드 적립")
   @PostMapping("/rewards/toss")
-  public TossEventRewardResponseDto eventSave(
+  public TossEventRewardResponseDto saveEventReward(
       final @Valid @RequestBody TossEventRewardRequestDto request) {
     final var result = service.saveEventReward(mapper.map(request));
+    return mapper.map(result);
+  }
+
+  @Operation(summary = "토스 리워드 적립 요청 결과 조회")
+  @PostMapping("/rewards/toss/get-result")
+  public TossEventRewardResponseDto getEventReward(
+      final @Valid @RequestBody TossEventRewardResultRequestDto request) {
+    final var result = service.getEventReward(mapper.map(request));
     return mapper.map(result);
   }
 
   @ExceptionHandler(value = {Exception.class})
   public TossEventRewardResponseDto handleException(Exception ex) {
     log.error(ex.getLocalizedMessage(), ex);
-    return new TossEventRewardResponseDto("", "FAILED", ex.getMessage());
+    return new TossEventRewardResponseDto("", "FAILED", "처리 중 오류 발생");
   }
 }

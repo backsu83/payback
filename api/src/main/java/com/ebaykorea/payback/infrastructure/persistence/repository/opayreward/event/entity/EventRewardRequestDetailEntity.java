@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity;
 
 
-import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +24,8 @@ public class EventRewardRequestDetailEntity extends BaseEntity {
   @Column(name = "SEQ")
   private Long seq;
 
-  @Column(name = "EVENT_REQUEST_NO")
-  private Long eventRequestNo;
+  @Column(name = "REQUEST_NO")
+  private Long requestNo;
 
   @Column(name = "DETAIL_ID")
   private String detailId;
@@ -37,13 +36,10 @@ public class EventRewardRequestDetailEntity extends BaseEntity {
   @Column(name = "EVENT_DATE")
   private Instant eventDate; //transactAt
 
-  @Column(name = "CARD_APPROVAL_NO")
+  @Column(name = "APPROVAL_NO")
   private String cardApprovalNo;
 
   @Column(name = "MASKED_CARD_NUMBER")
   private String maskedCardNumber;
-
-  @Column(name = "CORPORATE_REG_NO")
-  private String corporateRegNo;
 
 }

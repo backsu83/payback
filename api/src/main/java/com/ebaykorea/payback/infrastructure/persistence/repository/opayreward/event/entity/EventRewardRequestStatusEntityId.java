@@ -13,6 +13,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class EventRewardRequestStatusEntityId implements Serializable {
   private String requestId;
-  private EventType eventType;
   private EventRequestStatusType eventRequestStatus;
 }

@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 
+import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
@@ -34,24 +35,32 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<MemberEventRewardResultDto> save(final String memberKey, final MemberEventRewardRequestDto request) {
+  public Optional<MemberEventRewardResultDto> save(final String buyerId, final MemberEventRewardRequestDto request) {
     return
         //중복 요청 체크
         smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-            .filter(alreadyRequested(memberKey))
+            .filter(alreadyRequested(buyerId))
             .findAny()
             .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
             .or(() -> { //중복 요청 건이 아닌 경우
-              final var txId = smileCashTransactionRepository.getIacTxId(memberKey);
-              final var entity = mapper.map(txId, memberKey, request);
+              final var txId = smileCashTransactionRepository.getIacTxId(buyerId);
+              final var entity = mapper.map(txId, buyerId, request);
               smileCashSaveQueueRepository.save(entity);
               return Optional.of(mapper.map(request.getRequestNo(), 0, txId));
             });
   }
 
-  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String memberKey) {
+  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId) {
     return entity -> entity.getBizType() == BIZ_TYPE &&
         entity.getReasonCode().equals(TOSS_REASON_CODE) &&
-        entity.getMemberId().equals(memberKey);
+        entity.getMemberId().equals(buyerId);
+  }
+
+  @Override
+  public Optional<SmileCashEvent> find(final String buyerId, final MemberEventRewardRequestDto request) {
+    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
+        .filter(alreadyRequested(buyerId))
+        .findAny()
+        .map(mapper::map);
   }
 }

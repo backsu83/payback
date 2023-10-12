@@ -4,6 +4,7 @@ package com.ebaykorea.payback.api.mapper;
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardRequestDetailDto;
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardRequestDto;
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardResponseDto;
+import com.ebaykorea.payback.api.dto.toss.TossEventRewardResultRequestDto;
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDetailDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
@@ -21,6 +22,9 @@ public interface TossEventRewardMapper {
   @Mapping(source = "amount", target = "saveAmount")
   @Mapping(source = "source.transactions", target = "details")
   EventRewardRequestDto map(TossEventRewardRequestDto source);
+
+  @Mapping(expression = "java(EventType.Toss)", target = "eventType")
+  EventRewardRequestDto map(TossEventRewardResultRequestDto source);
 
   @Mapping(source = "id", target = "detailId")
   @Mapping(source = "amount", target = "eventAmount")

@@ -6,37 +6,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
+import javax.persistence.Id;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SmileCashEventEntity {
-  public static final String SAVE = "stardb.dbo.UPGMKT_Reward_InsertSmileCashEvent";
 
-  @Column(name = "REQ_MONEY")
-  private BigDecimal requestMoney;
+  @Id
+  @Column(name = "SMILEPAY_NO")
+  private Long smilePayNo;
 
-  @Column(name = "REQ_OUTPUT_IMPB_MONEY")
-  private BigDecimal requestOutputDisabledMoney;
+  @Column(name = "APPR_STATUS")
+  private int status;
 
-  @Column(name = "CASH_BALANCE_TYPE")
-  private String cashBalanceType;
-
-  @Column(name = "CUST_NO")
-  private String custNo;
-
-  @Column(name = "EXPIRE_DT")
-  private Timestamp expireDate;
-
-  @Column(name = "REF_NO")
-  private long refNo;
-
-  @Column(name = "ERS_NO")
-  private int ersNo;
-
-  @Column(name = "REG_ID")
-  private String regId;
+  @Column(name = "RET_CD")
+  private String returnCode;
 }
