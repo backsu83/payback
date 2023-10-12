@@ -25,11 +25,6 @@ public class EventRewardRequestStatusEntity extends BaseEntity {
   private Long requestNo;
 
   @Id
-  @Column(name = "EVENT_TYPE")
-  @Enumerated(EnumType.STRING)
-  private EventType eventType;
-
-  @Id
   @Column(name = "EVENT_REQUEST_STATUS")
   @Enumerated(EnumType.STRING)
   private EventRequestStatusType eventRequestStatus;

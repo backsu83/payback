@@ -27,7 +27,6 @@ class TossEventRewardGrocery {
       transactAt = (map.transactAt ?: TestConstant.ORDER_DATE) as Instant
       cardApprovalNo = (map.cardApprovalNo ?: "cardApprovalNo") as String
       maskedCardNumber = (map.maskedCardNumber ?: "maskedCardNumber") as String
-      corporateRegNo = (map.corporateRegNo ?: "corporateRegNo") as String
     }
   }
 

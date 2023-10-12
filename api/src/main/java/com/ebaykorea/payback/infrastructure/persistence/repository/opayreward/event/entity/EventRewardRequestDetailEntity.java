@@ -42,7 +42,4 @@ public class EventRewardRequestDetailEntity extends BaseEntity {
   @Column(name = "MASKED_CARD_NUMBER")
   private String maskedCardNumber;
 
-  @Column(name = "CORPORATE_REG_NO")
-  private String corporateRegNo;
-
 }

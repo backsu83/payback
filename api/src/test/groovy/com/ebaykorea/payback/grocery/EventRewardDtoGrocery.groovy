@@ -27,7 +27,6 @@ class EventRewardDtoGrocery {
       eventDate = (map.eventDate ?: TestConstant.ORDER_DATE) as Instant
       cardApprovalNo = (map.cardApprovalNo ?: "cardApprovalNo") as String
       maskedCardNumber = (map.maskedCardNumber ?: "maskedCardNumber") as String
-      corporateRegNo = (map.corporateRegNo ?: "corporateRegNo") as String
     }
   }
   static def EventRewardResponseDto_생성(Map map = [:]) {

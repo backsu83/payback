@@ -49,7 +49,7 @@ public class EventRewardApplicationService {
         .map(this::getSmilePayNo)
         .map(smilePayNo -> {
           //적립 요청 상태 저장
-          eventRewardRepository.saveStatus(requestNo, request.getEventType(), getStatusBySaveProcessId(smilePayNo));
+          eventRewardRepository.saveStatus(requestNo, getStatusBySaveProcessId(smilePayNo));
 
           final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
           return buildResponse(smilePayNo, resultCode);

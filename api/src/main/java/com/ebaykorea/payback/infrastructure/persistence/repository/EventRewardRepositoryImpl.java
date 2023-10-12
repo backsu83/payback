@@ -37,7 +37,7 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
 
     save(requestNo, request);
     saveDetails(requestNo, request.getDetails());
-    saveStatus(requestNo, request.getEventType(), EventRequestStatusType.Created);
+    saveStatus(requestNo, EventRequestStatusType.Created);
 
     return requestNo;
   }
@@ -65,8 +65,8 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
   }
 
   @Override
-  public void saveStatus(final Long requestNo, final EventType eventType, final EventRequestStatusType statusType) {
-    final var statusEntity = mapper.map(requestNo, eventType, statusType);
+  public void saveStatus(final Long requestNo, final EventRequestStatusType statusType) {
+    final var statusEntity = mapper.map(requestNo, statusType);
     statusRepository.save(statusEntity);
   }
 }

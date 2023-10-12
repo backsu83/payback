@@ -21,7 +21,7 @@ public interface EventRewardMapper {
 
   EventRewardRequestDetailEntity map(Long seq, Long requestNo, EventRewardRequestDetailDto source);
 
-  EventRewardRequestStatusEntity map(Long requestNo, EventType eventType, EventRequestStatusType eventRequestStatus);
+  EventRewardRequestStatusEntity map(Long requestNo, EventRequestStatusType eventRequestStatus);
 
   EventReward map(EventRewardRequestEntity source);
 }
