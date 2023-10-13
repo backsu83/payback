@@ -21,7 +21,7 @@ import java.util.List;
 @Table(schema = "O_PAYREWARD", name = "EVENT_REWARD_REQUEST")
 public class EventRewardRequestEntity extends BaseEntity {
   @Id
-  @Column(name = "REQUEST_NO")
+  @Column(name = "EV_RWRD_SEQ")
   private Long requestNo;
 
   @Column(name = "REQUEST_ID")
@@ -42,8 +42,4 @@ public class EventRewardRequestEntity extends BaseEntity {
 
   @Column(name = "TENANT_ID")
   private String tenantId;
-
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "REQUEST_NO", updatable = false)
-  private List<EventRewardRequestStatusEntity> statuses;
 }

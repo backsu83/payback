@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 @Table(schema = "O_PAYREWARD", name = "EVENT_REWARD_REQUEST")
 public class EventRewardRequestEntity extends BaseEntity {
   @Id
-  @Column(name = "REQUEST_NO")
+  @Column(name = "EV_RWRD_SEQ")
   private Long requestNo;
 
   @Column(name = "REQUEST_ID")

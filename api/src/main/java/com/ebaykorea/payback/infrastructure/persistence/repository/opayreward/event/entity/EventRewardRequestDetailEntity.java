@@ -21,10 +21,10 @@ import java.time.Instant;
 @Table(schema = "O_PAYREWARD", name = "EVENT_REWARD_REQUEST_DETAIL")
 public class EventRewardRequestDetailEntity extends BaseEntity {
   @Id
-  @Column(name = "SEQ")
+  @Column(name = "EV_RWRD_DETAIL_SEQ")
   private Long seq;
 
-  @Column(name = "REQUEST_NO")
+  @Column(name = "EV_RWRD_SEQ")
   private Long requestNo;
 
   @Column(name = "DETAIL_ID")
