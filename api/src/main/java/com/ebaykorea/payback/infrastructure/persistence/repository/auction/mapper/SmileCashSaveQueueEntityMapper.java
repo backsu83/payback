@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
+import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
@@ -37,4 +38,9 @@ public interface SmileCashSaveQueueEntityMapper {
 
   @Mapping(source = "txId", target = "smilePayNo")
   MemberEventRewardResultDto map(Long requestNo, Integer resultCode, Long txId);
+
+  @Mapping(source = "txId", target = "smilePayNo")
+  @Mapping(expression = "java(source.getSaveStatus() == 1)", target = "saved")
+  @Mapping(expression = "java(source.getSaveStatus() == 2)", target = "failed")
+  SmileCashEvent map(SmileCashSaveQueueEntity source);
 }

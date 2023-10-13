@@ -51,6 +51,9 @@ public class SmileCashSaveQueueEntity {
   @Column(name = "SAVE_AMNT")
   private BigDecimal saveAmount;
 
+  @Column(name = "SAVE_STATUS")
+  private int saveStatus;
+
   @Column(name = "EXPIRE_DATE")
   private Timestamp expireDate;
 

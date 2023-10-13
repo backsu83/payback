@@ -18,5 +18,7 @@ class TossEventRewardMapperSpec extends Specification {
     def responseResult = mapper.map(EventRewardResponseDto_생성(smilePayNo: "1", resultCode: "FAILED", resultMessage: "resultMessage"))
     responseResult == TossEventRewardResponseDto_생성(transactionId: "1", resultCode: "FAILED", resultMessage: "resultMessage")
 
+    def resultRequestResult = mapper.map(TossEventRewardResultRequestDto_생성())
+    resultRequestResult == EventRewardRequestDto_생성()
   }
 }
