@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.batch.config.properties;
+package com.ebaykorea.payback.scheduler.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
