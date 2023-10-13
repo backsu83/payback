@@ -12,6 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventRewardRequestStatusEntityId implements Serializable {
-  private String requestId;
+  private Long requestNo;
   private EventRequestStatusType eventRequestStatus;
 }
