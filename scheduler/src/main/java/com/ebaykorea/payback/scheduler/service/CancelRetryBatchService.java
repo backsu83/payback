@@ -2,11 +2,9 @@ package com.ebaykorea.payback.scheduler.service;
 
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.CancelRequestDto;
-import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto;
 import com.ebaykorea.payback.scheduler.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.scheduler.repository.opayreward.CancelConsumerFailRepository;
-import com.ebaykorea.payback.scheduler.repository.opayreward.entity.CancelConsumerFailEntity;
-import com.google.common.collect.Lists;
+import com.ebaykorea.payback.scheduler.repository.opayreward.entity.ssg.CancelConsumerFailEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
-import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.FAIL;
 import static java.util.Objects.isNull;
 import static org.hibernate.internal.util.collections.CollectionHelper.isEmpty;
 
@@ -32,8 +29,6 @@ public class CancelRetryBatchService {
     private final ExecutorService taskExecutor;
 
     public void retryCancels(final Long maxTryCount) {
-        final List<CompletableFuture<PaybackResponseDto>> cancelsFuture = Lists.newArrayList();
-
         final List<CancelConsumerFailEntity> cancels = cancelConsumerFailRepository.findTop100ByStatusAndTryCount(StatusFail, maxTryCount);
 
         if (isEmpty(cancels)) {
