@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.client.dto;
+package com.ebaykorea.payback.scheduler.client.dto.payback;
 
 import com.ebaykorea.payback.scheduler.domain.constant.OrderSiteType;
 import lombok.Builder;

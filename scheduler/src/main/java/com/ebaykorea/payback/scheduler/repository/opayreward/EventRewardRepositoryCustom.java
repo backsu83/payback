@@ -2,10 +2,13 @@ package com.ebaykorea.payback.scheduler.repository.opayreward;
 
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestEntity;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
-import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 import static com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType.Requested;
 import static com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.QEventRewardRequestEntity.eventRewardRequestEntity;
@@ -18,10 +21,15 @@ import static com.querydsl.core.types.ExpressionUtils.isNull;
 public class EventRewardRepositoryCustom {
   private final JPAQueryFactory factory;
 
-  public JPAQuery<EventRewardRequestEntity> findNotRequestedRequests() {
+  public List<EventRewardRequestEntity> findNotRequestedRequests(String tenantId) {
     return factory.selectFrom(eventRewardRequestEntity)
         .leftJoin(eventRewardRequestEntity.statuses, eventRewardRequestStatusEntity)
         .on(eventRewardRequestStatusEntity.eventRequestStatus.eq(Requested))
-        .where(isNull(eventRewardRequestStatusEntity.requestNo));
+        .where(isNull(eventRewardRequestStatusEntity.requestNo), equalTenantId(tenantId))
+        .fetch();
+  }
+
+  private BooleanExpression equalTenantId(final String tenantId) {
+    return StringUtils.hasLength(tenantId) ? eventRewardRequestEntity.tenantId.eq(tenantId) : null;
   }
 }

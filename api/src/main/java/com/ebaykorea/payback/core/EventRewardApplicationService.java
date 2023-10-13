@@ -39,7 +39,7 @@ public class EventRewardApplicationService {
     return eventRewardRepository.findEventReward(request)
         .map(eventReward -> {
           //중복 요청 된 경우
-          final var userId = "paann";//userGateway.getUserId(request.getUserToken());
+          final var userId = userGateway.getUserId(request.getUserToken());
           final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), request.getEventType(), request.getSaveAmount());
 
           return smileCashEventRepository.find(userId, memberEventRewardRequest)
@@ -50,7 +50,7 @@ public class EventRewardApplicationService {
           //중복 요청이 아닌경우 요청 정보 저장 후 적립 요청
           final var requestNo = eventRewardRepository.save(request);
 
-          final var userId = "paann";//userGateway.getUserId(request.getUserToken());
+          final var userId = userGateway.getUserId(request.getUserToken());
           final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request.getEventType(), request.getSaveAmount());
 
           return smileCashEventRepository.save(userId, memberEventRewardRequest)
@@ -68,7 +68,7 @@ public class EventRewardApplicationService {
   public EventRewardResponseDto getEventReward(final EventRewardRequestDto request) {
     return eventRewardRepository.findEventReward(request)
         .map(eventReward -> {
-          final var userId = "paann"; //userGateway.getUserId(request.getUserToken());
+          final var userId = userGateway.getUserId(request.getUserToken());
           final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), eventReward.getEventType(), BigDecimal.ZERO);
 
           return smileCashEventRepository.find(userId, memberEventRewardRequest)

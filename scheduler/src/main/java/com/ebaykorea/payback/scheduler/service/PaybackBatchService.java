@@ -6,8 +6,8 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 import com.ebaykorea.payback.scheduler.repository.stardb.CashbackOrderBatchRepository;
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
-import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto;
-import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackRequestDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackResponseDto;
 import com.google.common.collect.Lists;
 
 import java.util.List;

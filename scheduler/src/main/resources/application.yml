@@ -10,6 +10,7 @@ spring:
   application:
     name: payback
   profiles:
+    active: gmarket
     include: custom
   jpa:
     open-in-view: false

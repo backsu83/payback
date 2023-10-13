@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.scheduler.service;
 
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
-import com.ebaykorea.payback.scheduler.client.dto.CancelRequestDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.CancelRequestDto;
 import com.ebaykorea.payback.scheduler.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.scheduler.repository.opayreward.CancelConsumerFailRepository;
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.ssg.CancelConsumerFailEntity;
