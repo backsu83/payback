@@ -42,4 +42,8 @@ public class EventRewardRequestEntity extends BaseEntity {
 
   @Column(name = "TENANT_ID")
   private String tenantId;
+
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "EV_RWRD_SEQ", updatable = false)
+  private List<EventRewardRequestStatusEntity> statuses;
 }
