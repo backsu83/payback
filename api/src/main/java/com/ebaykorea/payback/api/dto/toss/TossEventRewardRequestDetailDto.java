@@ -28,4 +28,7 @@ public class TossEventRewardRequestDetailDto {
 
   @Schema(description = "마스킹 된 카드 번호")
   private String maskedCardNumber;
+
+  @Schema(description = "사업자 등록 번호")
+  private String corporateRegNo;
 }
