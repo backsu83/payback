@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.scheduler.service;
 
+import static com.ebaykorea.payback.scheduler.domain.constant.TenantCode.GMARKET_TENANT;
 import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.COMPLETED;
 import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.FAIL;
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+@Profile(GMARKET_TENANT)
 @Slf4j
 @Service
 @RequiredArgsConstructor

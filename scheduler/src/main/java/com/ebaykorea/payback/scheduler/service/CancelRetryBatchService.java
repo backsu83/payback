@@ -7,6 +7,7 @@ import com.ebaykorea.payback.scheduler.repository.opayreward.CancelConsumerFailR
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.ssg.CancelConsumerFailEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,9 +15,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
+import static com.ebaykorea.payback.scheduler.domain.constant.TenantCode.GMARKET_TENANT;
 import static java.util.Objects.isNull;
 import static org.hibernate.internal.util.collections.CollectionHelper.isEmpty;
 
+@Profile(GMARKET_TENANT)
 @Slf4j
 @Service
 @RequiredArgsConstructor
