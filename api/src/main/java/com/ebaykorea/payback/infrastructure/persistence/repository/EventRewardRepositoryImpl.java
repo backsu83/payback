@@ -3,7 +3,6 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 
 import com.ebaykorea.payback.config.properties.SaturnApplicationProperties;
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
-import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.EventReward;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDetailDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;

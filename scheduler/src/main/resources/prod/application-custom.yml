@@ -1,9 +1,9 @@
-
-apis:
-  payback:
-    url: "http://payback-api.gmarket.co.kr"
-
-payback.dcm.access.enable: true
+spring:
+  config.activate.on-profile: "gmarket"
+---
+spring:
+  config.activate.on-profile: "auction"
+---
 
 com.ebaykorea.payback.scheduler:
   data:

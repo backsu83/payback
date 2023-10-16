@@ -8,6 +8,7 @@ spring:
   application:
     name: payback
   profiles:
+    active: gmarket
     include: custom
   jpa:
     hibernate:
@@ -73,7 +74,3 @@ saturn:
       version:
         major: "v1"
         full: "v1.0.0"
-  datasource:
-    appName: PAYREWARD_APP
-    userName: payback_app
-    tenant: gmarket #개발: gmarketdev, 운영: gmarket

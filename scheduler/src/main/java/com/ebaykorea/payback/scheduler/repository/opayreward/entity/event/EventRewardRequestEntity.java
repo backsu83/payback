@@ -1,8 +1,7 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity;
+package com.ebaykorea.payback.scheduler.repository.opayreward.entity.event;
 
-
-import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.BaseEntity;
+import com.ebaykorea.payback.scheduler.domain.constant.EventType;
+import com.ebaykorea.payback.scheduler.repository.opayreward.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -43,4 +43,7 @@ public class EventRewardRequestEntity extends BaseEntity {
   @Column(name = "TENANT_ID")
   private String tenantId;
 
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "EV_RWRD_SEQ", updatable = false)
+  private List<EventRewardRequestStatusEntity> statuses;
 }
