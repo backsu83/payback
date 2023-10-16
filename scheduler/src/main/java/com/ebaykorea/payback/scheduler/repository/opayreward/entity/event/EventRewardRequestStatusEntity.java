@@ -1,8 +1,7 @@
-package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity;
+package com.ebaykorea.payback.scheduler.repository.opayreward.entity.event;
 
-import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
-import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.BaseEntity;
+import com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType;
+import com.ebaykorea.payback.scheduler.repository.opayreward.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

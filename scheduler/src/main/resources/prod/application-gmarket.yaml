@@ -1,0 +1,14 @@
+saturn:
+  application:
+    tenantId: "gmarket"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: payback_app
+    tenant: gmarket #개발: gmarketdev, 운영: gmarket
+
+apis:
+  payback:
+    url: "http://payreward-api.gmarket.co.kr"
+  quilt:
+    url: "https://quilt-overmind.gmarket.co.kr/api"
+    user-id-query-path: "/user-token/cust-no"

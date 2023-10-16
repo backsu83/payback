@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.repository.opayreward.entity;
+package com.ebaykorea.payback.scheduler.repository.opayreward.entity.ssg;
 
 import java.time.Instant;
 import javax.persistence.Column;

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @SaturnDataSource(name = "o_payreward")
 public interface EventRewardRequestDetailRepository extends JpaRepository<EventRewardRequestDetailEntity, Long> {
-  @Query(value = "SELECT O_PAYREWARD.SEQ_EVENT_REWARD_REQUEST_DETAIL.nextval FROM dual", nativeQuery = true)
+  @Query(value = "SELECT O_PAYREWARD.SEQ_EV_RWRD_DETAIL_SEQ.nextval FROM dual", nativeQuery = true)
   Long getNextSeq();
 }

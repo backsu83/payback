@@ -25,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Slf4j
 @Disabled
 @EnableAutoConfiguration(exclude = {ProcedureExecutorAutoConfiguration.class, DataSourceAutoConfiguration.class})
-@SpringBootTest(properties = {"payback.dcm.access.enable=false"})
+@SpringBootTest
 public class ExecutorTreadPoolTest {
 
   // 100ms 만큼 block되는 작업
