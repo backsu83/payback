@@ -69,7 +69,7 @@ public class EventController {
   }
 
   @ExceptionHandler(value = {PaybackException.class})
-  public TossEventRewardResponseDto handlePaybackException(Exception ex) {
+  public TossEventRewardResponseDto handlePaybackException(final PaybackException ex) {
     log.error(ex.getLocalizedMessage(), ex);
     return new TossEventRewardResponseDto("", "FAILED", ex.getMessage());
   }
