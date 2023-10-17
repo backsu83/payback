@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_004;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,6 @@ public class UserGatewayImpl implements UserGateway {
   public String getUserId(final String userToken) {
     return quiltApiClient.findUserId(userToken)
         .flatMap(QuiltBaseResponse::findSuccessData)
-        .orElseThrow(() -> new PaybackException(API_GATEWAY_002, String.format("잘못된 userToken: %s", userToken)));
+        .orElseThrow(() -> new PaybackException(API_GATEWAY_004, userToken));
   }
 }

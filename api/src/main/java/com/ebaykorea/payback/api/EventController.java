@@ -58,6 +58,7 @@ public class EventController {
   @PostMapping("/rewards/toss/get-result")
   public TossEventRewardResponseDto getEventReward(
       final @Valid @RequestBody TossEventRewardResultRequestDto request) {
+    log.info("request: " + request.toString());
     final var result = service.getEventReward(mapper.map(request));
     return mapper.map(result);
   }
