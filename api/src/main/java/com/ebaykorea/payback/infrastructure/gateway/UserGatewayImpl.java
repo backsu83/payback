@@ -27,6 +27,6 @@ public class UserGatewayImpl implements UserGateway {
   public String getUserId(final String userToken) {
     return quiltApiClient.findUserId(userToken)
         .flatMap(QuiltBaseResponse::findSuccessData)
-        .orElseThrow(() -> new PaybackException(API_GATEWAY_002, "userId 없음"));
+        .orElseThrow(() -> new PaybackException(API_GATEWAY_002, String.format("잘못된 userToken: %s", userToken)));
   }
 }
