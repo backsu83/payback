@@ -10,6 +10,7 @@ import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResponseDto;
+import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,5 +66,11 @@ public class EventController {
   public TossEventRewardResponseDto handleException(Exception ex) {
     log.error(ex.getLocalizedMessage(), ex);
     return new TossEventRewardResponseDto("", "FAILED", "처리 중 오류 발생");
+  }
+
+  @ExceptionHandler(value = {PaybackException.class})
+  public TossEventRewardResponseDto handlePaybackException(final PaybackException ex) {
+    log.error(ex.getLocalizedMessage(), ex);
+    return new TossEventRewardResponseDto("", "FAILED", ex.getMessage());
   }
 }
