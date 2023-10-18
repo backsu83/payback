@@ -13,12 +13,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CashbackOrderQueryData {
-  private BigDecimal amount;
   private String cashbackType;
-  private String itemNo;
-  private String buyerNo;
-  private String tradeStatus;
-  private Instant useEnableDate;
-  private String smileClubYn;
-  private String shopType;
+  private BigDecimal amount;
+  private Instant expectSaveDate;
 }

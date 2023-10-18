@@ -103,35 +103,6 @@ public class PaybackComponentTest {
       assertEquals(CashbackResponseDto.of(txKey, orderKey), result.getData());
     }
 
-    @Test
-    @DisplayName("캐시백 조회가 성공한다")
-    void getCashbacks() {
-      when(cashbackOrderRepository.findByPackNo(anyLong()))
-          .thenReturn(List.of(
-              CashbackOrderEntity.builder()
-                  .cashbackType("I")
-                  .amount(BigDecimal.valueOf(2295L))
-                  .itemNo("1100439676")
-                  .buyerNo("132870993")
-                  .tradeStatus("30")
-                  .smileClubYn("Y")
-                  .useEnableDt(Timestamp.valueOf("2023-01-04 00:00:00.0"))
-                  .build()));
-
-      final var result = cashbackController.getSavedCashbacks(null, txKey, orderKey);
-      final var expected = getExpectResult();
-
-      assertEquals(expected, result);
-    }
-
-    private SavedCashbackQueryResult getExpectResult() {
-      try {
-        return objectMapper.readValue(new ClassPathResource(CASHBACK_QUERY_FILE).getFile(), SavedCashbackQueryResult.class);
-      } catch (Exception ex) {
-        return null;
-      }
-    }
-
     private final Long packNo = 5085547185L;
     private static final String siteType = "G";
     @Test

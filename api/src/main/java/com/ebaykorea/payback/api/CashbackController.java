@@ -23,7 +23,6 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 public class CashbackController {
 
   private final CashbackApplicationService applicationService;
-  private final CashbackQuery cashbackQuery;
 
   @PostMapping("/cashbacks")
   public CommonResponse<CashbackResponseDto> saveCashbacks(final @Valid @RequestBody SaveCashbackRequestDto request) {
@@ -32,13 +31,5 @@ public class CashbackController {
     return CommonResponse.success(responseMessageType, CashbackResponseDto.of(request.getTxKey(), request.getOrderKey()));
   }
 
-  @GetMapping("/cashbacks")
-  public SavedCashbackQueryResult getSavedCashbacks(
-      @RequestParam(value = "packNo", required = false) final Long packNo,
-      @RequestParam(value = "txKey", required = false) final String txKey,
-      @RequestParam(value = "orderKey", required = false) final String orderKey
-  ) {
-    return cashbackQuery.getSavedCashback(packNo, txKey, orderKey);
-  }
 }
 

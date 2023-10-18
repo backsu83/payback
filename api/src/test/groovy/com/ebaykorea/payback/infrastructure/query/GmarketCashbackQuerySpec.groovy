@@ -13,7 +13,7 @@ import static java.util.Collections.emptyList
 class CashbackQuerySpec extends Specification {
   def transactionGateway = Mock(TransactionGatewayImpl)
   def cashbackOrderRepository = Mock(CashbackOrderRepository)
-  def cashbackOrderQueryDataMapper = Mappers.getMapper(CashbackOrderQueryDataMapper)
+  def cashbackOrderQueryDataMapper = Mappers.getMapper(RewardTargetQueryMapper)
 
   def cashbackQuery = new GmarketCashbackQuery(transactionGateway, cashbackOrderRepository, cashbackOrderQueryDataMapper)
 
