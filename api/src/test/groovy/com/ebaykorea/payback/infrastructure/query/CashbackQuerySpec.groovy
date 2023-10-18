@@ -2,7 +2,7 @@ package com.ebaykorea.payback.infrastructure.query
 
 import com.ebaykorea.payback.infrastructure.gateway.TransactionGatewayImpl
 import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.CashbackOrderRepository
-import com.ebaykorea.payback.infrastructure.query.mapper.CashbackOrderQueryDataMapper
+import com.ebaykorea.payback.infrastructure.query.mapper.RewardTargetQueryMapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
@@ -12,7 +12,7 @@ import static java.util.Collections.emptyList
 class CashbackQuerySpec extends Specification {
   def transactionGateway = Mock(TransactionGatewayImpl)
   def cashbackOrderRepository = Mock(CashbackOrderRepository)
-  def cashbackOrderQueryDataMapper = Mappers.getMapper(CashbackOrderQueryDataMapper)
+  def cashbackOrderQueryDataMapper = Mappers.getMapper(RewardTargetQueryMapper)
 
   def cashbackQuery = new CashbackQuery(transactionGateway, cashbackOrderRepository, cashbackOrderQueryDataMapper)
 

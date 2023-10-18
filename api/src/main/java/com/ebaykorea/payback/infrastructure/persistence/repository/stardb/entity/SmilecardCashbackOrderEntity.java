@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import static com.ebaykorea.payback.util.PaybackBooleans.fromYN;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -48,4 +50,12 @@ public class SmilecardCashbackOrderEntity {
 
   @Column(name = "ITEM_TYPE")
   private String itemType;
+
+  public BigDecimal getSmileCardCashbackAmount() {
+    return fromYN(applyYn) ? cashbackAmount : BigDecimal.ZERO;
+  }
+
+  public BigDecimal getT2SmileCardCashbackAmount() {
+    return fromYN(t2t3ApplyYn) ? t2t3CashbackAmount : BigDecimal.ZERO;
+  }
 }
