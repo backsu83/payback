@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query.data;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +13,11 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CashbackOrderQueryData {
+public class CashbackTargetQueryData {
+  @Schema(description = "캐시백 타입", example = "Seller, Item, SmilePay, ChargePay, ClubDay")
   private String cashbackType;
-  private BigDecimal amount;
+  @Schema(description = "타입별 총 적립 금액")
+  private BigDecimal totalAmount;
+  @Schema(description = "적립 예상일")
   private Instant expectSaveDate;
 }

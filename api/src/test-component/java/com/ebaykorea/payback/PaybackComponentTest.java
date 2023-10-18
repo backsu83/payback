@@ -3,16 +3,14 @@ package com.ebaykorea.payback;
 import com.ebaykorea.payback.api.CashbackController;
 import com.ebaykorea.payback.api.SmilePointController;
 import com.ebaykorea.payback.api.SsgPointController;
-import com.ebaykorea.payback.core.dto.cashback.CashbackResponseDto;
-import com.ebaykorea.payback.core.dto.cashback.SaveCashbackRequestDto;
 import com.ebaykorea.payback.api.dto.smilepoint.SaveSmilePointRequestDto;
 import com.ebaykorea.payback.api.dto.smilepoint.SmilePointHistoryRequestDto;
 import com.ebaykorea.payback.api.dto.smilepoint.SmilePointStatusContrNoRequestDto;
 import com.ebaykorea.payback.api.dto.smilepoint.SmilePointStatusSmilepayRequestDto;
+import com.ebaykorea.payback.core.dto.cashback.CashbackResponseDto;
+import com.ebaykorea.payback.core.dto.cashback.SaveCashbackRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.customer.SmilePointTradeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.*;
-import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity;
-import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
 import com.ebaykorea.payback.infrastructure.query.data.SmilePointTradeQueryResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.specto.hoverfly.junit5.HoverflyExtension;
@@ -26,12 +24,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -42,7 +37,7 @@ import static com.ebaykorea.payback.support.TestConstants.*;
 import static io.specto.hoverfly.junit5.api.HoverflySimulate.SourceType.FILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
 
 @Disabled //TODO: jenkins에서 의도대로 동작되지 않아 componentTest 임시제거
 public class PaybackComponentTest {

@@ -7,8 +7,12 @@ import com.ebaykorea.payback.infrastructure.query.data.RewardTargetQueryResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
+
+@Profile(GMARKET_TENANT)
 @Tag(name = "RewardTarget ", description = "리워드 대상 조회")
 @Slf4j
 @RestController

@@ -1,6 +1,9 @@
 package com.ebaykorea.payback.infrastructure.query.data;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -11,9 +14,12 @@ import static com.ebaykorea.payback.util.PaybackCollections.orEmptyStream;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 
 @Getter
+@EqualsAndHashCode
 public class SsgPointTargetQueryData {
-  private final BigDecimal totalAmount;
-  private final Instant expectSaveDate;
+  @Schema(description = "총 적립 금액")
+  BigDecimal totalAmount;
+  @Schema(description = "적립 예상 일")
+  Instant expectSaveDate;
 
   public static final SsgPointTargetQueryData EMPTY = SsgPointTargetQueryData.of(Collections.emptyList());
 
