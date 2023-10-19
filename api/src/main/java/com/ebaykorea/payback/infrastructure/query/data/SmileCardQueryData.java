@@ -15,8 +15,8 @@ import static java.math.BigDecimal.ZERO;
 public class SmileCardQueryData {
   @Schema(description = "스마일카드 적립")
   BigDecimal smileCardCashbackAmount;
-  @Schema(description = "T2 스마일카드 적립")
-  BigDecimal t2SmileCardCashbackAmount;
+  @Schema(description = "스마일카드 추가 적립")
+  BigDecimal smileCardAdditionalSaveAmount;
 
   public static final SmileCardQueryData EMPTY = SmileCardQueryData.of(ZERO, ZERO);
 }

@@ -20,7 +20,7 @@ class RewardTargetQueryResultGrocery {
   static def SmileCardQueryData_생성(Map map = [:]) {
     SmileCardQueryData.of(
         (map.smileCardCashbackAmount ?: 0) as BigDecimal,
-        (map.t2SmileCardCashbackAmount ?: 0) as BigDecimal
+        (map.smileCardAdditionalSaveAmount ?: 0) as BigDecimal
     )
   }
 

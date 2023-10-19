@@ -52,7 +52,7 @@ class GmarketCashbackQuerySpec extends Specification {
     _________________________________________________
     expectResult | _
     RewardTargetQueryResult_생성() | _
-    RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(smileCardCashbackAmount: 100, t2SmileCardCashbackAmount: 200), ssgPoint: SsgPointTargetQueryData_생성(totalAmount: 300), cashbackTargets: [CashbackTargetQueryData_생성(cashbackType: "SmilePay", totalAmount: 400), CashbackTargetQueryData_생성(cashbackType: "ChargePay", totalAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Seller", totalAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "ClubDay", totalAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Item", totalAmount: 300)]) | _
+    RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(smileCardCashbackAmount: 100, smileCardAdditionalSaveAmount: 200), ssgPoint: SsgPointTargetQueryData_생성(totalAmount: 300), cashbackTargets: [CashbackTargetQueryData_생성(cashbackType: "SmilePay", totalAmount: 400), CashbackTargetQueryData_생성(cashbackType: "ChargePay", totalAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Seller", totalAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "ClubDay", totalAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Item", totalAmount: 300)]) | _
     RewardTargetQueryResult_생성() | _
   }
 }

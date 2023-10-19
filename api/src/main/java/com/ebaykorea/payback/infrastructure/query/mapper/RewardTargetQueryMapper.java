@@ -24,7 +24,7 @@ public interface RewardTargetQueryMapper {
   CashbackTargetQueryData map(String cashbackType, BigDecimal totalAmount, Instant expectSaveDate);
 
   @Mapping(expression = "java(source.getSmileCardCashbackAmount())", target = "smileCardCashbackAmount")
-  @Mapping(expression = "java(source.getT2SmileCardCashbackAmount())", target = "t2SmileCardCashbackAmount")
+  @Mapping(expression = "java(source.getSmileCardAdditionalSaveAmount())", target = "smileCardAdditionalSaveAmount")
   SmileCardQueryData map(SmilecardCashbackOrderEntity source);
 
   @Mapping(source = "saveAmount", target = "amount")

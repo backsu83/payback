@@ -55,7 +55,7 @@ public class SmilecardCashbackOrderEntity {
     return fromYN(applyYn) ? cashbackAmount : BigDecimal.ZERO;
   }
 
-  public BigDecimal getT2SmileCardCashbackAmount() {
+  public BigDecimal getSmileCardAdditionalSaveAmount() {
     return fromYN(t2t3ApplyYn) ? t2t3CashbackAmount : BigDecimal.ZERO;
   }
 }
