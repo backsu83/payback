@@ -9,6 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+
+import static com.ebaykorea.payback.util.PaybackBooleans.fromYN;
+import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
+import static com.ebaykorea.payback.util.PaybackDecimals.orZero;
 
 @Data
 @Builder
@@ -48,4 +55,23 @@ public class SmilecardCashbackOrderEntity {
 
   @Column(name = "ITEM_TYPE")
   private String itemType;
+
+  private BigDecimal getSmileCardCashbackAmount() {
+    return fromYN(applyYn) ? cashbackAmount : BigDecimal.ZERO;
+  }
+
+  private BigDecimal getSmileCardAdditionalSaveAmount() {
+    return fromYN(t2t3ApplyYn) ? t2t3CashbackAmount : BigDecimal.ZERO;
+  }
+
+  public Instant getT2ExpectSaveDate(final int amountToAdd) {
+    return Optional.ofNullable(regDt)
+        .map(Timestamp::toInstant)
+        .map(date -> date.plus(amountToAdd, ChronoUnit.DAYS))
+        .orElse(null);
+  }
+
+  public boolean hasCashbackAmount() {
+    return isGreaterThanZero(getSmileCardCashbackAmount()) || isGreaterThanZero(getSmileCardAdditionalSaveAmount());
+  }
 }

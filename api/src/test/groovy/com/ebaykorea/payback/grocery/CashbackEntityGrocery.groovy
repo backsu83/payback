@@ -31,6 +31,7 @@ class CashbackEntityGrocery {
       regId = (map.regId ?: "buyerNo") as String
       regDt = (map.regDt ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
       chgId = (map.chgId ?: "buyerNo") as String
+      cancelYn = (map.cancelYn ?: null) as String
     }
   }
 

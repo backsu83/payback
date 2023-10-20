@@ -16,6 +16,7 @@ public class SsgPointQuery {
     private final SsgPointTargetRepository ssgPointTargetRepository;
     private final SsgPointTargetQueryResultMapper pointMapper;
 
+    @Deprecated
     public List<SsgPointTargetQueryResult> getSsgPointQueryResult(final Long packNo, String siteType) {
         return ssgPointTargetRepository.findByPackNo(packNo)
                 .stream().filter(s -> siteType.equals(s.getSiteType()) && !PointStatusType.CancelBeforeSave.getCode().equals(s.getPointStatus()))
