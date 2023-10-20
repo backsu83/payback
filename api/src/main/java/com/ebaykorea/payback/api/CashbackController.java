@@ -3,13 +3,14 @@ package com.ebaykorea.payback.api;
 import com.ebaykorea.payback.core.dto.cashback.CashbackResponseDto;
 import com.ebaykorea.payback.core.dto.cashback.SaveCashbackRequestDto;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
 import com.ebaykorea.payback.core.service.CashbackApplicationService;
-import com.ebaykorea.payback.infrastructure.query.data.SavedCashbackQueryResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -23,7 +24,6 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 public class CashbackController {
 
   private final CashbackApplicationService applicationService;
-  private final CashbackQuery cashbackQuery;
 
   @PostMapping("/cashbacks")
   public CommonResponse<CashbackResponseDto> saveCashbacks(final @Valid @RequestBody SaveCashbackRequestDto request) {
@@ -32,13 +32,5 @@ public class CashbackController {
     return CommonResponse.success(responseMessageType, CashbackResponseDto.of(request.getTxKey(), request.getOrderKey()));
   }
 
-  @GetMapping("/cashbacks")
-  public SavedCashbackQueryResult getSavedCashbacks(
-      @RequestParam(value = "packNo", required = false) final Long packNo,
-      @RequestParam(value = "txKey", required = false) final String txKey,
-      @RequestParam(value = "orderKey", required = false) final String orderKey
-  ) {
-    return cashbackQuery.getSavedCashback(packNo, txKey, orderKey);
-  }
 }
 

@@ -11,9 +11,11 @@ import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(
     componentModel = "spring",
+    unmappedTargetPolicy = ReportingPolicy.IGNORE,
     imports = EventType.class
 )
 public interface TossEventRewardMapper {

@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity;
 
+import com.ebaykorea.payback.util.PaybackBooleans;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
+import static com.ebaykorea.payback.util.PaybackObjects.orElse;
 
 @Data
 @Builder
@@ -71,4 +75,23 @@ public class CashbackOrderEntity {
 
     @Column(name = "CHG_ID")
     private String chgId;
+
+    @Column(name = "REQ_CANCEL_YN")
+    private String cancelYn;
+
+
+    private static final String SAVE_TARGET = "SV";
+    public boolean isTarget() {
+        return hasAmount() && isSaveTarget() && !isCanceled();
+    }
+
+    private boolean hasAmount() {
+        return isGreaterThanZero(amount);
+    }
+    private boolean isSaveTarget() {
+        return orElse(tradeCd, "").trim().equalsIgnoreCase(SAVE_TARGET);
+    }
+    private boolean isCanceled() {
+        return PaybackBooleans.fromYN(cancelYn);
+    }
 }

@@ -46,6 +46,7 @@ public class SsgPointController {
    return CommonResponse.success(SSGPOINT_RETRIED, ssgPointService.retryFailed(orderNo, request));
   }
 
+  @Deprecated
   @GetMapping
   public List<SsgPointTargetQueryResult> getSsgPoints(Long packNo, String siteType) {
    return ssgPointQuery.getSsgPointQueryResult(packNo, siteType);
