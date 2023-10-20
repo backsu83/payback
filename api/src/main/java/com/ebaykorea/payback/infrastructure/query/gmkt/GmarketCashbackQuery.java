@@ -4,6 +4,7 @@ import com.ebaykorea.payback.infrastructure.gateway.TransactionGatewayImpl;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmilecardCashbackOrderRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardCashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.SsgPointTargetRepository;
 import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
 import com.ebaykorea.payback.infrastructure.query.data.*;
@@ -60,8 +61,10 @@ public class GmarketCashbackQuery implements CashbackQuery {
 
   private CompletableFuture<SmileCardQueryData> findSmileCardAsync(final long packNo) {
     return CompletableFuture.supplyAsync(withMdc(() -> smilecardCashbackOrderRepository.findById(packNo)))
-        .thenApply(entity -> entity.map(rewardTargetQueryMapper::map)
-            .orElse(SmileCardQueryData.EMPTY));
+        .thenApply(entity -> entity
+            .filter(SmilecardCashbackOrderEntity::hasCashbackAmount)
+            .map(rewardTargetQueryMapper::map)
+            .orElse(null));
   }
 
   private CompletableFuture<List<SsgPointTargetUnitQueryData>> findTargetedSsgPointUnitsAsync(final long packNo) {

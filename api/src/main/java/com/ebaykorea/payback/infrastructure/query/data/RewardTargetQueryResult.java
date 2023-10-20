@@ -22,7 +22,7 @@ public class RewardTargetQueryResult {
   @Schema(description = "캐시백 적립 대상")
   List<CashbackTargetQueryData> cashbackTargets;
 
-  public static final RewardTargetQueryResult EMPTY = RewardTargetQueryResult.of(SmileCardQueryData.EMPTY, SsgPointTargetQueryData.EMPTY, emptyList());
+  public static final RewardTargetQueryResult EMPTY = RewardTargetQueryResult.of(null, SsgPointTargetQueryData.EMPTY, emptyList());
 
   public static RewardTargetQueryResult of(
       final SmileCardQueryData smileCard,

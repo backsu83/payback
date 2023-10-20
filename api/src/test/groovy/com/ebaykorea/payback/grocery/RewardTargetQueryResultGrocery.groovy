@@ -11,7 +11,7 @@ import java.time.Instant
 class RewardTargetQueryResultGrocery {
   static def RewardTargetQueryResult_생성(Map map = [:]) {
     RewardTargetQueryResult.of(
-        (map.smileCard ?: SmileCardQueryData.EMPTY) as SmileCardQueryData,
+        (map.smileCard ?: null) as SmileCardQueryData,
         (map.ssgPoint ?: SsgPointTargetQueryData.EMPTY) as SsgPointTargetQueryData,
         (map.cashbackTargets ?: []) as List<CashbackTargetQueryData>
     )

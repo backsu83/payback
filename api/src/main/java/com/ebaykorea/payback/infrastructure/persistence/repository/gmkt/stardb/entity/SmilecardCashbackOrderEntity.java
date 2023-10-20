@@ -14,6 +14,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static com.ebaykorea.payback.util.PaybackBooleans.fromYN;
+import static com.ebaykorea.payback.util.PaybackDecimals.isGreaterThanZero;
+import static com.ebaykorea.payback.util.PaybackDecimals.orZero;
 
 @Data
 @Builder
@@ -54,11 +56,11 @@ public class SmilecardCashbackOrderEntity {
   @Column(name = "ITEM_TYPE")
   private String itemType;
 
-  public BigDecimal getSmileCardCashbackAmount() {
+  private BigDecimal getSmileCardCashbackAmount() {
     return fromYN(applyYn) ? cashbackAmount : BigDecimal.ZERO;
   }
 
-  public BigDecimal getSmileCardAdditionalSaveAmount() {
+  private BigDecimal getSmileCardAdditionalSaveAmount() {
     return fromYN(t2t3ApplyYn) ? t2t3CashbackAmount : BigDecimal.ZERO;
   }
 
@@ -67,5 +69,9 @@ public class SmilecardCashbackOrderEntity {
         .map(Timestamp::toInstant)
         .map(date -> date.plus(amountToAdd, ChronoUnit.DAYS))
         .orElse(null);
+  }
+
+  public boolean hasCashbackAmount() {
+    return isGreaterThanZero(getSmileCardCashbackAmount()) || isGreaterThanZero(getSmileCardAdditionalSaveAmount());
   }
 }

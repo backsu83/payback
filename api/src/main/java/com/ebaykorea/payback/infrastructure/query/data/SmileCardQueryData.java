@@ -8,8 +8,6 @@ import lombok.Value;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import static java.math.BigDecimal.ZERO;
-
 @Value
 @Builder
 @AllArgsConstructor(staticName = "of")
@@ -26,6 +24,4 @@ public class SmileCardQueryData {
   BigDecimal additionalSaveAmount;
   @Schema(description = "스마일카드 추가 적립 예정일")
   Instant additionalExpectSaveDate;
-
-  public static final SmileCardQueryData EMPTY = SmileCardQueryData.of("", ZERO, null, ZERO, null);
 }
