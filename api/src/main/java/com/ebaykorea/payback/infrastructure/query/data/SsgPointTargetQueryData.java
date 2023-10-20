@@ -3,7 +3,6 @@ package com.ebaykorea.payback.infrastructure.query.data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -16,16 +15,18 @@ import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 @Getter
 @EqualsAndHashCode
 public class SsgPointTargetQueryData {
-  @Schema(description = "총 적립 금액")
-  BigDecimal totalAmount;
+  @Schema(description = "적립 금액")
+  private final BigDecimal saveAmount;
   @Schema(description = "적립 예상 일")
-  Instant expectSaveDate;
+  private final Instant expectSaveDate;
 
   public static final SsgPointTargetQueryData EMPTY = SsgPointTargetQueryData.of(Collections.emptyList());
 
-  public static SsgPointTargetQueryData of(final List<SsgPointTargetUnitQueryData> targetedSsgPointUnits) {
+  public static SsgPointTargetQueryData of(
+      final List<SsgPointTargetUnitQueryData> targetedSsgPointUnits
+  ) {
     final var totalAmount = orEmptyStream(targetedSsgPointUnits)
-        .map(SsgPointTargetUnitQueryData::getAmount)
+        .map(SsgPointTargetUnitQueryData::getSaveAmount)
         .collect(summarizing());
     final var expectSaveDate = orEmptyStream(targetedSsgPointUnits)
         .map(SsgPointTargetUnitQueryData::getExpectSaveDate)
@@ -36,7 +37,7 @@ public class SsgPointTargetQueryData {
   }
 
   private SsgPointTargetQueryData(final BigDecimal totalAmount, final Instant expectSaveDate) {
-    this.totalAmount = totalAmount;
+    this.saveAmount = totalAmount;
     this.expectSaveDate = expectSaveDate;
   }
 }

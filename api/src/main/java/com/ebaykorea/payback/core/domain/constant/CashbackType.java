@@ -25,7 +25,7 @@ public enum CashbackType {
   private static final Map<String, CashbackType> map = PaybackEnums.reverseMap(CashbackType.class, CashbackType::getDbCode);
 
   @JsonCreator
-  public static String fromDBCode(String dbCode) {
+  public static String toCashbackName(String dbCode) {
     return map.getOrDefault(dbCode, Unknown).toString();
   }
 

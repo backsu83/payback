@@ -49,7 +49,7 @@ public class RewardTargetQueryResult {
         .entrySet().stream()
         .anyMatch(entry -> entry.getValue().size() > 1);
     if (hasMoreThanOneCashbackType) {
-      throw new PaybackException(DOMAIN_ENTITY_001 , "SavedCashbackQueryResult");
+      throw new PaybackException(DOMAIN_ENTITY_001, "SavedCashbackQueryResult");
     }
   }
 }

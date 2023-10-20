@@ -20,14 +20,16 @@ import java.time.Instant;
 )
 public interface RewardTargetQueryMapper {
 
-  @Mapping(expression = "java(CashbackType.fromDBCode(cashbackType))", target = "cashbackType")
-  CashbackTargetQueryData map(String cashbackType, BigDecimal totalAmount, Instant expectSaveDate);
+  @Mapping(expression = "java(CashbackType.toCashbackName(cashbackType))", target = "cashbackType")
+  CashbackTargetQueryData map(String cashbackType, BigDecimal saveAmount, Instant expectSaveDate);
 
-  @Mapping(expression = "java(source.getSmileCardCashbackAmount())", target = "smileCardCashbackAmount")
-  @Mapping(expression = "java(source.getSmileCardAdditionalSaveAmount())", target = "smileCardAdditionalSaveAmount")
+  @Mapping(constant = "", target = "type") //TODO: DB 컬럼 추가 시 작업
+  @Mapping(expression = "java(source.getSmileCardCashbackAmount())", target = "saveAmount")
+  @Mapping(constant = "10", target = "expectSaveDays")
+  @Mapping(expression = "java(source.getSmileCardAdditionalSaveAmount())", target = "additionalSaveAmount")
+  @Mapping(expression = "java(source.getT2ExpectSaveDate(30))", target = "additionalExpectSaveDate")
   SmileCardQueryData map(SmilecardCashbackOrderEntity source);
 
-  @Mapping(source = "saveAmount", target = "amount")
   @Mapping(source = "scheduleDate", target = "expectSaveDate")
   SsgPointTargetUnitQueryData map(final SsgPointTargetEntity sources);
 }

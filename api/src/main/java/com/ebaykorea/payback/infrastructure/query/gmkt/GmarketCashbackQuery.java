@@ -14,9 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -79,11 +77,11 @@ public class GmarketCashbackQuery implements CashbackQuery {
         .thenApply(entities -> entities.stream()
             .filter(CashbackOrderEntity::isTarget)
             .collect(groupingBy(CashbackOrderEntity::getCashbackType)).entrySet().stream()
-            .map(entry -> rewardTargetQueryMapper.map(entry.getKey(), totalCashbackOrderAmount(entry.getValue()), findExpectSaveDate(entry.getValue())))
+            .map(entry -> rewardTargetQueryMapper.map(entry.getKey(), totalCashbackOrderSaveAmount(entry.getValue()), findExpectSaveDate(entry.getValue())))
             .collect(toUnmodifiableList()));
   }
 
-  private BigDecimal totalCashbackOrderAmount(final List<CashbackOrderEntity> entities) {
+  private BigDecimal totalCashbackOrderSaveAmount(final List<CashbackOrderEntity> entities) {
     return entities.stream()
         .map(CashbackOrderEntity::getAmount)
         .collect(summarizing());

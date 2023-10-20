@@ -16,7 +16,7 @@ import static com.ebaykorea.payback.util.PaybackObjects.orElse;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SsgPointTargetUnitQueryData {
-  private BigDecimal amount;
+  private BigDecimal saveAmount;
   private Instant expectSaveDate;
   private String pointStatus;
 

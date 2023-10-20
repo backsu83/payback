@@ -16,8 +16,8 @@ import java.time.Instant;
 public class CashbackTargetQueryData {
   @Schema(description = "캐시백 타입", example = "Seller, Item, SmilePay, ChargePay, ClubDay")
   private String cashbackType;
-  @Schema(description = "타입별 총 적립 금액")
-  private BigDecimal totalAmount;
+  @Schema(description = "적립 금액")
+  private BigDecimal saveAmount;
   @Schema(description = "적립 예상일")
   private Instant expectSaveDate;
 }
