@@ -19,6 +19,7 @@ public class SmileCashSaveQueueEntity {
 
   public static final String FIND_BY_BIZ_KEY = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_SelectByIacBizKey";
   public static final String SAVE = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_Insert";
+  public static final String UPDATE = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_Update";
 
   @Id
   @Column(name = "SEQNO")
@@ -56,6 +57,9 @@ public class SmileCashSaveQueueEntity {
 
   @Column(name = "EXPIRE_DATE")
   private Timestamp expireDate;
+
+  @Column(name = "RETRY_CNT")
+  private int retryCount;
 
   @Column(name = "INS_OPRT")
   private String insertOperator;

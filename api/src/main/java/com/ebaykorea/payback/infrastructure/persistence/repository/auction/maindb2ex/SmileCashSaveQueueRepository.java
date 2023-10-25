@@ -45,10 +45,23 @@ public class SmileCashSaveQueueRepository {
           @SaturnProcedureParameter(name = "SMILECASH_TYPE", sqlType = Types.TINYINT),
           @SaturnProcedureParameter(name = "SAVE_AMNT", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "EXPIRE_DATE", sqlType = Types.DATE),
-          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 30),
+          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 30)
       },
       throwEx = true
   )
   public void save(final SmileCashSaveQueueEntity entity) {
+  }
+
+  @SaturnProcedure(
+      procedureName = SmileCashSaveQueueEntity.UPDATE,
+      parameters = {
+          @SaturnProcedureParameter(name = "SEQNO", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "SAVE_STATUS", sqlType = Types.TINYINT),
+          @SaturnProcedureParameter(name = "RETRY_CNT", sqlType = Types.INTEGER),
+          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 30)
+      },
+      throwEx = true
+  )
+  public void update(final SmileCashSaveQueueEntity entity) {
   }
 }

@@ -6,10 +6,7 @@ import com.ebaykorea.payback.api.dto.toss.TossEventRewardResultRequestDto;
 import com.ebaykorea.payback.api.mapper.TossEventRewardMapper;
 import com.ebaykorea.payback.core.EventRewardApplicationService;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardResponseDto;
+import com.ebaykorea.payback.core.dto.event.*;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +41,15 @@ public class EventController {
             .memberKey(memberKey)
             .eventRewardResult(result)
             .build());
+  }
+
+  @Operation(summary = "이벤트 리워드 적립 데이터 변경", description = "스마일캐시 이벤트 데이터 변경")
+  @PutMapping("/rewards/{smilepay-no}")
+  public CommonResponse<Long> setEventReward(
+      final @PathVariable(value = "smilepay-no") Long smilePayNo,
+      final @Valid @RequestBody SetEventRewardRequestDto request) {
+    repository.set(smilePayNo, request);
+    return CommonResponse.success(SUCCESS,smilePayNo);
   }
 
   @Operation(summary = "토스 리워드 적립 요청", description = "토스 리워드 적립")
