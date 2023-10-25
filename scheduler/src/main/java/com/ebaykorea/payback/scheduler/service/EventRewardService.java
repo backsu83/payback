@@ -81,11 +81,4 @@ public class EventRewardService {
         .eventRequestStatus(statusType)
         .build();
   }
-
-  private EventRewardRequestStatusEntityId buildStatusIdEntity(final long requestNo, final EventRequestStatusType statusType) {
-    return EventRewardRequestStatusEntityId.builder()
-        .requestNo(requestNo)
-        .eventRequestStatus(statusType)
-        .build();
-  }
 }
