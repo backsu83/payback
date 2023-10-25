@@ -3,6 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
+import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository;
@@ -54,6 +55,12 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
     return entity -> entity.getBizType() == BIZ_TYPE &&
         entity.getReasonCode().equals(TOSS_REASON_CODE) &&
         entity.getMemberId().equals(buyerId);
+  }
+
+  @Override
+  public void set(final Long seqNo, final SetEventRewardRequestDto request) {
+    final var entity = mapper.map(seqNo, request);
+    smileCashSaveQueueRepository.update(entity);
   }
 
   @Override

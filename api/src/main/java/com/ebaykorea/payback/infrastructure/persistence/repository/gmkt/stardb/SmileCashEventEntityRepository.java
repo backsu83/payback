@@ -38,6 +38,19 @@ public class SmileCashEventEntityRepository {
   }
 
   @SaturnProcedure(
+      procedureName = SmileCashEventRequestEntity.UPDATE,
+      parameters = {
+          @SaturnProcedureParameter(name = "SMILEPAY_NO", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "APPR_STATUS", sqlType = Types.TINYINT),
+          @SaturnProcedureParameter(name = "TRY_CNT", sqlType = Types.INTEGER),
+          @SaturnProcedureParameter(name = "REG_ID", sqlType = Types.VARCHAR, scale = 4)
+      },
+      throwEx = true
+  )
+  public void update(final SmileCashEventRequestEntity entity) {
+  }
+
+  @SaturnProcedure(
       procedureName = SmileCashEventRequestEntity.FIND,
       parameters = {
           @SaturnProcedureParameter(name = "CASH_BALANCE_TYPE", sqlType = Types.CHAR, scale = 2),

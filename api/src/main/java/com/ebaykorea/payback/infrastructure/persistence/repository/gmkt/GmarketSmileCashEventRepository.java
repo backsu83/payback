@@ -3,6 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
+import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmileCashEventEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
@@ -29,6 +30,12 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
     final var entity = mapper.map(buyerNo, request);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
+  }
+
+  @Override
+  public void set(final Long smilePayNo, final SetEventRewardRequestDto request) {
+    final var entity = mapper.map(smilePayNo, request);
+    repository.update(entity);
   }
 
   @Override
