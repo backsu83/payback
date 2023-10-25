@@ -38,10 +38,6 @@ public class EventRewardRepositoryCustom {
     return StringUtils.hasLength(tenantId) ? eventRewardRequestEntity.tenantId.eq(tenantId) : null;
   }
 
-  private StringExpression formattedDate() {
-    return Expressions.stringTemplate("FUNCTION('DATE_FORMAT', {0}, '%Y-%m-%d')", eventRewardRequestEntity.insertDate);
-  }
-
   private DateTemplate<Instant> formattedDate(final String dateString) {
     return Expressions.dateTemplate(Instant.class, "to_date({0}, {1})", dateString, Expressions.constant("yyyyMMdd"));
   }
