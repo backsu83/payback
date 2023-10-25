@@ -8,7 +8,7 @@ saturn:
 
 apis:
   payback:
-    url: "http://payreward-api-dev.auction.co.kr"
+    url: "http://payback-api-dev.auction.co.kr"
   quilt:
     url: "https://quilt-overmind-dev.auction.co.kr/api"
     user-id-query-path: "/v1/user-token/member-id"
