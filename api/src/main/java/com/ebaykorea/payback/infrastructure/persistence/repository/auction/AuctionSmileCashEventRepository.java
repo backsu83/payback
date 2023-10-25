@@ -58,8 +58,8 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public void set(Long smilePayNo, SetEventRewardRequestDto request) {
-    final var entity = mapper.map(smilePayNo, request);
+  public void set(final Long seqNo, final SetEventRewardRequestDto request) {
+    final var entity = mapper.map(seqNo, request);
     smileCashSaveQueueRepository.update(entity);
   }
 
