@@ -10,3 +10,6 @@ com.ebaykorea.payback.scheduler:
     initialDelay: 10 #TimeUnit.MINUTES
     fixedDelay: 10 #TimeUnit.MINUTES
     maxTryCount: 5
+  event-reward:
+    start-date: "" #yyyymmdd 형식
+    end-date: ""
