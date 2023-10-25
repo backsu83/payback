@@ -17,6 +17,6 @@ public class MemberEventRewardResultDto {
 
   @JsonIgnore
   public boolean isSuccess() {
-    return resultCode == 0 && smilePayNo > 0;
+    return resultCode == 0 && smilePayNo > 0L;
   }
 }
