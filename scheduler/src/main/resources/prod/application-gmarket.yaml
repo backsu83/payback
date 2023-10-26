@@ -8,7 +8,7 @@ saturn:
 
 apis:
   payback:
-    url: "http://payreward-api.gmarket.co.kr"
+    url: "http://payback-api.gmarket.co.kr"
   quilt:
     url: "https://quilt-overmind.gmarket.co.kr/api"
     user-id-query-path: "/user-token/cust-no"
