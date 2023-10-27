@@ -56,15 +56,18 @@ public class SmilecardCashbackOrderEntity {
   @Column(name = "ITEM_TYPE")
   private String itemType;
 
-  private BigDecimal getSmileCardCashbackAmount() {
+  public BigDecimal getSmileCardCashbackAmount() {
     return fromYN(applyYn) ? cashbackAmount : BigDecimal.ZERO;
   }
 
-  private BigDecimal getSmileCardAdditionalSaveAmount() {
+  public BigDecimal getSmileCardAdditionalSaveAmount() {
     return fromYN(t2t3ApplyYn) ? t2t3CashbackAmount : BigDecimal.ZERO;
   }
 
   public Instant getT2ExpectSaveDate(final int amountToAdd) {
+    if (!isGreaterThanZero(getSmileCardAdditionalSaveAmount())) {
+      return null;
+    }
     return Optional.ofNullable(regDt)
         .map(Timestamp::toInstant)
         .map(date -> date.plus(amountToAdd, ChronoUnit.DAYS))
