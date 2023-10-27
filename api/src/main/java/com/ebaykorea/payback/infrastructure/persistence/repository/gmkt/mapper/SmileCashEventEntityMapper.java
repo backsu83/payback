@@ -10,13 +10,15 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.e
 import com.ebaykorea.payback.util.PaybackInstants;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import java.sql.Timestamp;
 
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
 @Mapper(
-    componentModel = "spring"
+    componentModel = "spring",
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface SmileCashEventEntityMapper {
 
