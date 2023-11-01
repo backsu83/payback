@@ -42,11 +42,13 @@ public class PaymentMethod {
     return hasSmallCode(SmileCard) || isT1T2T3();
   }
   public boolean isT1T2T3() {
-    return hasSmallCode(SmileCardT1) || isT2T3();
+    return isT1() || isT2() || isT3();
   }
-  public boolean isT2T3() {
-    return hasSmallCode(SmileCardT2, SmileCardT3);
+  public boolean isT1() {
+    return hasSmallCode(SmileCardT1);
   }
+  public boolean isT2() { return hasSmallCode(SmileCardT2); }
+  public boolean isT3() { return hasSmallCode(SmileCardT3); }
 
   private boolean hasMediumCode(final String ...mediumCodes) {
     for (String code : mediumCodes) {

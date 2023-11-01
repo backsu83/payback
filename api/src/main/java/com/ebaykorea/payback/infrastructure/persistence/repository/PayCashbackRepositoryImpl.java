@@ -3,7 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback;
-import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCardCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2SmileCardCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
@@ -75,6 +75,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
 
       if (payCashback.isSmileCardCashbackApplicable()) {
         //smilecard_t2t3_cashback_info
+        //2023.12.01: t3는 smilecard_t2t3_cashback_info 테이블에 넣지 않는다.
         saveSmileCardT2T3Cashback(payCashback, payCashback.getSmileCardCashback());
       }
     }
@@ -129,10 +130,10 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
   }
 
   private List<SmilecardT2T3CashbackEntity> mapToT2T3Cashback(final PayCashback payCashback, final SmileCardCashback smileCardCashback) {
-    return smileCardCashback.getT2t3Cashbacks()
+    return smileCardCashback.getT2Cashbacks()
         .stream()
-        .filter(T2T3SmileCardCashback::isApply)
-        .map(t3SmileCardCashback -> smilecardT2T3CashbackEntityMapper.map(payCashback, t3SmileCardCashback))
+        .filter(T2SmileCardCashback::isApply)
+        .map(t2SmileCardCashback -> smilecardT2T3CashbackEntityMapper.map(payCashback, t2SmileCardCashback))
         .collect(Collectors.toUnmodifiableList());
   }
 }
