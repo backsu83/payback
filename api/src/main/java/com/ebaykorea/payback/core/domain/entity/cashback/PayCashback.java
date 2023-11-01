@@ -58,7 +58,7 @@ public class PayCashback {
         .orElse(false);
   }
 
-  // 적용 가능한 스마일카드 캐시백 여부
+  // 적용 가능한 스마일카드 추가 캐시백 여부
   public boolean hasSmileCardAdditionalCashbacks() {
     return Optional.ofNullable(smileCardCashback)
         .map(SmileCardCashback::hasAdditionalCashback)
