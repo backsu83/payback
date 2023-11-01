@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static com.ebaykorea.payback.core.domain.constant.EventRequestStatusType.getStatusBySaveProcessId;
+import static com.ebaykorea.payback.core.domain.constant.EventRequestStatusType.getStatusBySmilePayNo;
 import static com.ebaykorea.payback.util.PaybackStrings.EMPTY;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 
@@ -55,7 +55,7 @@ public class EventRewardApplicationService {
               .map(this::getSmilePayNo)
               .map(smilePayNo -> {
                 //적립 요청 상태 저장
-                eventRewardRepository.saveStatus(requestNo, getStatusBySaveProcessId(smilePayNo));
+                eventRewardRepository.saveStatus(requestNo, getStatusBySmilePayNo(smilePayNo));
 
                 final var resultCode = isBlank(smilePayNo) ? FAILED : SUCCESS;
                 return buildResponse(smilePayNo, resultCode);
