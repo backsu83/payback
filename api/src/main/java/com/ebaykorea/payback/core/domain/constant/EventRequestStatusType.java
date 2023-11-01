@@ -8,7 +8,7 @@ public enum EventRequestStatusType {
   Requested,
   RequestFailed;
 
-  public static EventRequestStatusType getStatusBySaveProcessId(final String saveProcessId) {
-    return isBlank(saveProcessId) ? RequestFailed : Requested;
+  public static EventRequestStatusType getStatusBySmilePayNo(final String smilePayNo) {
+    return isBlank(smilePayNo) ? RequestFailed : Requested;
   }
 }

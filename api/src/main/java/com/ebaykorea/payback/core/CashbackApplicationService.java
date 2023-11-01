@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.service;
+package com.ebaykorea.payback.core;
 
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CASHBACK_CREATED;
@@ -17,6 +17,7 @@ import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
 import com.ebaykorea.payback.core.repository.PayCashbackRepository;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
+import com.ebaykorea.payback.core.service.MemberService;
 import com.ebaykorea.payback.util.support.GsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

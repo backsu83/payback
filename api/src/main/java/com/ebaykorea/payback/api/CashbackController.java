@@ -3,7 +3,7 @@ package com.ebaykorea.payback.api;
 import com.ebaykorea.payback.core.dto.cashback.CashbackResponseDto;
 import com.ebaykorea.payback.core.dto.cashback.SaveCashbackRequestDto;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.service.CashbackApplicationService;
+import com.ebaykorea.payback.core.CashbackApplicationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
