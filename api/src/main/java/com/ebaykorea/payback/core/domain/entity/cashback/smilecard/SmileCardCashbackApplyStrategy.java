@@ -12,7 +12,7 @@ public interface SmileCardCashbackApplyStrategy {
     return () -> isSmileCard && !isFreeInstallment && isGreaterThanZero(amount);
   }
 
-  static SmileCardCashbackApplyStrategy t2t3SmileCardCashbackStrategy(final boolean isT2T3, final boolean isFreeInstallment, final BigDecimal amount) {
-    return () -> isT2T3 && !isFreeInstallment && isGreaterThanZero(amount);
+  static SmileCardCashbackApplyStrategy t2SmileCardCashbackStrategy(final boolean isT2, final boolean isFreeInstallment, final BigDecimal amount) {
+    return () -> isT2 && !isFreeInstallment && isGreaterThanZero(amount);
   }
 }
