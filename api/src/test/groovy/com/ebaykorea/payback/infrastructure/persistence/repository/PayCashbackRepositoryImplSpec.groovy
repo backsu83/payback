@@ -94,7 +94,7 @@ class PayCashbackRepositoryImplSpec extends Specification {
     "하나의 주문에 여러 캐시백이 적용된 경우" | PayCashback_생성(cashbacks: [Cashback_생성(cashbackUnits: [ItemCashback_생성(isSmilePay: true), SellerCashback_생성(amount: 1000L), SmilePayCashback_생성(isSmilePay: true), ChargePayCashback_생성(isChargePay: true), ClubDayCashback_생성(isSmilePay: true, isClubMember: true)])])
     "여러 주문에 여러 캐시백이 적용된 경우" | PayCashback_생성(cashbacks: [Cashback_생성(cashbackUnits: [ItemCashback_생성(isSmilePay: true)]), Cashback_생성(orderNo: 2L, cashbackUnits: [SellerCashback_생성(amount: 1000L)])])
     "스마일카드 캐시백이 적용된 경우" | PayCashback_생성(smileCardCashback: SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true))
-    "T2T3스마일카드 캐시백이 적용된 경우" | PayCashback_생성(smileCardCashback: SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, t2Cashbacks: [T2SmileCardCashback_생성(amount: 1000L, isT2: true)]))
+    "T2스마일카드 캐시백이 적용된 경우" | PayCashback_생성(smileCardCashback: SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, t2Cashbacks: [T2SmileCardCashback_생성(amount: 1000L, isT2: true)]))
     _________________________________________________
     cashbackOrderInvokeCount | policyInvokeCount | detailInvokeCount
     0 | 0 | 0
