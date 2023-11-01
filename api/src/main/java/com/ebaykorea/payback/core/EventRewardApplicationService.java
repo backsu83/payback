@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.core;
 
-import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
@@ -10,7 +9,6 @@ import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.core.gateway.UserGateway;
 import com.ebaykorea.payback.core.repository.EventRewardRepository;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
-import com.ebaykorea.payback.util.PaybackStrings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +17,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static com.ebaykorea.payback.core.domain.constant.EventRequestStatusType.getStatusBySaveProcessId;
-import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 import static com.ebaykorea.payback.util.PaybackStrings.EMPTY;
+import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 
 @Service
 @RequiredArgsConstructor
