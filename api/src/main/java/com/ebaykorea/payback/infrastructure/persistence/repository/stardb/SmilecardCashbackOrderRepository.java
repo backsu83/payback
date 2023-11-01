@@ -36,7 +36,8 @@ public class SmilecardCashbackOrderRepository {
           @SaturnProcedureParameter(name = "CHG_ID", sqlType = Types.VARCHAR, scale = 10),
           @SaturnProcedureParameter(name = "T2T3_CASHBACK_AMOUNT", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "T2T3_CASHBACK_APPLY_YN", sqlType = Types.VARCHAR, scale = 1),
-          @SaturnProcedureParameter(name = "ITEM_TYPE", sqlType = Types.VARCHAR, scale = 2)
+          @SaturnProcedureParameter(name = "ITEM_TYPE", sqlType = Types.VARCHAR, scale = 2),
+          @SaturnProcedureParameter(name = "SMILECARD_TYPE", sqlType = Types.VARCHAR, scale = 2)
       },
       throwEx = true //입력 실패시 exception 발생
   )
