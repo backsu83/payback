@@ -17,9 +17,9 @@ import org.mapstruct.ReportingPolicy;
 public interface SmilecardCashbackOrderEntityMapper {
 
   @Mapping(source = "smileCardCashback.cashbackAmount", target = "cashbackAmount")
-  @Mapping(expression = "java(smileCardCashback.sumT2Amount())", target = "t2t3CashbackAmount")
+  @Mapping(expression = "java(smileCardCashback.sumAdditionalAmount())", target = "t2t3CashbackAmount")
   @Mapping(expression = "java(PaybackBooleans.toYN(smileCardCashback.isApply()))", target = "applyYn")
-  @Mapping(expression = "java(PaybackBooleans.toYN(smileCardCashback.isApplyT2()))", target = "t2t3ApplyYn")
+  @Mapping(expression = "java(PaybackBooleans.toYN(smileCardCashback.hasAdditionalCashback()))", target = "t2t3ApplyYn")
   @Mapping(expression = "java(PaybackTimestamps.from(payCashback.getOrderDate()))", target = "regDt")
   @Mapping(expression = "java(PaybackTimestamps.from(payCashback.getOrderDate()))", target = "chgDt")
   @Mapping(source = "payCashback.member.buyerNo", target = "regId")

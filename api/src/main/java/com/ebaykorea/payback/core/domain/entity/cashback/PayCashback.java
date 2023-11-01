@@ -59,9 +59,9 @@ public class PayCashback {
   }
 
   // 적용 가능한 스마일카드 캐시백 여부
-  public boolean isSmileCardCashbackApplicable() {
+  public boolean hasSmileCardAdditionalCashbacks() {
     return Optional.ofNullable(smileCardCashback)
-        .map(s -> s.isApply() || s.isApplyT2())
+        .map(SmileCardCashback::hasAdditionalCashback)
         .orElse(false);
   }
 }

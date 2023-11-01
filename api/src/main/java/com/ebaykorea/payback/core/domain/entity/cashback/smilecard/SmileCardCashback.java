@@ -5,8 +5,6 @@ import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 
 import com.ebaykorea.payback.core.domain.constant.ShopType;
 import com.ebaykorea.payback.core.domain.constant.SmileCardType;
-import com.ebaykorea.payback.util.PaybackDecimals;
-import com.ebaykorea.payback.util.PaybackNumbers;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -21,50 +19,50 @@ public class SmileCardCashback {
 
   BigDecimal cashbackAmount;
   SmileCardCashbackApplyStrategy strategy;
-  List<T2SmileCardCashback> t2Cashbacks;
+  List<SmileCardAdditionalCashback> additionalCashbacks;
 
   public static SmileCardCashback of(
       final BigDecimal cashbackAmount,
-      final boolean isSmileCard,
+      final SmileCardType smileCardType,
       final boolean isFreeInstallment,
-      final List<T2SmileCardCashback> t2Cashbacks) {
+      final List<SmileCardAdditionalCashback> additionalCashbacks) {
     return new SmileCardCashback(
         cashbackAmount,
-        SmileCardCashbackApplyStrategy.defaultSmileCardCashbackStrategy(isSmileCard, isFreeInstallment, cashbackAmount),
-        t2Cashbacks);
+        SmileCardCashbackApplyStrategy.defaultSmileCardCashbackStrategy(smileCardType, isFreeInstallment, cashbackAmount),
+        additionalCashbacks);
   }
 
   private SmileCardCashback(
       final BigDecimal cashbackAmount,
       final SmileCardCashbackApplyStrategy strategy,
-      final List<T2SmileCardCashback> t2Cashbacks) {
+      final List<SmileCardAdditionalCashback> additionalCashbacks) {
     this.cashbackAmount = cashbackAmount;
     this.strategy = strategy;
-    this.t2Cashbacks = t2Cashbacks;
+    this.additionalCashbacks = additionalCashbacks;
   }
 
-  public BigDecimal sumT2Amount() {
-    return t2Cashbacks
+  public BigDecimal sumAdditionalAmount() {
+    return additionalCashbacks
         .stream()
-        .map(T2SmileCardCashback::getAmount)
+        .map(SmileCardAdditionalCashback::getAmount)
         .collect(summarizing());
   }
 
   public ShopType toShopType() {
-    boolean isSmileDelivery = t2Cashbacks.stream().anyMatch(T2SmileCardCashback::isSmileDelivery);
-    boolean isSmileFresh = t2Cashbacks.stream().anyMatch(T2SmileCardCashback::isSmileFresh);
+    boolean isSmileDelivery = additionalCashbacks.stream().anyMatch(SmileCardAdditionalCashback::isSmileDelivery);
+    boolean isSmileFresh = additionalCashbacks.stream().anyMatch(SmileCardAdditionalCashback::isSmileFresh);
     return isSmileDelivery ? ShopType.SmileDelivery : isSmileFresh ? ShopType.SmileFresh : ShopType.Unknown;
   }
 
   public boolean hasSmileCardCashbackAmount() {
-    return isGreaterThanZero(cashbackAmount) || isGreaterThanZero(sumT2Amount());
+    return isGreaterThanZero(cashbackAmount) || isGreaterThanZero(sumAdditionalAmount());
   }
 
   public boolean isApply() {
     return strategy.isApply();
   }
 
-  public boolean isApplyT2() {
-    return t2Cashbacks.stream().anyMatch(T2SmileCardCashback::isApply);
+  public boolean hasAdditionalCashback() {
+    return additionalCashbacks.stream().anyMatch(SmileCardAdditionalCashback::isApply);
   }
 }
