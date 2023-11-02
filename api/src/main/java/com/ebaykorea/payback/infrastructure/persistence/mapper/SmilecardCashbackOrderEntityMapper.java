@@ -25,6 +25,6 @@ public interface SmilecardCashbackOrderEntityMapper {
   @Mapping(source = "payCashback.member.buyerNo", target = "regId")
   @Mapping(source = "payCashback.member.buyerNo", target = "chgId")
   @Mapping(expression = "java(smileCardCashback.toShopType().getCode())", target = "itemType")
-  @Mapping(expression = "payCashback.", target = "smileCardType")
+  @Mapping(source = "smileCardCashback.smileCardTypeCode", target = "smileCardType")
   SmilecardCashbackOrderEntity map(PayCashback payCashback , SmileCardCashback smileCardCashback);
 }

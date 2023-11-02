@@ -16,10 +16,10 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class SmileCardCashback {
-
   BigDecimal cashbackAmount;
   SmileCardCashbackApplyStrategy strategy;
   List<SmileCardAdditionalCashback> additionalCashbacks;
+  String smileCardTypeCode;
 
   public static SmileCardCashback of(
       final BigDecimal cashbackAmount,
@@ -29,16 +29,19 @@ public class SmileCardCashback {
     return new SmileCardCashback(
         cashbackAmount,
         SmileCardCashbackApplyStrategy.defaultSmileCardCashbackStrategy(smileCardType, isFreeInstallment, cashbackAmount),
-        additionalCashbacks);
+        additionalCashbacks,
+        smileCardType.getCode());
   }
 
   private SmileCardCashback(
       final BigDecimal cashbackAmount,
       final SmileCardCashbackApplyStrategy strategy,
-      final List<SmileCardAdditionalCashback> additionalCashbacks) {
+      final List<SmileCardAdditionalCashback> additionalCashbacks,
+      final String smileCardTypeCode) {
     this.cashbackAmount = cashbackAmount;
     this.strategy = strategy;
     this.additionalCashbacks = additionalCashbacks;
+    this.smileCardTypeCode = smileCardTypeCode;
   }
 
   public BigDecimal sumAdditionalAmount() {
