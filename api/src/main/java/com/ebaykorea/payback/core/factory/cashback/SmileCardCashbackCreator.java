@@ -3,7 +3,7 @@ package com.ebaykorea.payback.core.factory.cashback;
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.DOMAIN_ENTITY_002;
 
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback;
-import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2SmileCardCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardAdditionalCashback;
 import com.ebaykorea.payback.core.domain.entity.order.ItemSnapshots;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.Order;
@@ -26,19 +26,19 @@ public class SmileCardCashbackCreator {
       final ItemSnapshots itemSnapshots,
       final RewardCashbackPolicies rewardCashbackPolicies
   ) {
-    final var t2Cashbacks = createT2SmileCardCashbacks(keyMap, order, payment, itemSnapshots, rewardCashbackPolicies);
+    final var smileCardAdditionalCashbacks = createSmileCardAdditionalCashbacks(keyMap, order, payment, itemSnapshots, rewardCashbackPolicies);
 
     final var smileCardCashbackAmount = payment.isT1T2T3SmileCard() ? rewardCashbackPolicies.getNewSmileCardCashbackAmount() : rewardCashbackPolicies.getSmileCardCashbackAmount();
 
     return SmileCardCashback.of(
         smileCardCashbackAmount,
-        payment.isSmileCard(),
+        payment.toSmileCardType(),
         payment.isFreeInstallment(),
-        t2Cashbacks
+        smileCardAdditionalCashbacks
     );
   }
 
-  private List<T2SmileCardCashback> createT2SmileCardCashbacks(
+  private List<SmileCardAdditionalCashback> createSmileCardAdditionalCashbacks(
       final KeyMap keyMap,
       final Order order,
       final Payment payment,
@@ -54,13 +54,12 @@ public class SmileCardCashbackCreator {
           final var itemSnapshot = itemSnapshots.findBy(orderUnit.getItemSnapshotKey())
               .orElseThrow(() -> new PaybackException(DOMAIN_ENTITY_002, "itemSnapshot"));
 
-          return T2SmileCardCashback.of(
+          return SmileCardAdditionalCashback.of(
               entry.getValue().getPolicyKey(),
               itemSnapshot.toShopType(),
               entry.getValue().getCashbackAmount(),
               orderUnit.orderUnitPriceExcludingCouponPrice(),
               payment.toSmileCardType(),
-              payment.isT2SmileCard(),
               payment.isFreeInstallment()
           );
         })
