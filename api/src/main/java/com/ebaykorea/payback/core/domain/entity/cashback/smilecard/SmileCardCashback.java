@@ -19,7 +19,7 @@ public class SmileCardCashback {
   BigDecimal cashbackAmount;
   SmileCardCashbackApplyStrategy strategy;
   List<SmileCardAdditionalCashback> additionalCashbacks;
-  String smileCardTypeCode;
+  SmileCardType smileCardType;
 
   public static SmileCardCashback of(
       final BigDecimal cashbackAmount,
@@ -30,18 +30,18 @@ public class SmileCardCashback {
         cashbackAmount,
         SmileCardCashbackApplyStrategy.defaultSmileCardCashbackStrategy(smileCardType, isFreeInstallment, cashbackAmount),
         additionalCashbacks,
-        smileCardType.getCode());
+            smileCardType);
   }
 
   private SmileCardCashback(
       final BigDecimal cashbackAmount,
       final SmileCardCashbackApplyStrategy strategy,
       final List<SmileCardAdditionalCashback> additionalCashbacks,
-      final String smileCardTypeCode) {
+      final SmileCardType smileCardType) {
     this.cashbackAmount = cashbackAmount;
     this.strategy = strategy;
     this.additionalCashbacks = additionalCashbacks;
-    this.smileCardTypeCode = smileCardTypeCode;
+    this.smileCardType = smileCardType;
   }
 
   public BigDecimal sumAdditionalAmount() {
