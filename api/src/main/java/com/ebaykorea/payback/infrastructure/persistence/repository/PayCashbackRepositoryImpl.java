@@ -71,6 +71,7 @@ public class PayCashbackRepositoryImpl implements PayCashbackRepository {
 
     if (payCashback.hasSmileCardCashbackAmount()) {
       //SMILECARD_CASHBACK_ORDER
+      //2023.12.01: 스마일카드 타입 추가
       saveSmileCardCashback(payCashback, payCashback.getSmileCardCashback());
 
       if (payCashback.hasSmileCardAdditionalCashbacks()) {
