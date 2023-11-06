@@ -65,5 +65,6 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
     "진행중" | SmileCashEventEntity_생성()             | SmileCashEvent_생성()
     "성공" | SmileCashEventEntity_생성(status: 50) | SmileCashEvent_생성(saved: true)
     "실패" | SmileCashEventEntity_생성(status: 90) | SmileCashEvent_생성(failed: true)
+    "실패2" | SmileCashEventEntity_생성(status: 99) | SmileCashEvent_생성(failed: true)
   }
 }
