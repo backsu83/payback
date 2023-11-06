@@ -46,6 +46,6 @@ public interface SmileCashEventEntityMapper {
   MemberEventRewardResultDto map(final Long requestNo, final SmileCashEventResultEntity source);
 
   @Mapping(expression = "java(source.getStatus() == 50)", target = "saved")
-  @Mapping(expression = "java(source.getStatus() == 90)", target = "failed")
+  @Mapping(expression = "java(source.getStatus() >= 90)", target = "failed")
   SmileCashEvent map(SmileCashEventEntity source);
 }
