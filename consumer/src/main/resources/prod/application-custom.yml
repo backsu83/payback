@@ -8,7 +8,7 @@ spring:
       bootstrap-servers:
         listener-1: centralkafka.gmarket.com:9092 #지마켓
         order: StrBroker01em:9092,StrBroker02em:9092,StrBroker03em:9092,StrBroker01ep:9092,StrBroker02ep:9092,StrBroker03ep:9092
-
+---
 spring:
   config.activate.on-profile: "auction"
   kafka:
@@ -19,6 +19,7 @@ spring:
       bootstrap-servers:
         listener-1: centralkafka.auction.co.kr:9092 #옥션
         order: centralkafka.auction.co.kr:9092 #옥션
+---
 payback:
   topic:
     order-canceled-gmkt: bz_refund_completed_gmkt
