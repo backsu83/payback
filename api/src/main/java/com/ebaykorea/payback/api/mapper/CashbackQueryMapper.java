@@ -8,5 +8,5 @@ import org.mapstruct.ReportingPolicy;
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface CashbackQueryMapper {
-
+  //TODO
 }

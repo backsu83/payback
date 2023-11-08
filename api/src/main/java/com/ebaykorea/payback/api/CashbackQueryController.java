@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.api;
 
-import com.ebaykorea.payback.api.dto.cashback.CashbackTargetResponseDto;
 import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
@@ -36,12 +35,5 @@ public class CashbackQueryController {
       @PathVariable(value = "pay-no") final Long payNo
   ) {
     return CommonResponse.success(ResponseMessageType.SUCCESS, cashbackQuery.getSavedCashback(payNo));
-  }
-
-  @GetMapping("/cashbacks/{pay-no}")
-  public CommonResponse<CashbackTargetResponseDto> getCashbackTargets(
-      @PathVariable(value = "pay-no") final Long payNo
-  ) {
-    return CommonResponse.success(ResponseMessageType.SUCCESS, null);
   }
 }
