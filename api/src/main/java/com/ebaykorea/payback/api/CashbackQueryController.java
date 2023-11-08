@@ -22,16 +22,16 @@ public class CashbackQueryController {
 
   private final CashbackQuery cashbackQuery;
 
-  @GetMapping("/cashbacks")
-  public CommonResponse<RewardTargetQueryResult> getSavedCashbacks(
+  @GetMapping("/rewards")
+  public CommonResponse<RewardTargetQueryResult> getRewardTargets(
       @RequestParam(value = "txKey") final String txKey,
       @RequestParam(value = "orderKey") final String orderKey
   ) {
     return CommonResponse.success(ResponseMessageType.SUCCESS, cashbackQuery.getSavedCashback(txKey, orderKey));
   }
 
-  @GetMapping("/cashbacks/{pay-no}")
-  public CommonResponse<RewardTargetQueryResult> getSavedCashbacks(
+  @GetMapping("/rewards/{pay-no}")
+  public CommonResponse<RewardTargetQueryResult> getRewardTargets(
       @PathVariable(value = "pay-no") final Long payNo
   ) {
     return CommonResponse.success(ResponseMessageType.SUCCESS, cashbackQuery.getSavedCashback(payNo));
