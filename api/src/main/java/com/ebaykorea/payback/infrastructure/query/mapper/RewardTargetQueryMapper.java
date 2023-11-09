@@ -23,7 +23,7 @@ public interface RewardTargetQueryMapper {
   @Mapping(expression = "java(CashbackType.toCashbackName(cashbackType))", target = "cashbackType")
   CashbackTargetQueryData map(String cashbackType, BigDecimal saveAmount, Instant expectSaveDate);
 
-  @Mapping(constant = "", target = "type") //TODO: DB 컬럼 추가 시 작업
+  @Mapping(source = "smileCardType", target = "type")
   @Mapping(expression = "java(source.getSmileCardCashbackAmount())", target = "saveAmount")
   @Mapping(constant = "10", target = "expectSaveDays")
   @Mapping(expression = "java(source.getSmileCardAdditionalSaveAmount())", target = "additionalSaveAmount")
