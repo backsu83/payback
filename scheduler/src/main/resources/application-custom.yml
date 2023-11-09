@@ -1,12 +1,15 @@
-
-apis:
-  payback:
-    url: "http://payback-api-dev.gmarket.co.kr"
-
-#payback.dcm.access.enable: true
+spring:
+  config.activate.on-profile: "gmarket"
+---
+spring:
+  config.activate.on-profile: "auction"
+---
 
 com.ebaykorea.payback.scheduler:
   data:
     initialDelay: 10 #TimeUnit.MINUTES
     fixedDelay: 10 #TimeUnit.MINUTES
     maxTryCount: 5
+  event-reward:
+    start-date: "" #yyyymmdd 형식
+    end-date: ""

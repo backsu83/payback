@@ -11,4 +11,5 @@ public class PaybackBooleans {
   }
 
   public static String toYN(final Boolean bool) { return asPrimitive(bool)? "Y" : "N"; }
+  public static boolean fromYN(final String yn) { return orElse(yn, "N").equals("Y"); }
 }

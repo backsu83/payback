@@ -4,8 +4,8 @@ import com.ebaykorea.payback.scheduler.repository.stardb.CashbackOrderBatchRepos
 import com.ebaykorea.payback.scheduler.repository.stardb.entity.CashbackOrderBatchEntity
 import com.ebaykorea.payback.scheduler.service.entity.ProcessType
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient
-import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto
-import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto
+import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackRequestDto
+import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackResponseDto
 
 import com.ebaykorea.payback.scheduler.service.PaybackBatchService
 

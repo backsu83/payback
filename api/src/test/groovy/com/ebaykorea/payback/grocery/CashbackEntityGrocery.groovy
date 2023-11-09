@@ -1,16 +1,14 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.constant.TestConstant
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderDetailEntity
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderEntity
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderMemberEntity
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.CashbackOrderPolicyEntity
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardCashbackOrderEntity
-import com.ebaykorea.payback.infrastructure.persistence.repository.stardb.entity.SmilecardT2T3CashbackEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderDetailEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderMemberEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderPolicyEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardCashbackOrderEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardT2T3CashbackEntity
 import com.ebaykorea.payback.util.PaybackTimestamps
 
-import javax.persistence.Column
-import javax.persistence.Id
 import java.sql.Timestamp
 
 class CashbackEntityGrocery {
@@ -33,6 +31,7 @@ class CashbackEntityGrocery {
       regId = (map.regId ?: "buyerNo") as String
       regDt = (map.regDt ?: PaybackTimestamps.from(TestConstant.ORDER_DATE)) as Timestamp
       chgId = (map.chgId ?: "buyerNo") as String
+      cancelYn = (map.cancelYn ?: null) as String
     }
   }
 

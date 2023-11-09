@@ -1,13 +1,14 @@
 package com.ebaykorea.payback.scheduler.service;
 
+import static com.ebaykorea.payback.scheduler.domain.constant.TenantCode.GMARKET_TENANT;
 import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.COMPLETED;
 import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.FAIL;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 import com.ebaykorea.payback.scheduler.repository.stardb.CashbackOrderBatchRepository;
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
-import com.ebaykorea.payback.scheduler.client.dto.PaybackRequestDto;
-import com.ebaykorea.payback.scheduler.client.dto.PaybackResponseDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackRequestDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackResponseDto;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+@Profile(GMARKET_TENANT)
 @Slf4j
 @Service
 @RequiredArgsConstructor
