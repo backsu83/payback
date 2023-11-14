@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.api;
 
+import com.ebaykorea.payback.api.dto.toss.TossCommonResponseDto;
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardRequestDto;
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardResponseDto;
 import com.ebaykorea.payback.api.dto.toss.TossEventRewardResultRequestDto;
@@ -24,31 +25,50 @@ public class EventRewardTossController {
   private final EventRewardApplicationService service;
   private final TossEventRewardMapper mapper;
 
+  private static final String SUCCESS = "SUCCESS";
+
   @Operation(summary = "토스 리워드 적립 요청", description = "토스 리워드 적립")
   @PostMapping
-  public TossEventRewardResponseDto saveEventReward(
+  public TossCommonResponseDto saveEventReward(
       final @Valid @RequestBody TossEventRewardRequestDto request) {
     final var result = service.saveEventReward(mapper.map(request));
-    return mapper.map(result);
+
+    return TossCommonResponseDto.builder()
+        .resultType(SUCCESS)
+        .result(mapper.map(result))
+        .build();
   }
 
   @Operation(summary = "토스 리워드 적립 요청 결과 조회")
   @PostMapping("/get-result")
-  public TossEventRewardResponseDto getEventReward(
+  public TossCommonResponseDto getEventReward(
       final @Valid @RequestBody TossEventRewardResultRequestDto request) {
     final var result = service.getEventReward(mapper.map(request));
-    return mapper.map(result);
+
+    return TossCommonResponseDto.builder()
+        .resultType(SUCCESS)
+        .result(mapper.map(result))
+        .build();
   }
 
   @ExceptionHandler(value = {Exception.class})
-  public TossEventRewardResponseDto handleException(Exception ex) {
+  public TossCommonResponseDto handleException(Exception ex) {
     log.error(ex.getLocalizedMessage(), ex);
-    return new TossEventRewardResponseDto("", "FAILED", "처리 중 오류 발생");
+
+    return TossCommonResponseDto.builder()
+        .resultType("FAIL")
+        .errorCode("FAILED")
+        .errorMessage("처리 중 오류 발생")
+        .build();
   }
 
   @ExceptionHandler(value = {PaybackException.class})
-  public TossEventRewardResponseDto handlePaybackException(final PaybackException ex) {
+  public TossCommonResponseDto handlePaybackException(final PaybackException ex) {
     log.error(ex.getLocalizedMessage(), ex);
-    return new TossEventRewardResponseDto("", "FAILED", ex.getMessage());
+    return TossCommonResponseDto.builder()
+        .resultType("FAIL")
+        .errorCode("FAILED")
+        .errorMessage(ex.getMessage())
+        .build();
   }
 }
