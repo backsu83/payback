@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.query.mapper;
 
 import com.ebaykorea.payback.infrastructure.query.data.SmilePointTradeQueryResult;
-import com.ebaykorea.payback.infrastructure.persistence.repository.customer.entity.SmilePointTradeEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.customer.entity.SmilePointTradeEntity;
 import com.ebaykorea.payback.util.PaybackTimestamps;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

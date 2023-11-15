@@ -22,11 +22,11 @@ public enum CashbackType {
   private final Integer code;
   private final String dbCode;
 
-  private static transient Map<Integer, CashbackType> map = PaybackEnums.reverseMap(CashbackType.class, CashbackType::getCode);
+  private static final Map<String, CashbackType> map = PaybackEnums.reverseMap(CashbackType.class, CashbackType::getDbCode);
 
   @JsonCreator
-  public static CashbackType forValue(Integer value) {
-    return map.getOrDefault(value, Unknown);
+  public static String toCashbackName(String dbCode) {
+    return map.getOrDefault(dbCode, Unknown).toString();
   }
 
   @JsonValue

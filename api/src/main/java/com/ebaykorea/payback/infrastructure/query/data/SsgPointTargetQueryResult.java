@@ -9,6 +9,7 @@ import java.util.List;
 
 import static java.util.Collections.emptyList;
 
+@Deprecated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
