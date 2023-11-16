@@ -8,15 +8,15 @@ saturn:
 
 apis:
   reward:
-    url: "http://payreward-api-dev.auction.co.kr"
+    url: "http://payreward-api-av.auction.co.kr"
   order:
-    url: "http://order-api-dev.gmarket.co.kr/v1" #TODO
+    url: "http://order-api-av.gmarket.co.kr/v1" #TODO
   club:
-    url: "https://clubapi-dev.gmarket.co.kr" #TODO
+    url: "https://clubapi.gmarket.co.kr" #TODO
   payment:
-    url: "http://payment-api-dev.gmarket.co.kr" #TODO
+    url: "http://payment-api-av.gmarket.co.kr" #TODO
   transaction:
-    url: "http://transaction-api-dev.gmarket.co.kr/v1" #TODO
+    url: "http://transaction-api-av.gmarket.co.kr/v1" #TODO
   quilt:
-    url: "https://quilt-overmind-dev.auction.co.kr/api"
+    url: "https://quilt-overmind.auction.co.kr/api"
     user-id-query-path: "/v1/user-token/member-id"

@@ -12,15 +12,15 @@ saturn:
 
 apis:
   reward:
-    url: "http://rewardservice-dev.gmarket.co.kr"
+    url: "http://rewardservice.gmarket.co.kr"
   order:
-    url: "http://order-api-dev.gmarket.co.kr/v1"
+    url: "http://order-api.gmarket.co.kr/v1"
   club:
-    url: "https://clubapi-dev.gmarket.co.kr"
+    url: "https://clubapi.gmarket.co.kr"
   payment:
-    url: "http://payment-api-dev.gmarket.co.kr"
+    url: "http://payment-api.gmarket.co.kr"
   transaction:
-    url: "http://transaction-api-dev.gmarket.co.kr/v1"
+    url: "http://transaction-api.gmarket.co.kr/v1"
   quilt:
-    url: "https://quilt-overmind-dev.gmarket.co.kr/api"
+    url: "https://quilt-overmind.gmarket.co.kr/api"
     user-id-query-path: "/user-token/cust-no"
