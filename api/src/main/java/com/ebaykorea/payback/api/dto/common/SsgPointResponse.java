@@ -1,10 +1,8 @@
 package com.ebaykorea.payback.api.dto.common;
 
-import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 
 @Data
 @Builder

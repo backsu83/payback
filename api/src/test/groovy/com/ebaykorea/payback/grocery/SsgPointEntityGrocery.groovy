@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.constant.TestConstant
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity.SsgPointTargetEntity
 
 import java.time.Instant
 

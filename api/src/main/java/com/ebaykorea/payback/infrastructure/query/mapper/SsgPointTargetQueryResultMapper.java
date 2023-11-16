@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.query.mapper;
 
 import com.ebaykorea.payback.core.domain.constant.PointStatusType;
-import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.entity.SsgPointTargetEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.infrastructure.query.data.SsgPointTargetQueryResult;
 import com.ebaykorea.payback.util.PaybackDateTimeFormatters;
 import org.mapstruct.Mapper;

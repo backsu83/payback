@@ -8,8 +8,13 @@ import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
 import java.sql.Types;
 import java.util.Collections;
 import java.util.List;
+
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import static com.ebaykorea.payback.scheduler.domain.constant.TenantCode.GMARKET_TENANT;
+
+@Profile(GMARKET_TENANT)
 @Repository
 @SaturnDataSource(name = Gmkt.TIGER_READ)
 public class CashbackOrderBatchRepository {

@@ -35,11 +35,12 @@ public class HibernateAdapterFactory {
    */
   protected LocalContainerEntityManagerFactoryBean getJpaEntityManagerFactory(
       DataSource ds,
-      String packageName
+      String packageName1,
+      String packageName2
   ) {
     LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
     factoryBean.setDataSource(ds);
-    factoryBean.setPackagesToScan(packageName);
+    factoryBean.setPackagesToScan(packageName1, packageName2);
     factoryBean.setJpaVendorAdapter(getJpaVendorAdapter());
 
     Map<String, Object> props = new HashMap<>();
