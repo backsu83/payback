@@ -1,16 +1,8 @@
-
-apis:
-  reward:
-    url: "http://rewardservice.gmarket.co.kr"
-  order:
-    url: "http://order-api-av.gmarket.co.kr/v1"
-  club:
-    url: "https://clubapi.gmarket.co.kr"
-  payment:
-    url: "http://payment-api-av.gmarket.co.kr"
-  transaction:
-    url: "http://transaction-api-av.gmarket.co.kr/v1"
-  quilt:
-    url: "https://quilt-overmind.gmarket.co.kr/api"
+spring:
+  config.activate.on-profile: "gmarket"
+---
+spring:
+  config.activate.on-profile: "auction"
+---
 
 payback.dcm.access.enable: true
