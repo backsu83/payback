@@ -1,6 +1,6 @@
 pluginManagement {
     repositories {
-        maven { url 'https://prm.ebaykorea.com/nexus/repository/maven-group/' }
+        maven { url 'https://prm.gmarket.com/repository/maven-group/' }
         gradlePluginPortal()
     }
 }
