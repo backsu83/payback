@@ -12,11 +12,12 @@ import org.mapstruct.ReportingPolicy;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Mapper(
     componentModel = "spring",
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
-    imports = {CashbackType.class}
+    imports = {CashbackType.class, ChronoUnit.class}
 )
 public interface RewardTargetQueryMapper {
 
@@ -30,6 +31,6 @@ public interface RewardTargetQueryMapper {
   @Mapping(expression = "java(source.getT2ExpectSaveDate(30))", target = "additionalExpectSaveDate")
   SmileCardQueryData map(SmilecardCashbackOrderEntity source);
 
-  @Mapping(source = "scheduleDate", target = "expectSaveDate")
-  SsgPointTargetUnitQueryData map(final SsgPointTargetEntity sources);
+  @Mapping(expression = "java(source.getScheduleDate().truncatedTo(ChronoUnit.DAYS))", target = "expectSaveDate")
+  SsgPointTargetUnitQueryData map(final SsgPointTargetEntity source);
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
+import static com.ebaykorea.payback.util.PaybackDateTimeFormatters.DATE_FORMATTER;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
@@ -71,7 +72,7 @@ public class GmarketCashbackQuery implements CashbackQuery {
         .thenApply(entities -> entities.stream()
             .map(rewardTargetQueryMapper::map)
             .filter(SsgPointTargetUnitQueryData::isTarget)
-            .collect(groupingBy( //ssgPoint 적립 대상건들을 적립예정일 별 금액 sum 으로 map (Map<Instant, BigDecimal)
+            .collect(groupingBy( //ssgPoint 적립 대상건들을 적립예정일 별 금액 sum 으로 map (Map<String, BigDecimal)
                 SsgPointTargetUnitQueryData::getExpectSaveDate,
                 mapping(SsgPointTargetUnitQueryData::getSaveAmount, summarizing())))
             .entrySet().stream()
