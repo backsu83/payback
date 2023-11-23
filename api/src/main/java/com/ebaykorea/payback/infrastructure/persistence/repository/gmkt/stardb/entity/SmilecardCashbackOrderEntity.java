@@ -56,6 +56,9 @@ public class SmilecardCashbackOrderEntity {
   @Column(name = "ITEM_TYPE")
   private String itemType;
 
+  @Column(name = "SMILECARD_TYPE")
+  private String smileCardType;
+  
   public BigDecimal getSmileCardCashbackAmount() {
     return fromYN(applyYn) ? cashbackAmount : BigDecimal.ZERO;
   }
