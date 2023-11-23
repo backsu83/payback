@@ -75,7 +75,7 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.consumer
-    host: http://moafw2.ebaykorea.com/bulk
+    host: http://moafw2.gmarket.com/bulk
   datasource:
     appName: PAYREWARD_APP
     userName: payback_app
