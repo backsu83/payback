@@ -12,7 +12,7 @@ class RewardTargetQueryResultGrocery {
   static def RewardTargetQueryResult_생성(Map map = [:]) {
     RewardTargetQueryResult.of(
         (map.smileCard ?: null) as SmileCardQueryData,
-        (map.ssgPoint ?: SsgPointTargetQueryData.EMPTY) as SsgPointTargetQueryData,
+        (map.ssgPoints ?: []) as List<SsgPointTargetQueryData>,
         (map.cashbackTargets ?: []) as List<CashbackTargetQueryData>
     )
   }
@@ -28,14 +28,14 @@ class RewardTargetQueryResultGrocery {
   }
 
   static def SsgPointTargetQueryData_생성(Map map = [:]) {
-    new SsgPointTargetQueryData(
-        (map.saveAmount ?: 0) as BigDecimal,
-        (map.expectSaveDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant
+    SsgPointTargetQueryData.of(
+        (map.expectSaveDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
+        (map.saveAmount ?: 0) as BigDecimal
     )
   }
 
   static def CashbackTargetQueryData_생성(Map map = [:]) {
-    new CashbackTargetQueryData().tap{
+    new CashbackTargetQueryData().tap {
       cashbackType = (map.cashbackType ?: "Unknown") as String
       saveAmount = (map.saveAmount ?: 0) as BigDecimal
       expectSaveDate = (map.expectSaveDate ?: TestConstant.USE_ENABLE_DATE) as Instant
