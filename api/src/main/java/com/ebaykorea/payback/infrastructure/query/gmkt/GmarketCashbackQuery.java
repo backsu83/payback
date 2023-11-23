@@ -72,7 +72,7 @@ public class GmarketCashbackQuery implements CashbackQuery {
         .thenApply(entities -> entities.stream()
             .map(rewardTargetQueryMapper::map)
             .filter(SsgPointTargetUnitQueryData::isTarget)
-            .collect(groupingBy( //ssgPoint 적립 대상건들을 적립예정일 별 금액 sum 으로 map (Map<String, BigDecimal)
+            .collect(groupingBy( //ssgPoint 적립 대상건들을 적립예정일 별 금액 sum 으로 map (Map<Instant, BigDecimal)
                 SsgPointTargetUnitQueryData::getExpectSaveDate,
                 mapping(SsgPointTargetUnitQueryData::getSaveAmount, summarizing())))
             .entrySet().stream()
