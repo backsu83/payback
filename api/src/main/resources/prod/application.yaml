@@ -11,7 +11,7 @@ spring:
     include: custom
   jpa:
     hibernate:
-      show_sql: true
+      show_sql: false
       format_sql: true
       inspect_stacktrace: true
       #naming_physical_strategy: org.hibernate.boot.entity.naming.PhysicalNamingStrategyStandardImpl  #naming.physical-strategy
