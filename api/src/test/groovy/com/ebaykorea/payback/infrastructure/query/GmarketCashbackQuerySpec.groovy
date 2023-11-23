@@ -59,9 +59,9 @@ class GmarketCashbackQuerySpec extends Specification {
     _________________________________________________
     expectResult | _
     RewardTargetQueryResult_생성() | _
-    RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(saveAmount: 100, expectSaveDays: 10, additionalSaveAmount: 200, additionalExpectSaveDate: TestConstant.ORDER_DATE.plus(30, ChronoUnit.DAYS)), ssgPoints: [SsgPointTargetQueryData_생성(saveAmount: 300)], cashbackTargets: [CashbackTargetQueryData_생성(cashbackType: "SmilePay", saveAmount: 400), CashbackTargetQueryData_생성(cashbackType: "ChargePay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Seller", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "ClubDay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Item", saveAmount: 300)]) | _
+    RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(saveAmount: 100, expectSaveDays: 10, additionalSaveAmount: 200, additionalExpectSaveDate: TestConstant.ORDER_DATE.plus(30, ChronoUnit.DAYS)), ssgPoints: [SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_SCHEDULE_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 300)], cashbackTargets: [CashbackTargetQueryData_생성(cashbackType: "SmilePay", saveAmount: 400), CashbackTargetQueryData_생성(cashbackType: "ChargePay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Seller", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "ClubDay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Item", saveAmount: 300)]) | _
     RewardTargetQueryResult_생성() | _
     RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(saveAmount: 100, expectSaveDays: 10)) | _
-    RewardTargetQueryResult_생성(ssgPoints: [SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_ORDER_DATE, saveAmount: 300), SsgPointTargetQueryData_생성(saveAmount: 200)]) | _
+    RewardTargetQueryResult_생성(ssgPoints: [SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_ORDER_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 300), SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_SCHEDULE_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 200)]) | _
   }
 }
