@@ -64,7 +64,7 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.scheduler
-    host: http://moafw2.gmarket.com/bulk
+    host: http://moafw.gmarket.com/bulk
   application:
     domain: "payback"
     tenantid: "gmarket"
