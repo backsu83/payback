@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction
 
-
+import com.ebaykorea.payback.core.domain.constant.EventType
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity
@@ -31,8 +31,8 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     where:
     _________________________________________________
     desc | BizKey조회결과 | request
-    "중복요청이 있을 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | MemberEventRewardRequestDto_생성(requestNo: 1L)
-    "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | MemberEventRewardRequestDto_생성(requestNo: 5L)
+    "중복요청이 있을 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | MemberEventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss)
+    "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | MemberEventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss)
     "BizKey 조회건이 없는 경우" | [] | MemberEventRewardRequestDto_생성(requestNo: 5L)
     _________________________________________________
     BizKey조회횟수 | txId채번횟수 | 적립요청횟수
@@ -59,8 +59,8 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     "BizKey 조회건이 없는 경우" | [] | [] | _
     _________________________________________________
     request | expectResult | _
-    MemberEventRewardRequestDto_생성(requestNo: 1L) | MemberEventRewardResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322) | _
-    MemberEventRewardRequestDto_생성(requestNo: 5L) | MemberEventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
+    MemberEventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss) | MemberEventRewardResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322) | _
+    MemberEventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss) | MemberEventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
     MemberEventRewardRequestDto_생성(requestNo: 5L) | MemberEventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
   }
 }

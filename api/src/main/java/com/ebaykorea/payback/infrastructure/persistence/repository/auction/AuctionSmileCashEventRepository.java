@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 
+import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
@@ -29,9 +30,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   private final SmileCashSaveQueueEntityMapper mapper;
 
-  private static final String TOSS_REASON_CODE = "RM02Y";
   private static final int BIZ_TYPE = 9;
-
   private static final int DUPLICATED_REQUEST = -322;
 
   @Transactional
@@ -40,7 +39,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
     return
         //중복 요청 체크
         smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-            .filter(alreadyRequested(buyerId))
+            .filter(alreadyRequested(buyerId, request.getEventType()))
             .findAny()
             .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
             .or(() -> { //중복 요청 건이 아닌 경우
@@ -51,9 +50,9 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
             });
   }
 
-  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId) {
+  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId, final EventType eventType) {
     return entity -> entity.getBizType() == BIZ_TYPE &&
-        entity.getReasonCode().equals(TOSS_REASON_CODE) &&
+        entity.getReasonCode().equals(eventType.getAuctionCode()) &&
         entity.getMemberId().equals(buyerId);
   }
 
@@ -66,7 +65,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   @Override
   public Optional<SmileCashEvent> find(final String buyerId, final MemberEventRewardRequestDto request) {
     return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-        .filter(alreadyRequested(buyerId))
+        .filter(alreadyRequested(buyerId, request.getEventType()))
         .findAny()
         .map(mapper::map);
   }
