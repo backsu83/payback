@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query
 
+import com.ebaykorea.payback.config.properties.SaturnApplicationProperties
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.infrastructure.gateway.TransactionGatewayImpl
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderRepository
@@ -8,6 +9,9 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ss
 import com.ebaykorea.payback.infrastructure.query.gmkt.GmarketCashbackQuery
 import com.ebaykorea.payback.infrastructure.query.mapper.RewardTargetQueryMapper
 import org.mapstruct.factory.Mappers
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 import java.time.temporal.ChronoUnit
@@ -28,11 +32,13 @@ class GmarketCashbackQuerySpec extends Specification {
   def cashbackOrderRepository = Stub(CashbackOrderRepository)
 
   def rewardTargetQueryMapper = Mappers.getMapper(RewardTargetQueryMapper)
+  def saturnApplicationProperties = Stub(SaturnApplicationProperties)
 
-  def cashbackQuery = new GmarketCashbackQuery(transactionGateway, ssgPointTargetRepository, smilecardCashbackOrderRepository, cashbackOrderRepository, rewardTargetQueryMapper)
+  def cashbackQuery = new GmarketCashbackQuery(transactionGateway, ssgPointTargetRepository, smilecardCashbackOrderRepository, cashbackOrderRepository, rewardTargetQueryMapper, saturnApplicationProperties)
 
   def "올바른 쿼리 결과가 생성되는지 확인"() {
     setup:
+    saturnApplicationProperties.getSiteCode() >> "G"
     smilecardCashbackOrderRepository.findById(_ as Long) >> Optional.ofNullable(스마일카드적립대상)
     ssgPointTargetRepository.findByPackNo(_ as Long) >> SSG적립대상
     cashbackOrderRepository.findByPackNo(_ as Long) >> 캐시백적립대상
