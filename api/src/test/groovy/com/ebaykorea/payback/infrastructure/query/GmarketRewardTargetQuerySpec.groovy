@@ -6,12 +6,9 @@ import com.ebaykorea.payback.infrastructure.gateway.TransactionGatewayImpl
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmilecardCashbackOrderRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.SsgPointTargetRepository
-import com.ebaykorea.payback.infrastructure.query.gmkt.GmarketCashbackQuery
+import com.ebaykorea.payback.infrastructure.query.gmkt.GmarketRewardTargetQuery
 import com.ebaykorea.payback.infrastructure.query.mapper.RewardTargetQueryMapper
 import org.mapstruct.factory.Mappers
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 import java.time.temporal.ChronoUnit
@@ -24,7 +21,7 @@ import static com.ebaykorea.payback.grocery.RewardTargetQueryResultGrocery.Smile
 import static com.ebaykorea.payback.grocery.RewardTargetQueryResultGrocery.SsgPointTargetQueryData_생성
 import static com.ebaykorea.payback.grocery.SsgPointEntityGrocery.SsgPointTargetEntity_생성
 
-class GmarketCashbackQuerySpec extends Specification {
+class GmarketRewardTargetQuerySpec extends Specification {
   def transactionGateway = Stub(TransactionGatewayImpl)
 
   def ssgPointTargetRepository = Stub(SsgPointTargetRepository)
@@ -34,7 +31,7 @@ class GmarketCashbackQuerySpec extends Specification {
   def rewardTargetQueryMapper = Mappers.getMapper(RewardTargetQueryMapper)
   def saturnApplicationProperties = Stub(SaturnApplicationProperties)
 
-  def cashbackQuery = new GmarketCashbackQuery(transactionGateway, ssgPointTargetRepository, smilecardCashbackOrderRepository, cashbackOrderRepository, rewardTargetQueryMapper, saturnApplicationProperties)
+  def cashbackQuery = new GmarketRewardTargetQuery(transactionGateway, ssgPointTargetRepository, smilecardCashbackOrderRepository, cashbackOrderRepository, rewardTargetQueryMapper, saturnApplicationProperties)
 
   def "올바른 쿼리 결과가 생성되는지 확인"() {
     setup:
@@ -65,9 +62,9 @@ class GmarketCashbackQuerySpec extends Specification {
     _________________________________________________
     expectResult | _
     RewardTargetQueryResult_생성() | _
-    RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(saveAmount: 100, expectSaveDays: 10, additionalSaveAmount: 200, additionalExpectSaveDate: TestConstant.ORDER_DATE.plus(30, ChronoUnit.DAYS)), ssgPoints: [SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_SCHEDULE_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 300)], cashbackTargets: [CashbackTargetQueryData_생성(cashbackType: "SmilePay", saveAmount: 400), CashbackTargetQueryData_생성(cashbackType: "ChargePay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Seller", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "ClubDay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Item", saveAmount: 300)]) | _
+    RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(saveAmount: 100, expectSaveDays: 10, additionalSaveAmount: 200, additionalExpectSaveDate: TestConstant.ORDER_DATE.plus(30, ChronoUnit.DAYS)), ssgPoints: [SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_SCHEDULE_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 300, saved: true)], cashbackTargets: [CashbackTargetQueryData_생성(cashbackType: "SmilePay", saveAmount: 400), CashbackTargetQueryData_생성(cashbackType: "ChargePay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Seller", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "ClubDay", saveAmount: 1000), CashbackTargetQueryData_생성(cashbackType: "Item", saveAmount: 300)]) | _
     RewardTargetQueryResult_생성() | _
     RewardTargetQueryResult_생성(smileCard: SmileCardQueryData_생성(saveAmount: 100, expectSaveDays: 10)) | _
-    RewardTargetQueryResult_생성(ssgPoints: [SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_ORDER_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 300), SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_SCHEDULE_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 200)]) | _
+    RewardTargetQueryResult_생성(ssgPoints: [SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_ORDER_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 300, saved: true), SsgPointTargetQueryData_생성(expectSaveDate: TestConstant.SSGPOINT_SCHEDULE_DATE.truncatedTo(ChronoUnit.DAYS), saveAmount: 200, saved: true)]) | _
   }
 }

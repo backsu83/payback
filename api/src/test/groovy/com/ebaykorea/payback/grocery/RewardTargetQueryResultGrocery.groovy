@@ -30,7 +30,8 @@ class RewardTargetQueryResultGrocery {
   static def SsgPointTargetQueryData_생성(Map map = [:]) {
     SsgPointTargetQueryData.of(
         (map.expectSaveDate ?: TestConstant.SSGPOINT_SCHEDULE_DATE) as Instant,
-        (map.saveAmount ?: 0) as BigDecimal
+        (map.saveAmount ?: 0) as BigDecimal,
+        (map.saved) as boolean,
     )
   }
 

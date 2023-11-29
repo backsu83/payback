@@ -16,4 +16,6 @@ public class SsgPointTargetQueryData {
   Instant expectSaveDate;
   @Schema(description = "적립 금액")
   BigDecimal saveAmount;
+  @Schema(description = "적립 여부")
+  boolean saved;
 }

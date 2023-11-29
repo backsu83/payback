@@ -7,7 +7,7 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.S
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardCashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.SsgPointTargetRepository;
-import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
+import com.ebaykorea.payback.infrastructure.query.RewardTargetQuery;
 import com.ebaykorea.payback.infrastructure.query.data.*;
 import com.ebaykorea.payback.infrastructure.query.mapper.RewardTargetQueryMapper;
 import com.ebaykorea.payback.util.PaybackInstants;
@@ -30,7 +30,7 @@ import static java.util.stream.Collectors.*;
 @Profile(GMARKET_TENANT)
 @Service
 @RequiredArgsConstructor
-public class GmarketCashbackQuery implements CashbackQuery {
+public class GmarketRewardTargetQuery implements RewardTargetQuery {
 
   private final TransactionGatewayImpl transactionGateway;
 
@@ -80,8 +80,12 @@ public class GmarketCashbackQuery implements CashbackQuery {
                 SsgPointTargetUnitQueryData::getExpectSaveDate,
                 mapping(SsgPointTargetUnitQueryData::getSaveAmount, summarizing())))
             .entrySet().stream()
-            .map(targetedSsgPointUnits -> SsgPointTargetQueryData.of(targetedSsgPointUnits.getKey(), targetedSsgPointUnits.getValue()))
+            .map(targetedSsgPointUnits -> SsgPointTargetQueryData.of(targetedSsgPointUnits.getKey(), targetedSsgPointUnits.getValue(), isPastDate(targetedSsgPointUnits.getKey())))
             .collect(toUnmodifiableList()));
+  }
+
+  private boolean isPastDate(final Instant expectSaveDate) {
+    return expectSaveDate.isBefore(Instant.now());
   }
 
   private CompletableFuture<List<CashbackTargetQueryData>> findTargetedCashbackOrdersAsync(final long packNo) {
