@@ -47,7 +47,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(10, ChronoUnit.DAYS) ,Instant.now())
         );
   }
 
@@ -56,7 +56,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(10, ChronoUnit.DAYS) ,Instant.now())
         );
   }
 
