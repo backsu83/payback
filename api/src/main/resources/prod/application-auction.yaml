@@ -1,0 +1,22 @@
+saturn:
+  application:
+    tenantId: "auction"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: escrowapp
+    tenant: auction
+
+apis:
+  reward:
+    url: "http://payreward-api.auction.co.kr"
+  order:
+    url: "http://order-api.gmarket.co.kr/v1" #TODO
+  club:
+    url: "https://clubapi.gmarket.co.kr" #TODO
+  payment:
+    url: "http://payment-api.gmarket.co.kr" #TODO
+  transaction:
+    url: "http://transaction-api.gmarket.co.kr/v1" #TODO
+  quilt:
+    url: "https://quilt-overmind.auction.co.kr/api"
+    user-id-query-path: "/v1/user-token/member-id"

@@ -28,8 +28,8 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
         ))
     result == SmileCashSaveQueueEntity_생성(
         reasonCode: "RM02Y",
-        reasonComment: "토스-신세계유니버스 가입 축하금 적립",
-        additionalReasonComment: "토스-신세계유니버스 가입 축하금 적립",
+        reasonComment: "토스-신세계 유니버스 클럽 가입",
+        additionalReasonComment: "토스-신세계 유니버스 클럽 가입",
         bizType: 9,
         bizKey: "123",
         smileCashType: 2,
