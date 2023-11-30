@@ -104,6 +104,7 @@ class CashbackEntityGrocery {
       t2t3CashbackAmount = (map.t2t3CashbackAmount ?: 0L) as BigDecimal
       t2t3ApplyYn = (map.t2t3ApplyYn ?: "N") as String
       itemType = (map.itemType ?: null) as String
+      smileCardType = (map.smileCardType ?: "") as String
     }
   }
 
