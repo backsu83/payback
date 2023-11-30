@@ -1,13 +1,12 @@
 package com.ebaykorea.payback.infrastructure.query.gmkt;
 
-import com.ebaykorea.payback.config.properties.SaturnApplicationProperties;
 import com.ebaykorea.payback.infrastructure.gateway.TransactionGatewayImpl;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmilecardCashbackOrderRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardCashbackOrderEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.ssgpoint.SsgPointTargetRepository;
-import com.ebaykorea.payback.infrastructure.query.RewardTargetQuery;
+import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
 import com.ebaykorea.payback.infrastructure.query.data.*;
 import com.ebaykorea.payback.infrastructure.query.mapper.RewardTargetQueryMapper;
 import com.ebaykorea.payback.util.PaybackInstants;
@@ -23,14 +22,14 @@ import java.util.concurrent.CompletableFuture;
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 import static com.ebaykorea.payback.util.PaybackDecimals.summarizing;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
-import static com.ebaykorea.payback.util.PaybackStrings.orEmpty;
 import static com.ebaykorea.payback.util.support.MDCDecorator.withMdc;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Profile(GMARKET_TENANT)
 @Service
 @RequiredArgsConstructor
-public class GmarketRewardTargetQuery implements RewardTargetQuery {
+public class GmarketCashbackQuery implements CashbackQuery {
 
   private final TransactionGatewayImpl transactionGateway;
 
@@ -39,8 +38,6 @@ public class GmarketRewardTargetQuery implements RewardTargetQuery {
   private final CashbackOrderRepository cashbackOrderRepository;
 
   private final RewardTargetQueryMapper rewardTargetQueryMapper;
-
-  private final SaturnApplicationProperties properties;
 
   public RewardTargetQueryResult getSavedCashback(final String txKey, final String orderKey) {
     if (!isBlank(txKey) && !isBlank(orderKey)) {
@@ -59,7 +56,7 @@ public class GmarketRewardTargetQuery implements RewardTargetQuery {
     final var targetedSsgPointUnits = targetedSsgPointUnitFuture.join();
     final var cashbackOrders = targetedCashbackOrdersFuture.join();
 
-    return RewardTargetQueryResult.of(smileCard, targetedSsgPointUnits, cashbackOrders);
+    return RewardTargetQueryResult.of(smileCard, SsgPointTargetQueryData.of(targetedSsgPointUnits), cashbackOrders);
   }
 
   private CompletableFuture<SmileCardQueryData> findSmileCardAsync(final long packNo) {
@@ -70,22 +67,12 @@ public class GmarketRewardTargetQuery implements RewardTargetQuery {
             .orElse(null));
   }
 
-  private CompletableFuture<List<SsgPointTargetQueryData>> findTargetedSsgPointUnitsAsync(final long packNo) {
+  private CompletableFuture<List<SsgPointTargetUnitQueryData>> findTargetedSsgPointUnitsAsync(final long packNo) {
     return CompletableFuture.supplyAsync(withMdc(() -> ssgPointTargetRepository.findByPackNo(packNo)))
         .thenApply(entities -> entities.stream()
-            .filter(entity -> properties.getSiteCode().equalsIgnoreCase(orEmpty(entity.getSiteType())))
             .map(rewardTargetQueryMapper::map)
             .filter(SsgPointTargetUnitQueryData::isTarget)
-            .collect(groupingBy( //ssgPoint 적립 대상건들을 적립예정일 별 금액 sum 으로 map (Map<Instant, BigDecimal)
-                SsgPointTargetUnitQueryData::getExpectSaveDate,
-                mapping(SsgPointTargetUnitQueryData::getSaveAmount, summarizing())))
-            .entrySet().stream()
-            .map(targetedSsgPointUnits -> SsgPointTargetQueryData.of(targetedSsgPointUnits.getKey(), targetedSsgPointUnits.getValue(), isPastDate(targetedSsgPointUnits.getKey())))
             .collect(toUnmodifiableList()));
-  }
-
-  private boolean isPastDate(final Instant expectSaveDate) {
-    return expectSaveDate.isBefore(Instant.now());
   }
 
   private CompletableFuture<List<CashbackTargetQueryData>> findTargetedCashbackOrdersAsync(final long packNo) {

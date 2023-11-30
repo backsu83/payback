@@ -38,8 +38,14 @@ public class PaymentMethod {
     return isSmilePay() && hasSmallCode(SmilePayReCharge);
   }
 
+  public boolean isSmileCard() {
+    return hasSmallCode(SmileCard) || isT1T2T3();
+  }
   public boolean isT1T2T3() {
-    return hasSmallCode(SmileCardT1, SmileCardT2, SmileCardT3);
+    return hasSmallCode(SmileCardT1) || isT2T3();
+  }
+  public boolean isT2T3() {
+    return hasSmallCode(SmileCardT2, SmileCardT3);
   }
 
   private boolean hasMediumCode(final String ...mediumCodes) {

@@ -63,7 +63,7 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.api
-    host: http://devmoafw.gmarket.com
+    host: http://devmoafw.ebaykorea.com
   application:
     domain: "payback"
     api-info:

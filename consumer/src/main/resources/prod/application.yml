@@ -11,7 +11,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      show_sql: false
+      show_sql: true
       format_sql: true
       inspect_stacktrace: true
       naming_physical_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl   #naming.physical-strategy
@@ -75,7 +75,7 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.consumer
-    host: http://moafw.gmarket.com/bulk
+    host: http://moafw2.ebaykorea.com/bulk
   datasource:
     appName: PAYREWARD_APP
     userName: payback_app

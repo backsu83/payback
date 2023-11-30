@@ -10,7 +10,7 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Value
-public class SmileCardAdditionalCashback {
+public class T2T3SmileCardCashback {
   long orderNo;
   ShopType shopType;
   BigDecimal amount;
@@ -18,23 +18,24 @@ public class SmileCardAdditionalCashback {
   SmileCardType smileCardType;
   SmileCardCashbackApplyStrategy strategy;
 
-  public static SmileCardAdditionalCashback of(
+  public static T2T3SmileCardCashback of(
       final long orderNo,
       final ShopType shopType,
       final BigDecimal amount,
       final BigDecimal basisAmount,
       final SmileCardType smileCardType,
+      final boolean isT2T3,
       final boolean isFreeInstallment) {
-    return new SmileCardAdditionalCashback(
+    return new T2T3SmileCardCashback(
         orderNo,
         shopType,
         amount,
         basisAmount,
         smileCardType,
-        SmileCardCashbackApplyStrategy.additionalSmileCardCashbackStrategy(smileCardType, isFreeInstallment, amount));
+        SmileCardCashbackApplyStrategy.t2t3SmileCardCashbackStrategy(isT2T3, isFreeInstallment, amount));
   }
 
-  private SmileCardAdditionalCashback(
+  private T2T3SmileCardCashback(
       final long orderNo,
       final ShopType shopType,
       final BigDecimal amount,

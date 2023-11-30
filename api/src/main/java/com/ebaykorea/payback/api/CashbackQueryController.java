@@ -2,7 +2,7 @@ package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.infrastructure.query.RewardTargetQuery;
+import com.ebaykorea.payback.infrastructure.query.CashbackQuery;
 import com.ebaykorea.payback.infrastructure.query.data.RewardTargetQueryResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,20 +20,20 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 @RequestMapping("/api")
 public class CashbackQueryController {
 
-  private final RewardTargetQuery rewardTargetQuery;
+  private final CashbackQuery cashbackQuery;
 
   @GetMapping("/rewards")
   public CommonResponse<RewardTargetQueryResult> getRewardTargets(
       @RequestParam(value = "txKey") final String txKey,
       @RequestParam(value = "orderKey") final String orderKey
   ) {
-    return CommonResponse.success(ResponseMessageType.SUCCESS, rewardTargetQuery.getSavedCashback(txKey, orderKey));
+    return CommonResponse.success(ResponseMessageType.SUCCESS, cashbackQuery.getSavedCashback(txKey, orderKey));
   }
 
   @GetMapping("/rewards/{pay-no}")
   public CommonResponse<RewardTargetQueryResult> getRewardTargets(
       @PathVariable(value = "pay-no") final Long payNo
   ) {
-    return CommonResponse.success(ResponseMessageType.SUCCESS, rewardTargetQuery.getSavedCashback(payNo));
+    return CommonResponse.success(ResponseMessageType.SUCCESS, cashbackQuery.getSavedCashback(payNo));
   }
 }

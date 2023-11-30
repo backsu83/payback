@@ -74,7 +74,7 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.scheduler
-    host: http://devmoafw.gmarket.com
+    host: http://devmoafw.ebaykorea.com
   application:
     domain: "payback"
     tenantid: "gmarket"

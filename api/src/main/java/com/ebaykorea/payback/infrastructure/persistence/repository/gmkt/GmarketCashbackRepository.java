@@ -3,7 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 import com.ebaykorea.payback.core.domain.entity.cashback.Cashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback;
-import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardAdditionalCashback;
+import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCardCashback;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
@@ -75,13 +75,11 @@ public class GmarketCashbackRepository implements PayCashbackRepository {
 
     if (payCashback.hasSmileCardCashbackAmount()) {
       //SMILECARD_CASHBACK_ORDER
-      //2023.12.01: 스마일카드 타입 추가
       saveSmileCardCashback(payCashback, payCashback.getSmileCardCashback());
 
-      if (payCashback.hasSmileCardAdditionalCashbacks()) {
+      if (payCashback.isSmileCardCashbackApplicable()) {
         //smilecard_t2t3_cashback_info
-        //2023.12.01: t3는 smilecard_t2t3_cashback_info 테이블에 넣지 않는다.
-        saveSmileCardAdditionalCashback(payCashback, payCashback.getSmileCardCashback());
+        saveSmileCardT2T3Cashback(payCashback, payCashback.getSmileCardCashback());
       }
     }
   }
@@ -125,14 +123,20 @@ public class GmarketCashbackRepository implements PayCashbackRepository {
   }
 
   private void saveSmileCardCashback(final PayCashback payCashback, final SmileCardCashback smileCardCashback) {
-    final var smileCardCashbackOrderEntity = smilecardCashbackOrderEntityMapper.map(payCashback, smileCardCashback);
-    smilecardCashbackOrderRepository.save(smileCardCashbackOrderEntity);
+    final var smilecardCashbackOrderEntity = smilecardCashbackOrderEntityMapper.map(payCashback, smileCardCashback);
+    smilecardCashbackOrderRepository.save(smilecardCashbackOrderEntity);
   }
 
-  private void saveSmileCardAdditionalCashback(final PayCashback payCashback, final SmileCardCashback smileCardCashback) {
-    smileCardCashback.getAdditionalCashbacks().stream()
-        .filter(SmileCardAdditionalCashback::isApply)
-        .map(t2SmileCardCashback -> smilecardT2T3CashbackEntityMapper.map(payCashback, t2SmileCardCashback))
-        .forEach(smilecardT2T3CashbackRepository::save);
+  private void saveSmileCardT2T3Cashback(final PayCashback payCashback, final SmileCardCashback smileCardCashback) {
+    final var smilecardT2T3CashbackEntities = mapToT2T3Cashback(payCashback, smileCardCashback);
+    smilecardT2T3CashbackEntities.forEach(smilecardT2T3CashbackRepository::save);
+  }
+
+  private List<SmilecardT2T3CashbackEntity> mapToT2T3Cashback(final PayCashback payCashback, final SmileCardCashback smileCardCashback) {
+    return smileCardCashback.getT2t3Cashbacks()
+        .stream()
+        .filter(T2T3SmileCardCashback::isApply)
+        .map(t3SmileCardCashback -> smilecardT2T3CashbackEntityMapper.map(payCashback, t3SmileCardCashback))
+        .collect(Collectors.toUnmodifiableList());
   }
 }
