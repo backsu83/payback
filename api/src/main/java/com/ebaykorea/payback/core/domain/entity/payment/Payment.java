@@ -134,21 +134,9 @@ public class Payment {
         .orElse(SmileCardType.Unknown);
   }
 
-  public boolean isT2T3SmileCard() {
-    return findMainPaymentMethod()
-        .map(PaymentMethod::isT2T3)
-        .orElse(false);
-  }
-
   public boolean isT1T2T3SmileCard() {
     return findMainPaymentMethod()
         .map(PaymentMethod::isT1T2T3)
-        .orElse(false);
-  }
-
-  public boolean isSmileCard() {
-    return findMainPaymentMethod()
-        .map(PaymentMethod::isSmileCard)
         .orElse(false);
   }
 }

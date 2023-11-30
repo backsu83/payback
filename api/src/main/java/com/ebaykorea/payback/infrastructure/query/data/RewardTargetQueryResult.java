@@ -4,7 +4,6 @@ import com.ebaykorea.payback.core.exception.PaybackException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Value;
 
 import java.util.List;
 
@@ -18,25 +17,25 @@ public class RewardTargetQueryResult {
   @Schema(description = "스마일카드 적립")
   SmileCardQueryData smileCard;
   @Schema(description = "SSGPOINT 적립")
-  SsgPointTargetQueryData ssgPoint;
+  List<SsgPointTargetQueryData> ssgPoints;
   @Schema(description = "캐시백 적립 대상")
   List<CashbackTargetQueryData> cashbackTargets;
 
-  public static final RewardTargetQueryResult EMPTY = RewardTargetQueryResult.of(null, SsgPointTargetQueryData.EMPTY, emptyList());
+  public static final RewardTargetQueryResult EMPTY = RewardTargetQueryResult.of(null, emptyList(), emptyList());
 
   public static RewardTargetQueryResult of(
       final SmileCardQueryData smileCard,
-      final SsgPointTargetQueryData ssgPoint,
+      final List<SsgPointTargetQueryData> ssgPoints,
       final List<CashbackTargetQueryData> cashbackTargets) {
-    return new RewardTargetQueryResult(smileCard, ssgPoint, cashbackTargets);
+    return new RewardTargetQueryResult(smileCard, ssgPoints, cashbackTargets);
   }
 
   private RewardTargetQueryResult(
       final SmileCardQueryData smileCard,
-      final SsgPointTargetQueryData ssgPoint,
+      final List<SsgPointTargetQueryData> ssgPoints,
       final List<CashbackTargetQueryData> cashbackTargets) {
     this.smileCard = smileCard;
-    this.ssgPoint = ssgPoint;
+    this.ssgPoints = ssgPoints;
     this.cashbackTargets = cashbackTargets;
 
     validate();
