@@ -18,6 +18,6 @@ public class MemberEventRewardRequestDto {
   private long requestNo;
   @Schema(description = "적립 금액", required = true)
   private BigDecimal saveAmount;
-  @Schema(description = "이벤트 타입", example = "Toss", required = true)
+  @Schema(description = "이벤트 타입", example = "Event", required = true)
   private EventType eventType;
 }

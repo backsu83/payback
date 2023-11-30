@@ -1,0 +1,26 @@
+saturn:
+  application:
+    tenantId: "gmarket"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: payback_app
+    tenant: gmarket #개발: gmarketdev, 운영: gmarket
+    configs:
+      - beanName: "tiger_readDataSource"
+        hikariCp:
+          minimumIdle: 1
+
+apis:
+  reward:
+    url: "http://rewardservice.gmarket.co.kr"
+  order:
+    url: "http://order-api.gmarket.co.kr/v1"
+  club:
+    url: "https://clubapi.gmarket.co.kr"
+  payment:
+    url: "http://payment-api.gmarket.co.kr"
+  transaction:
+    url: "http://transaction-api.gmarket.co.kr/v1"
+  quilt:
+    url: "https://quilt-overmind.gmarket.co.kr/api"
+    user-id-query-path: "/user-token/cust-no"
