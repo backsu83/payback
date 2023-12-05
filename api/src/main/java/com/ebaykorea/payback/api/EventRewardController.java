@@ -24,7 +24,7 @@ public class EventRewardController {
 
   private final SmileCashEventRepository repository;
 
-  @Operation(summary = "회원 별 캐시백 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
+  @Operation(summary = "회원 별 이벤트 캐시백 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
   @PostMapping("/members/{member-key}/cashback")
   public CommonResponse<MemberEventRewardResponseDto> saveEventRewardByMember(
       final @PathVariable(value = "member-key") String memberKey,
