@@ -11,6 +11,7 @@ import com.ebaykorea.payback.batch.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.batch.domain.constant.PointStatusType;
 import com.ebaykorea.payback.batch.domain.constant.PointTradeType;
 import com.ebaykorea.payback.batch.domain.constant.VerifyTradeType;
+import com.ebaykorea.payback.batch.repository.opayreward.entity.QSsgPointTargetEntity;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgPointTargetEntity;
 import com.ebaykorea.payback.batch.repository.opayreward.entity.SsgVerifySumEntity;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
@@ -18,6 +19,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringTemplate;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
@@ -47,16 +49,24 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
         .where(
             ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Save.getCode()),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(10, ChronoUnit.DAYS) ,Instant.now())
         );
   }
 
   public JPAQuery<SsgPointTargetEntity> findPointStatusForCancelReady() {
+    QSsgPointTargetEntity ssgPointTarget = new QSsgPointTargetEntity("ssgPointTarget");
+
     return factory.selectFrom(ssgPointTargetEntity)
-        .where(
-            ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
-            ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode()),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(3, ChronoUnit.DAYS) ,Instant.now())
+        .where(ssgPointTargetEntity.orderNo.in(JPAExpressions.select(ssgPointTarget.orderNo).from(ssgPointTarget)
+            .where(ssgPointTarget.tradeType.eq(PointTradeType.Save.getCode())
+                .and(ssgPointTarget.pointStatus.eq(PointStatusType.Success.getCode()))
+                .and(ssgPointTarget.scheduleDate.between(
+                    Instant.now().minus(3, ChronoUnit.DAYS),
+                    Instant.now())
+                )))
+        )
+        .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
+            ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode())
         );
   }
 

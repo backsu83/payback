@@ -42,6 +42,6 @@ ssgpoint:
     target:
       crontab: "30 */5 9-23 * * *" #5분30초
     recover:
-      crontab: "0 */10 9-23 * * *" #10분
+      crontab: "0 */300 12-22 * * *" #12,17,22 - 하루3번
 
 

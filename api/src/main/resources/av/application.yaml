@@ -62,7 +62,7 @@ saturn:
   moa:
     domainGroup: payreward
     domain: payback.api
-    host: http://moafw2.ebaykorea.com/bulk
+    host: http://moafw.gmarket.com/bulk
   application:
     domain: "payback"
     tenantid: "gmarket"

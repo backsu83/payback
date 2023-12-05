@@ -2,7 +2,6 @@ package com.ebaykorea.payback.core.factory.cashback
 
 import com.ebaykorea.payback.core.domain.constant.PaymentCode
 import com.ebaykorea.payback.core.domain.constant.SmileCardType
-import com.ebaykorea.payback.core.factory.cashback.SmileCardCashbackCreator
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.OrderGrocery.ItemSnapshot_생성
@@ -13,7 +12,7 @@ import static com.ebaykorea.payback.grocery.PaymentGrocery.스마일페이_Payme
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardCashbackPolicies_생성
 import static com.ebaykorea.payback.grocery.RewardGrocery.RewardT2T3SmileCardCashbackPolicy_생성
 import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardCashback_생성
-import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.T2T3SmileCardCashback_생성
+import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardAdditionalCashback_생성
 
 class SmileCardCashbackCreaotrSpec extends Specification {
   def smileCardCashbackCreator = new SmileCardCashbackCreator()
@@ -23,20 +22,21 @@ class SmileCardCashbackCreaotrSpec extends Specification {
     def result = smileCardCashbackCreator.createSmileCardCashback(키맵, 주문, 결제, 상품, 정책)
     result.collect {
       [it.cashbackAmount, it.apply, it.toShopType(),
-       it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
+       it.additionalCashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
     } == 결과.collect {
       [it.cashbackAmount, it.apply, it.toShopType(),
-       it.t2t3Cashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
+       it.additionalCashbacks.stream().collect { [it.orderNo, it.shopType, it.amount, it.basisAmount, it.smileCardType, it.apply] }]
     }
 
     where:
     _________________________________________________
     desc | 결과 | _ | _
     "기본" | SmileCardCashback_생성() | _ | _
-    "T0" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true) | _ | _
-    "T1" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true) | _ | _
-    "T2_값없음" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, t2t3Cashbacks: [T2T3SmileCardCashback_생성(smileCardType: SmileCardType.T2, isT2T3: true)]) | _ | _
-    "T2" | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, t2t3Cashbacks: [T2T3SmileCardCashback_생성(amount: 100L, smileCardType: SmileCardType.T2, isT2T3: true)]) | _ | _
+    "T0" | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T0) | _ | _
+    "T1" | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T1) | _ | _
+    "T2_값없음" | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T2, additionalCashbacks: [SmileCardAdditionalCashback_생성(smileCardType: SmileCardType.T2)])           | _ | _
+    "T2" | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T2, additionalCashbacks: [SmileCardAdditionalCashback_생성(amount: 100L, smileCardType: SmileCardType.T2)]) | _ | _
+    "T3" | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T3, additionalCashbacks: [SmileCardAdditionalCashback_생성(amount: 100L, smileCardType: SmileCardType.T3)]) | _ | _
     _________________________________________________
     키맵 | 주문 | 결제 | 상품
     KeyMap_생성() | Order_생성() | 스마일페이_Payment_생성() | ItemSnapshots_생성(itemSnapshots: ItemSnapshot_생성())
@@ -44,12 +44,14 @@ class SmileCardCashbackCreaotrSpec extends Specification {
     KeyMap_생성() | Order_생성() | 스마일페이_Payment_생성(smallCode: PaymentCode.PaymentMethodSmallCode.SmileCardT1) | ItemSnapshots_생성(itemSnapshots: ItemSnapshot_생성())
     KeyMap_생성() | Order_생성() | 스마일페이_Payment_생성(smallCode: PaymentCode.PaymentMethodSmallCode.SmileCardT2) | ItemSnapshots_생성(itemSnapshots: ItemSnapshot_생성())
     KeyMap_생성() | Order_생성() | 스마일페이_Payment_생성(smallCode: PaymentCode.PaymentMethodSmallCode.SmileCardT2) | ItemSnapshots_생성(itemSnapshots: ItemSnapshot_생성())
+    KeyMap_생성() | Order_생성() | 스마일페이_Payment_생성(smallCode: PaymentCode.PaymentMethodSmallCode.SmileCardT3) | ItemSnapshots_생성(itemSnapshots: ItemSnapshot_생성())
     _________________________________________________
     정책 | _ | _ | _
     RewardCashbackPolicies_생성() | _ | _ | _
     RewardCashbackPolicies_생성(smileCardCashbackAmount: 1000L) | _ | _ | _
     RewardCashbackPolicies_생성(newSmileCardCashbackAmount: 1000L) | _ | _ | _
     RewardCashbackPolicies_생성(newSmileCardCashbackAmount: 1000L, smileCardCashbackPolicies: [RewardT2T3SmileCardCashbackPolicy_생성()]) | _ | _ | _
+    RewardCashbackPolicies_생성(newSmileCardCashbackAmount: 1000L, smileCardCashbackPolicies: [RewardT2T3SmileCardCashbackPolicy_생성(cashbackAmount: 100L)]) | _ | _ | _
     RewardCashbackPolicies_생성(newSmileCardCashbackAmount: 1000L, smileCardCashbackPolicies: [RewardT2T3SmileCardCashbackPolicy_생성(cashbackAmount: 100L)]) | _ | _ | _
   }
 }

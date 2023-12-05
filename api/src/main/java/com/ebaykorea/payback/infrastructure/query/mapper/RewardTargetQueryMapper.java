@@ -12,24 +12,25 @@ import org.mapstruct.ReportingPolicy;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Mapper(
     componentModel = "spring",
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
-    imports = {CashbackType.class}
+    imports = {CashbackType.class, ChronoUnit.class}
 )
 public interface RewardTargetQueryMapper {
 
   @Mapping(expression = "java(CashbackType.toCashbackName(cashbackType))", target = "cashbackType")
   CashbackTargetQueryData map(String cashbackType, BigDecimal saveAmount, Instant expectSaveDate);
 
-  @Mapping(constant = "", target = "type") //TODO: DB 컬럼 추가 시 작업
+  @Mapping(source = "smileCardType", target = "type")
   @Mapping(expression = "java(source.getSmileCardCashbackAmount())", target = "saveAmount")
   @Mapping(constant = "10", target = "expectSaveDays")
   @Mapping(expression = "java(source.getSmileCardAdditionalSaveAmount())", target = "additionalSaveAmount")
   @Mapping(expression = "java(source.getT2ExpectSaveDate(30))", target = "additionalExpectSaveDate")
   SmileCardQueryData map(SmilecardCashbackOrderEntity source);
 
-  @Mapping(source = "scheduleDate", target = "expectSaveDate")
-  SsgPointTargetUnitQueryData map(final SsgPointTargetEntity sources);
+  @Mapping(expression = "java(source.getScheduleDate().truncatedTo(ChronoUnit.DAYS))", target = "expectSaveDate")
+  SsgPointTargetUnitQueryData map(final SsgPointTargetEntity source);
 }
