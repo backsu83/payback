@@ -27,7 +27,7 @@ class EventRewardServiceSpec extends Specification {
     setup:
     eventRewardRepositoryCustom.findNotRequestedRequests(_ as String, _ as String, _ as String) >> 미처리대상
     quiltApi.findUserId(_ as String) >> Optional.ofNullable(QuiltBaseResponse_생성())
-    paybackApiClient.saveEventRewardByMember(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(CommonResponse_생성())
+    paybackApiClient.saveEventRewardByMember(_ as MemberEventRewardRequestDto) >> Optional.ofNullable(CommonResponse_생성())
 
     when:
     service.run("", "", "")

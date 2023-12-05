@@ -8,6 +8,7 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import java.sql.Timestamp
+import java.time.Instant
 
 import static com.ebaykorea.payback.grocery.EventRewardGrocery.SmileCashEvent_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardRequestDto_생성
@@ -20,23 +21,13 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
 
   def "SmileCashSaveQueueEntity 으로의 매핑 테스트"() {
     expect:
-    def result = mapper.map(1L , "memberKey",
-        MemberEventRewardRequestDto_생성(
-            requestNo: 123L,
-            saveAmount: 1000,
-            eventType: EventType.Toss
-        ))
-    result == SmileCashSaveQueueEntity_생성(
-        reasonCode: "RM02Y",
-        reasonComment: "토스-신세계 유니버스 클럽 가입",
-        additionalReasonComment: "토스-신세계 유니버스 클럽 가입",
-        bizType: 9,
-        bizKey: "123",
-        smileCashType: 2,
-        saveAmount: 1000,
-        expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())),
-        insertOperator: "memberKey"
-    )
+    def result = mapper.map(1L , request)
+    result == expectResult
+
+    where:
+    desc | request | expectResult
+    "expirationDate 없을때 기본 만료일자" | MemberEventRewardRequestDto_생성(requestNo: 123L, saveAmount: 1000, eventType: EventType.Toss) | SmileCashSaveQueueEntity_생성(reasonCode: "RM02Y", reasonComment: "토스-신세계 유니버스 클럽 가입", additionalReasonComment: "토스-신세계 유니버스 클럽 가입", bizType: 9, bizKey: "123", smileCashType: 2, saveAmount: 1000, expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())), insertOperator: "memberKey")
+    "expirationDate 있을때 해당 만료일자" | MemberEventRewardRequestDto_생성(requestNo: 123L, saveAmount: 1000, eventType: EventType.Toss, expirationDate: Instant.parse("2023-12-04T09:35:24.00Z")) | SmileCashSaveQueueEntity_생성(reasonCode: "RM02Y", reasonComment: "토스-신세계 유니버스 클럽 가입", additionalReasonComment: "토스-신세계 유니버스 클럽 가입", bizType: 9, bizKey: "123", smileCashType: 2, saveAmount: 1000, expireDate: Timestamp.from(Instant.parse("2023-12-04T09:35:24.00Z")), insertOperator: "memberKey")
   }
 
   def "MemberCashbackResultDto 으로의 매핑 테스트"() {

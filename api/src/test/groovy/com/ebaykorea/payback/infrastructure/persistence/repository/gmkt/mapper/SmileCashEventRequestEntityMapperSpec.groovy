@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import java.sql.Timestamp
+import java.time.Instant
 
 import static com.ebaykorea.payback.grocery.EventRewardGrocery.SmileCashEvent_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardRequestDto_생성
@@ -21,23 +22,14 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
 
   def "MemberCashbackRequestDto -> SmileCashEventEntity 매핑 테스트"() {
     expect:
-    def result = mapper.map("memberKey",
-        MemberEventRewardRequestDto_생성(
-            requestNo: 1234L,
-            saveAmount: 1000L,
-            eventType: EventType.Toss
-        ))
+    def result = mapper.map(request)
 
-    result == SmileCashEventRequestEntity_생성(
-        requestMoney: 1000L,
-        requestOutputDisabledMoney: 1000L,
-        cashBalanceType: "G9",
-        custNo: "memberKey",
-        expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())),
-        refNo: 1234L,
-        ersNo: 8166,
-        regId: "memberKey"
-    )
+    result == expectResult
+
+    where:
+    desc | request | expectResult
+    "expirationDate 없을때 기본 만료일자" | MemberEventRewardRequestDto_생성(requestNo: 1234L, saveAmount: 1000L, eventType: EventType.Toss) | SmileCashEventRequestEntity_생성(requestMoney: 1000L, requestOutputDisabledMoney: 1000L, cashBalanceType: "G9", custNo: "memberKey", expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())), refNo: 1234L, ersNo: 8166, regId: "memberKey")
+    "expirationDate 있을때 해당 만료일자" | MemberEventRewardRequestDto_생성(requestNo: 1234L, saveAmount: 1000L, eventType: EventType.Toss, expirationDate: Instant.parse("2023-12-04T09:35:24.00Z")) | SmileCashEventRequestEntity_생성(requestMoney: 1000L, requestOutputDisabledMoney: 1000L, cashBalanceType: "G9", custNo: "memberKey", expireDate: Timestamp.from(Instant.parse("2023-12-04T09:35:24.00Z")), refNo: 1234L, ersNo: 8166, regId: "memberKey")
   }
 
   def "SmileCashEventResultEntity -> MemberCashbackResultDto 매핑 테스트"() {
@@ -61,10 +53,10 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
     result == expectResult
 
     where:
-    desc | request | expectResult
-    "진행중" | SmileCashEventEntity_생성()             | SmileCashEvent_생성()
-    "성공" | SmileCashEventEntity_생성(status: 50) | SmileCashEvent_생성(saved: true)
-    "실패" | SmileCashEventEntity_생성(status: 90) | SmileCashEvent_생성(failed: true)
+    desc  | request                             | expectResult
+    "진행중" | SmileCashEventEntity_생성()           | SmileCashEvent_생성()
+    "성공"  | SmileCashEventEntity_생성(status: 50) | SmileCashEvent_생성(saved: true)
+    "실패"  | SmileCashEventEntity_생성(status: 90) | SmileCashEvent_생성(failed: true)
     "실패2" | SmileCashEventEntity_생성(status: 99) | SmileCashEvent_생성(failed: true)
   }
 }

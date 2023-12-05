@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @Builder
 public class MemberEventRewardRequestDto {
   private long requestNo;
+  private String memberKey;
   private BigDecimal saveAmount;
   private EventType eventType;
 }

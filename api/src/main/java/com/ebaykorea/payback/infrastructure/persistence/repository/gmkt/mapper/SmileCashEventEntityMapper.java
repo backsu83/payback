@@ -13,6 +13,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Optional;
 
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
@@ -22,24 +24,25 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 )
 public interface SmileCashEventEntityMapper {
 
-  @Mapping(source = "request.saveAmount", target = "requestMoney")
-  @Mapping(source = "request.saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(constant = "G9", target = "cashBalanceType")
+  @Mapping(source = "saveAmount", target = "requestMoney")
+  @Mapping(source = "saveAmount", target = "requestOutputDisabledMoney")
+  @Mapping(constant = "G9", target = "cashBalanceType") //TODO
   @Mapping(source = "memberKey", target = "custNo")
-  @Mapping(expression = "java(getExpireDate())", target = "expireDate")
-  @Mapping(source = "request.requestNo", target = "refNo")
-  @Mapping(constant = "8166", target = "ersNo")
+  @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
+  @Mapping(source = "requestNo", target = "refNo")
+  @Mapping(constant = "8166", target = "ersNo") //TODO
   @Mapping(source = "memberKey", target = "regId")
-  SmileCashEventRequestEntity map(String memberKey, MemberEventRewardRequestDto request);
-
+  SmileCashEventRequestEntity map(MemberEventRewardRequestDto request);
 
   @Mapping(source = "request.status", target = "approvalStatus")
   @Mapping(source = "request.tryCount", target = "tryCount")
   @Mapping(source = "request.operator", target = "regId")
   SmileCashEventRequestEntity map(Long smilePayNo, SetEventRewardRequestDto request);
 
-  default Timestamp getExpireDate() {
-    return Timestamp.from(getDefaultEnableDate(PaybackInstants.now()));
+  default Timestamp getExpireDate(final Instant expirationDate) {
+    return Optional.ofNullable(expirationDate)
+        .map(Timestamp::from)
+        .orElse(Timestamp.from(getDefaultEnableDate(PaybackInstants.now())));
   }
 
   @Mapping(source = "source.result", target = "resultCode")

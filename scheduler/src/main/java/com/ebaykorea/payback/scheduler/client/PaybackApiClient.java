@@ -32,11 +32,10 @@ public interface PaybackApiClient {
 
   @RequestMapping(
       method = RequestMethod.POST,
-      value = "/event/members/{member-key}/cashback",
+      value = "/event/rewards",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
   Optional<CommonResponse<MemberEventRewardResponseDto>> saveEventRewardByMember(
-      final @PathVariable(value = "member-key") String memberKey,
       final @RequestBody MemberEventRewardRequestDto request);
 
 }

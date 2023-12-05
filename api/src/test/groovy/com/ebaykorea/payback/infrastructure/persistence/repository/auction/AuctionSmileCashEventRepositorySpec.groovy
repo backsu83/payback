@@ -21,7 +21,7 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
 
   def "중복요청 여부에 따라 저장 호출을 올바르게 한다"() {
     when:
-    repository.save("memberKey", request)
+    repository.save(request)
 
     then:
     BizKey조회횟수 * queueRepository.findByBizKey(_ as String) >> BizKey조회결과
@@ -48,7 +48,7 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     transactionRepository.getIacTxId(_ as String) >> 2L
 
     expect:
-    def result = repository.save("memberKey", request)
+    def result = repository.save(request)
     result == Optional.of(expectResult)
 
     where:

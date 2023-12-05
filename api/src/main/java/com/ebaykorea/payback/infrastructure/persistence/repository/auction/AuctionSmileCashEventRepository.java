@@ -35,16 +35,16 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<MemberEventRewardResultDto> save(final String buyerId, final MemberEventRewardRequestDto request) {
+  public Optional<MemberEventRewardResultDto> save(final MemberEventRewardRequestDto request) {
     return
         //중복 요청 체크
         smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-            .filter(alreadyRequested(buyerId, request.getEventType()))
+            .filter(alreadyRequested(request.getMemberKey(), request.getEventType()))
             .findAny()
             .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
             .or(() -> { //중복 요청 건이 아닌 경우
-              final var txId = smileCashTransactionRepository.getIacTxId(buyerId);
-              final var entity = mapper.map(txId, buyerId, request);
+              final var txId = smileCashTransactionRepository.getIacTxId(request.getMemberKey());
+              final var entity = mapper.map(txId, request);
               smileCashSaveQueueRepository.save(entity);
               return Optional.of(mapper.map(request.getRequestNo(), 0, txId));
             });
@@ -63,9 +63,9 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final String buyerId, final MemberEventRewardRequestDto request) {
+  public Optional<SmileCashEvent> find(final MemberEventRewardRequestDto request) {
     return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-        .filter(alreadyRequested(buyerId, request.getEventType()))
+        .filter(alreadyRequested(request.getMemberKey(), request.getEventType()))
         .findAny()
         .map(mapper::map);
   }

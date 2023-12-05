@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Optional;
 
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
@@ -21,7 +23,7 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 public interface SmileCashSaveQueueEntityMapper {
 
   @Mapping(source = "txId", target = "txId")
-  @Mapping(source = "memberKey", target = "memberId")
+  @Mapping(source = "request.memberKey", target = "memberId")
   @Mapping(constant = "RM02Y", target = "reasonCode")
   @Mapping(constant = "토스-신세계 유니버스 클럽 가입", target = "reasonComment")
   @Mapping(constant = "토스-신세계 유니버스 클럽 가입", target = "additionalReasonComment")
@@ -29,17 +31,19 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "request.requestNo", target = "bizKey")
   @Mapping(constant = "2", target = "smileCashType")
   @Mapping(source = "request.saveAmount", target = "saveAmount")
-  @Mapping(expression = "java(getExpireDate())", target = "expireDate")
-  @Mapping(source = "memberKey", target = "insertOperator")
-  SmileCashSaveQueueEntity map(Long txId, String memberKey, MemberEventRewardRequestDto request);
+  @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
+  @Mapping(source = "request.memberKey", target = "insertOperator")
+  SmileCashSaveQueueEntity map(Long txId, MemberEventRewardRequestDto request);
 
   @Mapping(source = "request.status", target = "saveStatus")
   @Mapping(source = "request.tryCount", target = "retryCount")
   @Mapping(source = "request.operator", target = "insertOperator")
   SmileCashSaveQueueEntity map(Long seqNo, SetEventRewardRequestDto request);
 
-  default Timestamp getExpireDate() {
-    return Timestamp.from(getDefaultEnableDate(PaybackInstants.now()));
+  default Timestamp getExpireDate(final Instant expirationDate) {
+    return Optional.ofNullable(expirationDate)
+        .map(Timestamp::from)
+        .orElse(Timestamp.from(getDefaultEnableDate(PaybackInstants.now())));
   }
 
   @Mapping(source = "txId", target = "smilePayNo")
