@@ -13,7 +13,7 @@ class SmileCashSaveQueueEntityGrocery {
       memberId = (map.memberId ?: "memberKey") as String
       reasonCode = (map.reasonCode ?: "") as String
       reasonComment = (map.reasonComment ?: "") as String
-      additionalReasonComment = (map.additionalReasonComment ?: "") as String
+      additionalReasonComment = (map.additionalReasonComment ?: null) as String
       bizType = (map.bizType ?: 0) as Integer
       bizKey = (map.bizKey ?: "") as String
       smileCashType = (map.smileCashType ?: 0) as int

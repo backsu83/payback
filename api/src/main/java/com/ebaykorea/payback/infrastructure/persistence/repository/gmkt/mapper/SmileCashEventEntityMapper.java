@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
+import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
@@ -26,11 +27,11 @@ public interface SmileCashEventEntityMapper {
 
   @Mapping(source = "saveAmount", target = "requestMoney")
   @Mapping(source = "saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(constant = "G9", target = "cashBalanceType") //TODO
+  @Mapping(source = "eventType.gmarketCode", target = "cashBalanceType")
   @Mapping(source = "memberKey", target = "custNo")
   @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "requestNo", target = "refNo")
-  @Mapping(constant = "8166", target = "ersNo") //TODO
+  @Mapping(expression = "java(getErsNo(request.getEventType()))", target = "ersNo")
   @Mapping(source = "memberKey", target = "regId")
   SmileCashEventRequestEntity map(EventRewardRequestDto request);
 
@@ -43,6 +44,10 @@ public interface SmileCashEventEntityMapper {
     return Optional.ofNullable(expirationDate)
         .map(Timestamp::from)
         .orElse(Timestamp.from(getDefaultEnableDate(PaybackInstants.now())));
+  }
+
+  default int getErsNo(final EventType eventType) {
+    return eventType == EventType.Toss ? 8166 : 0;
   }
 
   @Mapping(source = "source.result", target = "resultCode")
