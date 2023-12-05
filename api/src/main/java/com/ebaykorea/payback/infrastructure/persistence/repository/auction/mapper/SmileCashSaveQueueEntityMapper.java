@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Optional;
 
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
@@ -29,7 +31,7 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "request.requestNo", target = "bizKey")
   @Mapping(constant = "2", target = "smileCashType")
   @Mapping(source = "request.saveAmount", target = "saveAmount")
-  @Mapping(expression = "java(getExpireDate())", target = "expireDate")
+  @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "request.memberKey", target = "insertOperator")
   SmileCashSaveQueueEntity map(Long txId, MemberEventRewardRequestDto request);
 
@@ -38,8 +40,10 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "request.operator", target = "insertOperator")
   SmileCashSaveQueueEntity map(Long seqNo, SetEventRewardRequestDto request);
 
-  default Timestamp getExpireDate() {
-    return Timestamp.from(getDefaultEnableDate(PaybackInstants.now()));
+  default Timestamp getExpireDate(final Instant expirationDate) {
+    return Optional.ofNullable(expirationDate)
+        .map(Timestamp::from)
+        .orElse(Timestamp.from(getDefaultEnableDate(PaybackInstants.now())));
   }
 
   @Mapping(source = "txId", target = "smilePayNo")
