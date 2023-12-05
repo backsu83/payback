@@ -8,8 +8,8 @@ import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import java.util.Optional;
 
 public interface SmileCashEventRepository {
-  Optional<MemberEventRewardResultDto> save(String memberKey, MemberEventRewardRequestDto request);
+  Optional<MemberEventRewardResultDto> save(MemberEventRewardRequestDto request);
   void set(Long smilePayNo, SetEventRewardRequestDto request);
 
-  Optional<SmileCashEvent> find(String memberKey, MemberEventRewardRequestDto request);
+  Optional<SmileCashEvent> find(MemberEventRewardRequestDto request);
 }

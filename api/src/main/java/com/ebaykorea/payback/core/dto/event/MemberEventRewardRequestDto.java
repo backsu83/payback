@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 public class MemberEventRewardRequestDto {
   @Schema(description = "적립 요청 번호", required = true)
   private long requestNo;
+  @Schema(description = "회원 키", required = true)
+  private String memberKey;
   @Schema(description = "적립 금액", required = true)
   private BigDecimal saveAmount;
   @Schema(description = "이벤트 타입", example = "Event", required = true)

@@ -28,9 +28,9 @@ class EventRewardApplicationServiceSpec extends Specification {
     eventRewardRepository.findEventReward(_ as EventRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     eventRewardRepository.save(_ as EventRewardRequestDto) >> 1L
     eventRewardRepository.saveStatus(_ as Long, _ as EventRequestStatusType) >> {}
-    smileCashEventRepository.save(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(회원적립결과)
+    smileCashEventRepository.save(_ as MemberEventRewardRequestDto) >> Optional.ofNullable(회원적립결과)
     userGateway.getUserId(_ as String) >> "userId"
-    smileCashEventRepository.find(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(SmileCashEvent_생성())
+    smileCashEventRepository.find(_ as MemberEventRewardRequestDto) >> Optional.ofNullable(SmileCashEvent_생성())
 
     expect:
     def result = service.saveEventReward(request)
@@ -55,7 +55,7 @@ class EventRewardApplicationServiceSpec extends Specification {
     setup:
     eventRewardRepository.findEventReward(_ as EventRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     userGateway.getUserId(_ as String) >> "userId"
-    smileCashEventRepository.find(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(smileCashEvent결과)
+    smileCashEventRepository.find(_ as MemberEventRewardRequestDto) >> Optional.ofNullable(smileCashEvent결과)
 
     expect:
     def result = service.getEventReward(request)

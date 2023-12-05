@@ -20,7 +20,7 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
 
   def "SmileCashSaveQueueEntity 으로의 매핑 테스트"() {
     expect:
-    def result = mapper.map(1L , "memberKey",
+    def result = mapper.map(1L ,
         MemberEventRewardRequestDto_생성(
             requestNo: 123L,
             saveAmount: 1000,

@@ -8,6 +8,7 @@ class MemberEventRewardDtoGrocery {
   static def MemberEventRewardRequestDto_생성(Map map = [:]) {
     new MemberEventRewardRequestDto().tap{
       requestNo = (map.requestNo ?: 0) as long
+      memberKey = (map.memberKey ?: "memberKey") as String
       saveAmount = (map.saveAmount ?: 0) as BigDecimal
       eventType = (map.eventType ?: EventType.Unknown) as EventType
     }

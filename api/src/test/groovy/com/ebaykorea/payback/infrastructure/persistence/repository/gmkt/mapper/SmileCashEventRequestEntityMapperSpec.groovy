@@ -21,7 +21,7 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
 
   def "MemberCashbackRequestDto -> SmileCashEventEntity 매핑 테스트"() {
     expect:
-    def result = mapper.map("memberKey",
+    def result = mapper.map(
         MemberEventRewardRequestDto_생성(
             requestNo: 1234L,
             saveAmount: 1000L,
@@ -61,10 +61,10 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
     result == expectResult
 
     where:
-    desc | request | expectResult
-    "진행중" | SmileCashEventEntity_생성()             | SmileCashEvent_생성()
-    "성공" | SmileCashEventEntity_생성(status: 50) | SmileCashEvent_생성(saved: true)
-    "실패" | SmileCashEventEntity_생성(status: 90) | SmileCashEvent_생성(failed: true)
+    desc  | request                             | expectResult
+    "진행중" | SmileCashEventEntity_생성()           | SmileCashEvent_생성()
+    "성공"  | SmileCashEventEntity_생성(status: 50) | SmileCashEvent_생성(saved: true)
+    "실패"  | SmileCashEventEntity_생성(status: 90) | SmileCashEvent_생성(failed: true)
     "실패2" | SmileCashEventEntity_생성(status: 99) | SmileCashEvent_생성(failed: true)
   }
 }

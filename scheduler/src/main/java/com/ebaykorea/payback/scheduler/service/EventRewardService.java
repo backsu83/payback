@@ -51,7 +51,7 @@ public class EventRewardService {
 
   private boolean saveEventReward(final String buyerNo, final EventRewardRequestEntity notRequested) {
     log.info(String.format("saveEventReward: buyerNo: %s, notRequested: %s", buyerNo, notRequested.toString()));
-    return paybackApiClient.saveEventRewardByMember(buyerNo, buildRequest(notRequested))
+    return paybackApiClient.saveEventRewardByMember(buildRequest(buyerNo, notRequested))
         .flatMap(CommonResponse::findSuccessData)
         .map(MemberEventRewardResponseDto::isSuccess)
         .orElse(false);
@@ -67,9 +67,10 @@ public class EventRewardService {
     repository.save(buildStatusEntity(entity.getRequestNo(), eventRequestStatus));
   }
 
-  private MemberEventRewardRequestDto buildRequest(final EventRewardRequestEntity entity) {
+  private MemberEventRewardRequestDto buildRequest(final String memberKey, final EventRewardRequestEntity entity) {
     return MemberEventRewardRequestDto.builder()
         .requestNo(entity.getRequestNo())
+        .memberKey(memberKey)
         .saveAmount(entity.getSaveAmount())
         .eventType(EventType.Toss)
         .build();

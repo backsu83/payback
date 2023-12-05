@@ -26,8 +26,8 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<MemberEventRewardResultDto> save(final String buyerNo, final MemberEventRewardRequestDto request) {
-    final var entity = mapper.map(buyerNo, request);
+  public Optional<MemberEventRewardResultDto> save(final MemberEventRewardRequestDto request) {
+    final var entity = mapper.map(request);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
   }
@@ -39,8 +39,8 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final String buyerNo, final MemberEventRewardRequestDto request) {
-    final var entity = mapper.map(buyerNo, request);
+  public Optional<SmileCashEvent> find(final MemberEventRewardRequestDto request) {
+    final var entity = mapper.map(request);
     return repository.find(entity)
         .map(mapper::map);
   }

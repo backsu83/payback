@@ -22,15 +22,15 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 )
 public interface SmileCashEventEntityMapper {
 
-  @Mapping(source = "request.saveAmount", target = "requestMoney")
-  @Mapping(source = "request.saveAmount", target = "requestOutputDisabledMoney")
+  @Mapping(source = "saveAmount", target = "requestMoney")
+  @Mapping(source = "saveAmount", target = "requestOutputDisabledMoney")
   @Mapping(constant = "G9", target = "cashBalanceType")
   @Mapping(source = "memberKey", target = "custNo")
   @Mapping(expression = "java(getExpireDate())", target = "expireDate")
-  @Mapping(source = "request.requestNo", target = "refNo")
+  @Mapping(source = "requestNo", target = "refNo")
   @Mapping(constant = "8166", target = "ersNo")
   @Mapping(source = "memberKey", target = "regId")
-  SmileCashEventRequestEntity map(String memberKey, MemberEventRewardRequestDto request);
+  SmileCashEventRequestEntity map(MemberEventRewardRequestDto request);
 
 
   @Mapping(source = "request.status", target = "approvalStatus")

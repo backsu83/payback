@@ -24,15 +24,14 @@ public class EventRewardController {
 
   private final SmileCashEventRepository repository;
 
-  @Operation(summary = "회원 별 이벤트 캐시백 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
-  @PostMapping("/members/{member-key}/cashback")
+  @Operation(summary = "이벤트 리워드 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
+  @PostMapping("/rewards")
   public CommonResponse<MemberEventRewardResponseDto> saveEventRewardByMember(
-      final @PathVariable(value = "member-key") String memberKey,
       final @Valid @RequestBody MemberEventRewardRequestDto request) {
-    final var result = repository.save(memberKey, request).orElse(null);
+    final var result = repository.save(request).orElse(null);
     return CommonResponse.success(SUCCESS,
         MemberEventRewardResponseDto.builder()
-            .memberKey(memberKey)
+            .memberKey(request.getMemberKey())
             .eventRewardResult(result)
             .build());
   }

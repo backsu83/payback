@@ -38,9 +38,9 @@ public class EventRewardApplicationService {
         .map(eventReward -> {
           //중복 요청 된 경우
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), request.getEventType(), request.getSaveAmount());
+          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), userId, request.getEventType(), request.getSaveAmount());
 
-          return smileCashEventRepository.find(userId, memberEventRewardRequest)
+          return smileCashEventRepository.find(memberEventRewardRequest)
               .map(smileCashEvent -> buildResponse(smileCashEvent.getSmilePayNo(), DUPLICATED))
               .orElse(buildResponse(EMPTY, DUPLICATED));
         })
@@ -49,9 +49,9 @@ public class EventRewardApplicationService {
           final var requestNo = eventRewardRepository.save(request);
 
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request.getEventType(), request.getSaveAmount());
+          final var memberEventRewardRequest = buildMemberEventRequest(requestNo, userId, request.getEventType(), request.getSaveAmount());
 
-          return smileCashEventRepository.save(userId, memberEventRewardRequest)
+          return smileCashEventRepository.save(memberEventRewardRequest)
               .map(this::getSmilePayNo)
               .map(smilePayNo -> {
                 //적립 요청 상태 저장
@@ -67,18 +67,19 @@ public class EventRewardApplicationService {
     return eventRewardRepository.findEventReward(request)
         .map(eventReward -> {
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), eventReward.getEventType(), BigDecimal.ZERO);
+          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), userId, eventReward.getEventType(), BigDecimal.ZERO);
 
-          return smileCashEventRepository.find(userId, memberEventRewardRequest)
+          return smileCashEventRepository.find(memberEventRewardRequest)
               .map(buildResponseFromSmileCashEvent())
               .orElse(buildResponse(EMPTY, FAILED));
         })
         .orElse(buildResponse(EMPTY, NOT_FOUND));
   }
 
-  private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final EventType eventType, final BigDecimal saveAmount) {
+  private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final String memberKey, final EventType eventType, final BigDecimal saveAmount) {
     return MemberEventRewardRequestDto.builder()
         .requestNo(eventRequestNo)
+        .memberKey(memberKey)
         .eventType(eventType)
         .saveAmount(saveAmount)
         .build();
