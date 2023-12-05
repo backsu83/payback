@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.api.dto.toss;
+package com.ebaykorea.payback.core.dto.event.toss;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -15,13 +15,13 @@ import java.time.Instant;
 @NoArgsConstructor
 public class TossEventRewardRequestDetailDto {
   @Schema(description = "이벤트 상세 아이디", required = true)
-  private String id;
+  private String detailId;
 
-  @Schema(description = "거래 금액")
-  private BigDecimal amount;
+  @Schema(description = "이벤트 금액 (ex: 거래금액)")
+  private BigDecimal eventAmount;
 
   @Schema(description = "이벤트 발생 일자")
-  private Instant transactAt;
+  private Instant eventDate;
 
   @Schema(description = "카드거래 승인번호")
   private String cardApprovalNo;
@@ -29,6 +29,4 @@ public class TossEventRewardRequestDetailDto {
   @Schema(description = "마스킹 된 카드 번호")
   private String maskedCardNumber;
 
-  @Schema(description = "사업자 등록 번호")
-  private String corporateRegNo;
 }

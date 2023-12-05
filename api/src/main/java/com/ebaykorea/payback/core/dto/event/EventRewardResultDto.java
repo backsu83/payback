@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberEventRewardResultDto {
+public class EventRewardResultDto {
   @Schema(description = "적립 요청 번호")
   private long requestNo;
   @Schema(description = "적립 요청 스마일페이 번호")

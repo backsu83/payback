@@ -4,7 +4,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository;
 import com.ebaykorea.payback.config.properties.SaturnApplicationProperties;
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
 import com.ebaykorea.payback.core.domain.entity.event.EventReward;
-import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.toss.TossEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.EventRewardRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.EventRewardRequestRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.EventRewardRequestStatusRepository;
@@ -26,7 +26,7 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
 
   @Transactional
   @Override
-  public long save(final EventRewardRequestDto request) {
+  public long save(final TossEventRewardRequestDto request) {
     final var requestNo = repository.getNextRequestNo();
 
     save(requestNo, request);
@@ -36,12 +36,12 @@ public class EventRewardRepositoryImpl implements EventRewardRepository {
   }
 
   @Override
-  public Optional<EventReward> findEventReward(final EventRewardRequestDto request) {
+  public Optional<EventReward> findEventReward(final TossEventRewardRequestDto request) {
     return repository.findByRequestIdAndUserTokenAndEventType(request.getRequestId(), request.getUserToken(), request.getEventType())
         .map(mapper::map);
   }
 
-  private void save(final long requestNo, final EventRewardRequestDto request) {
+  private void save(final long requestNo, final TossEventRewardRequestDto request) {
     final var entity = mapper.map(requestNo, tenantProperties.getTenantId(), request);
     repository.save(entity);
   }

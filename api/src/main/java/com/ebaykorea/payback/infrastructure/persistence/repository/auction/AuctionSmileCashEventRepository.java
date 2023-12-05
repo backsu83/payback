@@ -2,8 +2,8 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
@@ -35,7 +35,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<MemberEventRewardResultDto> save(final MemberEventRewardRequestDto request) {
+  public Optional<EventRewardResultDto> save(final EventRewardRequestDto request) {
     return
         //중복 요청 체크
         smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
@@ -63,7 +63,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final MemberEventRewardRequestDto request) {
+  public Optional<SmileCashEvent> find(final EventRewardRequestDto request) {
     return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
         .filter(alreadyRequested(request.getMemberKey(), request.getEventType()))
         .findAny()

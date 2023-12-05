@@ -1,27 +1,28 @@
 package com.ebaykorea.payback.grocery
 
-import com.ebaykorea.payback.api.dto.toss.TossEventRewardRequestDetailDto
-import com.ebaykorea.payback.api.dto.toss.TossEventRewardRequestDto
-import com.ebaykorea.payback.api.dto.toss.TossEventRewardResponseDto
-import com.ebaykorea.payback.api.dto.toss.TossEventRewardResultRequestDto
+
+import com.ebaykorea.payback.api.dto.toss.TossRewardRequestDetailDto
+import com.ebaykorea.payback.api.dto.toss.TossRewardRequestDto
+import com.ebaykorea.payback.api.dto.toss.TossRewardResponseDto
+import com.ebaykorea.payback.api.dto.toss.TossRewardResultRequestDto
 import com.ebaykorea.payback.constant.TestConstant
 
 import java.time.Instant
 
 class TossEventRewardGrocery {
 
-  static def TossEventRewardRequestDto_생성(Map map = [:]) {
-    new TossEventRewardRequestDto().tap {
+  static def TossRewardRequestDto_생성(Map map = [:]) {
+    new TossRewardRequestDto().tap {
       requestId = (map.requestId ?: "1") as String
       userToken = (map.userToken ?: "userToken") as String
       amount = (map.amount ?: null) as BigDecimal
       message = (map.message ?: null) as String
-      transactions = (map.transactions ?: null) as List<TossEventRewardRequestDetailDto>
+      transactions = (map.transactions ?: null) as List<TossRewardRequestDetailDto>
     }
   }
 
-  static def TossEventRewardRequestDetailDto_생성(Map map = [:]) {
-    new TossEventRewardRequestDetailDto().tap{
+  static def TossRewardRequestDetailDto_생성(Map map = [:]) {
+    new TossRewardRequestDetailDto().tap{
       id = (map.id ?: "1") as String
       amount = (map.amount ?: 0) as BigDecimal
       transactAt = (map.transactAt ?: TestConstant.ORDER_DATE) as Instant
@@ -31,16 +32,16 @@ class TossEventRewardGrocery {
     }
   }
 
-  static def TossEventRewardResponseDto_생성(Map map = [:]) {
-    new TossEventRewardResponseDto().tap{
+  static def TossRewardResponseDto_생성(Map map = [:]) {
+    new TossRewardResponseDto().tap{
       transactionId = (map.transactionId ?: "") as String
       resultCode = (map.resultCode ?: "") as String
       resultMessage = (map.resultMessage ?: "") as String
     }
   }
 
-  static def TossEventRewardResultRequestDto_생성(Map map = [:]) {
-    new TossEventRewardResultRequestDto().tap{
+  static def TossRewardResultRequestDto_생성(Map map = [:]) {
+    new TossRewardResultRequestDto().tap{
       requestId = (map.requestId ?: "1") as String
       userToken = (map.userToken ?: "userToken") as String
     }

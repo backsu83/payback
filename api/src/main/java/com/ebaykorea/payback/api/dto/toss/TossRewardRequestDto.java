@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TossEventRewardRequestDto {
+public class TossRewardRequestDto {
   @Schema(description = "요청 아이디", required = true)
   @NotEmpty(message = "requestId cannot be empty")
   private String requestId;
@@ -32,5 +32,5 @@ public class TossEventRewardRequestDto {
   private String message;
 
   @Schema(description = "사후적립의 근거가 되는 사용자 거래내역 목록")
-  private List<TossEventRewardRequestDetailDto> transactions;
+  private List<TossRewardRequestDetailDto> transactions;
 }

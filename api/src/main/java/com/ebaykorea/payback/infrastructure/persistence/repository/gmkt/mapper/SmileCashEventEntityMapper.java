@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventRequestEntity;
@@ -32,7 +32,7 @@ public interface SmileCashEventEntityMapper {
   @Mapping(source = "requestNo", target = "refNo")
   @Mapping(constant = "8166", target = "ersNo") //TODO
   @Mapping(source = "memberKey", target = "regId")
-  SmileCashEventRequestEntity map(MemberEventRewardRequestDto request);
+  SmileCashEventRequestEntity map(EventRewardRequestDto request);
 
   @Mapping(source = "request.status", target = "approvalStatus")
   @Mapping(source = "request.tryCount", target = "tryCount")
@@ -46,7 +46,7 @@ public interface SmileCashEventEntityMapper {
   }
 
   @Mapping(source = "source.result", target = "resultCode")
-  MemberEventRewardResultDto map(final Long requestNo, final SmileCashEventResultEntity source);
+  EventRewardResultDto map(final Long requestNo, final SmileCashEventResultEntity source);
 
   @Mapping(expression = "java(source.getStatus() == 50)", target = "saved")
   @Mapping(expression = "java(source.getStatus() >= 90)", target = "failed")
