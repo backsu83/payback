@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -22,4 +23,6 @@ public class MemberEventRewardRequestDto {
   private BigDecimal saveAmount;
   @Schema(description = "이벤트 타입", example = "Event", required = true)
   private EventType eventType;
+  @Schema(description = "만료 일자")
+  private Instant expirationDate;
 }

@@ -4,6 +4,8 @@ import com.ebaykorea.payback.core.domain.constant.EventType
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto
 import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto
 
+import java.time.Instant
+
 class MemberEventRewardDtoGrocery {
   static def MemberEventRewardRequestDto_생성(Map map = [:]) {
     new MemberEventRewardRequestDto().tap{
@@ -11,6 +13,7 @@ class MemberEventRewardDtoGrocery {
       memberKey = (map.memberKey ?: "memberKey") as String
       saveAmount = (map.saveAmount ?: 0) as BigDecimal
       eventType = (map.eventType ?: EventType.Unknown) as EventType
+      expirationDate = (map.expirationDate ?: null) as Instant
     }
   }
 
