@@ -1,6 +1,5 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
-import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
@@ -26,14 +25,13 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "txId", target = "txId")
   @Mapping(source = "request.memberKey", target = "memberId")
   @Mapping(source = "request.eventType.auctionCode", target = "reasonCode")
-  @Mapping(expression = "java(getReasonComment(request.getEventType()))", target = "reasonComment")
+  @Mapping(source = "request.comment", target = "additionalReasonComment")
   @Mapping(constant = "9", target = "bizType")
   @Mapping(source = "request.requestNo", target = "bizKey")
   @Mapping(constant = "2", target = "smileCashType")
-  @Mapping(source = "request.saveAmount", target = "saveAmount")
   @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "request.memberKey", target = "insertOperator")
-  SmileCashSaveQueueEntity map(Long txId, EventRewardRequestDto request);
+  SmileCashSaveQueueEntity map(Long txId, String reasonComment, EventRewardRequestDto request);
 
   @Mapping(source = "request.status", target = "saveStatus")
   @Mapping(source = "request.tryCount", target = "retryCount")
@@ -44,10 +42,6 @@ public interface SmileCashSaveQueueEntityMapper {
     return Optional.ofNullable(expirationDate)
         .map(Timestamp::from)
         .orElse(Timestamp.from(getDefaultEnableDate(PaybackInstants.now())));
-  }
-
-  default String getReasonComment(final EventType eventType) {
-    return eventType == EventType.Toss ? "토스-신세계 유니버스 클럽 가입" : "";
   }
 
   @Mapping(source = "txId", target = "smilePayNo")

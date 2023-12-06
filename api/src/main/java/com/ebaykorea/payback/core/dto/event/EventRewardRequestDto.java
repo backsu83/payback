@@ -25,4 +25,6 @@ public class EventRewardRequestDto {
   private EventType eventType;
   @Schema(description = "만료 일자")
   private Instant expirationDate;
+  @Schema(description = "적립 추가 사유")
+  private String comment;
 }

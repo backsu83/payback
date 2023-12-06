@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction
 
 import com.ebaykorea.payback.core.domain.constant.EventType
+import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashReasonCodeRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity
@@ -10,14 +11,16 @@ import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardRequestDto_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardResultDto_생성
+import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashReasonCodeEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
 
 class AuctionSmileCashEventRepositorySpec extends Specification {
   def queueRepository = Mock(SmileCashSaveQueueRepository)
   def transactionRepository = Mock(SmileCashTransactionRepository)
+  def reasonCodeRepository = Mock(SmileCashReasonCodeRepository)
   def mapper = Mappers.getMapper(SmileCashSaveQueueEntityMapper.class)
 
-  def repository = new AuctionSmileCashEventRepository(queueRepository, transactionRepository, mapper)
+  def repository = new AuctionSmileCashEventRepository(queueRepository, transactionRepository, reasonCodeRepository, mapper)
 
   def "중복요청 여부에 따라 저장 호출을 올바르게 한다"() {
     when:
@@ -26,6 +29,7 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     then:
     BizKey조회횟수 * queueRepository.findByBizKey(_ as String) >> BizKey조회결과
     txId채번횟수 * transactionRepository.getIacTxId(_ as String) >> 2L
+    적립요청횟수 * reasonCodeRepository.findById(_ as String) >> Optional.of(SmileCashReasonCodeEntity_생성(reasonCode: "RM01Y"))
     적립요청횟수 * queueRepository.save(_ as SmileCashSaveQueueEntity) >> {}
 
     where:
@@ -46,6 +50,7 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     queueRepository.save(_ as SmileCashSaveQueueEntity) >> {}
     queueRepository.findByBizKey(_ as String) >> BizKey조회결과 >> BizKey조회결과2
     transactionRepository.getIacTxId(_ as String) >> 2L
+    reasonCodeRepository.findById(_ as String) >> Optional.of(SmileCashReasonCodeEntity_생성(reasonCode: "RM01Y"))
 
     expect:
     def result = repository.save(request)

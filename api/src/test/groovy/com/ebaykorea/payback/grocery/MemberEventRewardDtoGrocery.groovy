@@ -14,6 +14,7 @@ class MemberEventRewardDtoGrocery {
       saveAmount = (map.saveAmount ?: 0) as BigDecimal
       eventType = (map.eventType ?: EventType.Unknown) as EventType
       expirationDate = (map.expirationDate ?: null) as Instant
+      comment = (map.comment ?: null) as String
     }
   }
 

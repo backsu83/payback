@@ -38,7 +38,7 @@ public class TossEventRewardApplicationService {
         .map(eventReward -> {
           //중복 요청 된 경우
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), userId, request.getEventType(), request.getSaveAmount());
+          final var memberEventRewardRequest = buildEventRewardRequest(eventReward.getRequestNo(), userId, request.getEventType(), request.getSaveAmount());
 
           return smileCashEventRepository.find(memberEventRewardRequest)
               .map(smileCashEvent -> buildResponse(smileCashEvent.getSmilePayNo(), DUPLICATED))
@@ -49,9 +49,9 @@ public class TossEventRewardApplicationService {
           final var requestNo = eventRewardRepository.save(request);
 
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(requestNo, userId, request.getEventType(), request.getSaveAmount());
+          final var eventRewardRequest = buildEventRewardRequest(requestNo, userId, request.getEventType(), request.getSaveAmount());
 
-          return smileCashEventRepository.save(memberEventRewardRequest)
+          return smileCashEventRepository.save(eventRewardRequest)
               .map(this::getSmilePayNo)
               .map(smilePayNo -> {
                 //적립 요청 상태 저장
@@ -67,21 +67,22 @@ public class TossEventRewardApplicationService {
     return eventRewardRepository.findEventReward(request)
         .map(eventReward -> {
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), userId, eventReward.getEventType(), BigDecimal.ZERO);
+          final var eventRewardRequest = buildEventRewardRequest(eventReward.getRequestNo(), userId, eventReward.getEventType(), BigDecimal.ZERO);
 
-          return smileCashEventRepository.find(memberEventRewardRequest)
+          return smileCashEventRepository.find(eventRewardRequest)
               .map(buildResponseFromSmileCashEvent())
               .orElse(buildResponse(EMPTY, FAILED));
         })
         .orElse(buildResponse(EMPTY, NOT_FOUND));
   }
 
-  private EventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final String memberKey, final EventType eventType, final BigDecimal saveAmount) {
+  private EventRewardRequestDto buildEventRewardRequest(final long eventRequestNo, final String memberKey, final EventType eventType, final BigDecimal saveAmount) {
     return EventRewardRequestDto.builder()
         .requestNo(eventRequestNo)
         .memberKey(memberKey)
         .eventType(eventType)
         .saveAmount(saveAmount)
+        .comment("토스-신세계 유니버스 클럽 가입")
         .build();
   }
 
@@ -100,8 +101,8 @@ public class TossEventRewardApplicationService {
         .build();
   }
 
-  private String getSmilePayNo(final EventRewardResultDto memberEventRewardResult) {
-    return Optional.ofNullable(memberEventRewardResult)
+  private String getSmilePayNo(final EventRewardResultDto eventRewardResult) {
+    return Optional.ofNullable(eventRewardResult)
         .map(EventRewardResultDto::getSmilePayNo)
         .filter(smilePayNo -> smilePayNo > 0L)
         .map(String::valueOf)

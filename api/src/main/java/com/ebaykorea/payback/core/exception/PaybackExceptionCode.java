@@ -22,7 +22,10 @@ public enum PaybackExceptionCode {
   API_GATEWAY_001("처리 실패 : {0}"),
   API_GATEWAY_002("API 조회 실패: {0}"),
   API_GATEWAY_003("카드 번호 조회 실패 : {0}"),
-  API_GATEWAY_004("회원 정보 조회 실패, userToken : {0}");
+  API_GATEWAY_004("회원 정보 조회 실패, userToken : {0}"),
+
+  PERSIST_001("조회 실패: {0}")
+  ;
 
   private final String message;
 }
