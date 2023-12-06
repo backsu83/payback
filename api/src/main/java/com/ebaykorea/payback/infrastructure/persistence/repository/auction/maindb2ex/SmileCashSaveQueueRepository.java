@@ -19,8 +19,6 @@ import static java.util.Collections.emptyList;
 @Repository
 @SaturnDataSource(name = Gmkt.MAINDB2_READ)
 public class SmileCashSaveQueueRepository {
-
-
   @SaturnProcedure(
       procedureName = SmileCashSaveQueueEntity.FIND_BY_BIZ_KEY,
       parameters = {

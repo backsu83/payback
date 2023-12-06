@@ -1,8 +1,8 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
 import com.ebaykorea.payback.util.PaybackInstants;
@@ -24,16 +24,14 @@ public interface SmileCashSaveQueueEntityMapper {
 
   @Mapping(source = "txId", target = "txId")
   @Mapping(source = "request.memberKey", target = "memberId")
-  @Mapping(constant = "RM02Y", target = "reasonCode")
-  @Mapping(constant = "토스-신세계 유니버스 클럽 가입", target = "reasonComment")
-  @Mapping(constant = "토스-신세계 유니버스 클럽 가입", target = "additionalReasonComment")
+  @Mapping(source = "request.eventType.auctionCode", target = "reasonCode")
+  @Mapping(source = "request.comment", target = "additionalReasonComment")
   @Mapping(constant = "9", target = "bizType")
   @Mapping(source = "request.requestNo", target = "bizKey")
   @Mapping(constant = "2", target = "smileCashType")
-  @Mapping(source = "request.saveAmount", target = "saveAmount")
   @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "request.memberKey", target = "insertOperator")
-  SmileCashSaveQueueEntity map(Long txId, MemberEventRewardRequestDto request);
+  SmileCashSaveQueueEntity map(Long txId, String reasonComment, EventRewardRequestDto request);
 
   @Mapping(source = "request.status", target = "saveStatus")
   @Mapping(source = "request.tryCount", target = "retryCount")
@@ -47,7 +45,7 @@ public interface SmileCashSaveQueueEntityMapper {
   }
 
   @Mapping(source = "txId", target = "smilePayNo")
-  MemberEventRewardResultDto map(Long requestNo, Integer resultCode, Long txId);
+  EventRewardResultDto map(Long requestNo, Integer resultCode, Long txId);
 
   @Mapping(source = "txId", target = "smilePayNo")
   @Mapping(expression = "java(source.getSaveStatus() == 1)", target = "saved")
