@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class MemberEventRewardRequestDto {
+public class EventRewardRequestDto {
   private long requestNo;
   private String memberKey;
   private BigDecimal saveAmount;

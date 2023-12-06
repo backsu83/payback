@@ -1,23 +1,22 @@
 package com.ebaykorea.payback.scheduler.service;
 
+import static com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType.RequestFailed;
+
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.QuiltApi;
 import com.ebaykorea.payback.scheduler.client.dto.member.QuiltBaseResponse;
 import com.ebaykorea.payback.scheduler.client.dto.payback.CommonResponse;
-import com.ebaykorea.payback.scheduler.client.dto.payback.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.scheduler.client.dto.payback.MemberEventRewardResponseDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.EventRewardRequestDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.EventRewardResultDto;
 import com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType;
 import com.ebaykorea.payback.scheduler.domain.constant.EventType;
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRepositoryCustom;
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRequestStatusRepository;
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestEntity;
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestStatusEntity;
-import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestStatusEntityId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import static com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType.RequestFailed;
 
 @Slf4j
 @Service
@@ -53,7 +52,7 @@ public class EventRewardService {
     log.info(String.format("saveEventReward: buyerNo: %s, notRequested: %s", buyerNo, notRequested.toString()));
     return paybackApiClient.saveEventRewardByMember(buildRequest(buyerNo, notRequested))
         .flatMap(CommonResponse::findSuccessData)
-        .map(MemberEventRewardResponseDto::isSuccess)
+        .map(EventRewardResultDto::isSuccess)
         .orElse(false);
   }
 
@@ -67,8 +66,8 @@ public class EventRewardService {
     repository.save(buildStatusEntity(entity.getRequestNo(), eventRequestStatus));
   }
 
-  private MemberEventRewardRequestDto buildRequest(final String memberKey, final EventRewardRequestEntity entity) {
-    return MemberEventRewardRequestDto.builder()
+  private EventRewardRequestDto buildRequest(final String memberKey, final EventRewardRequestEntity entity) {
+    return EventRewardRequestDto.builder()
         .requestNo(entity.getRequestNo())
         .memberKey(memberKey)
         .saveAmount(entity.getSaveAmount())
