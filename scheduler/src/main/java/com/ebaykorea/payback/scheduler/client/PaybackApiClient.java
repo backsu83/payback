@@ -35,7 +35,7 @@ public interface PaybackApiClient {
       value = "/event/rewards",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Optional<CommonResponse<MemberEventRewardResponseDto>> saveEventRewardByMember(
-      final @RequestBody MemberEventRewardRequestDto request);
+  Optional<CommonResponse<EventRewardResultDto>> saveEventRewardByMember(
+      final @RequestBody EventRewardRequestDto request);
 
 }
