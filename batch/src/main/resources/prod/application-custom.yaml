@@ -34,14 +34,14 @@ ssgpoint:
       decryptInstance: 'auction-aes'
       branchId: 'B200042502'
   batch:
-    fetchSize: 20         #ItemReader에 읽는 Row수
-    chunkSize: 20         #Chunk 처리단위
+    fetchSize: 100         #ItemReader에 읽는 Row수
+    chunkSize: 10         #Chunk 처리단위
   scheduler:
     daily:
       crontab: "0 0 2 * * *" #매일 2시 실행
     target:
       crontab: "30 */5 9-23 * * *" #5분30초
     recover:
-      crontab: "0 */300 12-22 * * *" #12,17,22 - 하루3번
+      crontab: "0 */60 12-22 * * *" #1시간 간격
 
 

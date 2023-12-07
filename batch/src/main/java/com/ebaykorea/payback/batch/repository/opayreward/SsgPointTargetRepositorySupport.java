@@ -57,8 +57,10 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     QSsgPointTargetEntity ssgPointTarget = new QSsgPointTargetEntity("ssgPointTarget");
 
     return factory.selectFrom(ssgPointTargetEntity)
-        .where(ssgPointTargetEntity.orderNo.in(JPAExpressions.select(ssgPointTarget.orderNo).from(ssgPointTarget)
-            .where(ssgPointTarget.tradeType.eq(PointTradeType.Save.getCode())
+        .where(ssgPointTargetEntity.orderNo.in(
+            JPAExpressions.select(ssgPointTarget.orderNo)
+                .from(ssgPointTarget)
+                .where(ssgPointTarget.tradeType.eq(PointTradeType.Save.getCode())
                 .and(ssgPointTarget.pointStatus.eq(PointStatusType.Success.getCode()))
                 .and(ssgPointTarget.scheduleDate.between(
                     Instant.now().minus(3, ChronoUnit.DAYS),
