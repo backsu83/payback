@@ -61,7 +61,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
             JPAExpressions.select(ssgPointTarget.orderNo)
                 .from(ssgPointTarget)
                 .where(ssgPointTarget.tradeType.eq(PointTradeType.Save.getCode())
-                .and(ssgPointTarget.pointStatus.in(PointStatusType.Success.getCode() , PointStatusType.Fail.getCode()))
+                .and(ssgPointTarget.pointStatus.eq(PointStatusType.Success.getCode()))
                 .and(ssgPointTarget.scheduleDate.between(
                     Instant.now().minus(3, ChronoUnit.DAYS),
                     Instant.now())
