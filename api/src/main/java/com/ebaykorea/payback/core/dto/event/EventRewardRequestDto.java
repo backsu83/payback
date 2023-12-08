@@ -21,7 +21,7 @@ public class EventRewardRequestDto {
   private String memberKey;
   @Schema(description = "적립 금액", required = true)
   private BigDecimal saveAmount;
-  @Schema(description = "이벤트 타입", example = "Event", required = true)
+  @Schema(description = "이벤트 타입", example = "DailyCheckIn", required = true)
   private EventType eventType;
   @Schema(description = "만료 일자")
   private Instant expirationDate;
