@@ -43,7 +43,8 @@ public class SmileCashSaveQueueRepository {
           @SaturnProcedureParameter(name = "SMILECASH_TYPE", sqlType = Types.TINYINT),
           @SaturnProcedureParameter(name = "SAVE_AMNT", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "EXPIRE_DATE", sqlType = Types.DATE),
-          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 30)
+          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 30),
+          @SaturnProcedureParameter(name = "REFERENCE_KEY", sqlType = Types.VARCHAR, scale = 20),
       },
       throwEx = true
   )

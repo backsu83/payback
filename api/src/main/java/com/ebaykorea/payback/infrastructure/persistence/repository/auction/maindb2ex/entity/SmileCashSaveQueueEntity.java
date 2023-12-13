@@ -63,4 +63,7 @@ public class SmileCashSaveQueueEntity {
 
   @Column(name = "INS_OPRT")
   private String insertOperator;
+
+  @Column(name = "REFERENCE_KEY")
+  private String referenceKey;
 }
