@@ -13,6 +13,7 @@ class MemberEventRewardDtoGrocery {
       memberKey = (map.memberKey ?: "memberKey") as String
       saveAmount = (map.saveAmount ?: 0) as BigDecimal
       eventType = (map.eventType ?: EventType.Unknown) as EventType
+      eventId = (map.eventId ?: null) as String
       expirationDate = (map.expirationDate ?: null) as Instant
       comment = (map.comment ?: null) as String
     }
