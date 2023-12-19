@@ -7,35 +7,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.Instant;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventRewardRequestDto {
-  @Schema(description = "요청 아이디", required = true)
-  @NotEmpty(message = "requestId cannot be empty")
-  private String requestId;
-
-  @Schema(description = "이벤트 타입", example = "Toss", required = true)
-  @NotNull(message = "eventType cannot be null")
-  private EventType eventType;
-
-  @Schema(description = "유저 정보", required = true)
-  @NotEmpty(message = "userToken cannot be empty")
-  private String userToken;
-
+  @Schema(description = "적립 요청 번호", required = true)
+  private long requestNo;
+  @Schema(description = "회원 키", required = true)
+  private String memberKey;
   @Schema(description = "적립 금액", required = true)
-  @NotNull(message = "saveAmount cannot be null")
   private BigDecimal saveAmount;
-
-  @Schema(description = "적립 사유")
-  private String message;
-
-  @Schema(description = "이벤트 상세")
-  private List<EventRewardRequestDetailDto> details;
+  @Schema(description = "이벤트 타입", example = "DailyCheckIn", required = true)
+  private EventType eventType;
+  @Schema(description = "이벤트 아이디")
+  private String eventId;
+  @Schema(description = "만료 일자")
+  private Instant expirationDate;
+  @Schema(description = "적립 추가 사유")
+  private String comment;
 }

@@ -6,20 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Optional;
-
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class MemberEventRewardResponseDto {
-  private String memberKey;
-  private MemberEventRewardResultDto eventRewardResult;
+@NoArgsConstructor
+public class EventRewardResultDto {
+  private long requestNo;
+  private long smilePayNo;
+  private int resultCode;
 
   @JsonIgnore
   public boolean isSuccess() {
-    return Optional.ofNullable(eventRewardResult)
-        .map(MemberEventRewardResultDto::isSuccess)
-        .orElse(false);
+    return resultCode == 0 && smilePayNo > 0L;
   }
 }

@@ -7,10 +7,11 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import java.sql.Timestamp
+import java.time.Instant
 
 import static com.ebaykorea.payback.grocery.EventRewardGrocery.SmileCashEvent_생성
-import static com.ebaykorea.payback.grocery.CashEventRewardDtoGrocery.CashEventRewardResult_생성
-import static com.ebaykorea.payback.grocery.CashEventRewardDtoGrocery.CashEventRewardRequest_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardRequestDto_생성
+import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventRequestEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventResultEntity_생성
@@ -19,31 +20,19 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate
 class SmileCashEventRequestEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SmileCashEventEntityMapper.class)
 
-  def "CashEventRewardRequest -> SmileCashEventEntity 매핑 테스트"() {
+  def "MemberCashbackRequestDto -> SmileCashEventEntity 매핑 테스트"() {
     expect:
-    def result = mapper.map(
-            CashEventRewardRequest_생성(
-            requestNo: 1234L,
-            requestId: "memberKey",
-            saveAmount: 1000L,
-            balanceCode: "G9",
-            eventType: EventType.Toss
-        ))
+    def result = mapper.map(request)
 
-    result == SmileCashEventRequestEntity_생성(
-        requestMoney: 1000L,
-        requestOutputDisabledMoney: 1000L,
-        cashBalanceType: "G9",
-        smilecashCode: "A003",
-        custNo: "memberKey",
-        expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())),
-        refNo: 1234L,
-        ersNo: 8166,
-        regId: "memberKey"
-    )
+    result == expectResult
+
+    where:
+    desc | request | expectResult
+    "expirationDate 없을때 기본 만료일자" | EventRewardRequestDto_생성(requestNo: 1234L, saveAmount: 1000L, eventType: EventType.Toss)                                                           | SmileCashEventRequestEntity_생성(requestMoney: 1000L, requestOutputDisabledMoney: 1000L, cashBalanceType: "G9", custNo: "memberKey", expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())), refNo: 1234L, ersNo: 8166, regId: "memberKey")
+    "expirationDate 있을때 해당 만료일자" | EventRewardRequestDto_생성(requestNo: 1L, saveAmount: 100L, eventType: EventType.DailyCheckIn, expirationDate: Instant.parse("2023-12-04T09:35:24.00Z")) | SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "G8", custNo: "memberKey", expireDate: Timestamp.from(Instant.parse("2023-12-04T09:35:24.00Z")), refNo: 1L, regId: "memberKey")
   }
 
-  def "SmileCashEventResultEntity -> CashEventRewardResult 매핑 테스트"() {
+  def "SmileCashEventResultEntity -> MemberCashbackResultDto 매핑 테스트"() {
     expect:
     def result = mapper.map(1234L,
         SmileCashEventResultEntity_생성(
@@ -51,7 +40,7 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
             comment: "중복처리",
             smilePayNo: 11L
         ))
-    result == CashEventRewardResult_생성(
+    result == EventRewardResultDto_생성(
         requestNo: 1234L,
         smilePayNo: 11L,
         resultCode: -1

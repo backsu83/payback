@@ -1,19 +1,20 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 
-import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
-
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardRequest;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmileCashEventEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 
 @Profile(GMARKET_TENANT)
 @Service
@@ -25,7 +26,7 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<CashEventRewardResult> save(final CashEventRewardRequest request) {
+  public Optional<EventRewardResultDto> save(final EventRewardRequestDto request) {
     final var entity = mapper.map(request);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
@@ -38,7 +39,7 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final String buyerNo, final CashEventRewardRequest request) {
+  public Optional<SmileCashEvent> find(final EventRewardRequestDto request) {
     final var entity = mapper.map(request);
     return repository.find(entity)
         .map(mapper::map);

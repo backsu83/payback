@@ -1,11 +1,10 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.toss.TossCommonResponseDto;
-import com.ebaykorea.payback.api.dto.toss.TossEventRewardRequestDto;
-import com.ebaykorea.payback.api.dto.toss.TossEventRewardResponseDto;
-import com.ebaykorea.payback.api.dto.toss.TossEventRewardResultRequestDto;
-import com.ebaykorea.payback.api.mapper.TossEventRewardMapper;
-import com.ebaykorea.payback.core.EventRewardApplicationService;
+import com.ebaykorea.payback.api.dto.toss.TossRewardRequestDto;
+import com.ebaykorea.payback.api.dto.toss.TossRewardResultRequestDto;
+import com.ebaykorea.payback.api.mapper.TossRewardMapper;
+import com.ebaykorea.payback.core.TossEventRewardApplicationService;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,15 +21,15 @@ import javax.validation.Valid;
 @RequestMapping("/event/rewards/toss")
 public class EventRewardTossController {
 
-  private final EventRewardApplicationService service;
-  private final TossEventRewardMapper mapper;
+  private final TossEventRewardApplicationService service;
+  private final TossRewardMapper mapper;
 
   private static final String SUCCESS = "SUCCESS";
 
   @Operation(summary = "토스 리워드 적립 요청", description = "토스 리워드 적립")
   @PostMapping
   public TossCommonResponseDto saveEventReward(
-      final @Valid @RequestBody TossEventRewardRequestDto request) {
+      final @Valid @RequestBody TossRewardRequestDto request) {
     final var result = service.saveEventReward(mapper.map(request));
 
     return TossCommonResponseDto.builder()
@@ -42,7 +41,7 @@ public class EventRewardTossController {
   @Operation(summary = "토스 리워드 적립 요청 결과 조회")
   @PostMapping("/get-result")
   public TossCommonResponseDto getEventReward(
-      final @Valid @RequestBody TossEventRewardResultRequestDto request) {
+      final @Valid @RequestBody TossRewardResultRequestDto request) {
     final var result = service.getEventReward(mapper.map(request));
 
     return TossCommonResponseDto.builder()

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TossEventRewardResultRequestDto {
+public class TossRewardResultRequestDto {
   @Schema(description = "요청 아이디", required = true)
   @NotEmpty(message = "requestId cannot be empty")
   private String requestId;

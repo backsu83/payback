@@ -1,14 +1,15 @@
 package com.ebaykorea.payback.core.repository;
 
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardRequest;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
+
 import java.util.Optional;
 
 public interface SmileCashEventRepository {
-  Optional<CashEventRewardResult> save(CashEventRewardRequest reqest);
+  Optional<EventRewardResultDto> save(EventRewardRequestDto request);
   void set(Long smilePayNo, SetEventRewardRequestDto request);
 
-  Optional<SmileCashEvent> find(String memberKey, CashEventRewardRequest request);
+  Optional<SmileCashEvent> find(EventRewardRequestDto request);
 }
