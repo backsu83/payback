@@ -2,10 +2,10 @@ package com.ebaykorea.payback.core;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
 import com.ebaykorea.payback.core.gateway.UserGateway;
 import com.ebaykorea.payback.core.repository.EventRewardRepository;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
@@ -38,9 +38,9 @@ public class EventRewardApplicationService {
         .map(eventReward -> {
           //중복 요청 된 경우
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), request.getEventType(), request.getSaveAmount());
+          final var cashEventRewardRequest = buildCashEventRequest(userId, eventReward.getRequestNo(), request.getEventType(), request.getSaveAmount());
 
-          return smileCashEventRepository.find(userId, memberEventRewardRequest)
+          return smileCashEventRepository.find(userId, cashEventRewardRequest)
               .map(smileCashEvent -> buildResponse(smileCashEvent.getSmilePayNo(), DUPLICATED))
               .orElse(buildResponse(EMPTY, DUPLICATED));
         })
@@ -49,9 +49,9 @@ public class EventRewardApplicationService {
           final var requestNo = eventRewardRepository.save(request);
 
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(requestNo, request.getEventType(), request.getSaveAmount());
+          final var cashEventRewardRequest = buildCashEventRequest(userId, requestNo, request.getEventType(), request.getSaveAmount());
 
-          return smileCashEventRepository.save(userId, memberEventRewardRequest)
+          return smileCashEventRepository.save(cashEventRewardRequest)
               .map(this::getSmilePayNo)
               .map(smilePayNo -> {
                 //적립 요청 상태 저장
@@ -67,20 +67,21 @@ public class EventRewardApplicationService {
     return eventRewardRepository.findEventReward(request)
         .map(eventReward -> {
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var memberEventRewardRequest = buildMemberEventRequest(eventReward.getRequestNo(), eventReward.getEventType(), BigDecimal.ZERO);
+          final var cashEventRewardReqest = buildCashEventRequest(userId, eventReward.getRequestNo(), eventReward.getEventType(), BigDecimal.ZERO);
 
-          return smileCashEventRepository.find(userId, memberEventRewardRequest)
+          return smileCashEventRepository.find(userId, cashEventRewardReqest)
               .map(buildResponseFromSmileCashEvent())
               .orElse(buildResponse(EMPTY, FAILED));
         })
         .orElse(buildResponse(EMPTY, NOT_FOUND));
   }
 
-  private MemberEventRewardRequestDto buildMemberEventRequest(final long eventRequestNo, final EventType eventType, final BigDecimal saveAmount) {
-    return MemberEventRewardRequestDto.builder()
+  private CashEventRewardReqest buildCashEventRequest(final String userId, final long eventRequestNo, final EventType eventType, final BigDecimal saveAmount) {
+    return CashEventRewardReqest.builder()
         .requestNo(eventRequestNo)
         .eventType(eventType)
         .saveAmount(saveAmount)
+        .requestId(userId)
         .build();
   }
 
@@ -99,9 +100,9 @@ public class EventRewardApplicationService {
         .build();
   }
 
-  private String getSmilePayNo(final MemberEventRewardResultDto memberEventRewardResult) {
+  private String getSmilePayNo(final CashEventRewardResult memberEventRewardResult) {
     return Optional.ofNullable(memberEventRewardResult)
-        .map(MemberEventRewardResultDto::getSmilePayNo)
+        .map(CashEventRewardResult::getSmilePayNo)
         .filter(smilePayNo -> smilePayNo > 0L)
         .map(String::valueOf)
         .orElse(EMPTY);

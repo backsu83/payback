@@ -9,8 +9,8 @@ import spock.lang.Specification
 import java.sql.Timestamp
 
 import static com.ebaykorea.payback.grocery.EventRewardGrocery.SmileCashEvent_생성
-import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardRequestDto_생성
-import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardResultDto_생성
+import static com.ebaykorea.payback.grocery.CashEventRewardDtoGrocery.CashEventRewardResult_생성
+import static com.ebaykorea.payback.grocery.CashEventRewardDtoGrocery.CashEventRewardRequest_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventRequestEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventResultEntity_생성
@@ -19,12 +19,14 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate
 class SmileCashEventRequestEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SmileCashEventEntityMapper.class)
 
-  def "MemberCashbackRequestDto -> SmileCashEventEntity 매핑 테스트"() {
+  def "CashEventRewardRequest -> SmileCashEventEntity 매핑 테스트"() {
     expect:
-    def result = mapper.map("memberKey",
-        MemberEventRewardRequestDto_생성(
+    def result = mapper.map(
+            CashEventRewardRequest_생성(
             requestNo: 1234L,
+            requestId: "memberKey",
             saveAmount: 1000L,
+            balanceCode: "G9",
             eventType: EventType.Toss
         ))
 
@@ -32,6 +34,7 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
         requestMoney: 1000L,
         requestOutputDisabledMoney: 1000L,
         cashBalanceType: "G9",
+        smilecashCode: "A003",
         custNo: "memberKey",
         expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())),
         refNo: 1234L,
@@ -40,7 +43,7 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
     )
   }
 
-  def "SmileCashEventResultEntity -> MemberCashbackResultDto 매핑 테스트"() {
+  def "SmileCashEventResultEntity -> CashEventRewardResult 매핑 테스트"() {
     expect:
     def result = mapper.map(1234L,
         SmileCashEventResultEntity_생성(
@@ -48,7 +51,7 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
             comment: "중복처리",
             smilePayNo: 11L
         ))
-    result == MemberEventRewardResultDto_생성(
+    result == CashEventRewardResult_생성(
         requestNo: 1234L,
         smilePayNo: 11L,
         resultCode: -1

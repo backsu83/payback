@@ -1,20 +1,18 @@
 package com.ebaykorea.payback.core
 
 import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType
-import com.ebaykorea.payback.core.domain.constant.EventType
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent
+import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto
 import com.ebaykorea.payback.core.gateway.UserGateway
 import com.ebaykorea.payback.core.repository.EventRewardRepository
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository
 import spock.lang.Specification
 
+import static com.ebaykorea.payback.grocery.CashEventRewardDtoGrocery.CashEventRewardResult_생성
 import static com.ebaykorea.payback.grocery.EventRewardDtoGrocery.EventRewardRequestDto_생성
 import static com.ebaykorea.payback.grocery.EventRewardDtoGrocery.EventRewardResponseDto_생성
 import static com.ebaykorea.payback.grocery.EventRewardGrocery.EventReward_생성
 import static com.ebaykorea.payback.grocery.EventRewardGrocery.SmileCashEvent_생성
-import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.MemberEventRewardResultDto_생성
 
 class EventRewardApplicationServiceSpec extends Specification {
   def eventRewardRepository = Stub(EventRewardRepository)
@@ -28,9 +26,9 @@ class EventRewardApplicationServiceSpec extends Specification {
     eventRewardRepository.findEventReward(_ as EventRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     eventRewardRepository.save(_ as EventRewardRequestDto) >> 1L
     eventRewardRepository.saveStatus(_ as Long, _ as EventRequestStatusType) >> {}
-    smileCashEventRepository.save(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(회원적립결과)
+    smileCashEventRepository.save(_ as CashEventRewardReqest) >> Optional.ofNullable(회원적립결과)
     userGateway.getUserId(_ as String) >> "userId"
-    smileCashEventRepository.find(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(SmileCashEvent_생성())
+    smileCashEventRepository.find(_ as String, _ as CashEventRewardReqest) >> Optional.ofNullable(SmileCashEvent_생성())
 
     expect:
     def result = service.saveEventReward(request)
@@ -45,17 +43,17 @@ class EventRewardApplicationServiceSpec extends Specification {
     "적립성공" | EventRewardRequestDto_생성() | EventRewardResponseDto_생성(smilePayNo: "2", resultCode: "SUCCESS")
     ________________________________________________
     eventReward결과 | 회원적립결과
-    EventReward_생성() | MemberEventRewardResultDto_생성()
-    null | MemberEventRewardResultDto_생성()
+    EventReward_생성() | CashEventRewardResult_생성()
+    null | CashEventRewardResult_생성()
     null | null
-    null | MemberEventRewardResultDto_생성(smilePayNo: 2L)
+    null | CashEventRewardResult_생성(smilePayNo: 2L)
   }
 
   def "이벤트 리워드 조회 테스트"() {
     setup:
     eventRewardRepository.findEventReward(_ as EventRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     userGateway.getUserId(_ as String) >> "userId"
-    smileCashEventRepository.find(_ as String, _ as MemberEventRewardRequestDto) >> Optional.ofNullable(smileCashEvent결과)
+    smileCashEventRepository.find(_ as String, _ as CashEventRewardReqest) >> Optional.ofNullable(smileCashEvent결과)
 
     expect:
     def result = service.getEventReward(request)

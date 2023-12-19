@@ -25,6 +25,7 @@ public class SmileCashEventEntityRepository {
           @SaturnProcedureParameter(name = "REQ_MONEY", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "REQ_OUTPUT_IMPB_MONEY", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "CASH_BALANCE_TYPE", sqlType = Types.CHAR, scale = 2),
+          @SaturnProcedureParameter(name = "SMILECASH_CD", sqlType = Types.CHAR, scale = 4),
           @SaturnProcedureParameter(name = "CUST_NO", sqlType = Types.VARCHAR, scale = 10),
           @SaturnProcedureParameter(name = "EXPIRE_DT", sqlType = Types.TIMESTAMP),
           @SaturnProcedureParameter(name = "REF_NO", sqlType = Types.BIGINT),

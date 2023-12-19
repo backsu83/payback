@@ -1,20 +1,19 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
+import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
+
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardRequestDto;
-import com.ebaykorea.payback.core.dto.event.MemberEventRewardResultDto;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventRequestEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventResultEntity;
 import com.ebaykorea.payback.util.PaybackInstants;
+import java.sql.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-
-import java.sql.Timestamp;
-
-import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
 @Mapper(
     componentModel = "spring",
@@ -22,16 +21,16 @@ import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 )
 public interface SmileCashEventEntityMapper {
 
-  @Mapping(source = "request.saveAmount", target = "requestMoney")
-  @Mapping(source = "request.saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(constant = "G9", target = "cashBalanceType")
-  @Mapping(source = "memberKey", target = "custNo")
+  @Mapping(source = "reqest.saveAmount", target = "requestMoney")
+  @Mapping(source = "reqest.saveAmount", target = "requestOutputDisabledMoney")
+  @Mapping(source = "reqest.balanceCode", target = "cashBalanceType")
+  @Mapping(expression = "java(reqest.getEventType().getGmarketCode())", target = "smilecashCode") //임시
+  @Mapping(source = "reqest.requestId", target = "custNo")
   @Mapping(expression = "java(getExpireDate())", target = "expireDate")
-  @Mapping(source = "request.requestNo", target = "refNo")
+  @Mapping(source = "reqest.requestNo", target = "refNo")
   @Mapping(constant = "8166", target = "ersNo")
-  @Mapping(source = "memberKey", target = "regId")
-  SmileCashEventRequestEntity map(String memberKey, MemberEventRewardRequestDto request);
-
+  @Mapping(source = "reqest.requestId", target = "regId")
+  SmileCashEventRequestEntity map(CashEventRewardReqest reqest);
 
   @Mapping(source = "request.status", target = "approvalStatus")
   @Mapping(source = "request.tryCount", target = "tryCount")
@@ -43,7 +42,7 @@ public interface SmileCashEventEntityMapper {
   }
 
   @Mapping(source = "source.result", target = "resultCode")
-  MemberEventRewardResultDto map(final Long requestNo, final SmileCashEventResultEntity source);
+  CashEventRewardResult map(final Long requestNo, final SmileCashEventResultEntity source);
 
   @Mapping(expression = "java(source.getStatus() == 50)", target = "saved")
   @Mapping(expression = "java(source.getStatus() >= 90)", target = "failed")

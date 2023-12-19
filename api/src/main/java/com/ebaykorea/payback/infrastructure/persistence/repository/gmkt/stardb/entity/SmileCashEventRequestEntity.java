@@ -38,6 +38,9 @@ public class SmileCashEventRequestEntity {
   @Column(name = "CASH_BALANCE_TYPE")
   private String cashBalanceType;
 
+  @Column(name = "SMILECASH_CD")
+  private String smilecashCode;
+
   @Column(name = "CUST_NO")
   private String custNo;
 

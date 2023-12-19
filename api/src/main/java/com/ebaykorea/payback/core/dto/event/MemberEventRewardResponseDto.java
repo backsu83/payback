@@ -9,5 +9,5 @@ import java.util.List;
 @Builder
 public class MemberEventRewardResponseDto {
   private String memberKey;
-  private MemberEventRewardResultDto eventRewardResult;
+  private CashEventRewardResult eventRewardResult;
 }
