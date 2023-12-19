@@ -3,7 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardRequest;
 import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity;
@@ -21,16 +21,16 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface SmileCashEventEntityMapper {
 
-  @Mapping(source = "reqest.saveAmount", target = "requestMoney")
-  @Mapping(source = "reqest.saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(source = "reqest.balanceCode", target = "cashBalanceType")
-  @Mapping(expression = "java(reqest.getEventType().getGmarketCode())", target = "smilecashCode") //임시
-  @Mapping(source = "reqest.requestId", target = "custNo")
+  @Mapping(source = "request.saveAmount", target = "requestMoney")
+  @Mapping(source = "request.saveAmount", target = "requestOutputDisabledMoney")
+  @Mapping(source = "request.balanceCode", target = "cashBalanceType")
+  @Mapping(expression = "java(request.getEventType().getGmarketCode())", target = "smilecashCode") //임시
+  @Mapping(source = "request.requestId", target = "custNo")
   @Mapping(expression = "java(getExpireDate())", target = "expireDate")
-  @Mapping(source = "reqest.requestNo", target = "refNo")
+  @Mapping(source = "request.requestNo", target = "refNo")
   @Mapping(constant = "8166", target = "ersNo")
-  @Mapping(source = "reqest.requestId", target = "regId")
-  SmileCashEventRequestEntity map(CashEventRewardReqest reqest);
+  @Mapping(source = "request.requestId", target = "regId")
+  SmileCashEventRequestEntity map(CashEventRewardRequest request);
 
   @Mapping(source = "request.status", target = "approvalStatus")
   @Mapping(source = "request.tryCount", target = "tryCount")

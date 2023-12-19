@@ -2,13 +2,13 @@ package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.EventType
 import com.ebaykorea.payback.core.domain.constant.ReferenceType
-import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest
+import com.ebaykorea.payback.core.dto.event.CashEventRewardRequest
 import com.ebaykorea.payback.core.dto.event.CashEventRewardResult
 
 class CashEventRewardDtoGrocery {
 
   static def CashEventRewardRequest_생성(Map map = [:]) {
-    new CashEventRewardReqest().tap{
+    new CashEventRewardRequest().tap{
       requestNo = (map.requestNo ?: 0) as long
       requestId = (map.requestId ?: "") as String
       saveAmount = (map.saveAmount ?: 0) as BigDecimal

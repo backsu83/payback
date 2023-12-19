@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CashEventRewardReqest {
+public class CashEventRewardRequest {
 
   private String requestId;
   private Long requestNo;

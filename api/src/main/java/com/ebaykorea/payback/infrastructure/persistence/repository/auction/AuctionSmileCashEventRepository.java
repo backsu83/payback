@@ -4,7 +4,7 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.AUCTION_TENA
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardRequest;
 import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
@@ -34,7 +34,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<CashEventRewardResult> save(final CashEventRewardReqest request) {
+  public Optional<CashEventRewardResult> save(final CashEventRewardRequest request) {
     return
         //중복 요청 체크
         smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
@@ -63,7 +63,7 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final String buyerId, final CashEventRewardReqest request) {
+  public Optional<SmileCashEvent> find(final String buyerId, final CashEventRewardRequest request) {
     return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
         .filter(alreadyRequested(buyerId, request.getEventType()))
         .findAny()

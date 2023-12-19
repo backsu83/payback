@@ -3,7 +3,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardRequest;
 import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
@@ -25,7 +25,7 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<CashEventRewardResult> save(final CashEventRewardReqest request) {
+  public Optional<CashEventRewardResult> save(final CashEventRewardRequest request) {
     final var entity = mapper.map(request);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
@@ -38,7 +38,7 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final String buyerNo, final CashEventRewardReqest request) {
+  public Optional<SmileCashEvent> find(final String buyerNo, final CashEventRewardRequest request) {
     final var entity = mapper.map(request);
     return repository.find(entity)
         .map(mapper::map);

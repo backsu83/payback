@@ -2,7 +2,7 @@ package com.ebaykorea.payback.core;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.CashEventRewardReqest;
+import com.ebaykorea.payback.core.dto.event.CashEventRewardRequest;
 import com.ebaykorea.payback.core.dto.event.CashEventRewardResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResponseDto;
@@ -67,17 +67,17 @@ public class EventRewardApplicationService {
     return eventRewardRepository.findEventReward(request)
         .map(eventReward -> {
           final var userId = userGateway.getUserId(request.getUserToken());
-          final var cashEventRewardReqest = buildCashEventRequest(userId, eventReward.getRequestNo(), eventReward.getEventType(), BigDecimal.ZERO);
+          final var cashEventRewardRequest = buildCashEventRequest(userId, eventReward.getRequestNo(), eventReward.getEventType(), BigDecimal.ZERO);
 
-          return smileCashEventRepository.find(userId, cashEventRewardReqest)
+          return smileCashEventRepository.find(userId, cashEventRewardRequest)
               .map(buildResponseFromSmileCashEvent())
               .orElse(buildResponse(EMPTY, FAILED));
         })
         .orElse(buildResponse(EMPTY, NOT_FOUND));
   }
 
-  private CashEventRewardReqest buildCashEventRequest(final String userId, final long eventRequestNo, final EventType eventType, final BigDecimal saveAmount) {
-    return CashEventRewardReqest.builder()
+  private CashEventRewardRequest buildCashEventRequest(final String userId, final long eventRequestNo, final EventType eventType, final BigDecimal saveAmount) {
+    return CashEventRewardRequest.builder()
         .requestNo(eventRequestNo)
         .eventType(eventType)
         .saveAmount(saveAmount)
