@@ -3,11 +3,11 @@ package com.ebaykorea.payback.core.domain.constant;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum ReferenceType {
+public enum ReviewReferenceType {
   Unknown(null),
   Core("Core"),
   Tour("Tour");
 
-  private final String name;
+  private final String code;
 
 }

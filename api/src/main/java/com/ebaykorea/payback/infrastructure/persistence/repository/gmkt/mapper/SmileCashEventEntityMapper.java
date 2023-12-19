@@ -27,24 +27,14 @@ public interface SmileCashEventEntityMapper {
 
   @Mapping(source = "saveAmount", target = "requestMoney")
   @Mapping(source = "saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(source = "eventType.gmarketCode", target = "cashBalanceType")
+  @Mapping(source = "eventType.cashBalanceCode", target = "cashBalanceType")
+  @Mapping(source = "eventType.gmarketCode", target = "smilecashCode")
   @Mapping(source = "memberKey", target = "custNo")
   @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "requestNo", target = "refNo")
   @Mapping(expression = "java(getErsNo(request.getEventType()))", target = "ersNo")
   @Mapping(source = "memberKey", target = "regId")
   SmileCashEventRequestEntity map(EventRewardRequestDto request);
-
-  @Mapping(source = "request.saveAmount", target = "requestMoney")
-  @Mapping(source = "request.saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(source = "request.balanceCode", target = "cashBalanceType")
-  @Mapping(expression = "java(request.getEventType().getGmarketCode())", target = "smilecashCode") //임시
-  @Mapping(source = "request.requestId", target = "custNo")
-  @Mapping(expression = "java(getExpireDate())", target = "expireDate")
-  @Mapping(source = "request.requestNo", target = "refNo")
-  @Mapping(constant = "8166", target = "ersNo")
-  @Mapping(source = "request.requestId", target = "regId")
-  SmileCashEventRequestEntity map(CashEventRewardRequest request);
 
   @Mapping(source = "request.status", target = "approvalStatus")
   @Mapping(source = "request.tryCount", target = "tryCount")

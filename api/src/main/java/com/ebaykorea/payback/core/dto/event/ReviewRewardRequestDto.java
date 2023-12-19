@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.core.dto.event;
 
-import com.ebaykorea.payback.core.domain.constant.ReferenceType;
+import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotEmpty;
@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewRewardRequestDto {
   @Schema(description = "요청 아이디", required = true)
-  @NotEmpty(message = "requestId cannot be empty")
-  private String requestId;
+  @NotEmpty(message = "memberKey cannot be empty")
+  private String memberKey;
 
   @Schema(description = "적립 요청번호 (주문번호)", required = true)
   @NotNull(message = "requestNo cannot be null")
@@ -30,7 +30,6 @@ public class ReviewRewardRequestDto {
   private BigDecimal saveAmount;
 
   @Schema(description = "출처 타입 (코어, 여행)", required = true)
-  @NotNull(message = "referenceType cannot be empty")
-  private ReferenceType caller;
-
+  @NotNull(message = "caller cannot be empty")
+  private ReviewReferenceType caller;
 }
