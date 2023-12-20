@@ -27,8 +27,7 @@ public interface SmileCashEventEntityMapper {
 
   @Mapping(source = "saveAmount", target = "requestMoney")
   @Mapping(source = "saveAmount", target = "requestOutputDisabledMoney")
-  @Mapping(source = "eventType.cashBalanceCode", target = "cashBalanceType")
-  @Mapping(source = "eventType.gmarketCode", target = "smilecashCode")
+  @Mapping(source = "eventType.gmarketCode", target = "cashBalanceType")
   @Mapping(source = "memberKey", target = "custNo")
   @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "requestNo", target = "refNo")

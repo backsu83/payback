@@ -35,7 +35,7 @@ public class EventRewardReviewController {
   }
 
   @Operation(summary = "프리미엄 상품평 리워드 적립", description = "프리미엄 상품평 리워드 적립 요청")
-  @PostMapping("/rewards/premium")
+  @PostMapping("/premium-rewards")
   public CommonResponse<EventRewardResultDto> saveReviewRewardsPremium(final @Valid @RequestBody ReviewRewardRequestDto request) {
     return CommonResponse.success(SUCCESS, repository.save(mapper.map(request, EventType.ReviewPremium)).orElse(null));
   }

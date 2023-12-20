@@ -13,7 +13,6 @@ class SmileCashEventEntityGrocery {
       requestMoney = (map.requestMoney ?: 0) as BigDecimal
       requestOutputDisabledMoney = (map.requestOutputDisabledMoney ?: 0) as BigDecimal
       cashBalanceType = (map.cashBalanceType ?: "") as String
-      smilecashCode = (map.smilecashCode ?: "") as String
       custNo = (map.custNo ?: "custNo") as String
       expireDate = (map.expireDate ?: Timestamp.from(TestConstant.ORDER_DATE)) as Timestamp
       refNo = (map.refNo ?: 0L) as long
