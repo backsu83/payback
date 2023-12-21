@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EventType {
   Unknown("", "", ""),
-  DailyCheckIn("DailyCheckIn", "RM01Y", "G8"),
+  DailyCheckIn("DailyCheckIn", "RM03Y", "G8"),
   Toss("Toss", "RM02Y", "G9")
   ;
 

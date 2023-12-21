@@ -15,7 +15,6 @@ class MemberEventRewardDtoGrocery {
       eventType = (map.eventType ?: EventType.Unknown) as EventType
       eventNo = (map.eventNo ?: null) as Long
       expirationDate = (map.expirationDate ?: null) as Instant
-      comment = (map.comment ?: null) as String
     }
   }
 
