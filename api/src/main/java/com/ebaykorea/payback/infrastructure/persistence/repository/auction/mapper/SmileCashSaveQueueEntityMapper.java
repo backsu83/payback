@@ -31,7 +31,7 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(constant = "2", target = "smileCashType")
   @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "request.memberKey", target = "insertOperator")
-  @Mapping(source = "request.eventId", target = "referenceKey")
+  @Mapping(source = "request.eventNo", target = "referenceKey")
   SmileCashSaveQueueEntity map(Long txId, String reasonComment, EventRewardRequestDto request);
 
   @Mapping(source = "request.status", target = "saveStatus")
