@@ -1,20 +1,19 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays;
+
+import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
 import com.ebaykorea.payback.util.PaybackInstants;
+import java.sql.Timestamp;
+import java.util.Optional;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Optional;
-
-import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate;
 
 @Mapper(
     componentModel = "spring",
@@ -30,7 +29,7 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(constant = "9", target = "bizType")
   @Mapping(source = "request.requestNo", target = "bizKey")
   @Mapping(constant = "2", target = "smileCashType")
-  @Mapping(expression = "java(getExpireDate(request.getExpirationDate()))", target = "expireDate")
+  @Mapping(expression = "java(getExpireDate(request))", target = "expireDate")
   @Mapping(source = "request.memberKey", target = "insertOperator")
   @Mapping(source = "request.eventNo", target = "referenceKey")
   SmileCashSaveQueueEntity map(Long txId, String reasonComment, EventRewardRequestDto request);
@@ -40,10 +39,16 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "request.operator", target = "insertOperator")
   SmileCashSaveQueueEntity map(Long seqNo, SetEventRewardRequestDto request);
 
-  default Timestamp getExpireDate(final Instant expirationDate) {
-    return Optional.ofNullable(expirationDate)
+  default Timestamp getExpireDate(final EventRewardRequestDto request) {
+    return Optional.ofNullable(request.getExpirationDate())
         .map(Timestamp::from)
-        .orElse(Timestamp.from(getDefaultEnableDate(PaybackInstants.now())));
+        .orElseGet(() -> {
+          if (request.getEventType() == EventType.DailyCheckIn) {
+            return Timestamp.from(truncatedDays(PaybackInstants.now(), 90));
+          } else {
+            return Timestamp.from(truncatedDays(PaybackInstants.now(), 30));
+          }
+        });
   }
 
   @Mapping(source = "txId", target = "smilePayNo")

@@ -1,9 +1,11 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 
+import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
+import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmileCashEventEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002;
 
 @Profile(GMARKET_TENANT)
 @Service
@@ -27,6 +30,10 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   @Transactional
   @Override
   public Optional<EventRewardResultDto> save(final EventRewardRequestDto request) {
+    if (request.getEventType() == EventType.DailyCheckIn) {
+      throw new PaybackException(PERSIST_002, request.getEventType().getName());
+    }
+
     final var entity = mapper.map(request);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
