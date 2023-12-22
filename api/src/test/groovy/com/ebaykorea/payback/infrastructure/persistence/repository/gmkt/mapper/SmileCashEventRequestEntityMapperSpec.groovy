@@ -15,7 +15,7 @@ import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRew
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventRequestEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventEntityGrocery.SmileCashEventResultEntity_생성
-import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
 
 class SmileCashEventRequestEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SmileCashEventEntityMapper.class)
@@ -28,7 +28,7 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
 
     where:
     desc | request | expectResult
-    "expirationDate 없을때 기본 만료일자" | EventRewardRequestDto_생성(requestNo: 1234L, saveAmount: 1000L, eventType: EventType.Toss)                                                           | SmileCashEventRequestEntity_생성(requestMoney: 1000L, requestOutputDisabledMoney: 1000L, cashBalanceType: "G9", custNo: "memberKey", expireDate: Timestamp.from(getDefaultEnableDate(PaybackInstants.now())), refNo: 1234L, ersNo: 8166, regId: "memberKey")
+    "expirationDate 없을때 기본 만료일자" | EventRewardRequestDto_생성(requestNo: 1234L, saveAmount: 1000L, eventType: EventType.Toss)                                                           | SmileCashEventRequestEntity_생성(requestMoney: 1000L, requestOutputDisabledMoney: 1000L, cashBalanceType: "G9", custNo: "memberKey", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 30)), refNo: 1234L, ersNo: 8166, regId: "memberKey")
     "expirationDate 있을때 해당 만료일자" | EventRewardRequestDto_생성(requestNo: 1L, saveAmount: 100L, eventType: EventType.DailyCheckIn, expirationDate: Instant.parse("2023-12-04T09:35:24.00Z")) | SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "G8", custNo: "memberKey", expireDate: Timestamp.from(Instant.parse("2023-12-04T09:35:24.00Z")), refNo: 1L, regId: "memberKey")
   }
 
@@ -60,18 +60,26 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
     "실패2" | SmileCashEventEntity_생성(status: 99) | SmileCashEvent_생성(failed: true)
   }
 
-  def "EventType에 별로 SmileCashEventResultEntity 맵핑 테스트"() {
+  def "EventType에 별로 SmileCashEventRequestEntity 맵핑 테스트"() {
 
     setup:
     def result = mapper.map(request)
-    result == expectResult
 
     expect:
+    result == expectResult
+
     where:
-    desc | request | expectResult
-    "이벤트 - 토스 사후적립"    | EventRewardRequestDto_생성(eventType: EventType.Toss, requestNo: 1L, saveAmount: 1000L)         | SmileCashEventRequestEntity_생성(requestMoney: 1000L, requestOutputDisabledMoney: 1000L, cashBalanceType: "G9", custNo: "memberKey", refNo: 1234L, ersNo: 8166, regId: "memberKey")
-    "이벤트 - 출석체크"         | EventRewardRequestDto_생성(eventType: EventType.DailyCheckIn, requestNo: 1L, saveAmount: 100L)  | SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "G8", custNo: "memberKey", refNo: 1L, regId: "memberKey")
-    "이벤트 - 상품평(일발)"     | EventRewardRequestDto_생성(eventType: EventType.Review, requestNo: 1L, saveAmount: 100L)        | SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "G8", custNo: "memberKey", refNo: 1L, regId: "memberKey")
-    "이벤트 - 상품평(프리미엄)" | EventRewardRequestDto_생성(eventType: EventType.ReviewPremium, requestNo: 1L, saveAmount: 100L) | SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "G8", custNo: "memberKey", refNo: 1L, regId: "memberKey")
+    _________________________________________________
+    desc | request
+    "이벤트 - 토스 사후적립"    | EventRewardRequestDto_생성(eventType: EventType.Toss, requestNo: 1L, saveAmount: 1000L)
+    "이벤트 - 출석체크"         | EventRewardRequestDto_생성(eventType: EventType.DailyCheckIn, requestNo: 1L, saveAmount: 100L)
+    "이벤트 - 상품평(일발)"     | EventRewardRequestDto_생성(eventType: EventType.Review, requestNo: 1L, saveAmount: 100L)
+    "이벤트 - 상품평(프리미엄)" | EventRewardRequestDto_생성(eventType: EventType.ReviewPremium, requestNo: 1L, saveAmount: 100L)
+    _________________________________________________
+    expectResult | _
+    SmileCashEventRequestEntity_생성(requestMoney: 1000L, requestOutputDisabledMoney: 1000L, cashBalanceType: "G9", custNo: "memberKey", refNo: 1L, ersNo: 8166, regId: "memberKey", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 30))) | _
+    SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "G8", custNo: "memberKey", refNo: 1L, regId: "memberKey", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 90))) | _
+    SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "GN", custNo: "memberKey", refNo: 1L, regId: "memberKey", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 180))) | _
+    SmileCashEventRequestEntity_생성(requestMoney: 100L, requestOutputDisabledMoney: 100L, cashBalanceType: "GP", custNo: "memberKey", refNo: 1L, regId: "memberKey", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 180))) | _
   }
 }

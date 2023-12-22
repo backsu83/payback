@@ -6,13 +6,17 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maind
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper.SmileCashSaveQueueEntityMapper
+import com.ebaykorea.payback.util.PaybackInstants
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
+
+import java.sql.Timestamp
 
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardRequestDto_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashReasonCodeEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
 
 class AuctionSmileCashEventRepositorySpec extends Specification {
   def queueRepository = Mock(SmileCashSaveQueueRepository)
@@ -67,5 +71,28 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     EventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322) | _
     EventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
     EventRewardRequestDto_생성(requestNo: 5L) | EventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
+  }
+
+  def "EventType에 별로 SmileCashSaveQueueEntity 맵핑 테스트"() {
+
+    setup:
+    def result = mapper.map(1L , "comment", request)
+
+    expect:
+    result == expectResult
+
+    where:
+    _________________________________________________
+    desc | request
+    "이벤트 - 토스 사후적립"    | EventRewardRequestDto_생성(eventType: EventType.Toss, memberKey: "user1", requestNo: 1L, saveAmount: 100L, eventNo: 100)
+    "이벤트 - 출석체크"         | EventRewardRequestDto_생성(eventType: EventType.DailyCheckIn, memberKey: "user2", requestNo: 2L, saveAmount: 100L, eventNo: 100)
+    "이벤트 - 상품평(일발)"     | EventRewardRequestDto_생성(eventType: EventType.Review, memberKey: "user3", requestNo: 3L, saveAmount: 100L, eventNo: 100)
+    "이벤트 - 상품평(프리미엄)" | EventRewardRequestDto_생성(eventType: EventType.ReviewPremium, memberKey: "user4", requestNo: 4L, saveAmount: 100L, eventNo: 100)
+    _________________________________________________
+    expectResult | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 1L, memberId: "user1", reasonCode: "RM02Y", reasonComment: "comment", additionalReasonComment: "comment",  bizType: "9", smileCashType: "2", insertOperator: "user1", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 30))) | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 2L, memberId: "user2", reasonCode: "RM03Y", reasonComment: "comment", additionalReasonComment: "comment", bizType: "9", smileCashType: "2", insertOperator: "user2", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 90))) | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 3L, memberId: "user3", reasonCode: "RM04Y", reasonComment: "comment", additionalReasonComment: "comment", bizType: "9", smileCashType: "2", insertOperator: "user3", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 180))) | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 4L, memberId: "user4", reasonCode: "RM05Y", reasonComment: "comment", additionalReasonComment: "comment", bizType: "9", smileCashType: "2", insertOperator: "user4", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 180))) | _
   }
 }

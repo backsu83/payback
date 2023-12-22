@@ -47,6 +47,9 @@ public class SmileCashEventRequestEntity {
   @Column(name = "REF_NO")
   private long refNo;
 
+  @Column(name = "REF_CD")
+  private String refCd;
+
   @Column(name = "ERS_NO")
   private int ersNo;
 

@@ -43,11 +43,7 @@ public interface SmileCashSaveQueueEntityMapper {
     return Optional.ofNullable(request.getExpirationDate())
         .map(Timestamp::from)
         .orElseGet(() -> {
-          if (request.getEventType() == EventType.DailyCheckIn) {
-            return Timestamp.from(truncatedDays(PaybackInstants.now(), 90));
-          } else {
-            return Timestamp.from(truncatedDays(PaybackInstants.now(), 30));
-          }
+            return Timestamp.from(truncatedDays(PaybackInstants.now(), request.getEventType().getPeriod()));
         });
   }
 
