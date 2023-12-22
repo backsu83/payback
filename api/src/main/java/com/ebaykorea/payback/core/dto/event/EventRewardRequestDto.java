@@ -23,10 +23,8 @@ public class EventRewardRequestDto {
   private BigDecimal saveAmount;
   @Schema(description = "이벤트 타입", example = "DailyCheckIn", required = true)
   private EventType eventType;
-  @Schema(description = "이벤트 아이디")
-  private String eventId;
+  @Schema(description = "이벤트 번호")
+  private Long eventNo;
   @Schema(description = "만료 일자")
   private Instant expirationDate;
-  @Schema(description = "적립 추가 사유")
-  private String comment;
 }

@@ -1,5 +1,8 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.AUCTION_TENANT;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_001;
+
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
@@ -12,16 +15,12 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maind
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper.SmileCashSaveQueueEntityMapper;
+import java.util.Optional;
+import java.util.function.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-import java.util.function.Predicate;
-
-import static com.ebaykorea.payback.core.domain.constant.TenantCode.AUCTION_TENANT;
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_001;
 
 @Profile(AUCTION_TENANT)
 @Service

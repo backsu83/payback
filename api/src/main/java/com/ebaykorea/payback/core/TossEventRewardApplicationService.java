@@ -82,7 +82,6 @@ public class TossEventRewardApplicationService {
         .memberKey(memberKey)
         .eventType(eventType)
         .saveAmount(saveAmount)
-        .comment("토스-신세계 유니버스 클럽 가입")
         .build();
   }
 
