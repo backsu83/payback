@@ -13,6 +13,10 @@ import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRew
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
 import static com.ebaykorea.payback.util.PaybackInstants.getDefaultEnableDate
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
 
 class SmileCashSaveQueueEntityMapperSpec extends Specification {
   def mapper = Mappers.getMapper(SmileCashSaveQueueEntityMapper.class)
@@ -44,5 +48,28 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
     "진행중" | SmileCashSaveQueueEntity_생성()              | SmileCashEvent_생성()
     "성공"  | SmileCashSaveQueueEntity_생성(saveStatus: 1) | SmileCashEvent_생성(saved: true)
     "실패"  | SmileCashSaveQueueEntity_생성(saveStatus: 2) | SmileCashEvent_생성(failed: true)
+  }
+
+  def "EventType에 별로 SmileCashSaveQueueEntity 맵핑 테스트"() {
+
+    setup:
+    def result = mapper.map(1L , "comment", request)
+
+    expect:
+    result == expectResult
+
+    where:
+    _________________________________________________
+    desc | request
+    "이벤트 - 토스 사후적립"    | EventRewardRequestDto_생성(eventType: EventType.Toss, memberKey: "user1", requestNo: 1L, saveAmount: 100L, eventNo: 100)
+    "이벤트 - 출석체크"         | EventRewardRequestDto_생성(eventType: EventType.DailyCheckIn, memberKey: "user2", requestNo: 2L, saveAmount: 100L, eventNo: 100)
+    "이벤트 - 상품평(일반)"     | EventRewardRequestDto_생성(eventType: EventType.Review, memberKey: "user3", requestNo: 3L, saveAmount: 100L, eventNo: 100)
+    "이벤트 - 상품평(프리미엄)" | EventRewardRequestDto_생성(eventType: EventType.ReviewPremium, memberKey: "user4", requestNo: 4L, saveAmount: 100L, eventNo: 100)
+    _________________________________________________
+    expectResult | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 1L, memberId: "user1", reasonCode: "RM02Y", reasonComment: "comment", additionalReasonComment: "comment",  bizType: "9", smileCashType: "2", insertOperator: "user1", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 30))) | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 2L, memberId: "user2", reasonCode: "RM03Y", reasonComment: "comment", additionalReasonComment: "comment", bizType: "9", smileCashType: "2", insertOperator: "user2", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 90))) | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 3L, memberId: "user3", reasonCode: "RM04Y", reasonComment: "comment", additionalReasonComment: "comment", bizType: "9", smileCashType: "2", insertOperator: "user3", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 180))) | _
+    SmileCashSaveQueueEntity_생성(saveAmount: 100L, bizKey: 4L, memberId: "user4", reasonCode: "RM05Y", reasonComment: "comment", additionalReasonComment: "comment", bizType: "9", smileCashType: "2", insertOperator: "user4", referenceKey: "100", expireDate: Timestamp.from(truncatedDays(PaybackInstants.now(), 180))) | _
   }
 }

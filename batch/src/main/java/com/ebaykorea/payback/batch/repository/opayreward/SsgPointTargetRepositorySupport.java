@@ -57,13 +57,13 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
     QSsgPointTargetEntity ssgPointTarget = new QSsgPointTargetEntity("ssgPointTarget");
 
     return factory.selectFrom(ssgPointTargetEntity)
-        .where(ssgPointTargetEntity.orderNo.in(JPAExpressions.select(ssgPointTarget.orderNo).from(ssgPointTarget)
-            .where(ssgPointTarget.tradeType.eq(PointTradeType.Save.getCode())
-                .and(ssgPointTarget.pointStatus.eq(PointStatusType.Success.getCode()))
-                .and(ssgPointTarget.scheduleDate.between(
-                    Instant.now().minus(3, ChronoUnit.DAYS),
-                    Instant.now())
-                )))
+        .where(ssgPointTargetEntity.orderNo.in(
+            JPAExpressions.select(ssgPointTarget.orderNo)
+                .from(ssgPointTarget)
+                .where(ssgPointTarget.tradeType.eq(PointTradeType.Save.getCode())
+                .and(ssgPointTarget.pointStatus.eq(PointStatusType.Success.getCode())
+                ))
+            )
         )
         .where(ssgPointTargetEntity.pointStatus.eq(PointStatusType.Ready.getCode()),
             ssgPointTargetEntity.tradeType.eq(PointTradeType.Cancel.getCode())
@@ -94,7 +94,7 @@ public class SsgPointTargetRepositorySupport extends QuerydslRepositorySupport {
                 CANCEL_DUPLICATED.getCode(),
                 REQUEST_ERROR.getCode()),
             ssgPointTargetEntity.tryCount.lt(3),
-            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(120, ChronoUnit.DAYS) ,Instant.now())
+            ssgPointTargetEntity.scheduleDate.between(Instant.now().minus(150, ChronoUnit.DAYS) ,Instant.now())
         );
   }
 

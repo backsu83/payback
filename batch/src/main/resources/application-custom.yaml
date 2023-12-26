@@ -35,7 +35,7 @@ ssgpoint:
       branchId: 'B200042502'
   batch:
     fetchSize: 100         #ItemReader에 읽는 Row수
-    chunkSize: 100         #Chunk 처리단위
+    chunkSize: 10         #Chunk 처리단위
   scheduler:
     daily:
       crontab: "0 0 2 * * *" #매일 2시 실행

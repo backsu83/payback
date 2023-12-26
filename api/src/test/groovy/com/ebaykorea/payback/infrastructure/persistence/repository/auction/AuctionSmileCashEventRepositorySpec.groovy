@@ -6,13 +6,17 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maind
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper.SmileCashSaveQueueEntityMapper
+import com.ebaykorea.payback.util.PaybackInstants
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
+
+import java.sql.Timestamp
 
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardRequestDto_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashReasonCodeEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
 
 class AuctionSmileCashEventRepositorySpec extends Specification {
   def queueRepository = Mock(SmileCashSaveQueueRepository)
@@ -68,4 +72,5 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     EventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
     EventRewardRequestDto_생성(requestNo: 5L) | EventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
   }
+
 }

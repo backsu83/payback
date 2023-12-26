@@ -2,7 +2,6 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapp
 
 import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays;
 
-import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
@@ -42,13 +41,7 @@ public interface SmileCashSaveQueueEntityMapper {
   default Timestamp getExpireDate(final EventRewardRequestDto request) {
     return Optional.ofNullable(request.getExpirationDate())
         .map(Timestamp::from)
-        .orElseGet(() -> {
-          if (request.getEventType() == EventType.DailyCheckIn) {
-            return Timestamp.from(truncatedDays(PaybackInstants.now(), 90));
-          } else {
-            return Timestamp.from(truncatedDays(PaybackInstants.now(), 30));
-          }
-        });
+        .orElse(Timestamp.from(truncatedDays(PaybackInstants.now(), request.getEventType().getPeriod())));
   }
 
   @Mapping(source = "txId", target = "smilePayNo")
