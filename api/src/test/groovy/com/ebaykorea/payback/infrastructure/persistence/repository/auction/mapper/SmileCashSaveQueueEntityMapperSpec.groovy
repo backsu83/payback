@@ -63,7 +63,7 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
     desc | request
     "이벤트 - 토스 사후적립"    | EventRewardRequestDto_생성(eventType: EventType.Toss, memberKey: "user1", requestNo: 1L, saveAmount: 100L, eventNo: 100)
     "이벤트 - 출석체크"         | EventRewardRequestDto_생성(eventType: EventType.DailyCheckIn, memberKey: "user2", requestNo: 2L, saveAmount: 100L, eventNo: 100)
-    "이벤트 - 상품평(일발)"     | EventRewardRequestDto_생성(eventType: EventType.Review, memberKey: "user3", requestNo: 3L, saveAmount: 100L, eventNo: 100)
+    "이벤트 - 상품평(일반)"     | EventRewardRequestDto_생성(eventType: EventType.Review, memberKey: "user3", requestNo: 3L, saveAmount: 100L, eventNo: 100)
     "이벤트 - 상품평(프리미엄)" | EventRewardRequestDto_생성(eventType: EventType.ReviewPremium, memberKey: "user4", requestNo: 4L, saveAmount: 100L, eventNo: 100)
     _________________________________________________
     expectResult | _
