@@ -31,7 +31,7 @@ public interface SmileCashEventEntityMapper {
   @Mapping(source = "requestNo", target = "refNo")
   @Mapping(expression = "java(getErsNo(request.getEventType()))", target = "ersNo")
   @Mapping(source = "memberKey", target = "regId")
-  @Mapping(source = "eventNo", target = "refCd")
+  @Mapping(source = "eventNo", target = "eid")
   SmileCashEventRequestEntity map(EventRewardRequestDto request);
 
   @Mapping(source = "request.status", target = "approvalStatus")
@@ -42,9 +42,7 @@ public interface SmileCashEventEntityMapper {
   default Timestamp getExpireDate(final EventRewardRequestDto request) {
     return Optional.ofNullable(request.getExpirationDate())
         .map(Timestamp::from)
-        .orElseGet(() -> {
-          return Timestamp.from(truncatedDays(PaybackInstants.now(), request.getEventType().getPeriod()));
-        });
+        .orElse(Timestamp.from(truncatedDays(PaybackInstants.now(), request.getEventType().getPeriod())));
   }
 
   default int getErsNo(final EventType eventType) {

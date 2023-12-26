@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ReviewReferenceType {
   Unknown(null),
-  Core(100l),
+  Core(100L),
   RentCar(101L);
 
   private final Long code;
