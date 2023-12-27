@@ -102,7 +102,7 @@ public class TossEventRewardApplicationService {
 
   private String getSmilePayNo(final EventRewardResultDto eventRewardResult) {
     return Optional.ofNullable(eventRewardResult)
-        .map(EventRewardResultDto::getSmilePayNo)
+        .map(EventRewardResultDto::getSavingNo)
         .filter(smilePayNo -> smilePayNo > 0L)
         .map(String::valueOf)
         .orElse(EMPTY);

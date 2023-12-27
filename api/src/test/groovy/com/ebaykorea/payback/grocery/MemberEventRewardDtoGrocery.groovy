@@ -21,7 +21,7 @@ class MemberEventRewardDtoGrocery {
   static def EventRewardResultDto_생성(Map map = [:]) {
     new EventRewardResultDto().tap{
       requestNo = (map.requestNo ?: 0) as long
-      smilePayNo = (map.smilePayNo ?: 0) as long
+      savingNo = (map.savingNo ?: 0) as long
       resultCode = (map.resultCode ?: 0) as int
     }
   }

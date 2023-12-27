@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum ReviewReferenceType {
   Unknown(null),
   Core(100L),
-  RentCar(101L);
+  RentalCar(101L);
 
   private final Long code;
 

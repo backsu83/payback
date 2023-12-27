@@ -14,7 +14,7 @@ import org.mapstruct.ReportingPolicy;
 public interface EventRewardReviewMapper {
 
   @Mapping(source = "eventType", target = "eventType")
-  @Mapping(expression = "java(request.getCaller().getCode())", target = "eventNo")
+  @Mapping(source = "request.referenceType.code", target = "eventNo")
   EventRewardRequestDto map(ReviewRewardRequestDto request, EventType eventType);
 
 }

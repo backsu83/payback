@@ -46,7 +46,7 @@ class TossEventRewardApplicationServiceSpec extends Specification {
     EventReward_생성() | EventRewardResultDto_생성()
     null | EventRewardResultDto_생성()
     null | null
-    null | EventRewardResultDto_생성(smilePayNo: 2L)
+    null | EventRewardResultDto_생성(savingNo: 2L)
   }
 
   def "이벤트 리워드 조회 테스트"() {
