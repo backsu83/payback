@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EventRewardResultDto {
   private long requestNo;
-  private long rewardNo;
+  private long savingNo;
   private int resultCode;
 
   @JsonIgnore
   public boolean isSuccess() {
-    return resultCode == 0 && rewardNo > 0L;
+    return resultCode == 0 && savingNo > 0L;
   }
 }

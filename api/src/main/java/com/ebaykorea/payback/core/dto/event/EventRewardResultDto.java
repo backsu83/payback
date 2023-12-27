@@ -14,7 +14,7 @@ public class EventRewardResultDto {
   @Schema(description = "적립 요청 번호")
   private long requestNo;
   @Schema(description = "적립 번호")
-  private long rewardNo;
+  private long savingNo;
   @Schema(description = "요청 결과", example = "0: 성공, -322: 중복요청")
   private int resultCode;
 }

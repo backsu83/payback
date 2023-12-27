@@ -35,7 +35,7 @@ class SmileCashSaveQueueEntityMapperSpec extends Specification {
   def "EventRewardResultDto 으로의 매핑 테스트"() {
     expect:
     def result = mapper.map(1234L, -322, 12345L)
-    result == EventRewardResultDto_생성(requestNo: 1234L, rewardNo: 12345L, resultCode: -322)
+    result == EventRewardResultDto_생성(requestNo: 1234L, savingNo: 12345L, resultCode: -322)
   }
 
   def "SmileCashEvent 매핑 테스트"() {

@@ -44,7 +44,7 @@ public interface SmileCashSaveQueueEntityMapper {
         .orElse(Timestamp.from(truncatedDays(PaybackInstants.now(), request.getEventType().getPeriod())));
   }
 
-  @Mapping(source = "txId", target = "rewardNo")
+  @Mapping(source = "txId", target = "savingNo")
   EventRewardResultDto map(Long requestNo, Integer resultCode, Long txId);
 
   @Mapping(source = "txId", target = "smilePayNo")

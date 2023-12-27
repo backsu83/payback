@@ -50,7 +50,7 @@ public interface SmileCashEventEntityMapper {
   }
 
   @Mapping(source = "source.result", target = "resultCode")
-  @Mapping(source = "source.smilePayNo", target = "rewardNo")
+  @Mapping(source = "source.smilePayNo", target = "savingNo")
   EventRewardResultDto map(final Long requestNo, final SmileCashEventResultEntity source);
 
   @Mapping(expression = "java(source.getStatus() == 50)", target = "saved")
