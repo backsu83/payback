@@ -9,7 +9,7 @@ class ReviewRewardGrocery {
       memberKey = (map.memberKey ?: "memberKey") as String
       requestNo = (map.requestNo ?: 1L) as Long
       saveAmount = (map.saveAmount ?: 10) as BigDecimal
-      requestType = (map.requestType ?: ReviewReferenceType.Core) as ReviewReferenceType
+      referenceType = (map.referenceType ?: ReviewReferenceType.Core) as ReviewReferenceType
     }
   }
 }

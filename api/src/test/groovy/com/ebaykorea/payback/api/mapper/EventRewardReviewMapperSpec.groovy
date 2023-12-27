@@ -19,6 +19,6 @@ class EventRewardReviewMapperSpec extends Specification {
     where:
     desc           | request                                                               | eventType               | expectResult
     "코어 일반 상품평"          | ReviewRewardRequestDto_생성()                                           | EventType.Review        | EventRewardRequestDto_생성(requestNo: 1L, saveAmount: 10, eventType: EventType.Review, eventNo: 100)
-    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(requestType: ReviewReferenceType.RentalCar) | EventType.ReviewPremium | EventRewardRequestDto_생성(requestNo: 1L, saveAmount: 10, eventType: EventType.ReviewPremium, eventNo: 101)
+    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(referenceType: ReviewReferenceType.RentalCar) | EventType.ReviewPremium | EventRewardRequestDto_생성(requestNo: 1L, saveAmount: 10, eventType: EventType.ReviewPremium, eventNo: 101)
   }
 }

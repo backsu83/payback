@@ -31,5 +31,5 @@ public class ReviewRewardRequestDto {
 
   @Schema(description = "요청 타입 (코어, 렌터카)", example = "Core", required = true)
   @NotNull(message = "caller cannot be empty")
-  private ReviewReferenceType requestType;
+  private ReviewReferenceType referenceType;
 }
