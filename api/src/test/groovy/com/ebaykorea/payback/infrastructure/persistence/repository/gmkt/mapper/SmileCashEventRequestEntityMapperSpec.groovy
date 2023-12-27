@@ -42,7 +42,7 @@ class SmileCashEventRequestEntityMapperSpec extends Specification {
         ))
     result == EventRewardResultDto_생성(
         requestNo: 1234L,
-        smilePayNo: 11L,
+        rewardNo: 11L,
         resultCode: -1
     )
   }

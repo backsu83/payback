@@ -68,9 +68,9 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     "BizKey 조회건이 없는 경우" | [] | [] | _
     _________________________________________________
     request | expectResult | _
-    EventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 1L, smilePayNo: 1L, resultCode: -322) | _
-    EventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
-    EventRewardRequestDto_생성(requestNo: 5L) | EventRewardResultDto_생성(requestNo: 5L, smilePayNo: 2L, resultCode: 0) | _
+    EventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 1L, rewardNo: 1L, resultCode: -322) | _
+    EventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 5L, rewardNo: 2L, resultCode: 0) | _
+    EventRewardRequestDto_생성(requestNo: 5L) | EventRewardResultDto_생성(requestNo: 5L, rewardNo: 2L, resultCode: 0) | _
   }
 
 }

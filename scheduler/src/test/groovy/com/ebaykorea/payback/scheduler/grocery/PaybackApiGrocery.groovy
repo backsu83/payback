@@ -15,7 +15,7 @@ class PaybackApiGrocery {
   static def EventRewardResultDto_생성(Map map = [:]) {
     new EventRewardResultDto().tap {
       requestNo = (map.requestNo ?: 0L) as long
-      smilePayNo = (map.smilePayNo ?: 0L) as long
+      rewardNo = (map.rewardNo ?: 0L) as long
       resultCode = (map.resultCode ?: 0) as int
     }
   }
