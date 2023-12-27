@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/review")
-public class EventRewardReviewController {
+public class ReviewRewardController {
 
   private final SmileCashEventRepository repository;
   private final EventRewardReviewMapper mapper;
