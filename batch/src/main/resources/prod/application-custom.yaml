@@ -40,8 +40,8 @@ ssgpoint:
     daily:
       crontab: "0 0 2 * * *" #매일 2시 실행
     target:
-      crontab: "30 */5 9-23 * * *" #5분30초
+      crontab: "0 */5 9-22 * * *" #5분
     recover:
-      crontab: "0 */60 12-22 * * *" #1시간 간격
+      crontab: "30 */30 12-23 * * *" #30분 간격
 
 
