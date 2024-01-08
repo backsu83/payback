@@ -72,23 +72,31 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     EventRewardRequestDto_생성(requestNo: 5L)                            | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0)    | _
   }
 
-  def "예산 집행 처리 결과에 따라 이벤트 리워드 적립이 되는지 확인"() {
+  def "이벤트 타입에 따라 예산 집행이 되는지 확인"() {
     setup:
-    queueRepository.updateBudget(_ as Long, _ as BigDecimal) >> 0 >> -1 //최초 호출은 정상, 2번째 호출은 예산 집행 처리 실패
     queueRepository.findByBizKey(_ as String) >> [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM03Y")]
-    def request = EventRewardRequestDto_생성(requestNo: 1L, budgetNo: 1L, saveAmount: 10, eventType: EventType.DailyCheckIn)
 
     when:
     repository.saveWithBudget(request)
 
     then:
-    noExceptionThrown() //최초 호출은 정상 처리
+    예산집행호출_회수 * queueRepository.updateBudget(_ as Long, _ as BigDecimal) >> 0
+
+    where:
+    desc                         | request                                                                                                  | 예산집행호출_회수
+    "예산 집행 번호가 있으면 예산집행 처리"      | EventRewardRequestDto_생성(requestNo: 1L, budgetNo: 1L, saveAmount: 10, eventType: EventType.DailyCheckIn) | 1
+    "예산 집행 번호가 없으면 예산집행 처리하지 않음" | EventRewardRequestDto_생성(requestNo: 1L, saveAmount: 10, eventType: EventType.DailyCheckIn)               | 0
+  }
+
+  def "예산 집행 처리 결과가 실패 시 exception 발생 여부 확인"() {
+    setup:
+    queueRepository.updateBudget(_ as Long, _ as BigDecimal) >> -1
 
     when:
-    repository.saveWithBudget(request)
+    repository.saveWithBudget(EventRewardRequestDto_생성(requestNo: 1L, budgetNo: 1L, saveAmount: 10, eventType: EventType.DailyCheckIn))
 
     then:
-    def e = thrown(PaybackException) //2번쨰 호출은 오류
+    def e = thrown(PaybackException)
     e.code == PERSIST_002
   }
 

@@ -45,12 +45,14 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
         smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
             .filter(alreadyRequested(request.getMemberKey(), request.getEventType()))
             .findAny()
-            .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
+            .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST,
+                savedQueue.getTxId()))
             .or(() -> { //중복 요청 건이 아닌 경우
               final var iacReasonCode = request.getEventType().getAuctionCode();
               return smileCashReasonCodeRepository.findById(iacReasonCode)
                   .map(reasonCode -> {
-                    final var txId = smileCashTransactionRepository.getIacTxId(request.getMemberKey());
+                    final var txId = smileCashTransactionRepository.getIacTxId(
+                        request.getMemberKey());
                     final var entity = mapper.map(txId, reasonCode.getIacReasonComment(), request);
 
                     smileCashSaveQueueRepository.save(entity);
@@ -64,14 +66,19 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   @Transactional
   @Override
   public Optional<EventRewardResultDto> saveWithBudget(final EventRewardRequestDto request) {
-    final var result = smileCashSaveQueueRepository.updateBudget(request.getBudgetNo(), request.getSaveAmount());
-    if (result != 0) {
+    final var isBudgetDeducted = Optional.ofNullable(request.getBudgetNo())
+        .filter(budgetNo -> budgetNo > 0L)
+        .map(budgetNo -> smileCashSaveQueueRepository.updateBudget(budgetNo, request.getSaveAmount()))
+        .map(res -> res == 0)
+        .orElse(true);
+    if (!isBudgetDeducted) {
       throw new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", request.getBudgetNo()));
     }
     return save(request);
   }
 
-  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId, final EventType eventType) {
+  private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId,
+      final EventType eventType) {
     return entity -> entity.getBizType() == BIZ_TYPE &&
         entity.getReasonCode().equals(eventType.getAuctionCode()) &&
         entity.getMemberId().equals(buyerId);
@@ -85,7 +92,8 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   @Override
   public Optional<SmileCashEvent> find(final EventRewardRequestDto request) {
-    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
+    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo()))
+        .stream()
         .filter(alreadyRequested(request.getMemberKey(), request.getEventType()))
         .findAny()
         .map(mapper::map);
