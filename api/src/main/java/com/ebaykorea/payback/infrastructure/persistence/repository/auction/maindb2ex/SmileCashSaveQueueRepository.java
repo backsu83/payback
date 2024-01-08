@@ -6,6 +6,7 @@ import com.ebaykorea.saturn.mssql.dbname.Gmkt;
 import com.ebaykorea.saturn.starter.annotation.SaturnDataSource;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedure;
 import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
+import java.math.BigDecimal;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -62,5 +63,17 @@ public class SmileCashSaveQueueRepository {
       throwEx = true
   )
   public void update(final SmileCashSaveQueueEntity entity) {
+  }
+
+  @SaturnProcedure(
+      procedureName = SmileCashSaveQueueEntity.UPDATE_BUDGET,
+      parameters = {
+          @SaturnProcedureParameter(name = "REQUEST_SEQNO", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "SAVE_AMNT", sqlType = Types.DECIMAL)
+      },
+      throwEx = true
+  )
+  public int updateBudget(final long requestSeqno, final BigDecimal saveAmnt) {
+    return -1;
   }
 }

@@ -1,22 +1,21 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction
 
 import com.ebaykorea.payback.core.domain.constant.EventType
+import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto
+import com.ebaykorea.payback.core.exception.PaybackException
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashReasonCodeRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper.SmileCashSaveQueueEntityMapper
-import com.ebaykorea.payback.util.PaybackInstants
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
-import java.sql.Timestamp
-
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardRequestDto_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardResultDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashReasonCodeEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
-import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays
 
 class AuctionSmileCashEventRepositorySpec extends Specification {
   def queueRepository = Mock(SmileCashSaveQueueRepository)
@@ -38,15 +37,15 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
 
     where:
     _________________________________________________
-    desc | BizKey조회결과 | request
-    "중복요청이 있을 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | EventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss)
+    desc                          | BizKey조회결과                                                     | request
+    "중복요청이 있을 경우"                 | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | EventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss)
     "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | EventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss)
-    "BizKey 조회건이 없는 경우" | [] | EventRewardRequestDto_생성(requestNo: 5L)
+    "BizKey 조회건이 없는 경우"           | []                                                             | EventRewardRequestDto_생성(requestNo: 5L)
     _________________________________________________
     BizKey조회횟수 | txId채번횟수 | 적립요청횟수
-    1 | 0 | 0
-    1 | 1 | 1
-    1 | 1 | 1
+    1          | 0        | 0
+    1          | 1        | 1
+    1          | 1        | 1
   }
 
   def "AuctionSmileCashEventRepository 저장 결과가 정상인지 확인"() {
@@ -62,15 +61,43 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
 
     where:
     _________________________________________________
-    desc | BizKey조회결과 | BizKey조회결과2 | _
-    "중복요청이 있을 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | [] | _
-    "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | [] | _
-    "BizKey 조회건이 없는 경우" | [] | [] | _
+    desc                          | BizKey조회결과                                                     | BizKey조회결과2 | _
+    "중복요청이 있을 경우"                 | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | []          | _
+    "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | []          | _
+    "BizKey 조회건이 없는 경우"           | []                                                             | []          | _
     _________________________________________________
-    request | expectResult | _
+    request                                                            | expectResult                                                           | _
     EventRewardRequestDto_생성(requestNo: 1L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 1L, savingNo: 1L, resultCode: -322) | _
-    EventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0) | _
-    EventRewardRequestDto_생성(requestNo: 5L) | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0) | _
+    EventRewardRequestDto_생성(requestNo: 5L, eventType: EventType.Toss) | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0)    | _
+    EventRewardRequestDto_생성(requestNo: 5L)                            | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0)    | _
+  }
+
+  def "예산 할당 번호에 따라 예산 집행이 되는지 확인"() {
+    setup:
+    queueRepository.findByBizKey(_ as String) >> [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM03Y")]
+
+    when:
+    repository.saveWithBudget(request)
+
+    then:
+    예산집행호출_회수 * queueRepository.updateBudget(_ as Long, _ as BigDecimal) >> 0
+
+    where:
+    desc                         | request                                                                                                  | 예산집행호출_회수
+    "예산 할당 번호가 있으면 예산집행 처리"      | EventRewardRequestDto_생성(requestNo: 1L, budgetNo: 1L, saveAmount: 10, eventType: EventType.DailyCheckIn) | 1
+    "예산 할당 번호가 없으면 예산집행 처리하지 않음" | EventRewardRequestDto_생성(requestNo: 1L, saveAmount: 10, eventType: EventType.DailyCheckIn)               | 0
+  }
+
+  def "예산 집행 처리 결과가 실패 시 exception 발생 여부 확인"() {
+    setup:
+    queueRepository.updateBudget(_ as Long, _ as BigDecimal) >> -1
+
+    when:
+    repository.saveWithBudget(EventRewardRequestDto_생성(requestNo: 1L, budgetNo: 1L, saveAmount: 10, eventType: EventType.DailyCheckIn))
+
+    then:
+    def e = thrown(PaybackException)
+    e.code == PERSIST_002
   }
 
 }

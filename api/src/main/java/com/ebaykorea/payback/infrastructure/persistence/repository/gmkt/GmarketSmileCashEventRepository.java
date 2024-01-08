@@ -1,5 +1,8 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 
+import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002;
+
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
@@ -9,15 +12,12 @@ import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmileCashEventEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
-import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002;
 
 @Profile(GMARKET_TENANT)
 @Service
@@ -37,6 +37,11 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
     final var entity = mapper.map(request);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
+  }
+
+  @Override
+  public Optional<EventRewardResultDto> saveWithBudget(EventRewardRequestDto request) {
+    return save(request);
   }
 
   @Override
