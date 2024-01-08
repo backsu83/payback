@@ -32,7 +32,7 @@ public class EventRewardController {
   @PostMapping
   public CommonResponse<EventRewardResultDto> saveEventRewardByMember(
       final @Valid @RequestBody EventRewardRequestDto request) {
-    final var result = repository.save(request).orElse(null);
+    final var result = repository.saveWithBudget(request).orElse(null);
     return CommonResponse.success(SUCCESS, result);
   }
 

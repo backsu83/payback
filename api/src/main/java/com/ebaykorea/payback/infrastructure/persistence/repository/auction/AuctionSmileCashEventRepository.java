@@ -2,6 +2,7 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.auction;
 
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.AUCTION_TENANT;
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_001;
+import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
@@ -58,6 +59,16 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
                   })
                   .orElseThrow(() -> new PaybackException(PERSIST_001, iacReasonCode));
             });
+  }
+
+  @Transactional
+  @Override
+  public Optional<EventRewardResultDto> saveWithBudget(final EventRewardRequestDto request) {
+    final var result = smileCashSaveQueueRepository.updateBudget(request.getBudgetNo(), request.getSaveAmount());
+    if (result != 0) {
+      throw new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", request.getBudgetNo()));
+    }
+    return save(request);
   }
 
   private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId, final EventType eventType) {

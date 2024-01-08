@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface SmileCashEventRepository {
   Optional<EventRewardResultDto> save(EventRewardRequestDto request);
+  Optional<EventRewardResultDto> saveWithBudget(EventRewardRequestDto request);
   void set(Long smilePayNo, SetEventRewardRequestDto request);
 
   Optional<SmileCashEvent> find(EventRewardRequestDto request);
