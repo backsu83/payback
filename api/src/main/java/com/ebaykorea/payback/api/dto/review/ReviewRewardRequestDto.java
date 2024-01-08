@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto.event;
+package com.ebaykorea.payback.api.dto.review;
 
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import io.swagger.v3.oas.annotations.media.Schema;

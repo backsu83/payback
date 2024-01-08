@@ -1,11 +1,50 @@
 package com.ebaykorea.payback.core.domain.entity.event;
 
-import com.ebaykorea.payback.core.domain.constant.EventType;
-import lombok.Value;
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays;
 
-@Value
-public class EventReward {
-  Long requestNo;
-  String requestId;
-  EventType eventType;
+import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.util.PaybackInstants;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Optional;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class EventReward extends SmileCashEvent {
+
+  private final Long budgetNo;
+  private final Instant expirationDate;
+
+  public EventReward(
+      final long requestNo,
+      final String memberKey,
+      final BigDecimal saveAmount,
+      final EventType eventType,
+      final int expirationPeriod,
+      final Long eventNo,
+      final Long budgetNo,
+      final Instant expirationDate
+
+  ) {
+    super(requestNo, memberKey, saveAmount, eventType, expirationPeriod, eventNo, 0);
+
+    this.budgetNo = budgetNo;
+    this.expirationDate = expirationDate;
+  }
+
+  @Override
+  public long getBudgetNo() {
+    return budgetNo;
+  }
+
+  @Override
+  public Instant getExpirationDate() {
+    return Optional.ofNullable(expirationDate)
+        .orElse(truncatedDays(PaybackInstants.now(), this.getExpirationPeriod()));
+  }
+
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @SaturnDataSource(name = "o_payreward")
-public interface EventRewardRequestRepository extends JpaRepository<EventRewardRequestEntity, Long> {
+public interface TossRewardRepository extends JpaRepository<EventRewardRequestEntity, Long> {
   @Query(value = "SELECT O_PAYREWARD.SEQ_EV_RWRD_SEQ.nextval FROM dual", nativeQuery = true)
   Long getNextRequestNo();
 

@@ -5,7 +5,8 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
+import com.ebaykorea.payback.api.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
@@ -14,7 +15,6 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.S
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,19 +29,19 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> save(final EventRewardRequestDto request) {
-    if (request.getEventType() == EventType.DailyCheckIn) {
-      throw new PaybackException(PERSIST_002, request.getEventType().getName());
+  public Optional<EventRewardResultDto> save(final SmileCashEvent smileCashEvent) {
+    if (smileCashEvent.getEventType() == EventType.DailyCheckIn) {
+      throw new PaybackException(PERSIST_002, smileCashEvent.getEventType().getName());
     }
 
-    final var entity = mapper.map(request);
+    final var entity = mapper.map(smileCashEvent);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
   }
 
   @Override
-  public Optional<EventRewardResultDto> saveWithBudget(EventRewardRequestDto request) {
-    return save(request);
+  public Optional<EventRewardResultDto> saveWithBudget(final SmileCashEvent smileCashEvent) {
+    return save(smileCashEvent);
   }
 
   @Override
@@ -51,8 +51,8 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final EventRewardRequestDto request) {
-    final var entity = mapper.map(request);
+  public Optional<SmileCashEventResult> find(final SmileCashEvent smileCashEvent) {
+    final var entity = mapper.map(smileCashEvent);
     return repository.find(entity)
         .map(mapper::map);
   }

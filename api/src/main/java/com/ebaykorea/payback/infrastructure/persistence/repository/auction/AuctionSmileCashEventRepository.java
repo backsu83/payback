@@ -6,7 +6,8 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
+import com.ebaykorea.payback.api.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
@@ -39,23 +40,23 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> save(final EventRewardRequestDto request) {
+  public Optional<EventRewardResultDto> save(final SmileCashEvent smileCashEvent) {
     return
         //중복 요청 체크
-        smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-            .filter(alreadyRequested(request.getMemberKey(), request.getEventType()))
+        smileCashSaveQueueRepository.findByBizKey(String.valueOf(smileCashEvent.getRequestNo())).stream()
+            .filter(alreadyRequested(smileCashEvent.getMemberKey(), smileCashEvent.getEventType()))
             .findAny()
-            .map(savedQueue -> mapper.map(request.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
+            .map(savedQueue -> mapper.map(smileCashEvent.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
             .or(() -> { //중복 요청 건이 아닌 경우
-              final var iacReasonCode = request.getEventType().getAuctionCode();
+              final var iacReasonCode = smileCashEvent.getEventType().getAuctionCode();
               return smileCashReasonCodeRepository.findById(iacReasonCode)
                   .map(reasonCode -> {
-                    final var txId = smileCashTransactionRepository.getIacTxId(request.getMemberKey());
-                    final var entity = mapper.map(txId, reasonCode.getIacReasonComment(), request);
+                    final var txId = smileCashTransactionRepository.getIacTxId(smileCashEvent.getMemberKey());
+                    final var entity = mapper.map(txId, reasonCode.getIacReasonComment(), smileCashEvent);
 
                     smileCashSaveQueueRepository.save(entity);
 
-                    return Optional.of(mapper.map(request.getRequestNo(), 0, txId));
+                    return Optional.of(mapper.map(smileCashEvent.getRequestNo(), 0, txId));
                   })
                   .orElseThrow(() -> new PaybackException(PERSIST_001, iacReasonCode));
             });
@@ -63,16 +64,16 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> saveWithBudget(final EventRewardRequestDto request) {
-    final var isBudgetDeducted = Optional.ofNullable(request.getBudgetNo())
+  public Optional<EventRewardResultDto> saveWithBudget(final SmileCashEvent smileCashEvent) {
+    final var isBudgetDeducted = Optional.of(smileCashEvent.getBudgetNo())
         .filter(budgetNo -> budgetNo > 0L)
-        .map(budgetNo -> smileCashSaveQueueRepository.updateBudget(budgetNo, request.getSaveAmount()))
+        .map(budgetNo -> smileCashSaveQueueRepository.updateBudget(budgetNo, smileCashEvent.getSaveAmount()))
         .map(res -> res == 0)
         .orElse(true);
     if (!isBudgetDeducted) {
-      throw new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", request.getBudgetNo()));
+      throw new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", smileCashEvent.getBudgetNo()));
     }
-    return save(request);
+    return save(smileCashEvent);
   }
 
   private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId, final EventType eventType) {
@@ -88,9 +89,9 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<SmileCashEvent> find(final EventRewardRequestDto request) {
-    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(request.getRequestNo())).stream()
-        .filter(alreadyRequested(request.getMemberKey(), request.getEventType()))
+  public Optional<SmileCashEventResult> find(final SmileCashEvent smileCashEvent) {
+    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(smileCashEvent.getRequestNo())).stream()
+        .filter(alreadyRequested(smileCashEvent.getMemberKey(), smileCashEvent.getEventType()))
         .findAny()
         .map(mapper::map);
   }

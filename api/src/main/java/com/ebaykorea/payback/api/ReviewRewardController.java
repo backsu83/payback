@@ -2,11 +2,11 @@ package com.ebaykorea.payback.api;
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SUCCESS;
 
-import com.ebaykorea.payback.api.mapper.EventRewardReviewMapper;
+import com.ebaykorea.payback.api.mapper.ReviewRewardMapper;
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
-import com.ebaykorea.payback.core.dto.event.ReviewRewardRequestDto;
+import com.ebaykorea.payback.api.dto.review.ReviewRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewRewardController {
 
   private final SmileCashEventRepository repository;
-  private final EventRewardReviewMapper mapper;
+  private final ReviewRewardMapper mapper;
 
   @Operation(summary = "상품평 리워드 적립", description = "일반 상품평 리워드 적립 요청")
   @PostMapping("/rewards")
