@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.api;
 
 import com.ebaykorea.payback.api.dto.toss.TossCommonResponseDto;
-import com.ebaykorea.payback.api.dto.toss.TossRewardRequestDto;
+import com.ebaykorea.payback.core.dto.event.toss.TossRewardRequestDto;
 import com.ebaykorea.payback.api.dto.toss.TossRewardResultRequestDto;
 import com.ebaykorea.payback.api.mapper.TossRewardMapper;
 import com.ebaykorea.payback.core.TossEventRewardApplicationService;
@@ -30,7 +30,7 @@ public class EventRewardTossController {
   @PostMapping
   public TossCommonResponseDto saveEventReward(
       final @Valid @RequestBody TossRewardRequestDto request) {
-    final var result = service.saveEventReward(mapper.map(request));
+    final var result = service.saveEventReward(request);
 
     return TossCommonResponseDto.builder()
         .resultType(SUCCESS)

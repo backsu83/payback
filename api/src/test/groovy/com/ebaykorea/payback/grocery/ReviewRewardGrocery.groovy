@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType
-import com.ebaykorea.payback.core.dto.event.ReviewRewardRequestDto
+import com.ebaykorea.payback.api.dto.review.ReviewRewardRequestDto
 
 class ReviewRewardGrocery {
   static def ReviewRewardRequestDto_생성(Map map = [:]) {

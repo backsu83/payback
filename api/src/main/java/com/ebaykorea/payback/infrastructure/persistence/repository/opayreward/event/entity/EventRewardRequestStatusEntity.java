@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity;
 
-import com.ebaykorea.payback.core.domain.constant.EventRequestStatusType;
-import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.TossRewardRequestStatusType;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +26,6 @@ public class EventRewardRequestStatusEntity extends BaseEntity {
   @Id
   @Column(name = "EVENT_REQUEST_STATUS")
   @Enumerated(EnumType.STRING)
-  private EventRequestStatusType eventRequestStatus;
+  private TossRewardRequestStatusType eventRequestStatus;
 
 }

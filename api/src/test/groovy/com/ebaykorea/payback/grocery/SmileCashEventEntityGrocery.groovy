@@ -16,6 +16,7 @@ class SmileCashEventEntityGrocery {
       custNo = (map.custNo ?: "custNo") as String
       expireDate = (map.expireDate ?: Timestamp.from(TestConstant.ORDER_DATE)) as Timestamp
       refNo = (map.refNo ?: 0L) as long
+      eid = (map.eid ?: null) as Long
       ersNo = (map.ersNo ?: 0) as int
       regId = (map.regId ?: "") as String
     }

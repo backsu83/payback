@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @SaturnDataSource(name = "o_payreward")
-public interface EventRewardRequestStatusRepository extends JpaRepository<EventRewardRequestStatusEntity, EventRewardRequestStatusEntityId> {
+public interface TossRewardRequestStatusRepository extends JpaRepository<EventRewardRequestStatusEntity, EventRewardRequestStatusEntityId> {
 }

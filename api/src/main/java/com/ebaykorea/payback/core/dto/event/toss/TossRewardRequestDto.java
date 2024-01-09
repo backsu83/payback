@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.api.dto.toss;
+package com.ebaykorea.payback.core.dto.event.toss;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

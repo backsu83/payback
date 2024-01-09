@@ -2,8 +2,9 @@ package com.ebaykorea.payback.api;
 
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SUCCESS;
 
+import com.ebaykorea.payback.api.mapper.EventRewardMapper;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.dto.event.EventRewardRequestDto;
+import com.ebaykorea.payback.api.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
@@ -27,12 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventRewardController {
 
   private final SmileCashEventRepository repository;
+  private final EventRewardMapper mapper;
 
   @Operation(summary = "이벤트 리워드 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
   @PostMapping
   public CommonResponse<EventRewardResultDto> saveEventRewardByMember(
       final @Valid @RequestBody EventRewardRequestDto request) {
-    final var result = repository.saveWithBudget(request).orElse(null);
+    final var result = repository.saveWithBudget(mapper.map(request)).orElse(null);
     return CommonResponse.success(SUCCESS, result);
   }
 

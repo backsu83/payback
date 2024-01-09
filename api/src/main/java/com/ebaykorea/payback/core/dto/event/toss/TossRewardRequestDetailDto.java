@@ -13,15 +13,15 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TossEventRewardRequestDetailDto {
+public class TossRewardRequestDetailDto {
   @Schema(description = "이벤트 상세 아이디", required = true)
-  private String detailId;
+  private String id;
 
-  @Schema(description = "이벤트 금액 (ex: 거래금액)")
-  private BigDecimal eventAmount;
+  @Schema(description = "거래 금액")
+  private BigDecimal amount;
 
   @Schema(description = "이벤트 발생 일자")
-  private Instant eventDate;
+  private Instant transactAt;
 
   @Schema(description = "카드거래 승인번호")
   private String cardApprovalNo;
@@ -29,4 +29,6 @@ public class TossEventRewardRequestDetailDto {
   @Schema(description = "마스킹 된 카드 번호")
   private String maskedCardNumber;
 
+  @Schema(description = "사업자 등록 번호")
+  private String corporateRegNo;
 }

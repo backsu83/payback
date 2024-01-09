@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.dto.event;
+package com.ebaykorea.payback.api.dto.review;
 
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,7 +29,7 @@ public class ReviewRewardRequestDto {
   @NotNull(message = "saveAmount cannot be null")
   private BigDecimal saveAmount;
 
-  @Schema(description = "출처 타입 (코어, 렌터카)", example = "Core", required = true)
+  @Schema(description = "출처 타입 (Core, Moana)", example = "Core,Moana", required = true)
   @NotNull(message = "caller cannot be empty")
   private ReviewReferenceType referenceType;
 }
