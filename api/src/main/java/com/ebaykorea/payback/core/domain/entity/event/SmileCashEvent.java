@@ -3,6 +3,7 @@ package com.ebaykorea.payback.core.domain.entity.event;
 import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.IntegrationType;
 import com.ebaykorea.payback.util.PaybackInstants;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -23,6 +24,7 @@ public abstract class SmileCashEvent {
   private final int expirationPeriod;
   private final Long eventNo;
   private final int ersNo;
+  private final IntegrationType integrationType;
 
   public long getBudgetNo() {
     return 0;

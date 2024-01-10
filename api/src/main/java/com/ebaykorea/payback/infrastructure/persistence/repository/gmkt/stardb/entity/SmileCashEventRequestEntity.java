@@ -22,6 +22,9 @@ public class SmileCashEventRequestEntity {
   @Column(name = "SMILEPAY_NO")
   private Long smilePayNo;
 
+  @Column(name = "COMMN_TYPE")
+  private String integrationType;
+
   @Column(name = "APPR_STATUS")
   private int approvalStatus;
 

@@ -22,6 +22,7 @@ public class SmileCashEventEntityRepository {
   @SaturnProcedure(
       procedureName = SmileCashEventRequestEntity.SAVE,
       parameters = {
+          @SaturnProcedureParameter(name = "COMMN_TYPE", sqlType = Types.VARCHAR, scale = 4),
           @SaturnProcedureParameter(name = "REQ_MONEY", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "REQ_OUTPUT_IMPB_MONEY", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "CASH_BALANCE_TYPE", sqlType = Types.CHAR, scale = 2),
