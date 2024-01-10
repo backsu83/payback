@@ -30,11 +30,6 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "smileCashEvent.eventNo", target = "referenceKey")
   SmileCashSaveQueueEntity map(Long txId, String reasonComment, SmileCashEvent smileCashEvent);
 
-  @Mapping(source = "request.status", target = "saveStatus")
-  @Mapping(source = "request.tryCount", target = "retryCount")
-  @Mapping(source = "request.operator", target = "insertOperator")
-  SmileCashSaveQueueEntity map(Long seqNo, SetEventRewardRequestDto request);
-
   @Mapping(source = "txId", target = "savingNo")
   EventRewardResultDto map(Long requestNo, Integer resultCode, Long txId);
 

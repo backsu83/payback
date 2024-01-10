@@ -37,13 +37,4 @@ public class EventRewardController {
     final var result = repository.saveWithBudget(mapper.map(request)).orElse(null);
     return CommonResponse.success(SUCCESS, result);
   }
-
-  @Operation(summary = "이벤트 리워드 적립 데이터 변경", description = "스마일캐시 이벤트 데이터 변경")
-  @PutMapping("/{smilepay-no}")
-  public CommonResponse<Long> setEventReward(
-      final @PathVariable(value = "smilepay-no") Long smilePayNo,
-      final @Valid @RequestBody SetEventRewardRequestDto request) {
-    repository.set(smilePayNo, request);
-    return CommonResponse.success(SUCCESS, smilePayNo);
-  }
 }

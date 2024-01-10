@@ -29,11 +29,6 @@ public interface SmileCashEventEntityMapper {
   @Mapping(source = "eventNo", target = "eid")
   SmileCashEventRequestEntity map(SmileCashEvent smileCashEvent);
 
-  @Mapping(source = "request.status", target = "approvalStatus")
-  @Mapping(source = "request.tryCount", target = "tryCount")
-  @Mapping(source = "request.operator", target = "regId")
-  SmileCashEventRequestEntity map(Long smilePayNo, SetEventRewardRequestDto request);
-
   @Mapping(source = "source.result", target = "resultCode")
   @Mapping(source = "source.smilePayNo", target = "savingNo")
   EventRewardResultDto map(final Long requestNo, final SmileCashEventResultEntity source);

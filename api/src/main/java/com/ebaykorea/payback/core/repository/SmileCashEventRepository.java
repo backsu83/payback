@@ -11,7 +11,5 @@ import java.util.Optional;
 public interface SmileCashEventRepository {
   Optional<EventRewardResultDto> save(SmileCashEvent smileCashEvent);
   Optional<EventRewardResultDto> saveWithBudget(SmileCashEvent smileCashEvent);
-  void set(Long smilePayNo, SetEventRewardRequestDto request);
-
   Optional<SmileCashEventResult> find(SmileCashEvent smileCashEvent);
 }

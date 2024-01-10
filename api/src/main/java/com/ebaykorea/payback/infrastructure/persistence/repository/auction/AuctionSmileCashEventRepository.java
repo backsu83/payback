@@ -83,12 +83,6 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public void set(final Long seqNo, final SetEventRewardRequestDto request) {
-    final var entity = mapper.map(seqNo, request);
-    smileCashSaveQueueRepository.update(entity);
-  }
-
-  @Override
   public Optional<SmileCashEventResult> find(final SmileCashEvent smileCashEvent) {
     return smileCashSaveQueueRepository.findByBizKey(String.valueOf(smileCashEvent.getRequestNo())).stream()
         .filter(alreadyRequested(smileCashEvent.getMemberKey(), smileCashEvent.getEventType()))
