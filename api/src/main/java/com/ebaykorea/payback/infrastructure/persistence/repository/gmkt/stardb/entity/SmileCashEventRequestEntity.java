@@ -23,7 +23,7 @@ public class SmileCashEventRequestEntity {
   private Long smilePayNo;
 
   @Column(name = "COMMN_TYPE")
-  private String integrationType;
+  private String saveIntegrationType;
 
   @Column(name = "APPR_STATUS")
   private int approvalStatus;

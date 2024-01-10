@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.event;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.core.domain.constant.IntegrationType;
+import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
@@ -21,6 +21,6 @@ public class ReviewReward extends SmileCashEvent {
       final EventType eventType,
       final ReviewReferenceType referenceType
   ) {
-    super(requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), 0, IntegrationType.Mass);
+    super(requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), 0, SaveIntegrationType.Mass);
   }
 }

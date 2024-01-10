@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.constant.TestConstant
-import com.ebaykorea.payback.core.domain.constant.IntegrationType
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventRequestEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventResultEntity
@@ -11,7 +10,7 @@ import java.sql.Timestamp
 class SmileCashEventEntityGrocery {
   static def SmileCashEventRequestEntity_생성(Map map = [:]) {
     new SmileCashEventRequestEntity().tap {
-      integrationType = (map.integrationType ?: "Q") as String
+      saveIntegrationType = (map.saveIntegrationType ?: "Q") as String
       requestMoney = (map.requestMoney ?: 0) as BigDecimal
       requestOutputDisabledMoney = (map.requestOutputDisabledMoney ?: 0) as BigDecimal
       cashBalanceType = (map.cashBalanceType ?: "") as String

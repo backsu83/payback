@@ -19,7 +19,7 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface SmileCashEventEntityMapper {
 
-  @Mapping(source = "integrationType.code", target = "integrationType")
+  @Mapping(source = "saveIntegrationType.code", target = "saveIntegrationType")
   @Mapping(source = "saveAmount", target = "requestMoney")
   @Mapping(source = "saveAmount", target = "requestOutputDisabledMoney")
   @Mapping(source = "eventType.gmarketCode", target = "cashBalanceType")

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum IntegrationType {
+public enum SaveIntegrationType {
   Unknown(""),
   Mass("L"), //대량 적립
   RealTime("Q");
