@@ -29,7 +29,7 @@ public class EventRewardController {
 
   @Operation(summary = "이벤트 리워드 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
   @PostMapping
-  public CommonResponse<EventRewardResultDto> saveEventRecoward(
+  public CommonResponse<EventRewardResultDto> saveEventReward(
       final @Valid @RequestBody EventRewardRequestDto request) {
     final var result = repository.saveWithBudget(mapper.map(request)).orElse(null);
     return CommonResponse.success(SUCCESS, result);
