@@ -6,8 +6,8 @@ spring:
       auto-offset-reset: latest
       enable-auto-commit: true
       bootstrap-servers:
-        listener-1: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
-        listener-2: hscdv06gm:9092,hscdv07gm:9092,hscdv08gm:9092,hscdv09gm:9092,hscdv10gm:9092
+        listener-1: coflukfdv01gm:9092, coflukfdv02gm:9092, coflukfdv03gm:9092, coflukfdv04gm:9092, coflukfdv05gm:9092, coflukfdv06gm:9092
+        listener-2: coflukfdv01gm:9092, coflukfdv02gm:9092, coflukfdv03gm:9092, coflukfdv04gm:9092, coflukfdv05gm:9092, coflukfdv06gm:9092
 
 payback:
   topic:
