@@ -29,7 +29,7 @@ public class ReviewRewardRequestDto {
   @NotNull(message = "saveAmount cannot be null")
   private BigDecimal saveAmount;
 
-  @Schema(description = "출처 타입 (Core, Moana)", example = "Core,Moana", required = true)
+  @Schema(description = "출처 타입 (Core, Tour)", example = "Core,Tour", required = true)
   @NotNull(message = "caller cannot be empty")
   private ReviewReferenceType referenceType;
 }

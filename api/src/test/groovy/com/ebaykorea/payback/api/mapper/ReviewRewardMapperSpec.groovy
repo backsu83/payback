@@ -19,6 +19,6 @@ class ReviewRewardMapperSpec extends Specification {
     where:
     desc           | request                                                               | eventType               | expectResult
     "코어 일반 상품평"          | ReviewRewardRequestDto_생성()                                           | EventType.Review        | ReviewReward_생성(saveAmount: 10)
-    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(referenceType: ReviewReferenceType.Moana) | EventType.ReviewPremium | ReviewReward_생성(saveAmount: 10, eventType: EventType.ReviewPremium, referenceType: ReviewReferenceType.Moana)
+    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(referenceType: ReviewReferenceType.Tour) | EventType.ReviewPremium | ReviewReward_생성(saveAmount: 10, eventType: EventType.ReviewPremium, referenceType: ReviewReferenceType.Tour)
   }
 }
