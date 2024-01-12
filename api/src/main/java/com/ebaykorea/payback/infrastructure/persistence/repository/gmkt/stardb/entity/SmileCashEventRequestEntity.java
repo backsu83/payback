@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SmileCashEventRequestEntity {
-  public static final String SAVE = "stardb.dbo.UPGMKT_Reward_InsertSmileCashEvent";
+  public static final String SAVE = "stardb.dbo.H";
   public static final String FIND = "stardb.dbo.UPGMKT_Reward_SelectSmileCashEvent";
 
   @Id
@@ -57,4 +57,7 @@ public class SmileCashEventRequestEntity {
 
   @Column(name = "REG_ID")
   private String regId;
+
+  @Column(name = "COMMENTS")
+  private String comments;
 }

@@ -4,6 +4,8 @@ import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
+import com.ebaykorea.payback.core.exception.PaybackException;
+import com.ebaykorea.payback.core.exception.PaybackExceptionCode;
 import com.ebaykorea.payback.util.PaybackInstants;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -35,6 +37,13 @@ public class EventReward extends SmileCashEvent {
 
     this.budgetNo = budgetNo;
     this.expirationDate = expirationDate;
+    validate();
+  }
+
+  private void validate() {
+    if (this.getEventType() != EventType.DailyCheckIn) {
+      throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "DailyCheckIn type 만 가능합니다");
+    }
   }
 
   @Override

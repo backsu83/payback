@@ -33,4 +33,7 @@ public abstract class SmileCashEvent {
   public Instant getExpirationDate() {
     return truncatedDays(PaybackInstants.now(), expirationPeriod);
   }
+  public String getComments() {
+    return "";
+  }
 }
