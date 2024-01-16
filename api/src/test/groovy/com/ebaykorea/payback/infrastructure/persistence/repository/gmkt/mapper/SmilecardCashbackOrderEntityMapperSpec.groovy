@@ -9,7 +9,7 @@ import spock.lang.Specification
 import static com.ebaykorea.payback.grocery.PayCashbackGrocery.PayCashback_생성
 import static com.ebaykorea.payback.grocery.CashbackEntityGrocery.SmilecardCashbackOrderEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardCashback_생성
-import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.T2T3SmileCardCashback_생성
+import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardAdditionalCashback_생성
 
 class SmilecardCashbackOrderEntityMapperSpec extends Specification {
     def mapper = Mappers.getMapper(SmilecardCashbackOrderEntityMapper)
@@ -22,19 +22,21 @@ class SmilecardCashbackOrderEntityMapperSpec extends Specification {
         where:
         _________________________________________________
         desc | payCashback | smileCardCashback
-        "기본" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L)
-        "T2,T3 금액" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, t2t3Cashbacks:[T2T3SmileCardCashback_생성(amount: 1000L), T2T3SmileCardCashback_생성(amount: 1000L)])
-        "배송타입 SD" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, t2t3Cashbacks:[T2T3SmileCardCashback_생성(amount: 1000L, shopType: ShopType.SmileDelivery)])
-        "배송타입 SF" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, t2t3Cashbacks:[T2T3SmileCardCashback_생성(amount: 1000L, shopType: ShopType.SmileFresh)])
-        "T0,T1" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true,t2t3Cashbacks:[T2T3SmileCardCashback_생성(amount: 1000L, smileCardType: SmileCardType.Unknown, isT2T3: false)])
-        "T2,T3" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, isSmileCard: true, t2t3Cashbacks:[T2T3SmileCardCashback_생성(amount: 1000L, smileCardType: SmileCardType.T2, isT2T3: true)])
+        "기본" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.Unknown)
+        "T2,T3 금액" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T2, additionalCashbacks:[SmileCardAdditionalCashback_생성(amount: 1000L), SmileCardAdditionalCashback_생성(amount: 1000L)])
+        "배송타입 SD" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.Unknown, additionalCashbacks:[SmileCardAdditionalCashback_생성(amount: 1000L, shopType: ShopType.SmileDelivery)])
+        "배송타입 SF" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.Unknown, additionalCashbacks:[SmileCardAdditionalCashback_생성(amount: 1000L, shopType: ShopType.SmileFresh)])
+        "T0" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T0,additionalCashbacks:[SmileCardAdditionalCashback_생성(amount: 1000L, smileCardType: SmileCardType.T0)])
+        "T2" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T2, additionalCashbacks:[SmileCardAdditionalCashback_생성(amount: 1000L, smileCardType: SmileCardType.T2)])
+        "T3" | PayCashback_생성() | SmileCardCashback_생성(cashbackAmount: 1000L, smileCardType: SmileCardType.T3, additionalCashbacks:[SmileCardAdditionalCashback_생성(amount: 1000L, smileCardType: SmileCardType.T3)])
         _________________________________________________
         expectResult | _ | _
         SmilecardCashbackOrderEntity_생성() | _ | _
-        SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 2000L) | _ | _
+        SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 2000L , applyYn: "Y" , smileCardType: "T2") | _ | _
         SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 1000L , itemType: "SD") | _ | _
         SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 1000L , itemType: "SF") | _ | _
-        SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 1000L , applyYn: "Y" , t2t3ApplyYn: "N") | _ | _
-        SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 1000L , applyYn: "Y" , t2t3ApplyYn: "Y") | _ | _
+        SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 1000L , applyYn: "Y" , t2t3ApplyYn: "N", smileCardType: "T0") | _ | _
+        SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 1000L , applyYn: "Y" , t2t3ApplyYn: "Y", smileCardType: "T2") | _ | _
+        SmilecardCashbackOrderEntity_생성(t2t3CashbackAmount: 1000L , applyYn: "Y" , t2t3ApplyYn: "N", smileCardType: "T3") | _ | _
     }
 }

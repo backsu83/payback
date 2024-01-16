@@ -8,7 +8,6 @@ import com.ebaykorea.payback.core.domain.entity.cashback.Cashback
 import com.ebaykorea.payback.core.domain.entity.cashback.PayCashback
 import com.ebaykorea.payback.core.domain.entity.cashback.member.Member
 import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.SmileCardCashback
-import com.ebaykorea.payback.core.domain.entity.cashback.smilecard.T2T3SmileCardCashback
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit
 
 import java.time.Instant
