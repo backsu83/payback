@@ -6,6 +6,7 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.e
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventResultEntity
 
 import java.sql.Timestamp
+import java.time.Instant
 
 class SmileCashEventEntityGrocery {
   static def SmileCashEventRequestEntity_생성(Map map = [:]) {
@@ -37,6 +38,9 @@ class SmileCashEventEntityGrocery {
       smilePayNo = (map.smilePayNo ?: 1L) as long
       status = (map.status ?: 0) as int
       returnCode = (map.returnCode ?: null) as String
+      saveDate = (map.saveDate ?: null) as Instant
+      requestMoney = (map.requestMoney ?: 0L) as BigDecimal
+
     }
   }
 }

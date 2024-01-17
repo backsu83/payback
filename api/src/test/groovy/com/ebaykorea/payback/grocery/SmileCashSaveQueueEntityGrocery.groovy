@@ -22,6 +22,7 @@ class SmileCashSaveQueueEntityGrocery {
       saveStatus = (map.saveStatus ?: 0) as int
       expireDate = (map.expireDate ?: Timestamp.from(TestConstant.ORDER_DATE)) as Timestamp
       insertOperator = (map.insertOperator ?: "") as String
+      updateDate = (map.updateDate ?: null) as Timestamp
       referenceKey = (map.referenceKey ?: null) as String
     }
   }
