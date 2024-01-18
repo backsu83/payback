@@ -19,7 +19,6 @@ public class SmileCashSaveQueueEntity {
 
   public static final String FIND_BY_BIZ_KEY = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_SelectByIacBizKey";
   public static final String SAVE = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_Insert";
-  public static final String UPDATE_BUDGET = "maindb2ex.dbo.UPIAC_Reward_UpdateAmsSmileCashSaveReq";
 
   @Id
   @Column(name = "SEQNO")
@@ -66,4 +65,7 @@ public class SmileCashSaveQueueEntity {
 
   @Column(name = "REFERENCE_KEY")
   private String referenceKey;
+
+  @Column(name = "BUDGET_NO")
+  private long budgetNo;
 }

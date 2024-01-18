@@ -38,11 +38,6 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   }
 
   @Override
-  public Optional<EventRewardResultDto> saveWithBudget(final SmileCashEvent smileCashEvent) {
-    return save(smileCashEvent);
-  }
-
-  @Override
   public Optional<SmileCashEventResult> find(final SmileCashEvent smileCashEvent) {
     final var entity = mapper.map(smileCashEvent);
     return repository.find(entity)
