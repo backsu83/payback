@@ -36,4 +36,8 @@ public abstract class SmileCashEvent {
   public String getComments() {
     return "";
   }
+
+  public int getRequestStatus() {
+    return 0;
+  }
 }
