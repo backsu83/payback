@@ -20,6 +20,7 @@ public class ReviewReward extends SmileCashEvent {
   private static final int EXPIRATION_PERIOD = 180;
   private static final String NORMAL_TOUR_REWARD_COMMENT = "여행 후기 기본 적립";
   private static final String PREMIUM_TOUR_REWARD_COMMENT = "여행 후기 추가 적립";
+  private static final int MASS_REQUEST_READY = 3;
 
   public ReviewReward(
       final long requestNo,
@@ -48,6 +49,11 @@ public class ReviewReward extends SmileCashEvent {
       default:
         return "";
     }
+  }
+
+  @Override
+  public int getRequestStatus() {
+    return MASS_REQUEST_READY;
   }
 
   private boolean isNormalReviewType() {
