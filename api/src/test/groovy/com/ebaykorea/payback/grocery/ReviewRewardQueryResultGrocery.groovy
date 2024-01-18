@@ -9,7 +9,7 @@ class ReviewRewardQueryResultGrocery {
   static def ReviewRewardQueryResult_생성(Map map = [:]) {
     new ReviewRewardQueryResult().tap {
       reviewType = (map.reviewType ?: "") as EventType
-      save = (map.save ?: "") as String
+      save = (map.save ?: "") as Boolean
       saveAmount = (map.saveAmount ?: 0L) as BigDecimal
       saveDate = (map.saveDate ?: null ) as Instant
     }

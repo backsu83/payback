@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewRewardQueryResult {
   private EventType reviewType;
-  private String save;
+  private Boolean save;
   private BigDecimal saveAmount;
   private Instant saveDate;
 }
