@@ -3,7 +3,7 @@ package com.ebaykorea.payback.api.mapper
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
-import static com.ebaykorea.payback.grocery.EventRewardDtoGrocery.TossEventRewardResponseDto_생성
+import static com.ebaykorea.payback.grocery.TossEventRewardResponseDtoGrocery.TossEventRewardResponseDto_생성
 import static com.ebaykorea.payback.grocery.TossEventRewardGrocery.*
 
 class TossRewardMapperSpec extends Specification {

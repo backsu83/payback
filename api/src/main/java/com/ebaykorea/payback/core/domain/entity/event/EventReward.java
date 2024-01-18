@@ -21,6 +21,7 @@ public class EventReward extends SmileCashEvent {
 
   private final Long budgetNo;
   private final Instant expirationDate;
+  private final String comment;
 
   public EventReward(
       final long requestNo,
@@ -30,13 +31,15 @@ public class EventReward extends SmileCashEvent {
       final int expirationPeriod,
       final Long eventNo,
       final Long budgetNo,
-      final Instant expirationDate
-
+      final Instant expirationDate,
+      final String comment
   ) {
     super(requestNo, memberKey, saveAmount, eventType, expirationPeriod, eventNo, 0, SaveIntegrationType.RealTime);
 
     this.budgetNo = budgetNo;
     this.expirationDate = expirationDate;
+    this.comment = comment;
+
     validate();
   }
 
@@ -44,6 +47,11 @@ public class EventReward extends SmileCashEvent {
     if (this.getEventType() != EventType.DailyCheckIn) {
       throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "DailyCheckIn type 만 가능합니다");
     }
+  }
+
+  @Override
+  public String getComments() {
+    return comment;
   }
 
   @Override

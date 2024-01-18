@@ -36,4 +36,7 @@ public class EventRewardRequestDto {
 
   @Schema(description = "만료 일자")
   private Instant expirationDate;
+
+  @Schema(description = "적립 문구")
+  private String comment;
 }

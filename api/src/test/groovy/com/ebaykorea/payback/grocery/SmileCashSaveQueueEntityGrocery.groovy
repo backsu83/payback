@@ -13,8 +13,8 @@ class SmileCashSaveQueueEntityGrocery {
       txId = (map.txId ?: 1L) as long
       memberId = (map.memberId ?: "memberKey") as String
       reasonCode = (map.reasonCode ?: "") as String
-      reasonComment = (map.reasonComment ?: null) as String
-      additionalReasonComment = (map.additionalReasonComment ?: null) as String
+      reasonComment = (map.reasonComment ?: "") as String
+      additionalReasonComment = (map.additionalReasonComment ?: "") as String
       bizType = (map.bizType ?: 0) as Integer
       bizKey = (map.bizKey ?: "") as String
       smileCashType = (map.smileCashType ?: 0) as int
@@ -29,7 +29,7 @@ class SmileCashSaveQueueEntityGrocery {
   static def SmileCashReasonCodeEntity_생성(Map map = [:]) {
     new SmileCashReasonCodeEntity().tap{
       reasonCode = (map.reasonCode ?: "") as String
-      iacReasonComment = (map.iacReasonComment ?: null) as String
+      iacReasonComment = (map.iacReasonComment ?: "") as String
       additionalComment = (map.additionalComment ?: null) as String
     }
   }

@@ -16,6 +16,7 @@ class MemberEventRewardDtoGrocery {
       budgetNo = (map.budgetNo ?: null) as Long
       eventNo = (map.eventNo ?: null) as Long
       expirationDate = (map.expirationDate ?: null) as Instant
+      comment = (map.comment ?: "") as String
     }
   }
 

@@ -5,6 +5,7 @@ import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.exception.PaybackExceptionCode;
+import com.ebaykorea.payback.util.PaybackStrings;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,12 +43,10 @@ public class ReviewReward extends SmileCashEvent {
 
   @Override
   public String getComments() {
-    switch (referenceType) {
-      case Tour:
-        return isNormalReviewType() ? NORMAL_TOUR_REWARD_COMMENT : PREMIUM_TOUR_REWARD_COMMENT;
-      default:
-        return "";
+    if (referenceType == ReviewReferenceType.Tour) {
+      return isNormalReviewType() ? NORMAL_TOUR_REWARD_COMMENT : PREMIUM_TOUR_REWARD_COMMENT;
     }
+    return "";
   }
 
   private boolean isNormalReviewType() {

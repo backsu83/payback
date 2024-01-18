@@ -3,7 +3,7 @@ package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.dto.event.toss.TossEventRewardResponseDto
 
-class EventRewardDtoGrocery {
+class TossEventRewardResponseDtoGrocery {
   static def TossEventRewardResponseDto_생성(Map map = [:]) {
     new TossEventRewardResponseDto().tap{
       smilePayNo = (map.smilePayNo ?: "") as String

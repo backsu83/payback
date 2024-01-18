@@ -9,7 +9,7 @@ import com.ebaykorea.payback.core.repository.TossRewardRequestRepository
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository
 import spock.lang.Specification
 
-import static com.ebaykorea.payback.grocery.EventRewardDtoGrocery.TossEventRewardResponseDto_생성
+import static com.ebaykorea.payback.grocery.TossEventRewardResponseDtoGrocery.TossEventRewardResponseDto_생성
 import static com.ebaykorea.payback.grocery.SmileCashEventGrocery.SmileCashEventResult_생성
 import static com.ebaykorea.payback.grocery.TossRewardGrocery.TossRewardRequestResult_생성
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardResultDto_생성
