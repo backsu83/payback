@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.query.data;
 
+import com.ebaykorea.payback.core.domain.constant.EventType;
 import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewRewardQueryResult {
-  private String reviewType;
-  private String isSave;
-  private BigDecimal amount;
+  private EventType reviewType;
+  private String save;
+  private BigDecimal saveAmount;
   private Instant saveDate;
 }

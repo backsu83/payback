@@ -20,8 +20,8 @@ class ReviewRewardQueryMapperSpec extends Specification {
 
     where:
     desc | eventType | request | expectResult
-    "지마켓 리뷰 조회" | EventType.Review | SmileCashEventEntity_생성(status: 50, requestMoney: 10L) | ReviewRewardQueryResult_생성(reviewType: "Review", isSave: "Y" , amount: 10L)
-    "지마켓 리뷰(프리미엄) 조회" | EventType.ReviewPremium | SmileCashEventEntity_생성(status: 50, requestMoney: 10L) | ReviewRewardQueryResult_생성(reviewType: "ReviewPremium", isSave: "Y", amount: 10L)
+    "지마켓 리뷰 조회" | EventType.Review | SmileCashEventEntity_생성(status: 50, requestMoney: 10L) | ReviewRewardQueryResult_생성(reviewType: EventType.Review, save: "Y" , saveAmount: 10L)
+    "지마켓 리뷰(프리미엄) 조회" | EventType.ReviewPremium | SmileCashEventEntity_생성(status: 50, requestMoney: 10L) | ReviewRewardQueryResult_생성(reviewType: EventType.ReviewPremium, save: "Y", saveAmount: 10L)
 
   }
 
@@ -33,8 +33,8 @@ class ReviewRewardQueryMapperSpec extends Specification {
 
     where:
     desc | request | expectResult
-    "옥션 리뷰 조회" |  SmileCashSaveQueueEntity_생성(reasonCode: "RM04Y", saveStatus: 1, saveAmount: 10L) | ReviewRewardQueryResult_생성(reviewType: "Review", isSave: "Y" , amount: 10L)
-    "옥션 리뷰(프리미엄) 조회" |  SmileCashSaveQueueEntity_생성(reasonCode: "RM05Y", saveStatus: 1, saveAmount: 10L) | ReviewRewardQueryResult_생성(reviewType: "ReviewPremium", isSave: "Y" , amount: 10L)
+    "옥션 리뷰 조회" |  SmileCashSaveQueueEntity_생성(reasonCode: "RM04Y", saveStatus: 1, saveAmount: 10L) | ReviewRewardQueryResult_생성(reviewType: EventType.Review, save: "Y" , saveAmount: 10L)
+    "옥션 리뷰(프리미엄) 조회" |  SmileCashSaveQueueEntity_생성(reasonCode: "RM05Y", saveStatus: 1, saveAmount: 10L) | ReviewRewardQueryResult_생성(reviewType: EventType.ReviewPremium, save: "Y" , saveAmount: 10L)
 
   }
 }

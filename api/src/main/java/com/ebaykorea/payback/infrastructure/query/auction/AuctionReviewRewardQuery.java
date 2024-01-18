@@ -29,7 +29,7 @@ public class AuctionReviewRewardQuery implements ReviewRewardQuery {
     return repository.findByBizKey(String.valueOf(requestNo))
         .stream()
         .filter(findReviewReasonCode())
-        .map(obj->mapper.map(obj))
+        .map(mapper::map)
         .collect(Collectors.toUnmodifiableList());
   }
 

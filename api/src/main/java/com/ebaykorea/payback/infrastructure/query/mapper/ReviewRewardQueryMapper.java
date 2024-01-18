@@ -17,14 +17,14 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface ReviewRewardQueryMapper {
 
-  @Mapping(expression = "java(eventType.getName())", target = "reviewType")
-  @Mapping(source = "entity.requestMoney", target = "amount")
-  @Mapping(expression = "java(mapToStatusYN(entity.getStatus()))" , target = "isSave")
+  @Mapping(source = "eventType", target = "reviewType")
+  @Mapping(source = "entity.requestMoney", target = "saveAmount")
+  @Mapping(expression = "java(mapToStatusYN(entity.getStatus()))" , target = "save")
   ReviewRewardQueryResult map(SmileCashEventEntity entity, EventType eventType);
 
   @Mapping(expression = "java(mapToReasonCode(entity.getReasonCode()))", target = "reviewType")
-  @Mapping(source = "saveAmount", target = "amount")
-  @Mapping(expression = "java(mapToSaveStatusYN(entity.getSaveStatus()))" , target = "isSave")
+  @Mapping(source = "saveAmount", target = "saveAmount")
+  @Mapping(expression = "java(mapToSaveStatusYN(entity.getSaveStatus()))" , target = "save")
   @Mapping(expression = "java(PaybackInstants.from(entity.getUpdateDate()))" , target = "saveDate")
   ReviewRewardQueryResult map(SmileCashSaveQueueEntity entity);
 
@@ -35,5 +35,5 @@ public interface ReviewRewardQueryMapper {
 
   default String mapToSaveStatusYN(int status) {return PaybackBooleans.toYN(status == 1);}
 
-  default String mapToReasonCode(String code) {return EventType.auctionCodeOf(code).getName();}
+  default EventType mapToReasonCode(String code) {return EventType.auctionCodeOf(code);}
 }
