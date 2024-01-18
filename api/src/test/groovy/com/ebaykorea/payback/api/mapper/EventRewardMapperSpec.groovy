@@ -14,7 +14,7 @@ class EventRewardMapperSpec extends Specification {
 
   def "EventRewardRequestDto -> EventReward 매핑 확인"() {
     expect:
-    def result = mapper.map(EventRewardRequestDto_생성(saveAmount: 100, eventType: EventType.DailyCheckIn, budgetNo: 1L, eventNo: 2L, expirationDate: TestConstant.USE_ENABLE_DATE))
-    result == EventReward_생성(saveAmount: 100, budgetNo: 1L, eventNo: 2L, expirationDate: TestConstant.USE_ENABLE_DATE)
+    def result = mapper.map(EventRewardRequestDto_생성(saveAmount: 100, eventType: EventType.DailyCheckIn, budgetNo: 1L, eventNo: 2L, expirationDate: TestConstant.USE_ENABLE_DATE, comment: "이벤트!"))
+    result == EventReward_생성(saveAmount: 100, budgetNo: 1L, eventNo: 2L, expirationDate: TestConstant.USE_ENABLE_DATE, comment: "이벤트!")
   }
 }
