@@ -64,6 +64,9 @@ public class SmileCashSaveQueueEntity {
   @Column(name = "INS_OPRT")
   private String insertOperator;
 
+  @Column(name = "UPD_DATE")
+  private Timestamp updateDate;
+
   @Column(name = "REFERENCE_KEY")
   private String referenceKey;
 }

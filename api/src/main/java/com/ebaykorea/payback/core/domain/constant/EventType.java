@@ -1,5 +1,8 @@
 package com.ebaykorea.payback.core.domain.constant;
 
+import com.ebaykorea.payback.util.PaybackEnums;
+import java.util.Arrays;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,4 +18,10 @@ public enum EventType {
   private final String name;
   private final String auctionCode;
   private final String gmarketCode;
+
+  private static final transient Map<String, EventType> mapAuctionCode = PaybackEnums.reverseMap(EventType.class, EventType::getAuctionCode);
+
+  public static EventType auctionCodeOf(final String code) {return mapAuctionCode.getOrDefault(code, Unknown);
+
+  }
 }
