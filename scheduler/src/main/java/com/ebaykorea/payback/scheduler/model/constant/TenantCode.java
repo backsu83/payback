@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.domain.constant;
+package com.ebaykorea.payback.scheduler.model.constant;
 
 public class TenantCode {
   public static final String GMARKET_TENANT = "gmarket";

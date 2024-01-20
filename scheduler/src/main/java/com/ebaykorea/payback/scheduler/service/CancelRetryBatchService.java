@@ -2,7 +2,7 @@ package com.ebaykorea.payback.scheduler.service;
 
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.payback.CancelRequestDto;
-import com.ebaykorea.payback.scheduler.domain.constant.OrderSiteType;
+import com.ebaykorea.payback.scheduler.model.constant.OrderSiteType;
 import com.ebaykorea.payback.scheduler.repository.opayreward.CancelConsumerFailRepository;
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.ssg.CancelConsumerFailEntity;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
-import static com.ebaykorea.payback.scheduler.domain.constant.TenantCode.GMARKET_TENANT;
+import static com.ebaykorea.payback.scheduler.model.constant.TenantCode.GMARKET_TENANT;
 import static java.util.Objects.isNull;
 import static org.hibernate.internal.util.collections.CollectionHelper.isEmpty;
 

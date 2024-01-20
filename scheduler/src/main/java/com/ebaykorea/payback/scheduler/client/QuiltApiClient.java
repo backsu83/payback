@@ -15,7 +15,7 @@ import java.util.Optional;
     url = "${apis.quilt.url}",
     configuration = DefaultFeignConfig.class
 )
-public interface QuiltApi {
+public interface QuiltApiClient {
 
   @RequestMapping(
       method = RequestMethod.GET,
@@ -23,4 +23,11 @@ public interface QuiltApi {
       produces = MediaType.APPLICATION_JSON_VALUE
   )
   Optional<QuiltBaseResponse<String>> findUserId(@RequestParam("userToken") final String userToken);
+
+  @RequestMapping(
+      method = RequestMethod.GET,
+      value = "/v1/smilecash/smileUserKey",
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  Optional<QuiltBaseResponse<String>> findSmileUserKey(@RequestParam("memberId") final String memberId);
 }

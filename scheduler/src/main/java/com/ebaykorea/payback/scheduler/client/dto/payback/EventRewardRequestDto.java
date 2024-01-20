@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.scheduler.client.dto.payback;
 
-import com.ebaykorea.payback.scheduler.domain.constant.EventType;
+import com.ebaykorea.payback.scheduler.model.constant.EventType;
 import lombok.Builder;
 import lombok.Data;
 
