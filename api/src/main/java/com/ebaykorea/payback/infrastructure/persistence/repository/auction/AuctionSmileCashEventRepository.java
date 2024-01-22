@@ -7,16 +7,16 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
-import com.ebaykorea.payback.api.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
-import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashReasonCodeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository;
+import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashReasonCodeEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper.SmileCashSaveQueueEntityMapper;
+import com.ebaykorea.payback.util.PaybackStrings;
 import java.util.Optional;
 import java.util.function.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -48,17 +48,20 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
             .findAny()
             .map(savedQueue -> mapper.map(smileCashEvent.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
             .or(() -> { //중복 요청 건이 아닌 경우
-              final var iacReasonCode = smileCashEvent.getEventType().getAuctionCode();
-              return smileCashReasonCodeRepository.findById(iacReasonCode)
-                  .map(reasonCode -> {
-                    final var txId = smileCashTransactionRepository.getIacTxId(smileCashEvent.getMemberKey());
-                    final var entity = mapper.map(txId, reasonCode.getIacReasonComment(), smileCashEvent);
 
-                    smileCashSaveQueueRepository.save(entity);
+              // 적립 문구가 넘어온게 없다면 코드에 매핑된 이름을 전달
+              final var comment = Optional.ofNullable(smileCashEvent.getComments())
+                  .filter(PaybackStrings::isNotBlank)
+                  .orElseGet(() -> smileCashReasonCodeRepository.findById(smileCashEvent.getEventType().getAuctionCode())
+                      .map(SmileCashReasonCodeEntity::getIacReasonComment)
+                      .orElseThrow(() -> new PaybackException(PERSIST_001, smileCashEvent.getEventType().getAuctionCode())));
 
-                    return Optional.of(mapper.map(smileCashEvent.getRequestNo(), 0, txId));
-                  })
-                  .orElseThrow(() -> new PaybackException(PERSIST_001, iacReasonCode));
+              final var txId = smileCashTransactionRepository.getIacTxId(smileCashEvent.getMemberKey());
+              final var entity = mapper.map(txId, comment, smileCashEvent);
+
+              smileCashSaveQueueRepository.save(entity);
+
+              return Optional.of(mapper.map(smileCashEvent.getRequestNo(), 0, txId));
             });
   }
 

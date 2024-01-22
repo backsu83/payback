@@ -7,8 +7,12 @@ public class PaybackStrings {
   public static String NONE = "N";
   public static String YES = "Y";
 
-  public static boolean isBlank(String str) {
+  public static boolean isBlank(final String str) {
     return str == null || str.isBlank();
+  }
+
+  public static boolean isNotBlank(final String str) {
+    return !isBlank(str);
   }
 
   public static String orEmpty(final String nullable) {

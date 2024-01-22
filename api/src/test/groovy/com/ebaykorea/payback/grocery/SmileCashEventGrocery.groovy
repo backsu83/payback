@@ -30,6 +30,7 @@ class SmileCashEventGrocery {
         (map.eventNo ?: 0L) as Long,
         (map.budgetNo ?: 0L) as Long,
         (map.expirationDate ?: null) as Instant,
+        (map.comment ?: "") as String,
     )
   }
 
