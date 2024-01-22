@@ -36,7 +36,13 @@ public class MassSaveRequestService {
     massSaveTargets.forEach(entity -> Optional.of(memberService.findSmileUserKey(entity.getMemberId()))
         .filter(SchedulerUtils::isNotBlank)
         .ifPresentOrElse(
-            userKey -> requestMassSaveThenUpdate(entity, userKey),
+            userKey -> {
+              try {
+                requestMassSaveThenUpdate(entity, userKey);
+              } catch (Exception ex) {
+                log.error("requestMassSaveThenUpdate error. {}", ex.getMessage());
+              }
+            },
             () -> makeFailed(entity)
         )
     );
@@ -66,7 +72,13 @@ public class MassSaveRequestService {
     checkStatusTargets.forEach(entity -> Optional.of(memberService.findSmileUserKey(entity.getMemberId()))
         .filter(SchedulerUtils::isNotBlank)
         .ifPresentOrElse(
-            userKey -> checkMassSaveStatusThenApproved(entity, userKey),
+            userKey -> {
+              try {
+                checkMassSaveStatusThenApproved(entity, userKey);
+              } catch (Exception ex) {
+                log.error("checkMassSaveStatusThenApproved error. {}", ex.getMessage());
+              }
+              },
             () -> makeFailed(entity)
         )
     );
