@@ -9,7 +9,6 @@ import com.ebaykorea.payback.scheduler.repository.maindb2ex.SmileCashSaveQueueRe
 import com.ebaykorea.payback.scheduler.repository.maindb2ex.entity.SmileCashSaveQueueEntity;
 import com.ebaykorea.payback.scheduler.service.member.MemberService;
 import com.ebaykorea.payback.scheduler.support.SchedulerUtils;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,72 +32,75 @@ public class MassSaveRequestService {
   public void requestMassSave(final int maxRows, final int maxRetryCount) {
     final var massSaveTargets = repository.findTargets(maxRows, MASS_SAVE_REQUEST_STATUS, maxRetryCount);
 
-    massSaveTargets.forEach(entity -> Optional.of(memberService.findSmileUserKey(entity.getMemberId()))
-        .filter(SchedulerUtils::isNotBlank)
-        .ifPresentOrElse(
-            userKey -> {
-              try {
-                requestMassSaveThenUpdate(entity, userKey);
-              } catch (Exception ex) {
-                log.error("requestMassSaveThenUpdate error. {}", ex.getMessage());
+    massSaveTargets.forEach(entity -> {
+      try {
+        findSmileUserKeyAsync(entity)
+            .thenAcceptAsync(userKey -> {
+              if (SchedulerUtils.isBlank(userKey)) {
+                makeFailed(entity);
+              } else {
+                requestMassSaveThenUpdateResult(entity, userKey);
               }
-            },
-            () -> makeFailed(entity)
-        )
-    );
+            });
+      } catch (Exception ex) {
+        log.error("requestMassSaveThenUpdate error. {}", ex.getMessage());
+      }
+    });
   }
 
-  private void requestMassSaveThenUpdate(final SmileCashSaveQueueEntity entity, final String smileUserKey) {
-    CompletableFuture.supplyAsync(
-        () -> smileCashApiClient.requestMassSave(massSaveRequestMapper.map(entity), String.format("basic %s", smileUserKey)))
-        .thenAccept(response -> response.filter(MassSaveResponseDto::isFailed)
-            .ifPresentOrElse(
-                // 실패
-                failed -> {
-                  log.info("requestMassSave response FAILED seqNo: {}, txId: {}, returnCode: {}, errorMessage: {}", entity.getSeqNo(), entity.getTxId(), failed.getReturnCode(), failed.getErrorMessage());
-                  makeFailed(entity);
-                },
-                // 성공
-                () -> {
-                  log.info("requestMassSave response SUCCESS seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
-                  repository.update(entity.getSeqNo(), MASS_SAVE_REQUESTED_STATUS, 0, entity.getInsertOperator());
-                }
-            ));
+  private void requestMassSaveThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
+    smileCashApiClient.requestMassSave(massSaveRequestMapper.map(entity), String.format("basic %s", userKey))
+        .filter(MassSaveResponseDto::isFailed)
+        .ifPresentOrElse(
+            // 실패
+            failed -> {
+              log.info("requestMassSave response FAILED seqNo: {}, txId: {}, returnCode: {}, errorMessage: {}", entity.getSeqNo(), entity.getTxId(), failed.getReturnCode(), failed.getErrorMessage());
+              makeFailed(entity);
+            },
+            // 성공
+            () -> {
+              log.info("requestMassSave response SUCCESS seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
+              repository.update(entity.getSeqNo(), MASS_SAVE_REQUESTED_STATUS, 0, entity.getInsertOperator());
+            });
   }
 
   public void checkSmileCashStatusThenUpdateResult(final int maxRows, final int maxRetryCount) {
     final var checkStatusTargets = repository.findTargets(maxRows, MASS_SAVE_REQUESTED_STATUS, maxRetryCount);
 
-    checkStatusTargets.forEach(entity -> Optional.of(memberService.findSmileUserKey(entity.getMemberId()))
-        .filter(SchedulerUtils::isNotBlank)
-        .ifPresentOrElse(
-            userKey -> {
-              try {
-                checkMassSaveStatusThenApproved(entity, userKey);
-              } catch (Exception ex) {
-                log.error("checkMassSaveStatusThenApproved error. {}", ex.getMessage());
+    checkStatusTargets.forEach(entity -> {
+      try {
+        findSmileUserKeyAsync(entity)
+            .thenAcceptAsync(userKey -> {
+              if (SchedulerUtils.isBlank(userKey)) {
+                makeFailed(entity);
+              } else {
+                // 대량 적립 요청건 적립 여부 확인 및 결과 저장
+                findMassRequestedThenUpdateResult(entity, userKey);
               }
-              },
-            () -> makeFailed(entity)
-        )
-    );
+            });
+      } catch (Exception ex) {
+        log.error("checkMassSaveStatusThenApproved error. {}", ex.getMessage());
+      }
+    });
   }
 
-  private void checkMassSaveStatusThenApproved(final SmileCashSaveQueueEntity entity, final String smileUserKey) {
-    CompletableFuture.supplyAsync(
-        () -> smileCashApiClient.findSaveResult(massSaveRequestMapper.mapToSaveResultRequest(entity), String.format("basic %s", smileUserKey)))
-        .thenAccept(response -> response.filter(SaveResultResponseDto::isSaved)
-            .ifPresentOrElse(
-                success -> {
-                  log.info("checkMassSaveStatus response SUCCESS seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
-                  repository.saveApproval(smileCashSaveMapper.map(success.getResult(), smileUserKey, entity));
-                  repository.update(entity.getSeqNo(), MASS_SAVED, entity.getRetryCount(), entity.getInsertOperator());
-                },
-                () -> {
-                  log.info("checkMassSaveStatus response NOT SAVED seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
-                  makeFailed(entity);
-                }
-            ));
+  private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
+    smileCashApiClient.findSaveResult(massSaveRequestMapper.mapToSaveResultRequest(entity), String.format("basic %s", userKey))
+        .filter(SaveResultResponseDto::isSaved)
+        .ifPresentOrElse(
+            success -> {
+              log.info("checkMassSaveStatus response SUCCESS seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
+              repository.saveApproval(smileCashSaveMapper.map(success.getResult(), userKey, entity));
+              repository.update(entity.getSeqNo(), MASS_SAVED, entity.getRetryCount(), entity.getInsertOperator());
+            },
+            () -> {
+              log.info("checkMassSaveStatus response NOT SAVED seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
+              makeFailed(entity);
+            });
+  }
+
+  private CompletableFuture<String> findSmileUserKeyAsync(final SmileCashSaveQueueEntity entity) {
+    return CompletableFuture.supplyAsync(() -> memberService.findSmileUserKey(entity.getMemberId()));
   }
 
   private void makeFailed(final SmileCashSaveQueueEntity entity) {
