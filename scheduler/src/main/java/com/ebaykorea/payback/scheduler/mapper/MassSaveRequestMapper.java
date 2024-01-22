@@ -3,6 +3,7 @@ package com.ebaykorea.payback.scheduler.mapper;
 import static com.ebaykorea.payback.scheduler.support.TimeUtils.LOCAL_DATE_TIME_FORMATTER;
 
 import com.ebaykorea.payback.scheduler.client.dto.smilecash.MassSaveRequestDto;
+import com.ebaykorea.payback.scheduler.client.dto.smilecash.SaveResultRequestDto;
 import com.ebaykorea.payback.scheduler.repository.maindb2ex.entity.SmileCashSaveQueueEntity;
 import java.sql.Timestamp;
 import org.mapstruct.Mapper;
@@ -27,4 +28,7 @@ public interface MassSaveRequestMapper {
   default String mapExpirationFormatString(Timestamp expirationDate) {
     return LOCAL_DATE_TIME_FORMATTER.format(expirationDate.toInstant());
   }
+
+  @Mapping(source = "txId", target = "shopTransactionId")
+  SaveResultRequestDto mapToSaveResultRequest(SmileCashSaveQueueEntity source);
 }

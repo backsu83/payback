@@ -30,8 +30,19 @@ public class MassSaveScheduler {
     this.maxRetryCount = maxRetryCount;
   }
 
-  @Scheduled(initialDelayString = "${com.ebaykorea.payback.scheduler.mass-save.initialDelay}" , fixedDelayString = "${com.ebaykorea.payback.scheduler.mass-save.fixedDelay}" , timeUnit = TimeUnit.SECONDS)
-  public void init() {
-    service.run(maxRows, maxRetryCount);
+  @Scheduled(
+      initialDelayString = "${com.ebaykorea.payback.scheduler.mass-save.initialDelay}" ,
+      fixedDelayString = "${com.ebaykorea.payback.scheduler.mass-save.fixedDelay}",
+      timeUnit = TimeUnit.SECONDS)
+  public void requestMassSave() {
+    service.requestMassSave(maxRows, maxRetryCount);
+  }
+
+  @Scheduled(
+      initialDelayString = "${com.ebaykorea.payback.scheduler.mass-save-check.initialDelay}",
+      fixedDelayString = "${com.ebaykorea.payback.scheduler.mass-save-check.fixedDelay}",
+      timeUnit = TimeUnit.MINUTES)
+  public void massSaveCheck() {
+    service.checkSmileCashStatusThenUpdateResult(maxRows, maxRetryCount);
   }
 }

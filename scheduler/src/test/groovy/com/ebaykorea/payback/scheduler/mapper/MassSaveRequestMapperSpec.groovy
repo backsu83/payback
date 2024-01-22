@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.scheduler.mapper
 
+
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 

@@ -15,8 +15,12 @@ public class MemberService {
 
   @Cacheable(cacheNames = USER_KEY)
   public String findSmileUserKey(final String memberKey) {
-    return quiltApiClient.findSmileUserKey(memberKey)
-        .flatMap(QuiltBaseResponse::findSuccessData)
-        .orElseThrow(() -> new RuntimeException("smileUserKey 없음"));
+    try {
+      return quiltApiClient.findSmileUserKey(memberKey)
+          .flatMap(QuiltBaseResponse::findSuccessData)
+          .orElseThrow(() -> new RuntimeException("smileUserKey 없음"));
+    } catch (Exception ex) {
+      return "";
+    }
   }
 }
