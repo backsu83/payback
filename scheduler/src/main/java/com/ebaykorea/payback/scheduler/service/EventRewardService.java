@@ -1,15 +1,15 @@
 package com.ebaykorea.payback.scheduler.service;
 
-import static com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType.RequestFailed;
+import static com.ebaykorea.payback.scheduler.model.constant.EventRequestStatusType.RequestFailed;
 
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
-import com.ebaykorea.payback.scheduler.client.QuiltApi;
+import com.ebaykorea.payback.scheduler.client.QuiltApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.member.QuiltBaseResponse;
 import com.ebaykorea.payback.scheduler.client.dto.payback.CommonResponse;
 import com.ebaykorea.payback.scheduler.client.dto.payback.EventRewardRequestDto;
 import com.ebaykorea.payback.scheduler.client.dto.payback.EventRewardResultDto;
-import com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType;
-import com.ebaykorea.payback.scheduler.domain.constant.EventType;
+import com.ebaykorea.payback.scheduler.model.constant.EventRequestStatusType;
+import com.ebaykorea.payback.scheduler.model.constant.EventType;
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRepositoryCustom;
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRequestStatusRepository;
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestEntity;
@@ -25,7 +25,7 @@ public class EventRewardService {
   private final EventRewardRepositoryCustom repositoryCustom;
   private final EventRewardRequestStatusRepository repository;
 
-  private final QuiltApi quiltApi;
+  private final QuiltApiClient quiltApiClient;
   private final PaybackApiClient paybackApiClient;
 
   public void run(final String tenantId, final String startDate, final String endDate) {
@@ -43,7 +43,7 @@ public class EventRewardService {
   }
 
   private String getBuyerNo(final String userToken) {
-    return quiltApi.findUserId(userToken)
+    return quiltApiClient.findUserId(userToken)
         .flatMap(QuiltBaseResponse::findSuccessData)
         .orElseThrow(() -> new RuntimeException("buyerNo 없음"));
   }

@@ -13,3 +13,8 @@ com.ebaykorea.payback.scheduler:
   event-reward:
     start-date: "" #yyyymmdd 형식
     end-date: ""
+  mass-save:
+    initialDelay: 10 #TimeUnit.SECONDS
+    fixedDelay: 10 #TimeUnit.SECONDS
+    max-rows: 3000
+    max-retry-count: 5

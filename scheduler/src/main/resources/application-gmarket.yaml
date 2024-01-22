@@ -12,3 +12,5 @@ apis:
   quilt:
     url: "https://quilt-overmind-dev.gmarket.co.kr/api"
     user-id-query-path: "/user-token/cust-no"
+  smile-cash:
+    url: "https://devcashpartnerapi.mysmilepay.com"

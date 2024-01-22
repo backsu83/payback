@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.scheduler.grocery
 
-import com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType
-import com.ebaykorea.payback.scheduler.domain.constant.EventType
+import com.ebaykorea.payback.scheduler.model.constant.EventRequestStatusType
+import com.ebaykorea.payback.scheduler.model.constant.EventType
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestEntity
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestStatusEntity
 

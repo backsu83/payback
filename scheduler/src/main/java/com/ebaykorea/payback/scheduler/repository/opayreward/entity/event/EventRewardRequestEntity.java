@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.scheduler.repository.opayreward.entity.event;
 
-import com.ebaykorea.payback.scheduler.domain.constant.EventType;
+import com.ebaykorea.payback.scheduler.model.constant.EventType;
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;

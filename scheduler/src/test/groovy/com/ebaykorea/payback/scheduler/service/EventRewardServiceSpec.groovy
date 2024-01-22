@@ -1,9 +1,9 @@
-package com.ebaykorea.payback.scheduler.domain.service
+package com.ebaykorea.payback.scheduler.service
 
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient
-import com.ebaykorea.payback.scheduler.client.QuiltApi
+import com.ebaykorea.payback.scheduler.client.QuiltApiClient
 import com.ebaykorea.payback.scheduler.client.dto.payback.EventRewardRequestDto
-import com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType
+import com.ebaykorea.payback.scheduler.model.constant.EventRequestStatusType
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRepositoryCustom
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRequestStatusRepository
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestStatusEntity
@@ -17,7 +17,7 @@ import static com.ebaykorea.payback.scheduler.grocery.QuiltApiGrocery.QuiltBaseR
 class EventRewardServiceSpec extends Specification {
   def eventRewardRepositoryCustom = Stub(EventRewardRepositoryCustom)
   def statusRepository = Mock(EventRewardRequestStatusRepository)
-  def quiltApi = Stub(QuiltApi)
+  def quiltApi = Stub(QuiltApiClient)
   def paybackApiClient = Stub(PaybackApiClient)
 
   def service = new EventRewardService(eventRewardRepositoryCustom, statusRepository, quiltApi, paybackApiClient)

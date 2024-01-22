@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.scheduler.service.entity;
+package com.ebaykorea.payback.scheduler.model.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

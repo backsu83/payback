@@ -18,5 +18,5 @@ dependencies {
   implementation "io.github.resilience4j:resilience4j-feign:${resilience4jVersion}"
   implementation "io.github.resilience4j:resilience4j-retry:${resilience4jVersion}"
   implementation "io.github.resilience4j:resilience4j-annotations:${resilience4jVersion}"
-
+  implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
 }
