@@ -12,9 +12,11 @@ public class SmileCashResultBase {
   private String returnCode;
   private String errorMessage;
 
-  private static final String SUCCESS_CODE = "0000";
+  private static final String SUCCESS_CODE_1 = "0000";
+  private static final String SUCCESS_CODE_2 = "000";
 
   public boolean isSuccess() {
-    return orElse(returnCode, "").equals(SUCCESS_CODE);
+    final var returnCode = orElse(this.returnCode, "");
+    return returnCode.equals(SUCCESS_CODE_1) || returnCode.equals(SUCCESS_CODE_2);
   }
 }

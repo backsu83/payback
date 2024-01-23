@@ -28,7 +28,6 @@ public class CancelRetryScheduler {
 
     @Scheduled(initialDelayString = "${com.ebaykorea.payback.scheduler.data.initialDelay}" , fixedDelayString = "${com.ebaykorea.payback.scheduler.data.fixedDelay}" , timeUnit = TimeUnit.MINUTES)
     public void init() {
-        log.info("scheduler start ...");
         cancelRetryBatchService.retryCancels(maxTryCount);
     }
 }
