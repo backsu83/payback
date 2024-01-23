@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.scheduler.service;
 
+import static com.ebaykorea.payback.scheduler.model.constant.TenantCode.AUCTION_TENANT;
+
 import com.ebaykorea.payback.scheduler.client.SmileCashApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.smilecash.MassSaveResponseDto;
 import com.ebaykorea.payback.scheduler.client.dto.smilecash.SaveResultResponseDto;
@@ -12,8 +14,10 @@ import com.ebaykorea.payback.scheduler.support.SchedulerUtils;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+@Profile(AUCTION_TENANT)
 @Slf4j
 @Service
 @RequiredArgsConstructor
