@@ -12,6 +12,7 @@ import com.ebaykorea.payback.scheduler.repository.maindb2ex.entity.SmileCashSave
 import com.ebaykorea.payback.scheduler.service.member.MemberService;
 import com.ebaykorea.payback.scheduler.support.SchedulerUtils;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -28,6 +29,7 @@ public class MassSaveRequestService {
   private final SmileCashApiClient smileCashApiClient;
   private final MassSaveRequestMapper massSaveRequestMapper;
   private final SmileCashSaveMapper smileCashSaveMapper;
+  private final ExecutorService taskExecutor;
 
   private static final int MASS_SAVED = 1;
   private static final int MASS_SAVE_REQUEST_STATUS = 3;
@@ -41,11 +43,12 @@ public class MassSaveRequestService {
         findSmileUserKeyAsync(entity)
             .thenAcceptAsync(userKey -> {
               if (SchedulerUtils.isBlank(userKey)) {
+                log.info("userKey 없음. seqNo: {}, memberId: {}", entity.getSeqNo(), entity.getMemberId());
                 makeFailed(entity);
               } else {
                 requestMassSaveThenUpdateResult(entity, userKey);
               }
-            });
+            }, taskExecutor);
       } catch (Exception ex) {
         log.error("requestMassSaveThenUpdate error. {}", ex.getMessage());
       }
@@ -76,12 +79,13 @@ public class MassSaveRequestService {
         findSmileUserKeyAsync(entity)
             .thenAcceptAsync(userKey -> {
               if (SchedulerUtils.isBlank(userKey)) {
+                log.info("userKey 없음. seqNo: {}, memberId: {}", entity.getSeqNo(), entity.getMemberId());
                 makeFailed(entity);
               } else {
                 // 대량 적립 요청건 적립 여부 확인 및 결과 저장
                 findMassRequestedThenUpdateResult(entity, userKey);
               }
-            });
+            }, taskExecutor);
       } catch (Exception ex) {
         log.error("checkMassSaveStatusThenApproved error. {}", ex.getMessage());
       }
@@ -104,7 +108,11 @@ public class MassSaveRequestService {
   }
 
   private CompletableFuture<String> findSmileUserKeyAsync(final SmileCashSaveQueueEntity entity) {
-    return CompletableFuture.supplyAsync(() -> memberService.findSmileUserKey(entity.getMemberId()));
+    return CompletableFuture.supplyAsync(() -> memberService.findSmileUserKey(entity.getMemberId()), taskExecutor)
+        .exceptionally(ex -> {
+          log.info("findSmileUserKey 오류. seqNo: {}, memberId: {}, message: {}", entity.getSeqNo(), entity.getMemberId(), ex.getMessage());
+          return "";
+        });
   }
 
   private void makeFailed(final SmileCashSaveQueueEntity entity) {

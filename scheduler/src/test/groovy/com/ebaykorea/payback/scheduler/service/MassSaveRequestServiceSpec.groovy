@@ -12,6 +12,8 @@ import com.ebaykorea.payback.scheduler.service.member.MemberService
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
+import java.util.concurrent.Executors
+
 import static com.ebaykorea.payback.scheduler.grocery.MassSaveRequestGrocery.SaveResultResponseDto_생성
 import static com.ebaykorea.payback.scheduler.grocery.MassSaveRequestGrocery.SmileCashResponseDto_생성
 import static com.ebaykorea.payback.scheduler.grocery.MassSaveRequestGrocery.SmileCashSaveQueueEntity_생성
@@ -24,7 +26,7 @@ class MassSaveRequestServiceSpec extends Specification {
   def mapper = Mappers.getMapper(MassSaveRequestMapper)
   def smileCashSaveMapper = Mappers.getMapper(SmileCashSaveMapper)
 
-  def service = new MassSaveRequestService(smileCashSaveQueueRepository, memberService, smileCashApiClient, mapper, smileCashSaveMapper)
+  def service = new MassSaveRequestService(smileCashSaveQueueRepository, memberService, smileCashApiClient, mapper, smileCashSaveMapper, Executors.newFixedThreadPool(5))
 
   def "MassSaveRequestService 적립 요청 동작 확인"() {
     when:

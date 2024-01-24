@@ -11,16 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
   private final QuiltApiClient quiltApiClient;
 
   @Cacheable(cacheNames = USER_KEY)
   public String findSmileUserKey(final String memberKey) {
-    try {
-      return quiltApiClient.findSmileUserKey(memberKey)
-          .flatMap(QuiltBaseResponse::findSuccessData)
-          .orElseThrow(() -> new RuntimeException("smileUserKey 없음"));
-    } catch (Exception ex) {
-      return "";
-    }
+    return quiltApiClient.findSmileUserKey(memberKey)
+        .flatMap(QuiltBaseResponse::findSuccessData)
+        .orElseThrow(() -> new RuntimeException("smileUserKey 없음"));
   }
 }
