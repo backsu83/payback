@@ -49,7 +49,7 @@ public class MassSaveRequestService {
               }
             }, taskExecutor)
             .exceptionally(ex -> {
-              log.error("requestMassSaveThenUpdate error. {}", ex.getMessage());
+              log.error("requestMassSaveThenUpdate error. seqNo: {}, message: {}", entity.getSeqNo(), ex.getMessage());
               return null;
             })
     );
@@ -88,7 +88,7 @@ public class MassSaveRequestService {
               }
             }, taskExecutor)
             .exceptionally(ex -> {
-              log.error("checkMassSaveStatusThenApproved error. {}", ex.getMessage());
+              log.error("checkMassSaveStatusThenApproved error. seqNo: {}, message: {}", entity.getSeqNo(), ex.getMessage());
               return null;
             })
     );
