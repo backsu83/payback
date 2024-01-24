@@ -112,7 +112,7 @@ public class MassSaveRequestService {
   private CompletableFuture<String> findSmileUserKeyAsync(final SmileCashSaveQueueEntity entity) {
     return CompletableFuture.supplyAsync(() -> memberService.findSmileUserKey(entity.getMemberId()), taskExecutor)
         .exceptionally(ex -> {
-          log.info("findSmileUserKey 오류. seqNo: {}, memberId: {}, message: {}", entity.getSeqNo(), entity.getMemberId(), ex.getMessage());
+          log.error("findSmileUserKey 오류. seqNo: {}, memberId: {}, message: {}", entity.getSeqNo(), entity.getMemberId(), ex.getMessage());
           return "";
         });
   }
