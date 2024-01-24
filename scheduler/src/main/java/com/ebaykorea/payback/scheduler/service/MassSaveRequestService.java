@@ -94,8 +94,7 @@ public class MassSaveRequestService {
     );
   }
 
-  private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity,
-      final String userKey) {
+  private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
     smileCashApiClient.findSaveResult(massSaveRequestMapper.mapToSaveResultRequest(entity), String.format("basic %s", userKey))
         .filter(SaveResultResponseDto::isSaved)
         .ifPresentOrElse(
