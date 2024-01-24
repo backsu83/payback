@@ -7,6 +7,7 @@ import com.ebaykorea.payback.scheduler.client.dto.smilecash.SmileCashAuthDto
 import com.ebaykorea.payback.scheduler.client.dto.smilecash.MassSaveResponseDto
 import com.ebaykorea.payback.scheduler.client.dto.smilecash.SmileCashResultBase
 import com.ebaykorea.payback.scheduler.client.dto.smilecash.SmileCashSaveResultDto
+import com.ebaykorea.payback.scheduler.model.constant.AuctionSmileCashEventType
 import com.ebaykorea.payback.scheduler.repository.maindb2ex.entity.SmileCashSaveApprovalEntity
 import com.ebaykorea.payback.scheduler.repository.maindb2ex.entity.SmileCashSaveQueueEntity
 
@@ -18,7 +19,7 @@ class MassSaveRequestGrocery {
       seqNo = (map.seqNo ?: 1L) as Long
       txId = (map.txId ?: 1L) as Long
       memberId = (map.memberId ?: "memberId") as String
-      reasonCode = (map.reasonCode ?: "") as String
+      auctionSmileCashEventType = (map.auctionSmileCashEventType ?: AuctionSmileCashEventType.Unknown) as AuctionSmileCashEventType
       reasonComment = (map.reasonComment ?: "") as String
       additionalReasonComment = (map.additionalReasonComment ?: "") as String
       bizType = (map.bizType ?: 9) as int
@@ -51,7 +52,7 @@ class MassSaveRequestGrocery {
       shopId = (map.shopId ?: "S002") as String
       subShopId = (map.subShopId ?: "IAC") as String
       shopOrderId = (map.shopOrderId ?: "") as String
-      promotionId = (map.promotionId ?: "GPR0002") as String
+      promotionId = (map.promotionId ?: "") as String
       smileCash = (map.smileCash ?: SmileCashAuthDto_생성(map)) as SmileCashAuthDto
     }
   }
@@ -113,7 +114,7 @@ class MassSaveRequestGrocery {
       expireDate = (map.expireDate ?: null) as Timestamp
       diffProcBaseDate = (map.diffProcBaseDate ?: null) as Timestamp
       diffProcIs = (map.diffProcIs ?: 0) as int
-      reasonCode = (map.reasonCode ?: "") as String
+      auctionSmileCashEventType = (map.auctionSmileCashEventType ?: "RM04Y") as String
       reasonComment = (map.reasonComment ?: "") as String
       additionalReasonComment = (map.additionalReasonComment ?: "") as String
       bizType = (map.bizType ?: 0) as int

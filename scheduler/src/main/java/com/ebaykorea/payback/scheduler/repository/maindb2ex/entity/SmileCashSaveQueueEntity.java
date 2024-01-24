@@ -1,8 +1,11 @@
 package com.ebaykorea.payback.scheduler.repository.maindb2ex.entity;
 
+import com.ebaykorea.payback.scheduler.model.constant.AuctionSmileCashEventType;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +32,8 @@ public class SmileCashSaveQueueEntity {
   private String memberId;
 
   @Column(name = "IAC_REASON_CODE")
-  private String reasonCode;
+  @Enumerated(EnumType.STRING)
+  private AuctionSmileCashEventType auctionSmileCashEventType;
 
   @Column(name = "IAC_REASON_COMMENT")
   private String reasonComment;

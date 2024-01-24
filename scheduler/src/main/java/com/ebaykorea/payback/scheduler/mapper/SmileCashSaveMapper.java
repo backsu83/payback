@@ -17,7 +17,6 @@ public interface SmileCashSaveMapper {
   @Mapping(source = "response.smileCash.amount", target = "saveAmount")
   @Mapping(expression = "java(fromString(response.getSmileCash().getTransactionDate()))", target = "diffProcBaseDate")
   @Mapping(constant = "1", target = "diffProcIs")
-  @Mapping(source = "response.smileCash.shopManageCode", target = "reasonCode")
   @Mapping(source = "response.smileCash.shopComment", target = "reasonComment")
   @Mapping(constant = "payback-scheduler", target = "insertOperator")
   SmileCashSaveApprovalEntity map(SaveResultDto response, String smileUserKey, SmileCashSaveQueueEntity entity);
