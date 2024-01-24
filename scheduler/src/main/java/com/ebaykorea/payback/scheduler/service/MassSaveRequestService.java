@@ -38,8 +38,7 @@ public class MassSaveRequestService {
   public void requestMassSave(final int maxRows, final int maxRetryCount) {
     final var massSaveTargets = repository.findTargets(maxRows, MASS_SAVE_REQUEST_STATUS, maxRetryCount);
 
-    massSaveTargets.forEach(entity -> {
-      try {
+    massSaveTargets.forEach(entity ->
         findSmileUserKeyAsync(entity)
             .thenAcceptAsync(userKey -> {
               if (SchedulerUtils.isBlank(userKey)) {
@@ -48,11 +47,12 @@ public class MassSaveRequestService {
               } else {
                 requestMassSaveThenUpdateResult(entity, userKey);
               }
-            }, taskExecutor);
-      } catch (Exception ex) {
-        log.error("requestMassSaveThenUpdate error. {}", ex.getMessage());
-      }
-    });
+            }, taskExecutor)
+            .exceptionally(ex -> {
+              log.error("requestMassSaveThenUpdate error. {}", ex.getMessage());
+              return null;
+            })
+    );
   }
 
   private void requestMassSaveThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
@@ -61,7 +61,9 @@ public class MassSaveRequestService {
         .ifPresentOrElse(
             // 실패
             failed -> {
-              log.info("requestMassSave response FAILED seqNo: {}, txId: {}, returnCode: {}, errorMessage: {}", entity.getSeqNo(), entity.getTxId(), failed.getReturnCode(), failed.getErrorMessage());
+              log.info(
+                  "requestMassSave response FAILED seqNo: {}, txId: {}, returnCode: {}, errorMessage: {}",
+                  entity.getSeqNo(), entity.getTxId(), failed.getReturnCode(), failed.getErrorMessage());
               makeFailed(entity);
             },
             // 성공
@@ -74,8 +76,7 @@ public class MassSaveRequestService {
   public void checkSmileCashStatusThenUpdateResult(final int maxRows, final int maxRetryCount) {
     final var checkStatusTargets = repository.findTargets(maxRows, MASS_SAVE_REQUESTED_STATUS, maxRetryCount);
 
-    checkStatusTargets.forEach(entity -> {
-      try {
+    checkStatusTargets.forEach(entity ->
         findSmileUserKeyAsync(entity)
             .thenAcceptAsync(userKey -> {
               if (SchedulerUtils.isBlank(userKey)) {
@@ -85,14 +86,16 @@ public class MassSaveRequestService {
                 // 대량 적립 요청건 적립 여부 확인 및 결과 저장
                 findMassRequestedThenUpdateResult(entity, userKey);
               }
-            }, taskExecutor);
-      } catch (Exception ex) {
-        log.error("checkMassSaveStatusThenApproved error. {}", ex.getMessage());
-      }
-    });
+            }, taskExecutor)
+            .exceptionally(ex -> {
+              log.error("checkMassSaveStatusThenApproved error. {}", ex.getMessage());
+              return null;
+            })
+    );
   }
 
-  private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
+  private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity,
+      final String userKey) {
     smileCashApiClient.findSaveResult(massSaveRequestMapper.mapToSaveResultRequest(entity), String.format("basic %s", userKey))
         .filter(SaveResultResponseDto::isSaved)
         .ifPresentOrElse(
