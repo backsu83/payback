@@ -25,7 +25,7 @@ public class ReviewRewardRequestDto {
   private Long requestNo;
 
   @Schema(description = "적립 금액", required = true)
-  @Positive
+  @Positive(message = "saveAmount must be greater than 0")
   @NotNull(message = "saveAmount cannot be null")
   private BigDecimal saveAmount;
 
