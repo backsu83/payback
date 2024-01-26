@@ -57,9 +57,10 @@ public class MassSaveRequestService {
               setFailed(entity);
               return null;
             })
-    );
+    ).collect(Collectors.toUnmodifiableList());
 
-    futures.parallel().forEach(CompletableFuture::join);
+    CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+        .thenAccept(v -> futures.forEach(CompletableFuture::join));
   }
 
   private void requestMassSaveThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
@@ -98,9 +99,10 @@ public class MassSaveRequestService {
               setFailed(entity);
               return null;
             })
-    );
+    ).collect(Collectors.toUnmodifiableList());
 
-    futures.parallel().forEach(CompletableFuture::join);
+    CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+        .thenAccept(v -> futures.forEach(CompletableFuture::join));
   }
 
   private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
