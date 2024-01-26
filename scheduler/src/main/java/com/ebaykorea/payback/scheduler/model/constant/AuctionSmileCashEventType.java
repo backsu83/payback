@@ -9,7 +9,6 @@ import lombok.Getter;
 public enum AuctionSmileCashEventType {
   Unknown("", ""),
   RM03Y("DailyCheckIn", "APR0003"),
-  RM02Y("Toss", ""),
   RM04Y("Review", "APR0001"),
   RM05Y("ReviewPremium", "APR0002");
 
