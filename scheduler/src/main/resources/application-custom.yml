@@ -19,5 +19,5 @@ com.ebaykorea.payback.scheduler:
     max-rows: 3000
     max-retry-count: 5
   mass-save-check:
-    initialDelay: 30 #TimeUnit.MINUTES
-    fixedDelay: 30 #TimeUnit.MINUTES
+    initialDelay: 5 #TimeUnit.MINUTES
+    fixedDelay: 5 #TimeUnit.MINUTES
