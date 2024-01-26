@@ -41,7 +41,7 @@ public class MassSaveScheduler {
   @Scheduled(
       initialDelayString = "${com.ebaykorea.payback.scheduler.mass-save-check.initialDelay}",
       fixedDelayString = "${com.ebaykorea.payback.scheduler.mass-save-check.fixedDelay}",
-      timeUnit = TimeUnit.MINUTES)
+      timeUnit = TimeUnit.SECONDS)
   public void massSaveCheck() {
     service.checkSmileCashStatusThenUpdateResult(maxRows, maxRetryCount);
   }
