@@ -18,8 +18,8 @@ public class ThreadExecutorConfig {
         .setNameFormat("scheduler-task-unit-%d")
         .build();
     ThreadPoolExecutor threadUnit = new ThreadPoolExecutor(
-        40,
-        40,
+        20,
+        20,
         6000, TimeUnit.MILLISECONDS,
         new LinkedBlockingQueue<>(4000)
     );
