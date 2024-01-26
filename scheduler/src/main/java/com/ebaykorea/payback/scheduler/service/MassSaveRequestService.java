@@ -60,7 +60,8 @@ public class MassSaveRequestService {
     ).collect(Collectors.toUnmodifiableList());
 
     CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-        .thenAccept(v -> futures.forEach(CompletableFuture::join));
+        .thenAccept(v -> futures.forEach(CompletableFuture::join))
+        .join();
   }
 
   private void requestMassSaveThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
@@ -102,7 +103,8 @@ public class MassSaveRequestService {
     ).collect(Collectors.toUnmodifiableList());
 
     CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-        .thenAccept(v -> futures.forEach(CompletableFuture::join));
+        .thenAccept(v -> futures.forEach(CompletableFuture::join))
+        .join();
   }
 
   private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
