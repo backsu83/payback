@@ -4,23 +4,26 @@ import static com.ebaykorea.payback.scheduler.config.cache.LocalCacheType.LocalC
 
 import com.ebaykorea.payback.scheduler.client.QuiltApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.member.QuiltBaseResponse;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
   private final QuiltApiClient quiltApiClient;
+  private final ExecutorService taskExecutor;
 
   @Cacheable(cacheNames = USER_KEY)
-  public String findSmileUserKey(final String memberKey) {
-    try {
-      return quiltApiClient.findSmileUserKey(memberKey)
-          .flatMap(QuiltBaseResponse::findSuccessData)
-          .orElseThrow(() -> new RuntimeException("smileUserKey 없음"));
-    } catch (Exception ex) {
-      return "";
-    }
+  public CompletableFuture<String> findSmileUserKeyAsync(final String memberKey) {
+    return CompletableFuture.supplyAsync(() -> quiltApiClient.findSmileUserKey(memberKey), taskExecutor)
+        .thenApply(result -> result
+            .flatMap(QuiltBaseResponse::findSuccessData)
+            .orElseThrow(() -> new RuntimeException("smileUserKey 없음")));
   }
 }
