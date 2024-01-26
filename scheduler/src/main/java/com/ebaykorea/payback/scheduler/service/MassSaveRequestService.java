@@ -59,7 +59,7 @@ public class MassSaveRequestService {
             })
     );
 
-    futures.forEach(CompletableFuture::join);
+    futures.parallel().forEach(CompletableFuture::join);
   }
 
   private void requestMassSaveThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
@@ -100,7 +100,7 @@ public class MassSaveRequestService {
             })
     );
 
-    futures.forEach(CompletableFuture::join);
+    futures.parallel().forEach(CompletableFuture::join);
   }
 
   private void findMassRequestedThenUpdateResult(final SmileCashSaveQueueEntity entity, final String userKey) {
