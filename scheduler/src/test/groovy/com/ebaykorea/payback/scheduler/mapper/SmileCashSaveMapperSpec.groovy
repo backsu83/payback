@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.scheduler.mapper
 
+import com.ebaykorea.payback.scheduler.model.constant.AuctionSmileCashEventType
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
@@ -22,6 +23,7 @@ class SmileCashSaveMapperSpec extends Specification {
             smileCash: 성공_SmileCashSaveResultDto_생성()),
         "smileUserKey",
         SmileCashSaveQueueEntity_생성(
+            auctionSmileCashEventType: AuctionSmileCashEventType.RM04Y,
             bizKey: "1",
             additionalReasonComment: "additionalReasonComment"))
     result == SmileCashSaveApprovalEntity_생성(
@@ -35,7 +37,7 @@ class SmileCashSaveMapperSpec extends Specification {
         expireDate: Timestamp.valueOf("2024-01-01 00:00:00"),
         diffProcBaseDate: Timestamp.valueOf("2024-01-18 21:11:20.123"),
         diffProcIs: 1,
-        reasonCode: "RM04Y",
+        auctionSmileCashEventType: "RM04Y",
         reasonComment: "구매후기 - 별점 평가 적립",
         additionalReasonComment: "additionalReasonComment",
         bizType: 9,

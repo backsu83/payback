@@ -23,6 +23,8 @@ public class EventReward extends SmileCashEvent {
   private final Instant expirationDate;
   private final String comment;
 
+  private static final int MASS_REQUEST_READY = 3;
+
   public EventReward(
       final long requestNo,
       final String memberKey,
@@ -52,6 +54,11 @@ public class EventReward extends SmileCashEvent {
   @Override
   public String getComments() {
     return comment;
+  }
+
+  @Override
+  public int getRequestStatus() {
+    return MASS_REQUEST_READY;
   }
 
   @Override

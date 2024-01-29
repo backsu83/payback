@@ -16,11 +16,11 @@ public interface MassSaveRequestMapper {
   @Mapping(constant = "S002", target = "shopId")
   @Mapping(constant = "IAC", target = "subShopId")
   @Mapping(source = "bizKey", target = "shopOrderId")
-  @Mapping(constant = "GPR0002", target = "promotionId") //TODO
+  @Mapping(source = "auctionSmileCashEventType.promotionId", target = "promotionId")
   @Mapping(source = "expireDate", target = "smileCash.expirationDate", qualifiedByName = "mapExpirationFormatString")
   @Mapping(constant = "3", target = "smileCash.cashCode")
   @Mapping(source = "saveAmount", target = "smileCash.amount")
-  @Mapping(source = "reasonCode", target = "smileCash.shopManageCode")
+  @Mapping(source = "auctionSmileCashEventType", target = "smileCash.shopManageCode")
   @Mapping(source = "reasonComment", target = "smileCash.shopComment")
   MassSaveRequestDto map(SmileCashSaveQueueEntity source);
 
