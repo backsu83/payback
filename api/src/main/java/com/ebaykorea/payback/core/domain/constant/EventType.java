@@ -13,7 +13,9 @@ public enum EventType {
   DailyCheckIn("DailyCheckIn", "RM03Y", "G8"),
   Toss("Toss", "RM02Y","G9"),
   Review("Review", "RM04Y","GN"),
-  ReviewPremium("ReviewPremium", "RM05Y","GP");
+  ReviewPremium("ReviewPremium", "RM05Y","GP"),
+  PurchaseAssociated("PurchaseAssociated", "RM06Y", "G4"),
+  PurchaseDisassociated("PurchaseDisassociated", "RM07Y", "G4");
 
   private final String name;
   private final String auctionCode;
