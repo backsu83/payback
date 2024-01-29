@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.core.domain.constant;
 
 import com.ebaykorea.payback.util.PaybackEnums;
-import java.util.Arrays;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,8 +13,8 @@ public enum EventType {
   Toss("Toss", "RM02Y","G9"),
   Review("Review", "RM04Y","GN"),
   ReviewPremium("ReviewPremium", "RM05Y","GP"),
-  PurchaseAssociated("PurchaseAssociated", "RM06Y", "G4"),
-  PurchaseDisassociated("PurchaseDisassociated", "RM07Y", "G4");
+  OrderAssociated("OrderAssociated", "RM06Y", "G4"),
+  OrderDisassociated("OrderDisassociated", "RM07Y", "G4");
 
   private final String name;
   private final String auctionCode;

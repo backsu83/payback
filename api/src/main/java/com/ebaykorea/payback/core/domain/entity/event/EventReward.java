@@ -45,8 +45,8 @@ public class EventReward extends SmileCashEvent {
 
   private void validate() {
     if (this.getEventType() != EventType.DailyCheckIn &&
-        this.getEventType() != EventType.PurchaseAssociated &&
-        this.getEventType() != EventType.PurchaseDisassociated) {
+        this.getEventType() != EventType.OrderAssociated &&
+        this.getEventType() != EventType.OrderDisassociated) {
       throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, String.format("올바르지 않은 이벤트 타입입니다. %s", this.getEventType()));
     }
   }
