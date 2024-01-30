@@ -31,7 +31,6 @@ public class ReviewRewardController {
 
   private final SmileCashEventRepository repository;
   private final ReviewRewardMapper mapper;
-  private final ReviewRewardQuery query;
 
   @Operation(summary = "상품평 리워드 적립", description = "일반 상품평 리워드 적립 요청")
   @PostMapping("/rewards")
@@ -43,11 +42,5 @@ public class ReviewRewardController {
   @PostMapping("/premium-rewards")
   public CommonResponse<EventRewardResultDto> saveReviewRewardsPremium(final @Valid @RequestBody ReviewRewardRequestDto request) {
     return CommonResponse.success(SUCCESS, repository.save(mapper.map(request, EventType.ReviewPremium)).orElse(null));
-  }
-
-  @Operation(summary = "상품평 리워드 조회", description = "상품평 리워드 조회")
-  @GetMapping("/rewards")
-  public CommonResponse<List<ReviewRewardQueryResult>> getReviewReward(final String memberKey , final Long requestNo) {
-    return CommonResponse.success(SUCCESS, query.getReviewReward(memberKey , requestNo));
   }
 }

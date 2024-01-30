@@ -28,7 +28,8 @@ public class GmarketSmileCashEventRepository implements SmileCashEventRepository
   @Transactional
   @Override
   public Optional<EventRewardResultDto> save(final SmileCashEvent smileCashEvent) {
-    if (smileCashEvent.getEventType() == EventType.DailyCheckIn) {
+    if (smileCashEvent.isEventRewardEventType()) {
+      // TODO: 지마켓 이벤트 리워드 적립은 테스트 후 예외 처리 제거
       throw new PaybackException(PERSIST_002, smileCashEvent.getEventType().getName());
     }
 

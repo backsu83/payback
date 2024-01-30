@@ -23,8 +23,6 @@ public class EventReward extends SmileCashEvent {
   private final Instant expirationDate;
   private final String comment;
 
-  private static final int MASS_REQUEST_READY = 3;
-
   public EventReward(
       final long requestNo,
       final String memberKey,
@@ -36,7 +34,7 @@ public class EventReward extends SmileCashEvent {
       final Instant expirationDate,
       final String comment
   ) {
-    super(requestNo, memberKey, saveAmount, eventType, expirationPeriod, eventNo, 0, SaveIntegrationType.RealTime);
+    super(requestNo, memberKey, saveAmount, eventType, expirationPeriod, eventNo, 0, SaveIntegrationType.Mass);
 
     this.budgetNo = budgetNo;
     this.expirationDate = expirationDate;
@@ -46,19 +44,16 @@ public class EventReward extends SmileCashEvent {
   }
 
   private void validate() {
-    if (this.getEventType() != EventType.DailyCheckIn) {
-      throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "DailyCheckIn type 만 가능합니다");
+    if (this.getEventType() != EventType.DailyCheckIn &&
+        this.getEventType() != EventType.OrderAssociated &&
+        this.getEventType() != EventType.OrderDisassociated) {
+      throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, String.format("올바르지 않은 이벤트 타입입니다. %s", this.getEventType()));
     }
   }
 
   @Override
   public String getComments() {
     return comment;
-  }
-
-  @Override
-  public int getRequestStatus() {
-    return MASS_REQUEST_READY;
   }
 
   @Override

@@ -37,8 +37,10 @@ public abstract class SmileCashEvent {
     return "";
   }
 
-  public int getRequestStatus() {
-    return 0;
+  public boolean isEventRewardEventType() {
+    return eventType == EventType.DailyCheckIn ||
+        eventType == EventType.OrderAssociated ||
+        eventType == EventType.OrderDisassociated;
   }
 
   public int getErsNo() {
