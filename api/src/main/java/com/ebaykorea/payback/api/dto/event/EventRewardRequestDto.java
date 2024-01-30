@@ -25,7 +25,7 @@ public class EventRewardRequestDto {
   @Schema(description = "적립 금액", required = true)
   private BigDecimal saveAmount;
 
-  @Schema(description = "이벤트 타입", example = "DailyCheckIn, PurchaseAssociated, PurchaseDisassociated", required = true)
+  @Schema(description = "이벤트 타입", example = "DailyCheckIn, OrderAssociated, OrderDisassociated", required = true)
   private EventType eventType;
 
   @Schema(description = "예산 할당 번호")
