@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.event;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import com.ebaykorea.payback.core.exception.PaybackException;
@@ -60,5 +61,10 @@ public class ReviewReward extends SmileCashEvent {
   }
   private boolean isPremiumReviewType() {
     return this.getEventType() == EventType.ReviewPremium;
+  }
+
+  @Override
+  public int getErsNo() {
+    return isNormalReviewType() ? ReviewPromotionType.Normal.getGmarketCode() : ReviewPromotionType.Premium.getGmarketCode();
   }
 }

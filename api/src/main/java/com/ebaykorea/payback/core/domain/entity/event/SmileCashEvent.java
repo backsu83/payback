@@ -40,4 +40,8 @@ public abstract class SmileCashEvent {
   public int getRequestStatus() {
     return 0;
   }
+
+  public int getErsNo() {
+    return 0;
+  }
 }
