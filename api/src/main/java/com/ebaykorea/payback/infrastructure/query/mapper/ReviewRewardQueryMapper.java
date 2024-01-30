@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
