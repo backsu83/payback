@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@Tag(name = "Review Reward Query", description = "상품평 리워드 적립 조회")
+@Tag(name = "Review", description = "상품평 리워드 적립")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/review")
