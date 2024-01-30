@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.query.mapper;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
+import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveApprovalEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity;
 import com.ebaykorea.payback.infrastructure.query.data.ReviewRewardQueryResult;
 import com.ebaykorea.payback.util.PaybackInstants;
@@ -24,22 +24,15 @@ public interface ReviewRewardQueryMapper {
   ReviewRewardQueryResult map(SmileCashEventEntity entity, EventType eventType);
 
   @Mapping(expression = "java(mapToReasonCode(entity.getReasonCode()))", target = "reviewType")
-  @Mapping(expression = "java(mapToSaveStatus(entity.getSaveStatus()))" , target = "save")
-  @Mapping(expression = "java(mapToSaveDate(entity.getUpdateDate() , entity.getSaveStatus()))" , target = "saveDate")
-  ReviewRewardQueryResult map(SmileCashSaveQueueEntity entity);
-
+  @Mapping(constant = "true", target = "save")
+  ReviewRewardQueryResult mapFromSmileCashSaveApprovalEntity(SmileCashSaveApprovalEntity entity);
 
   default boolean mapToStatus(int status) { return status == 50;}
 
-  default boolean mapToSaveStatus(int status) {return status == 1;}
-
   default EventType mapToReasonCode(String code) {return EventType.auctionCodeOf(code);}
 
-  default Instant mapToSaveDate(Timestamp date, int status) {
-    if(status == 1) {
-      return PaybackInstants.from(date);
-    }
-    return null;
+  default Instant mapToSaveDate(Timestamp date) {
+    return PaybackInstants.from(date);
   }
 
 }
