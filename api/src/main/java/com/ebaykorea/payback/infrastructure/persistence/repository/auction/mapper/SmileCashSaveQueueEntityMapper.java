@@ -1,5 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
+import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
@@ -8,6 +9,7 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maind
 import java.sql.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -28,8 +30,13 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(expression = "java(Timestamp.from(smileCashEvent.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "smileCashEvent.memberKey", target = "insertOperator")
   @Mapping(source = "smileCashEvent.eventNo", target = "referenceKey")
-  @Mapping(source = "smileCashEvent.requestStatus", target = "saveStatus")
+  @Mapping(source = "smileCashEvent.saveIntegrationType", target = "saveStatus", qualifiedByName = "mapRequestStatus")
   SmileCashSaveQueueEntity map(Long txId, String reasonComment, SmileCashEvent smileCashEvent);
+
+  @Named("mapRequestStatus")
+  default int mapRequestStatus(final SaveIntegrationType saveIntegrationType) {
+    return saveIntegrationType == SaveIntegrationType.Mass ? 3 : 0;
+  }
 
   @Mapping(source = "txId", target = "savingNo")
   EventRewardResultDto map(Long requestNo, Integer resultCode, Long txId);
