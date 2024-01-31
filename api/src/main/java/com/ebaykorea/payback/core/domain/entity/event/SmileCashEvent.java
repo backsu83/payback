@@ -43,7 +43,4 @@ public abstract class SmileCashEvent {
         eventType == EventType.OrderDisassociated;
   }
 
-  public int getErsNo() {
-    return 0;
-  }
 }

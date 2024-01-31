@@ -1,7 +1,6 @@
 package com.ebaykorea.payback.core.domain.entity.event;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
@@ -14,6 +13,7 @@ import lombok.ToString;
 public class TossEventReward extends SmileCashEvent {
 
   private static final int EXPIRATION_PERIOD = 30;
+  private static final int ERS_NO = 8166;
 
   public static TossEventReward of(
       final long requestNo,
@@ -27,11 +27,7 @@ public class TossEventReward extends SmileCashEvent {
       final String memberKey,
       final BigDecimal saveAmount
   ) {
-    super(requestNo, memberKey, saveAmount, EventType.Toss, EXPIRATION_PERIOD, null, 0, SaveIntegrationType.RealTime);
+    super(requestNo, memberKey, saveAmount, EventType.Toss, EXPIRATION_PERIOD, null, ERS_NO, SaveIntegrationType.RealTime);
   }
 
-  @Override
-  public int getErsNo() {
-    return 8166;
-  }
 }

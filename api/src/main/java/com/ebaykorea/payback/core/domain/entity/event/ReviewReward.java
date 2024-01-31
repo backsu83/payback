@@ -28,11 +28,11 @@ public class ReviewReward extends SmileCashEvent {
       final String memberKey,
       final BigDecimal saveAmount,
       final EventType eventType,
-      final ReviewReferenceType referenceType
+      final ReviewReferenceType referenceType,
+      final ReviewPromotionType promotionType
   ) {
-    super(requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), 0, SaveIntegrationType.Mass);
+    super(requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), promotionType.getGmarketCode(), SaveIntegrationType.Mass);
     this.referenceType = referenceType;
-
     validate();
   }
 
@@ -57,8 +57,4 @@ public class ReviewReward extends SmileCashEvent {
     return this.getEventType() == EventType.ReviewPremium;
   }
 
-  @Override
-  public int getErsNo() {
-    return isNormalReviewType() ? ReviewPromotionType.Normal.getGmarketCode() : ReviewPromotionType.Premium.getGmarketCode();
-  }
 }
