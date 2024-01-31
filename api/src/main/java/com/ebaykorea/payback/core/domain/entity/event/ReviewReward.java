@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.core.domain.entity.event;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import com.ebaykorea.payback.core.exception.PaybackException;
@@ -27,11 +28,11 @@ public class ReviewReward extends SmileCashEvent {
       final String memberKey,
       final BigDecimal saveAmount,
       final EventType eventType,
-      final ReviewReferenceType referenceType
+      final ReviewReferenceType referenceType,
+      final ReviewPromotionType promotionType
   ) {
-    super(requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), 0, SaveIntegrationType.Mass);
+    super(requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), promotionType.getGmarketCode(), SaveIntegrationType.Mass);
     this.referenceType = referenceType;
-
     validate();
   }
 
@@ -55,4 +56,5 @@ public class ReviewReward extends SmileCashEvent {
   private boolean isPremiumReviewType() {
     return this.getEventType() == EventType.ReviewPremium;
   }
+
 }

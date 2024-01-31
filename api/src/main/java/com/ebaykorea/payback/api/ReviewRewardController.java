@@ -1,15 +1,18 @@
 package com.ebaykorea.payback.api;
 
+import static com.ebaykorea.payback.core.domain.constant.EventType.ReviewPremium;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SUCCESS;
 
 import com.ebaykorea.payback.api.mapper.ReviewRewardMapper;
 import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.api.dto.review.ReviewRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
 import com.ebaykorea.payback.infrastructure.query.ReviewRewardQuery;
 import com.ebaykorea.payback.infrastructure.query.data.ReviewRewardQueryResult;
+import com.ebaykorea.payback.util.support.GsonUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -35,12 +38,14 @@ public class ReviewRewardController {
   @Operation(summary = "상품평 리워드 적립", description = "일반 상품평 리워드 적립 요청")
   @PostMapping("/rewards")
   public CommonResponse<EventRewardResultDto> saveReviewRewards(final @Valid @RequestBody ReviewRewardRequestDto request) {
-    return CommonResponse.success(SUCCESS, repository.save(mapper.map(request, EventType.Review)).orElse(null));
+    final var reviewReward = mapper.map(request, EventType.Review, ReviewPromotionType.Normal);
+    return CommonResponse.success(SUCCESS, repository.save(reviewReward).orElse(null));
   }
 
   @Operation(summary = "프리미엄 상품평 리워드 적립", description = "프리미엄 상품평 리워드 적립 요청")
   @PostMapping("/premium-rewards")
   public CommonResponse<EventRewardResultDto> saveReviewRewardsPremium(final @Valid @RequestBody ReviewRewardRequestDto request) {
-    return CommonResponse.success(SUCCESS, repository.save(mapper.map(request, EventType.ReviewPremium)).orElse(null));
+    final var reviewReward = mapper.map(request, EventType.ReviewPremium, ReviewPromotionType.Premium);
+    return CommonResponse.success(SUCCESS, repository.save(reviewReward).orElse(null));
   }
 }

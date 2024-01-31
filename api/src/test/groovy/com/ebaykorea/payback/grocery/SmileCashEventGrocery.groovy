@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.EventType
+import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType
 import com.ebaykorea.payback.core.domain.entity.event.EventReward
 import com.ebaykorea.payback.core.domain.entity.event.ReviewReward
@@ -16,7 +17,8 @@ class SmileCashEventGrocery {
         (map.memberKey ?: "memberKey") as String,
         (map.saveAmount ?: 0) as BigDecimal,
         (map.eventType ?: EventType.Review) as EventType,
-        (map.referenceType ?: ReviewReferenceType.Core) as ReviewReferenceType
+        (map.referenceType ?: ReviewReferenceType.Core) as ReviewReferenceType,
+        (map.reviewPromotionType ?: ReviewPromotionType.Unknown) as ReviewPromotionType
     )
   }
 

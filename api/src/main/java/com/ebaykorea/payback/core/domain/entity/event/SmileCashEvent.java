@@ -42,4 +42,5 @@ public abstract class SmileCashEvent {
         eventType == EventType.OrderAssociated ||
         eventType == EventType.OrderDisassociated;
   }
+
 }

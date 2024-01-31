@@ -1,5 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
+import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
 import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
@@ -10,6 +12,7 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.e
 import java.sql.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(

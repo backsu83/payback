@@ -29,4 +29,5 @@ public class TossEventReward extends SmileCashEvent {
   ) {
     super(requestNo, memberKey, saveAmount, EventType.Toss, EXPIRATION_PERIOD, null, ERS_NO, SaveIntegrationType.RealTime);
   }
+
 }
