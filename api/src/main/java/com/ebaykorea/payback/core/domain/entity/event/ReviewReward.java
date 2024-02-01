@@ -20,8 +20,6 @@ public class ReviewReward extends SmileCashEvent {
   private final ReviewReferenceType referenceType;
 
   private static final int EXPIRATION_PERIOD = 180;
-  private static final String NORMAL_TOUR_REWARD_COMMENT = "여행 후기 기본 적립";
-  private static final String PREMIUM_TOUR_REWARD_COMMENT = "여행 후기 추가 적립";
 
   public ReviewReward(
       final long requestNo,
@@ -29,9 +27,10 @@ public class ReviewReward extends SmileCashEvent {
       final BigDecimal saveAmount,
       final EventType eventType,
       final ReviewReferenceType referenceType,
-      final ReviewPromotionType promotionType
+      final ReviewPromotionType promotionType,
+      final String defaultComments
   ) {
-    super(requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), promotionType.getGmarketCode(), SaveIntegrationType.Mass);
+    super(SaveIntegrationType.Mass, requestNo, memberKey, saveAmount, eventType, EXPIRATION_PERIOD, referenceType.getCode(), promotionType.getGmarketCode(), defaultComments, 0L, requestNo);
     this.referenceType = referenceType;
     validate();
   }
@@ -41,15 +40,6 @@ public class ReviewReward extends SmileCashEvent {
       throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "Review 또는 ReviewPremium type 만 가능합니다");
     }
   }
-
-  @Override
-  public String getComments() {
-    if (referenceType == ReviewReferenceType.Tour) {
-      return isNormalReviewType() ? NORMAL_TOUR_REWARD_COMMENT : PREMIUM_TOUR_REWARD_COMMENT;
-    }
-    return "";
-  }
-
   private boolean isNormalReviewType() {
     return this.getEventType() == EventType.Review;
   }

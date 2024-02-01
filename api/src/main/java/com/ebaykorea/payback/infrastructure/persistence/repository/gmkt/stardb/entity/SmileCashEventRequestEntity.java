@@ -60,4 +60,7 @@ public class SmileCashEventRequestEntity {
 
   @Column(name = "COMMENTS")
   private String comments;
+
+  @Column(name = "CONTR_NO")
+  private long orderNo;
 }

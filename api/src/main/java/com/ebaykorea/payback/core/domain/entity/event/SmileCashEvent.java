@@ -5,8 +5,11 @@ import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays;
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import com.ebaykorea.payback.util.PaybackInstants;
+import com.ebaykorea.payback.util.PaybackNumbers;
+import com.ebaykorea.payback.util.PaybackObjects;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,6 +20,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public abstract class SmileCashEvent {
+  private final SaveIntegrationType saveIntegrationType;
   private final long requestNo;
   private final String memberKey;
   private final BigDecimal saveAmount;
@@ -24,17 +28,12 @@ public abstract class SmileCashEvent {
   private final int expirationPeriod;
   private final Long eventNo;
   private final int ersNo;
-  private final SaveIntegrationType saveIntegrationType;
-
-  public long getBudgetNo() {
-    return 0;
-  }
+  private final String comments;
+  private final long budgetNo;
+  private final Long orderNo;
 
   public Instant getExpirationDate() {
     return truncatedDays(PaybackInstants.now(), expirationPeriod);
-  }
-  public String getComments() {
-    return "";
   }
 
   public boolean isEventRewardEventType() {
@@ -43,4 +42,7 @@ public abstract class SmileCashEvent {
         eventType == EventType.OrderDisassociated;
   }
 
+  public boolean hasOrderNo() {
+    return PaybackObjects.orElse(orderNo, 0L) > 0L;
+  }
 }

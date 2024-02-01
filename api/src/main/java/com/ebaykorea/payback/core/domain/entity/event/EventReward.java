@@ -19,9 +19,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class EventReward extends SmileCashEvent {
 
-  private final Long budgetNo;
   private final Instant expirationDate;
-  private final String comment;
 
   public EventReward(
       final long requestNo,
@@ -34,11 +32,9 @@ public class EventReward extends SmileCashEvent {
       final Instant expirationDate,
       final String comment
   ) {
-    super(requestNo, memberKey, saveAmount, eventType, expirationPeriod, eventNo, 0, SaveIntegrationType.Mass);
+    super(SaveIntegrationType.Mass, requestNo, memberKey, saveAmount, eventType, expirationPeriod, eventNo, 0, comment, budgetNo, 0L);
 
-    this.budgetNo = budgetNo;
     this.expirationDate = expirationDate;
-    this.comment = comment;
 
     validate();
   }
@@ -49,16 +45,6 @@ public class EventReward extends SmileCashEvent {
         this.getEventType() != EventType.OrderDisassociated) {
       throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, String.format("올바르지 않은 이벤트 타입입니다. %s", this.getEventType()));
     }
-  }
-
-  @Override
-  public String getComments() {
-    return comment;
-  }
-
-  @Override
-  public long getBudgetNo() {
-    return budgetNo;
   }
 
   @Override

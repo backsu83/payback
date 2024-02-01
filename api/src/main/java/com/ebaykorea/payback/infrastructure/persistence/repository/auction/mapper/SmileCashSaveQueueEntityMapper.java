@@ -23,19 +23,24 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "smileCashEvent.memberKey", target = "memberId")
   @Mapping(source = "smileCashEvent.eventType.auctionCode", target = "reasonCode")
   @Mapping(source = "reasonComment", target = "reasonComment")
-  @Mapping(source = "reasonComment", target = "additionalReasonComment")
+  @Mapping(source = "smileCashEvent", target = "additionalReasonComment", qualifiedByName = "mapToAdditionalReasonComment")
   @Mapping(constant = "9", target = "bizType")
   @Mapping(source = "smileCashEvent.requestNo", target = "bizKey")
   @Mapping(constant = "2", target = "smileCashType")
   @Mapping(expression = "java(Timestamp.from(smileCashEvent.getExpirationDate()))", target = "expireDate")
   @Mapping(source = "smileCashEvent.memberKey", target = "insertOperator")
   @Mapping(source = "smileCashEvent.eventNo", target = "referenceKey")
-  @Mapping(source = "smileCashEvent.saveIntegrationType", target = "saveStatus", qualifiedByName = "mapRequestStatus")
+  @Mapping(source = "smileCashEvent.saveIntegrationType", target = "saveStatus", qualifiedByName = "mapToSaveStatus")
   SmileCashSaveQueueEntity map(Long txId, String reasonComment, SmileCashEvent smileCashEvent);
 
-  @Named("mapRequestStatus")
-  default int mapRequestStatus(final SaveIntegrationType saveIntegrationType) {
+  @Named("mapToSaveStatus")
+  default int mapToSaveStatus(final SaveIntegrationType saveIntegrationType) {
     return saveIntegrationType == SaveIntegrationType.Mass ? 3 : 0;
+  }
+
+  @Named("mapToAdditionalReasonComment")
+  default String mapToAdditionalReasonComment(final SmileCashEvent smileCashEvent) {
+    return smileCashEvent.hasOrderNo() ? String.format("(주문번호: %s)", smileCashEvent.getOrderNo().toString()) : "";
   }
 
   @Mapping(source = "txId", target = "savingNo")

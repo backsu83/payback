@@ -21,7 +21,7 @@ class ReviewRewardMapperSpec extends Specification {
     _________________________________________________
     desc | request | expectResult
     "코어 일반 상품평"       | ReviewRewardRequestDto_생성()  | ReviewReward_생성(saveAmount: 10, reviewPromotionType: ReviewPromotionType.Normal)
-    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(referenceType: ReviewReferenceType.Tour) | ReviewReward_생성(saveAmount: 10, eventType: EventType.ReviewPremium, referenceType: ReviewReferenceType.Tour, reviewPromotionType: ReviewPromotionType.Premium)
+    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(referenceType: ReviewReferenceType.Tour) | ReviewReward_생성(saveAmount: 10, eventType: EventType.ReviewPremium, referenceType: ReviewReferenceType.Tour, reviewPromotionType: ReviewPromotionType.Premium, defaultComments: "여행 후기 추가 적립")
     _________________________________________________
     eventType | promotionType | _
     EventType.Review | ReviewPromotionType.Normal | _
