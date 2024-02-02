@@ -1,25 +1,19 @@
 package com.ebaykorea.payback.api;
 
-import static com.ebaykorea.payback.core.domain.constant.EventType.ReviewPremium;
 import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.SUCCESS;
 
+import com.ebaykorea.payback.api.dto.review.ReviewRewardRequestDto;
 import com.ebaykorea.payback.api.mapper.ReviewRewardMapper;
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
-import com.ebaykorea.payback.api.dto.review.ReviewRewardRequestDto;
 import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
-import com.ebaykorea.payback.infrastructure.query.ReviewRewardQuery;
-import com.ebaykorea.payback.infrastructure.query.data.ReviewRewardQueryResult;
-import com.ebaykorea.payback.util.support.GsonUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -18,7 +18,8 @@ class SmileCashEventGrocery {
         (map.saveAmount ?: 0) as BigDecimal,
         (map.eventType ?: EventType.Review) as EventType,
         (map.referenceType ?: ReviewReferenceType.Core) as ReviewReferenceType,
-        (map.reviewPromotionType ?: ReviewPromotionType.Unknown) as ReviewPromotionType
+        (map.reviewPromotionType ?: ReviewPromotionType.Unknown) as ReviewPromotionType,
+        (map.defaultComments ?: "") as String,
     )
   }
 

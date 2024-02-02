@@ -22,6 +22,7 @@ class SmileCashEventEntityGrocery {
       ersNo = (map.ersNo ?: 0) as int
       regId = (map.regId ?: "") as String
       comments = (map.comments ?: "") as String
+      orderNo = (map.orderNo ?: 0L) as long
     }
   }
 

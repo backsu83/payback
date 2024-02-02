@@ -32,7 +32,8 @@ public class SmileCashEventEntityRepository {
           @SaturnProcedureParameter(name = "ERS_NO", sqlType = Types.INTEGER),
           @SaturnProcedureParameter(name = "REG_ID", sqlType = Types.BIGINT),
           @SaturnProcedureParameter(name = "EID",  sqlType = Types.BIGINT),
-          @SaturnProcedureParameter(name = "COMMENTS",  sqlType = Types.VARCHAR, scale = 60)
+          @SaturnProcedureParameter(name = "COMMENTS",  sqlType = Types.VARCHAR, scale = 60),
+          @SaturnProcedureParameter(name = "CONTR_NO",  sqlType = Types.BIGINT)
       },
       throwEx = true
   )
