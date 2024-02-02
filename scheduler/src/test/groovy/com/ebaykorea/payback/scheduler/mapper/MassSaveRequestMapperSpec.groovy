@@ -12,7 +12,7 @@ class MassSaveRequestMapperSpec extends Specification {
 
   def "MassSaveRequestMapper 확인"() {
     expect:
-    def result = mapper.map(SmileCashSaveQueueEntity_생성(bizKey: "3", saveAmount: 10, auctionSmileCashEventType: AuctionSmileCashEventType.RM04Y))
-    result == MassSaveRequestDto_생성(shopOrderId: "3", amount: 10, shopManageCode: "RM04Y", promotionId: "APR0001")
+    def result = mapper.map(SmileCashSaveQueueEntity_생성(bizKey: "3", saveAmount: 10, auctionSmileCashEventType: AuctionSmileCashEventType.RM04Y, reasonComment: "구매후기 - 별점 평가 적립", additionalReasonComment: "(주문번호: 1)"))
+    result == MassSaveRequestDto_생성(shopOrderId: "3", amount: 10, shopManageCode: "RM04Y", promotionId: "APR0001", shopComment: "구매후기 - 별점 평가 적립 (주문번호: 1)")
   }
 }

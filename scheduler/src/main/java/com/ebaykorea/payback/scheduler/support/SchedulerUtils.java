@@ -32,6 +32,10 @@ public class SchedulerUtils {
     return StringUtils.hasLength(nullable) ? nullable : defaultValue;
   }
 
+  public static String orEmpty(final String nullable) {
+    return orElse(nullable, "");
+  }
+
   public static boolean isBlank(String str) {
     return str == null || str.isBlank();
   }
