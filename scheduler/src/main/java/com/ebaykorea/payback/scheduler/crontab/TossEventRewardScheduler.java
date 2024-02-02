@@ -1,9 +1,7 @@
 package com.ebaykorea.payback.scheduler.crontab;
 
-import com.ebaykorea.payback.scheduler.service.EventRewardService;
-import com.ebaykorea.payback.scheduler.support.SchedulerUtils;
+import com.ebaykorea.payback.scheduler.service.TossEventRewardService;
 import com.ebaykorea.saturn.starter.config.SaturnApplicationProperties;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,9 +14,9 @@ import static com.ebaykorea.payback.scheduler.support.SchedulerUtils.*;
 
 @Slf4j
 @Component
-public class EventRewardScheduler {
+public class TossEventRewardScheduler {
 
-  private final EventRewardService service;
+  private final TossEventRewardService service;
   private final SaturnApplicationProperties tenantProperties;
 
   @Value("${com.ebaykorea.payback.scheduler.event-reward.start-date}")
@@ -26,8 +24,8 @@ public class EventRewardScheduler {
   @Value("${com.ebaykorea.payback.scheduler.event-reward.end-date}")
   private final String endDate;
 
-  public EventRewardScheduler(
-      final EventRewardService service,
+  public TossEventRewardScheduler(
+      final TossEventRewardService service,
       final SaturnApplicationProperties tenantProperties,
       @Value("${com.ebaykorea.payback.scheduler.event-reward.start-date}") final String startDate,
       @Value("${com.ebaykorea.payback.scheduler.event-reward.end-date}") final String endDate) {
