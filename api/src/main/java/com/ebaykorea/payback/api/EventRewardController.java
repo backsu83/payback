@@ -39,7 +39,7 @@ public class EventRewardController {
   }
 
 
-  @Operation(summary = "토스 리워드 재적립 요청")
+  @Operation(summary = "토스 이벤트 리워드 재적립 요청")
   @PutMapping("/toss")
   public CommonResponse<EventRewardResultDto> retry(
       final @Valid @RequestBody TossEventRewardRequestDto request) {
