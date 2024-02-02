@@ -6,10 +6,9 @@ import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.QuiltApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.member.QuiltBaseResponse;
 import com.ebaykorea.payback.scheduler.client.dto.payback.CommonResponse;
-import com.ebaykorea.payback.scheduler.client.dto.payback.EventRewardRequestDto;
+import com.ebaykorea.payback.scheduler.client.dto.payback.TossEventRewardRequestDto;
 import com.ebaykorea.payback.scheduler.client.dto.payback.EventRewardResultDto;
 import com.ebaykorea.payback.scheduler.model.constant.EventRequestStatusType;
-import com.ebaykorea.payback.scheduler.model.constant.EventType;
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRepositoryCustom;
 import com.ebaykorea.payback.scheduler.repository.opayreward.EventRewardRequestStatusRepository;
 import com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.EventRewardRequestEntity;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EventRewardService {
+public class TossEventRewardService {
   private final EventRewardRepositoryCustom repositoryCustom;
   private final EventRewardRequestStatusRepository repository;
 
@@ -50,7 +49,7 @@ public class EventRewardService {
 
   private boolean saveEventReward(final String buyerNo, final EventRewardRequestEntity notRequested) {
     log.info(String.format("saveEventReward: buyerNo: %s, notRequested: %s", buyerNo, notRequested.toString()));
-    return paybackApiClient.saveEventRewardByMember(buildRequest(buyerNo, notRequested))
+    return paybackApiClient.retryTossEventReward(buildRequest(buyerNo, notRequested))
         .flatMap(CommonResponse::findSuccessData)
         .map(EventRewardResultDto::isSuccess)
         .orElse(false);
@@ -66,12 +65,11 @@ public class EventRewardService {
     repository.save(buildStatusEntity(entity.getRequestNo(), eventRequestStatus));
   }
 
-  private EventRewardRequestDto buildRequest(final String memberKey, final EventRewardRequestEntity entity) {
-    return EventRewardRequestDto.builder()
+  private TossEventRewardRequestDto buildRequest(final String memberKey, final EventRewardRequestEntity entity) {
+    return TossEventRewardRequestDto.builder()
         .requestNo(entity.getRequestNo())
         .memberKey(memberKey)
         .saveAmount(entity.getSaveAmount())
-        .eventType(EventType.Toss)
         .build();
   }
 

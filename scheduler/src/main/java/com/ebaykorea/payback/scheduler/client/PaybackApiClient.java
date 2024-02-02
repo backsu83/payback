@@ -31,11 +31,11 @@ public interface PaybackApiClient {
   PaybackResponseDto cancelSsgPoint(@PathVariable(value = "order-no") Long orderNo, final @RequestBody CancelRequestDto request);
 
   @RequestMapping(
-      method = RequestMethod.POST,
-      value = "/event/rewards",
+      method = RequestMethod.PUT,
+      value = "/event/rewards/toss",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Optional<CommonResponse<EventRewardResultDto>> saveEventRewardByMember(
-      final @RequestBody EventRewardRequestDto request);
+  Optional<CommonResponse<EventRewardResultDto>> retryTossEventReward(
+      final @RequestBody TossEventRewardRequestDto request);
 
 }
