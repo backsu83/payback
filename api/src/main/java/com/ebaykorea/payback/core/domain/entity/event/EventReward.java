@@ -47,7 +47,7 @@ public class EventReward extends SmileCashEvent {
     }
 
     if (hasExpirationDatePassed()) {
-      throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "유효기간 입력 값이 이미 지났습니다.");
+      throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "이미 지난 유효기간 입니다.");
     }
   }
 
