@@ -3,6 +3,7 @@ package com.ebaykorea.payback.infrastructure.query.gmkt;
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventRequestEntity;
 import com.ebaykorea.payback.infrastructure.query.ReviewRewardQuery;
@@ -32,7 +33,7 @@ public class GmktReviewRewardQuery implements ReviewRewardQuery {
               .cashBalanceType(eventType.getGmarketCode())
               .custNo(memberKey)
               .refNo(requestNo)
-              .ersNo(0)
+              .ersNo(getPromotionId(eventType))
               .build());
           return entity.map(obj -> mapper.map(obj, eventType));
         })
@@ -40,4 +41,9 @@ public class GmktReviewRewardQuery implements ReviewRewardQuery {
         .collect(Collectors.toUnmodifiableList());
     return result;
   }
+
+  public int getPromotionId(EventType eventType) {
+    return eventType == EventType.Review ? ReviewPromotionType.Normal.getGmarketCode() : ReviewPromotionType.Premium.getGmarketCode();
+  }
+
 }
