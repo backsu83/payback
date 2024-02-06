@@ -45,6 +45,16 @@ public class EventReward extends SmileCashEvent {
         this.getEventType() != EventType.OrderDisassociated) {
       throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, String.format("올바르지 않은 이벤트 타입입니다. %s", this.getEventType()));
     }
+
+    if (hasExpirationDatePassed()) {
+      throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "이미 지난 유효기간 입니다.");
+    }
+  }
+
+  private boolean hasExpirationDatePassed() {
+    return Optional.ofNullable(expirationDate)
+        .map(date -> PaybackInstants.now().isAfter(date))
+        .orElse(false);
   }
 
   @Override

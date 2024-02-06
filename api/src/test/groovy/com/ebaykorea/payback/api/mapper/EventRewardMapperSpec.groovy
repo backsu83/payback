@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.api.mapper
 
-import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.EventType
+import com.ebaykorea.payback.util.PaybackInstants
 import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
@@ -13,8 +13,11 @@ class EventRewardMapperSpec extends Specification {
   def mapper = Mappers.getMapper(EventRewardMapper.class)
 
   def "EventRewardRequestDto -> EventReward 매핑 확인"() {
+    setup:
+    def expirationDate = PaybackInstants.truncatedDays(PaybackInstants.now(), 30)
+
     expect:
-    def result = mapper.map(EventRewardRequestDto_생성(saveAmount: 100, eventType: EventType.DailyCheckIn, budgetNo: 1L, eventNo: 2L, expirationDate: TestConstant.USE_ENABLE_DATE, comment: "이벤트!"))
-    result == EventReward_생성(saveAmount: 100, budgetNo: 1L, eventNo: 2L, expirationDate: TestConstant.USE_ENABLE_DATE, comment: "이벤트!")
+    def result = mapper.map(EventRewardRequestDto_생성(saveAmount: 100, eventType: EventType.DailyCheckIn, budgetNo: 1L, eventNo: 2L, expirationDate: expirationDate, comment: "이벤트!"))
+    result == EventReward_생성(saveAmount: 100, budgetNo: 1L, eventNo: 2L, expirationDate: expirationDate, comment: "이벤트!")
   }
 }
