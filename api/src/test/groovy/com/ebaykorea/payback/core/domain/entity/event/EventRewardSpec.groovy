@@ -1,9 +1,12 @@
 package com.ebaykorea.payback.core.domain.entity.event
 
+import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.EventType
 import com.ebaykorea.payback.core.exception.PaybackException
 import com.ebaykorea.payback.core.exception.PaybackExceptionCode
 import spock.lang.Specification
+
+import java.time.Instant
 
 import static com.ebaykorea.payback.grocery.SmileCashEventGrocery.EventReward_생성
 
@@ -22,5 +25,14 @@ class EventRewardSpec extends Specification {
     then:
     def ex2 = thrown(PaybackException)
     ex2.code == PaybackExceptionCode.DOMAIN_ENTITY_001
+  }
+
+  def "이벤트 리워드는 이미 지난 유효기간은 입력 불가"() {
+    when:
+    EventReward_생성(expirationDate: TestConstant.ORDER_DATE)
+
+    then:
+    def ex1 = thrown(PaybackException)
+    ex1.code == PaybackExceptionCode.DOMAIN_ENTITY_001
   }
 }
