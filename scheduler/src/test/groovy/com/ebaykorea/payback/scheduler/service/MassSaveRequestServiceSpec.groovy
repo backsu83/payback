@@ -29,7 +29,6 @@ class MassSaveRequestServiceSpec extends Specification {
   def "MassSaveRequestService 적립 요청 동작 확인"() {
     when:
     service.requestMassSave(5,5)
-    Thread.sleep(300) //비동기 호출 대기
 
     then:
     1 * smileCashSaveQueueRepository.findTargets(5, 3, 5) >> [SmileCashSaveQueueEntity_생성(), SmileCashSaveQueueEntity_생성(seqNo: 2L), SmileCashSaveQueueEntity_생성(seqNo: 3L)]
@@ -42,7 +41,6 @@ class MassSaveRequestServiceSpec extends Specification {
   def "MassSaveRequestService 적립 확인 동작 확인"() {
     when:
     service.checkSmileCashStatusThenUpdateResult(5, 5)
-    Thread.sleep(300) //비동기 호출 대기
 
     then:
     1 * smileCashSaveQueueRepository.findTargets(5, 4, 5) >> [SmileCashSaveQueueEntity_생성(saveStatus: 4), SmileCashSaveQueueEntity_생성(seqNo: 2L, saveStatus: 4), SmileCashSaveQueueEntity_생성(seqNo: 3L, saveStatus: 4)]
