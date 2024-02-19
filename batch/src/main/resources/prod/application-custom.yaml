@@ -38,7 +38,7 @@ ssgpoint:
     chunkSize: 10         #Chunk 처리단위
   scheduler:
     daily:
-      crontab: "0 0 2 * * *" #매일 2시 실행
+      crontab: "0 30 8 * * *" #매일 2시 실행 (임시로 20일 8시 30분 1회성 변경)
     target:
       crontab: "0 */5 9-22 * * *" #5분
     recover:
