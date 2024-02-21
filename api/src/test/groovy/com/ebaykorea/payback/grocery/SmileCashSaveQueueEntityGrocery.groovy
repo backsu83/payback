@@ -1,6 +1,7 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.constant.TestConstant
+import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashReasonCodeEntity
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity
 
 import java.sql.Timestamp
@@ -21,6 +22,17 @@ class SmileCashSaveQueueEntityGrocery {
       saveStatus = (map.saveStatus ?: 0) as int
       expireDate = (map.expireDate ?: Timestamp.from(TestConstant.ORDER_DATE)) as Timestamp
       insertOperator = (map.insertOperator ?: "") as String
+      updateDate = (map.updateDate ?: null) as Timestamp
+      referenceKey = (map.referenceKey ?: null) as String
+      budgetNo = (map.budgetNo ?: 0L) as long
+    }
+  }
+
+  static def SmileCashReasonCodeEntity_생성(Map map = [:]) {
+    new SmileCashReasonCodeEntity().tap{
+      reasonCode = (map.reasonCode ?: "") as String
+      iacReasonComment = (map.iacReasonComment ?: "") as String
+      additionalComment = (map.additionalComment ?: null) as String
     }
   }
 }

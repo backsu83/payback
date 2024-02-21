@@ -16,12 +16,14 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class SmileCashEventRequestEntity {
   public static final String SAVE = "stardb.dbo.UPGMKT_Reward_InsertSmileCashEvent";
-  public static final String UPDATE = "stardb.dbo.UPGMKT_Reward_UpdateSmileCashEvent";
   public static final String FIND = "stardb.dbo.UPGMKT_Reward_SelectSmileCashEvent";
 
   @Id
   @Column(name = "SMILEPAY_NO")
   private Long smilePayNo;
+
+  @Column(name = "COMMN_TYPE")
+  private String saveIntegrationType;
 
   @Column(name = "APPR_STATUS")
   private int approvalStatus;
@@ -47,9 +49,18 @@ public class SmileCashEventRequestEntity {
   @Column(name = "REF_NO")
   private long refNo;
 
+  @Column(name = "EID")
+  private Long eid;
+
   @Column(name = "ERS_NO")
   private int ersNo;
 
   @Column(name = "REG_ID")
   private String regId;
+
+  @Column(name = "COMMENTS")
+  private String comments;
+
+  @Column(name = "CONTR_NO")
+  private long orderNo;
 }

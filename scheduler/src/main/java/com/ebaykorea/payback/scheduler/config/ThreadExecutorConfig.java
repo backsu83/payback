@@ -21,7 +21,7 @@ public class ThreadExecutorConfig {
         10,
         20,
         6000, TimeUnit.MILLISECONDS,
-        new LinkedBlockingQueue<>(1000)
+        new LinkedBlockingQueue<>(4000)
     );
     threadUnit.setThreadFactory(namedThreadFactory);
     return threadUnit;

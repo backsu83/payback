@@ -22,6 +22,7 @@ public class SmileCashEventEntityRepository {
   @SaturnProcedure(
       procedureName = SmileCashEventRequestEntity.SAVE,
       parameters = {
+          @SaturnProcedureParameter(name = "COMMN_TYPE", sqlType = Types.VARCHAR, scale = 4),
           @SaturnProcedureParameter(name = "REQ_MONEY", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "REQ_OUTPUT_IMPB_MONEY", sqlType = Types.DECIMAL),
           @SaturnProcedureParameter(name = "CASH_BALANCE_TYPE", sqlType = Types.CHAR, scale = 2),
@@ -29,25 +30,15 @@ public class SmileCashEventEntityRepository {
           @SaturnProcedureParameter(name = "EXPIRE_DT", sqlType = Types.TIMESTAMP),
           @SaturnProcedureParameter(name = "REF_NO", sqlType = Types.BIGINT),
           @SaturnProcedureParameter(name = "ERS_NO", sqlType = Types.INTEGER),
-          @SaturnProcedureParameter(name = "REG_ID", sqlType = Types.BIGINT)
+          @SaturnProcedureParameter(name = "REG_ID", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "EID",  sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "COMMENTS",  sqlType = Types.VARCHAR, scale = 60),
+          @SaturnProcedureParameter(name = "CONTR_NO",  sqlType = Types.BIGINT)
       },
       throwEx = true
   )
   public Optional<SmileCashEventResultEntity> save(final SmileCashEventRequestEntity entity) {
     return Optional.empty();
-  }
-
-  @SaturnProcedure(
-      procedureName = SmileCashEventRequestEntity.UPDATE,
-      parameters = {
-          @SaturnProcedureParameter(name = "SMILEPAY_NO", sqlType = Types.BIGINT),
-          @SaturnProcedureParameter(name = "APPR_STATUS", sqlType = Types.TINYINT),
-          @SaturnProcedureParameter(name = "TRY_CNT", sqlType = Types.INTEGER),
-          @SaturnProcedureParameter(name = "REG_ID", sqlType = Types.VARCHAR, scale = 4)
-      },
-      throwEx = true
-  )
-  public void update(final SmileCashEventRequestEntity entity) {
   }
 
   @SaturnProcedure(

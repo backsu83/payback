@@ -1,22 +1,20 @@
 package com.ebaykorea.payback.scheduler.service;
 
-import static com.ebaykorea.payback.scheduler.domain.constant.TenantCode.GMARKET_TENANT;
-import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.COMPLETED;
-import static com.ebaykorea.payback.scheduler.service.entity.ProcessType.FAIL;
+import static com.ebaykorea.payback.scheduler.model.constant.ProcessType.COMPLETED;
+import static com.ebaykorea.payback.scheduler.model.constant.ProcessType.FAIL;
+import static com.ebaykorea.payback.scheduler.model.constant.TenantCode.GMARKET_TENANT;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
-import com.ebaykorea.payback.scheduler.repository.stardb.CashbackOrderBatchRepository;
 import com.ebaykorea.payback.scheduler.client.PaybackApiClient;
 import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackRequestDto;
 import com.ebaykorea.payback.scheduler.client.dto.payback.PaybackResponseDto;
+import com.ebaykorea.payback.scheduler.repository.stardb.CashbackOrderBatchRepository;
 import com.google.common.collect.Lists;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

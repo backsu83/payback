@@ -23,6 +23,7 @@ logging:
   level:
     root: WARN
     com.ebaykorea.saturn: INFO
+    com.ebaykorea.payback.scheduler: INFO
     MoAAppender: INFO
     MoALogger: INFO
 

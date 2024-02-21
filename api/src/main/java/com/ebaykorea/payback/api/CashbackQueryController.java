@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 
 @Profile(GMARKET_TENANT)
-@Tag(name = "RewardTarget ", description = "리워드 대상 조회")
+@Tag(name = "RewardTarget", description = "리워드 대상 조회")
 @Slf4j
 @RestController
 @RequiredArgsConstructor

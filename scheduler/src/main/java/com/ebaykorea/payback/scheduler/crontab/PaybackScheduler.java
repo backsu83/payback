@@ -2,14 +2,13 @@ package com.ebaykorea.payback.scheduler.crontab;
 
 import com.ebaykorea.payback.scheduler.service.PaybackBatchService;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.ebaykorea.payback.scheduler.domain.constant.TenantCode.GMARKET_TENANT;
+import static com.ebaykorea.payback.scheduler.model.constant.TenantCode.GMARKET_TENANT;
 
 @Profile(GMARKET_TENANT)
 @Slf4j
@@ -29,7 +28,6 @@ public class PaybackScheduler {
 
   @Scheduled(initialDelayString = "${com.ebaykorea.payback.scheduler.data.initialDelay}" , fixedDelayString = "${com.ebaykorea.payback.scheduler.data.fixedDelay}" , timeUnit = TimeUnit.MINUTES)
   public void init() {
-    log.info("scheduler start ...");
     paybackSchedulerService.updateRecords(maxTryCount);
   }
 

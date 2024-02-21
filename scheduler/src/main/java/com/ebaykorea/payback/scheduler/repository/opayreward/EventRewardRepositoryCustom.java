@@ -8,11 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 
-import static com.ebaykorea.payback.scheduler.domain.constant.EventRequestStatusType.Requested;
+import static com.ebaykorea.payback.scheduler.model.constant.EventRequestStatusType.Requested;
 import static com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.QEventRewardRequestEntity.eventRewardRequestEntity;
 import static com.ebaykorea.payback.scheduler.repository.opayreward.entity.event.QEventRewardRequestStatusEntity.eventRewardRequestStatusEntity;
 import static com.querydsl.core.types.ExpressionUtils.isNull;

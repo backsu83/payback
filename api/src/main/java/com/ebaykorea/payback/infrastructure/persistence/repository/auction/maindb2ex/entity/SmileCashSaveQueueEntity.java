@@ -1,15 +1,14 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity;
 
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 @Data
 @Builder
@@ -19,7 +18,7 @@ public class SmileCashSaveQueueEntity {
 
   public static final String FIND_BY_BIZ_KEY = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_SelectByIacBizKey";
   public static final String SAVE = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_Insert";
-  public static final String UPDATE = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_Update";
+  public static final String UPDATE_BUDGET = "maindb2ex.dbo.UPIAC_Reward_UpdateAmsSmileCashSaveReq";
 
   @Id
   @Column(name = "SEQNO")
@@ -63,4 +62,13 @@ public class SmileCashSaveQueueEntity {
 
   @Column(name = "INS_OPRT")
   private String insertOperator;
+
+  @Column(name = "UPD_DATE")
+  private Timestamp updateDate;
+
+  @Column(name = "REFERENCE_KEY")
+  private String referenceKey;
+
+  @Column(name = "BUDGET_NO")
+  private long budgetNo;
 }

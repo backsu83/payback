@@ -1,5 +1,8 @@
 package com.ebaykorea.payback.scheduler.support;
 
+import static java.math.BigDecimal.ZERO;
+
+import java.math.BigDecimal;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
@@ -27,5 +30,24 @@ public class SchedulerUtils {
 
   public static String orElse(String nullable, String defaultValue) {
     return StringUtils.hasLength(nullable) ? nullable : defaultValue;
+  }
+
+  public static String orEmpty(final String nullable) {
+    return orElse(nullable, "");
+  }
+
+  public static boolean isBlank(String str) {
+    return str == null || str.isBlank();
+  }
+  public static boolean isNotBlank(String str) {
+    return !isBlank(str);
+  }
+
+  public static boolean isGreaterThanZero(final BigDecimal decimal) {
+    return orZero(decimal).compareTo(ZERO) > 0;
+  }
+
+  public static BigDecimal orZero(final BigDecimal decimal) {
+    return decimal == null ? ZERO : decimal;
   }
 }

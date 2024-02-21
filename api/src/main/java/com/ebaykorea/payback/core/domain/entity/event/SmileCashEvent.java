@@ -1,42 +1,48 @@
 package com.ebaykorea.payback.core.domain.entity.event;
 
-import lombok.Value;
+import static com.ebaykorea.payback.util.PaybackInstants.truncatedDays;
 
+import com.ebaykorea.payback.core.domain.constant.EventType;
+import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
+import com.ebaykorea.payback.util.PaybackInstants;
+import com.ebaykorea.payback.util.PaybackNumbers;
+import com.ebaykorea.payback.util.PaybackObjects;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-import static com.ebaykorea.payback.util.PaybackObjects.orElse;
+@Getter
+@EqualsAndHashCode
+@ToString
+@AllArgsConstructor
+public abstract class SmileCashEvent {
+  private final SaveIntegrationType saveIntegrationType;
+  private final long requestNo;
+  private final String memberKey;
+  private final BigDecimal saveAmount;
+  private final EventType eventType;
+  private final int expirationPeriod;
+  private final Long eventNo;
+  private final int ersNo;
+  private final String comments;
+  private final long budgetNo;
+  private final Long orderNo;
 
-@Value
-public class SmileCashEvent {
-  Long smilePayNo;
-  boolean saved;
-  boolean failed;
-  String returnCode;
-
-  private static final String SUCCESS = "SUCCESS";
-  private static final String FAILED = "FAILED";
-  private static final String IN_PROGRESS = "IN_PROGRESS";
-
-  public String getSmilePayNo() {
-    return Optional.ofNullable(smilePayNo)
-        .map(String::valueOf)
-        .orElse("");
+  public Instant getExpirationDate() {
+    return truncatedDays(PaybackInstants.now(), expirationPeriod);
   }
 
-  public String getResultCode() {
-    if (!hasSmilePayNo() || failed) {
-      return FAILED;
-    } else if (saved) {
-      return SUCCESS;
-    }
-    return IN_PROGRESS;
+  public boolean isEventRewardEventType() {
+    return eventType == EventType.DailyCheckIn ||
+        eventType == EventType.OrderAssociated ||
+        eventType == EventType.OrderDisassociated;
   }
 
-  public String getResultMessage() {
-    return getResultCode().equals(FAILED) ? returnCode : null;
-  }
-
-  private boolean hasSmilePayNo() {
-    return orElse(smilePayNo, 0L) > 0L;
+  public boolean hasOrderNo() {
+    return PaybackObjects.orElse(orderNo, 0L) > 0L;
   }
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class TossCommonResponseDto {
   private String resultType;
-  private TossEventRewardResponseDto result;
+  private TossRewardResponseDto result;
   private String errorCode;
   private String errorMessage;
 
