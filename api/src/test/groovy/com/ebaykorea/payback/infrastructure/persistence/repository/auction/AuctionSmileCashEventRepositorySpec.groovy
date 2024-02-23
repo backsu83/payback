@@ -40,7 +40,7 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     desc                          | BizKey조회결과                                                     | request
     "중복요청이 있을 경우"                 | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM02Y")] | TossEventReward_생성()
     "BizKey 조회건이 있지만 중복요청이 아닌 경우" | [SmileCashSaveQueueEntity_생성(bizType: 9, reasonCode: "RM01Y")] | TossEventReward_생성(requestNo: 5L)
-    "BizKey 조회건이 없는 경우"           | []                                                             | EventReward_생성(requestNo: 5L)
+    "BizKey 조회건이 없는 경우"           | []                                                             | EventReward_생성(requestNo: 5L, budgetNo: 1L)
     _________________________________________________
     BizKey조회횟수 | txId채번횟수 | 적립요청횟수
     1          | 0        | 0
@@ -69,7 +69,7 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     request                           | expectResult                                                           | _
     TossEventReward_생성()              | EventRewardResultDto_생성(requestNo: 1L, savingNo: 1L, resultCode: -322) | _
     TossEventReward_생성(requestNo: 5L) | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0)    | _
-    EventReward_생성(requestNo: 5L)     | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0)    | _
+    EventReward_생성(requestNo: 5L, budgetNo: 1L)     | EventRewardResultDto_생성(requestNo: 5L, savingNo: 2L, resultCode: 0)    | _
   }
 
   def "예산 할당 번호에 따라 예산 집행이 되는지 확인"() {
@@ -80,12 +80,11 @@ class AuctionSmileCashEventRepositorySpec extends Specification {
     repository.saveWithBudget(request)
 
     then:
-    예산집행호출_회수 * queueRepository.updateBudget(_ as Long, _ as BigDecimal) >> 0
+    예산집행호출_횟수 * queueRepository.updateBudget(_ as Long, _ as BigDecimal) >> 0
 
     where:
-    desc                         | request                                      | 예산집행호출_회수
+    desc                         | request                                      | 예산집행호출_횟수
     "예산 할당 번호가 있으면 예산집행 처리"      | EventReward_생성(budgetNo: 1L, saveAmount: 10) | 1
-    "예산 할당 번호가 없으면 예산집행 처리하지 않음" | EventReward_생성(saveAmount: 10)               | 0
   }
 
   def "예산 집행 처리 결과가 실패 시 exception 발생 여부 확인"() {

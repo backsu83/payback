@@ -70,14 +70,9 @@ public class AuctionSmileCashEventRepository implements SmileCashEventRepository
   @Transactional
   @Override
   public Optional<EventRewardResultDto> saveWithBudget(final SmileCashEvent smileCashEvent) {
-    final var isBudgetDeducted = Optional.of(smileCashEvent.getBudgetNo())
-        .filter(budgetNo -> budgetNo > 0L)
-        .map(budgetNo -> smileCashSaveQueueRepository.updateBudget(budgetNo, smileCashEvent.getSaveAmount()))
-        .map(res -> res == 0)
-        .orElse(true);
-    if (!isBudgetDeducted) {
-      throw new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", smileCashEvent.getBudgetNo()));
-    }
+    Optional.of(smileCashSaveQueueRepository.updateBudget(smileCashEvent.getBudgetNo(), smileCashEvent.getSaveAmount()))
+        .filter(res -> res == 0)
+        .orElseThrow(() -> new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", smileCashEvent.getBudgetNo())));
     return save(smileCashEvent);
   }
 
