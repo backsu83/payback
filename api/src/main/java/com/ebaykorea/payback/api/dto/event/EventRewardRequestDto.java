@@ -28,7 +28,7 @@ public class EventRewardRequestDto {
   @Schema(description = "이벤트 타입", example = "DailyCheckIn, OrderAssociated, OrderDisassociated", required = true)
   private EventType eventType;
 
-  @Schema(description = "예산 할당 번호")
+  @Schema(description = "예산 할당 번호", required = true)
   private Long budgetNo;
 
   @Schema(description = "이벤트 번호")

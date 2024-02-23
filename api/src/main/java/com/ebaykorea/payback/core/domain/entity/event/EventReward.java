@@ -49,6 +49,10 @@ public class EventReward extends SmileCashEvent {
     if (hasExpirationDatePassed()) {
       throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "이미 지난 유효기간 입니다.");
     }
+
+    if (this.getBudgetNo() <= 0) {
+      throw new PaybackException(PaybackExceptionCode.DOMAIN_ENTITY_001, "예산 정보가 없습니다.");
+    }
   }
 
   private boolean hasExpirationDatePassed() {
