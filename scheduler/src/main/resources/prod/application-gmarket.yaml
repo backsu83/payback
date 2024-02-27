@@ -17,4 +17,4 @@ apis:
     url: "https://quilt-overmind.gmarket.co.kr/api"
     user-id-query-path: "/user-token/cust-no"
   smile-cash:
-    url: "https://gmktcashpartnerapi.mysmilepay.com"
+    url: "https://cashpartnerapi.mysmilepay.com"
