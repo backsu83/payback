@@ -35,4 +35,13 @@ class EventRewardSpec extends Specification {
     def ex1 = thrown(PaybackException)
     ex1.code == PaybackExceptionCode.DOMAIN_ENTITY_001
   }
+
+  def "이벤트 리워드는 예산 번호가 있어야 함"() {
+    when:
+    EventReward_생성(budgetNo: 0L)
+
+    then:
+    def ex1 = thrown(PaybackException)
+    ex1.code == PaybackExceptionCode.DOMAIN_ENTITY_001
+  }
 }
