@@ -72,10 +72,7 @@ public class MassSaveRequestService {
               setFailed(entity);
             },
             // 성공
-            () -> {
-              log.info("requestMassSave response SUCCESS seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
-              repository.update(entity.getSeqNo(), MASS_SAVE_REQUESTED_STATUS, 0, entity.getInsertOperator());
-            });
+            () -> repository.update(entity.getSeqNo(), MASS_SAVE_REQUESTED_STATUS, 0, entity.getInsertOperator()));
   }
 
   public void checkSmileCashStatusThenUpdateResult(final int maxRows, final int maxRetryCount) {
@@ -114,11 +111,10 @@ public class MassSaveRequestService {
 
   private void handleCheckResult(final SmileCashSaveQueueEntity entity, final String userKey, final SaveResultResponseDto result) {
     if (result.isFailed()) {
-      log.info("checkMassSaveStatus response NOT SAVED seqNo: {}, txId: {}, returnCode: {}, errorMessage: {}",
-          entity.getSeqNo(), entity.getTxId(), result.getReturnCode(), result.getErrorMessage());
+      log.info("checkMassSaveStatus response NOT SAVED seqNo: {}, txId: {}, returnCode: {}, errorMessage: {}, saveResult: {}",
+          entity.getSeqNo(), entity.getTxId(), result.getReturnCode(), result.getErrorMessage(), result.getResult());
       setFailed(entity);
     } else {
-      log.info("checkMassSaveStatus response SAVED seqNo: {}, txId: {}", entity.getSeqNo(), entity.getTxId());
       smileCashApprovalService.setApproved(result.getResult(), userKey, entity);
     }
   }
