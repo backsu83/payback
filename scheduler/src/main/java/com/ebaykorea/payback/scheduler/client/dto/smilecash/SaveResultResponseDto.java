@@ -16,9 +16,25 @@ public class SaveResultResponseDto {
         .orElse(false);
   }
 
-  public boolean isSaved() {
+  private boolean isSaved() {
     return isSuccess() && Optional.ofNullable(result)
         .map(SaveResultDto::isSaved)
         .orElse(false);
+  }
+
+  public boolean isFailed() {
+    return !isSaved();
+  }
+
+  public String getReturnCode() {
+    return Optional.ofNullable(resultBase)
+        .map(SmileCashResultBase::getReturnCode)
+        .orElse("");
+  }
+
+  public String getErrorMessage() {
+    return Optional.ofNullable(resultBase)
+        .map(SmileCashResultBase::getErrorMessage)
+        .orElse("");
   }
 }
