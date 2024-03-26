@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.entity.event;
+package com.ebaykorea.payback.core.domain.entity.event.request;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
@@ -6,7 +6,6 @@ import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
 import com.ebaykorea.payback.core.exception.PaybackException;
 import com.ebaykorea.payback.core.exception.PaybackExceptionCode;
-import com.ebaykorea.payback.util.PaybackStrings;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

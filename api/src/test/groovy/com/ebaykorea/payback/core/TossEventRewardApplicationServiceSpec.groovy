@@ -2,11 +2,11 @@ package com.ebaykorea.payback.core
 
 
 import com.ebaykorea.payback.core.domain.constant.TossRewardRequestStatusType
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent
 import com.ebaykorea.payback.core.dto.event.toss.TossRewardRequestDto
 import com.ebaykorea.payback.core.gateway.UserGateway
 import com.ebaykorea.payback.core.repository.TossRewardRequestRepository
-import com.ebaykorea.payback.core.repository.SmileCashEventRepository
+import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.TossEventRewardResponseDtoGrocery.TossEventRewardResponseDto_생성
@@ -17,7 +17,7 @@ import static com.ebaykorea.payback.grocery.TossEventRewardGrocery.TossRewardReq
 
 class TossEventRewardApplicationServiceSpec extends Specification {
   def eventRewardRepository = Stub(TossRewardRequestRepository)
-  def smileCashEventRepository = Stub(SmileCashEventRepository)
+  def smileCashEventRepository = Stub(SmileCashEventRequestRepository)
   def userGateway = Stub(UserGateway)
 
   def service = new TossEventRewardApplicationService(eventRewardRepository, smileCashEventRepository, userGateway)

@@ -1,10 +1,9 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent;
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
-import com.ebaykorea.payback.core.dto.event.SetEventRewardRequestDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
 import java.sql.Timestamp;
 import org.mapstruct.Mapper;

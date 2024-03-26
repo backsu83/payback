@@ -3,10 +3,10 @@ package com.ebaykorea.payback.grocery
 import com.ebaykorea.payback.core.domain.constant.EventType
 import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType
-import com.ebaykorea.payback.core.domain.entity.event.EventReward
-import com.ebaykorea.payback.core.domain.entity.event.ReviewReward
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult
-import com.ebaykorea.payback.core.domain.entity.event.TossEventReward
+import com.ebaykorea.payback.core.domain.entity.event.request.EventReward
+import com.ebaykorea.payback.core.domain.entity.event.request.ReviewReward
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult
+import com.ebaykorea.payback.core.domain.entity.event.request.TossEventReward
 
 import java.time.Instant
 

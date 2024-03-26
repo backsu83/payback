@@ -2,7 +2,7 @@ package com.ebaykorea.payback.core.repository;
 
 import com.ebaykorea.payback.core.dto.event.toss.TossRewardRequestDto;
 import com.ebaykorea.payback.core.domain.constant.TossRewardRequestStatusType;
-import com.ebaykorea.payback.core.domain.entity.event.TossRewardRequestResult;
+import com.ebaykorea.payback.core.domain.entity.event.request.TossRewardRequestResult;
 
 import java.util.Optional;
 

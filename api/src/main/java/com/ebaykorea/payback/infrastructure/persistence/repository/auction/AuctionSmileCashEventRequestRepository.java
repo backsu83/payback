@@ -5,11 +5,11 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent;
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
+import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashReasonCodeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Profile(AUCTION_TENANT)
 @Service
 @RequiredArgsConstructor
-public class AuctionSmileCashEventRepository implements SmileCashEventRepository {
+public class AuctionSmileCashEventRequestRepository implements SmileCashEventRequestRepository {
 
   private final SmileCashSaveQueueRepository smileCashSaveQueueRepository;
   private final SmileCashTransactionRepository smileCashTransactionRepository;

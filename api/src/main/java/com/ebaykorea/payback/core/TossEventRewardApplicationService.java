@@ -5,12 +5,12 @@ import static com.ebaykorea.payback.util.PaybackStrings.EMPTY;
 import static com.ebaykorea.payback.util.PaybackStrings.isBlank;
 
 import com.ebaykorea.payback.core.dto.event.toss.TossRewardRequestDto;
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
-import com.ebaykorea.payback.core.domain.entity.event.TossEventReward;
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult;
+import com.ebaykorea.payback.core.domain.entity.event.request.TossEventReward;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.dto.event.toss.TossEventRewardResponseDto;
 import com.ebaykorea.payback.core.gateway.UserGateway;
-import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
+import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository;
 import com.ebaykorea.payback.core.repository.TossRewardRequestRepository;
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TossEventRewardApplicationService {
   private final TossRewardRequestRepository tossRewardRepository;
-  private final SmileCashEventRepository smileCashEventRepository;
+  private final SmileCashEventRequestRepository smileCashEventRequestRepository;
   private final UserGateway userGateway;
 
   private static final String SUCCESS = "SUCCESS";
@@ -37,7 +37,7 @@ public class TossEventRewardApplicationService {
           //중복 요청 된 경우
           final var userId = userGateway.getUserId(request.getUserToken());
 
-          return smileCashEventRepository.find(TossEventReward.of(eventReward.getRequestNo(), userId, request.getAmount()))
+          return smileCashEventRequestRepository.find(TossEventReward.of(eventReward.getRequestNo(), userId, request.getAmount()))
               .map(smileCashEvent -> buildResponse(smileCashEvent.getSmilePayNo(), DUPLICATED))
               .orElse(buildResponse(EMPTY, DUPLICATED));
         })
@@ -46,7 +46,7 @@ public class TossEventRewardApplicationService {
           final var requestNo = tossRewardRepository.save(request);
           final var userId = userGateway.getUserId(request.getUserToken());
 
-          return smileCashEventRepository.save(TossEventReward.of(requestNo, userId, request.getAmount()))
+          return smileCashEventRequestRepository.save(TossEventReward.of(requestNo, userId, request.getAmount()))
               .map(this::getSmilePayNo)
               .map(smilePayNo -> {
                 //적립 요청 상태 저장
@@ -63,7 +63,7 @@ public class TossEventRewardApplicationService {
         .map(eventReward -> {
           final var userId = userGateway.getUserId(request.getUserToken());
 
-          return smileCashEventRepository.find(TossEventReward.of(eventReward.getRequestNo(), userId, BigDecimal.ZERO))
+          return smileCashEventRequestRepository.find(TossEventReward.of(eventReward.getRequestNo(), userId, BigDecimal.ZERO))
               .map(buildResponseFromSmileCashEvent())
               .orElse(buildResponse(EMPTY, FAILED));
         })

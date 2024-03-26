@@ -3,12 +3,11 @@ package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt;
 import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENANT;
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002;
 
-import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEvent;
-import com.ebaykorea.payback.core.domain.entity.event.SmileCashEventResult;
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent;
+import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.core.repository.SmileCashEventRepository;
+import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmileCashEventEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmileCashEventEntityRepository;
 import java.util.Optional;
@@ -20,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Profile(GMARKET_TENANT)
 @Service
 @RequiredArgsConstructor
-public class GmarketSmileCashEventRepository implements SmileCashEventRepository {
+public class GmarketSmileCashEventRequestRepository implements SmileCashEventRequestRepository {
 
   private final SmileCashEventEntityRepository repository;
   private final SmileCashEventEntityMapper mapper;
