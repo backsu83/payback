@@ -6,14 +6,14 @@ import spock.lang.Specification
 
 class UserGatewaySpec extends Specification {
   def client = Stub(QuiltApiClient)
-  def userGateway = new GmarketUserGateway(client)
+  def userGateway = new UserGatewayImpl(client)
 
   def "userGateway 결과가 정상인지 확인"() {
     setup:
-    client.findSmileUserKeyByCustNo(_ as String) >> Optional.of(new QuiltBaseResponse(결과코드, "", 리턴값))
+    client.findUserKeyByCustNo(_ as String) >> Optional.of(new QuiltBaseResponse(결과코드, "", 리턴값))
 
     expect:
-    def result = userGateway.findSmileUserKeyAsync("buyerNo")
+    def result = userGateway.findUserKey("buyerNo")
     result == expectResult
 
     where:

@@ -25,7 +25,7 @@ public class MemberService {
 
   Member getMember(final Buyer buyer) {
     final var clubAsync = getClubAsync(buyer.getBuyerNo());
-    final var userKeyAsync = userGateway.findSmileUserKeyAsync(buyer.getBuyerNo());
+    final var userKeyAsync = getUserKeyAsync(buyer.getBuyerNo());
 
     final var club = clubAsync.join();
     final var userKey = userKeyAsync.join();
@@ -42,5 +42,10 @@ public class MemberService {
   private CompletableFuture<Club> getClubAsync(final String buyerNo) {
     return CompletableFuture.supplyAsync(withMdc(() -> clubGateway.findMemberSynopsis(buyerNo)))
         .thenApply(club -> club.orElse(null));
+  }
+
+  private CompletableFuture<String> getUserKeyAsync(final String buyerNo) {
+    return CompletableFuture.supplyAsync(withMdc(() -> userGateway.findUserKey(buyerNo)))
+        .thenApply(userKey -> userKey.orElse(PaybackStrings.EMPTY));
   }
 }

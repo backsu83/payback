@@ -22,14 +22,7 @@ public interface QuiltApiClient {
       value = "/smilecash/smileUserKey",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Optional<QuiltBaseResponse<String>> findSmileUserKeyByCustNo(@RequestParam("custNo") final String custNo);
-
-  @RequestMapping(
-      method = RequestMethod.GET,
-      value = "/v1/smilecash/smileUserKey",
-      produces = MediaType.APPLICATION_JSON_VALUE
-  )
-  Optional<QuiltBaseResponse<String>> findSmileUserKeyByMemberId(@RequestParam("memberId") final String memberId);
+  Optional<QuiltBaseResponse<String>> findUserKeyByCustNo(@RequestParam("custNo") final String custNo);
 
   @RequestMapping(
       method = RequestMethod.GET,
