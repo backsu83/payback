@@ -17,7 +17,7 @@ class MemberServiceSpec extends Specification {
   def "Member가 정상적으로 생성되는지 확인"() {
     setup:
     clubGateway.findMemberSynopsis(_ as String) >> Optional.ofNullable(클럽결과)
-    userGateway.findUserKey(_ as String) >> Optional.ofNullable(유저키결과)
+    userGateway.findSmileUserKeyAsync(_ as String) >> Optional.ofNullable(유저키결과)
 
     expect:
     def result = service.getMember(구매자)

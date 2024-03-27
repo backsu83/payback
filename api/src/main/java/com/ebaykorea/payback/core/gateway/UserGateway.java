@@ -1,9 +1,9 @@
 package com.ebaykorea.payback.core.gateway;
 
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public interface UserGateway {
-  Optional<String> findUserKey(String buyerNo);
+  CompletableFuture<String> findSmileUserKeyAsync(String memberKey);
 
   /**
    * userToken으로 G/A 고객번호/고객아이디를 조회합니다

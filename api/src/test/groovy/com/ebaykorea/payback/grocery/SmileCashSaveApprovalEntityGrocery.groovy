@@ -22,7 +22,7 @@ class SmileCashSaveApprovalEntityGrocery {
       additionalReasonComment = (map.additionalReasonComment ?: "") as String
       bizType = (map.bizType ?: 0) as int
       bizKey = (map.bizKey ?: "") as String
-      insertOperator = (map.insertOperator ?: "") as String
+      insertOperator = (map.insertOperator ?: "payback-api") as String
     }
   }
 }

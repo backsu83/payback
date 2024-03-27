@@ -34,7 +34,7 @@ public class EventRewardController {
   @Operation(summary = "이벤트 리워드 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
   @PostMapping
   public CommonResponse<EventRewardResultDto> saveEventReward(
-      final @Valid @RequestBody EventRewardRequestDto request) {
+      @Valid @RequestBody final EventRewardRequestDto request) {
     final var result = repository.saveWithBudget(mapper.map(request)).orElse(null);
     return CommonResponse.success(SUCCESS, result);
   }
@@ -43,8 +43,8 @@ public class EventRewardController {
   @PostMapping("/{saving-no}/approve")
   public CommonResponse<EventRewardResultDto> approveEventReward(
       @PathVariable(value = "saving-no") final Long savingNo,
-      final @Valid @RequestBody ApprovalEventRewardRequestDto request) {
-
+      @Valid @RequestBody final ApprovalEventRewardRequestDto request) {
+    //TODO
     return CommonResponse.success(SUCCESS, null);
   }
 

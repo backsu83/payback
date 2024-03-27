@@ -12,6 +12,7 @@ import com.ebaykorea.saturn.starter.annotation.SaturnProcedureParameter;
 import java.math.BigDecimal;
 import java.sql.Types;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +29,17 @@ public class SmileCashSaveQueueRepository {
   )
   public List<SmileCashSaveQueueEntity> findByBizKey(final String iacBizKey) {
     return emptyList();
+  }
+
+  @SaturnProcedure(
+      procedureName = SmileCashSaveQueueEntity.FIND_BY_IAC_TXID,
+      parameters = {
+          @SaturnProcedureParameter(name = "IAC_TXID", sqlType = Types.BIGINT)
+      },
+      throwEx = true
+  )
+  public Optional<SmileCashSaveQueueEntity> findByIacTxid(final long iacTxid) {
+    return Optional.empty();
   }
 
   @SaturnProcedure(
@@ -64,5 +76,18 @@ public class SmileCashSaveQueueRepository {
   )
   public int updateBudget(final long requestSeqno, final BigDecimal saveAmnt) {
     return -1;
+  }
+
+  @SaturnProcedure(
+      procedureName = SmileCashSaveQueueEntity.UPDATE_BY_IAC_TXID,
+      parameters = {
+          @SaturnProcedureParameter(name = "IAC_TXID", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "SAVE_STATUS", sqlType = Types.TINYINT),
+          @SaturnProcedureParameter(name = "UPD_OPRT", sqlType = Types.VARCHAR, scale = 30)
+      },
+      throwEx = true
+  )
+  public void update(final long iacTxId, final int saveStatus, final String updOprt) {
+
   }
 }

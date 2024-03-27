@@ -4,7 +4,6 @@ import com.ebaykorea.payback.infrastructure.gateway.client.config.DefaultFeignCo
 import com.ebaykorea.payback.infrastructure.gateway.client.member.dto.QuiltBaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +22,14 @@ public interface QuiltApiClient {
       value = "/smilecash/smileUserKey",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Optional<QuiltBaseResponse<String>> findUserKey(@RequestParam("custNo") final String custNo);
+  Optional<QuiltBaseResponse<String>> findSmileUserKeyByCustNo(@RequestParam("custNo") final String custNo);
+
+  @RequestMapping(
+      method = RequestMethod.GET,
+      value = "/v1/smilecash/smileUserKey",
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  Optional<QuiltBaseResponse<String>> findSmileUserKeyByMemberId(@RequestParam("memberId") final String memberId);
 
   @RequestMapping(
       method = RequestMethod.GET,
