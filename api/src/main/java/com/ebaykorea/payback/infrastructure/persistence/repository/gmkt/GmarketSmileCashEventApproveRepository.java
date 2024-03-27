@@ -15,6 +15,6 @@ public class GmarketSmileCashEventApproveRepository implements SmileCashEventApp
 
   @Override
   public void approve(final ApprovalEventReward approvalEventReward) {
-
+    //TODO
   }
 }

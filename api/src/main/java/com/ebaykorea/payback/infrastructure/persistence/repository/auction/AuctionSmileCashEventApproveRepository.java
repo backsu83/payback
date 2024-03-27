@@ -31,7 +31,7 @@ public class AuctionSmileCashEventApproveRepository implements SmileCashEventApp
   public void approve(final ApprovalEventReward approvalEventReward) {
 
     final var saveQueueEntity = saveQueueRepository.findByIacTxid(approvalEventReward.getSavingNo()) //TODO: Gmarket 작업 이후 서비스에서 조회하도록 수정
-        .filter(isNotSaved())
+        .filter(canBeApproved())
         .orElseThrow(() -> new PaybackException(PERSIST_002, approvalEventReward.toString()));
 
     final var approvalEntity = mapper.map(approvalEventReward, saveQueueEntity);
@@ -39,7 +39,7 @@ public class AuctionSmileCashEventApproveRepository implements SmileCashEventApp
     saveQueueRepository.update(approvalEventReward.getSavingNo(), SAVED, approvalEntity.getInsertOperator());
   }
 
-  private Predicate<SmileCashSaveQueueEntity> isNotSaved() {
+  private Predicate<SmileCashSaveQueueEntity> canBeApproved() {
     return entity -> entity.getSaveStatus() != SAVED;
   }
 }
