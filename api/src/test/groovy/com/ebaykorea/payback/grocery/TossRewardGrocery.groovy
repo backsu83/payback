@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.grocery
 
 import com.ebaykorea.payback.core.domain.constant.EventType
-import com.ebaykorea.payback.core.domain.entity.event.TossRewardRequestResult
+import com.ebaykorea.payback.core.domain.entity.event.request.TossRewardRequestResult
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.entity.EventRewardRequestEntity
 
 class TossRewardGrocery {

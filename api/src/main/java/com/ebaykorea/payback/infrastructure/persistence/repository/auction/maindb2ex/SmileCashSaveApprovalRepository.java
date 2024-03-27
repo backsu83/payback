@@ -26,4 +26,29 @@ public class SmileCashSaveApprovalRepository {
   public Optional<SmileCashSaveApprovalEntity> findById(final long iacTxid) {
     return Optional.empty();
   }
+
+  @SaturnProcedure(
+      procedureName = SmileCashSaveApprovalEntity.INSERT,
+      parameters = {
+          @SaturnProcedureParameter(name = "IAC_TXID", sqlType = Types.BIGINT),
+          @SaturnProcedureParameter(name = "SMILECASH_TXID", sqlType = Types.CHAR, scale = 20),
+          @SaturnProcedureParameter(name = "SMILE_MEMB_KEY", sqlType = Types.VARCHAR, scale = 200),
+          @SaturnProcedureParameter(name = "TXN_TYPE", sqlType = Types.TINYINT),
+          @SaturnProcedureParameter(name = "SMILECASH_TXN_DATE", sqlType = Types.TIMESTAMP),
+          @SaturnProcedureParameter(name = "SMILECASH_TYPE", sqlType = Types.TINYINT),
+          @SaturnProcedureParameter(name = "APPR_AMNT", sqlType = Types.DECIMAL),
+          @SaturnProcedureParameter(name = "SMILECASH_EXPIRE_DATE", sqlType = Types.DATE),
+          @SaturnProcedureParameter(name = "DIFF_PROC_BASE_DATE", sqlType = Types.DATE),
+          @SaturnProcedureParameter(name = "DIFF_PROC_IS", sqlType = Types.BIT),
+          @SaturnProcedureParameter(name = "IAC_REASON_CODE", sqlType = Types.CHAR, scale = 5),
+          @SaturnProcedureParameter(name = "IAC_REASON_COMMENT", sqlType = Types.VARCHAR, scale = 100),
+          @SaturnProcedureParameter(name = "IAC_REASON_ADD", sqlType = Types.VARCHAR, scale = 100),
+          @SaturnProcedureParameter(name = "IAC_BIZ_TYPE", sqlType = Types.TINYINT),
+          @SaturnProcedureParameter(name = "IAC_BIZ_KEY", sqlType = Types.VARCHAR, scale = 50),
+          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 30),
+      },
+      throwEx = true
+  )
+  public void saveApproval(final SmileCashSaveApprovalEntity entity) {
+  }
 }

@@ -17,13 +17,13 @@ import static com.ebaykorea.payback.grocery.SmileCashEventGrocery.TossEventRewar
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashReasonCodeEntity_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
 
-class AuctionSmileCashEventRepositorySpec extends Specification {
+class AuctionSmileCashEventRequestRepositorySpec extends Specification {
   def queueRepository = Mock(SmileCashSaveQueueRepository)
   def transactionRepository = Mock(SmileCashTransactionRepository)
   def reasonCodeRepository = Mock(SmileCashReasonCodeRepository)
   def mapper = Mappers.getMapper(SmileCashSaveQueueEntityMapper.class)
 
-  def repository = new AuctionSmileCashEventRepository(queueRepository, transactionRepository, reasonCodeRepository, mapper)
+  def repository = new AuctionSmileCashEventRequestRepository(queueRepository, transactionRepository, reasonCodeRepository, mapper)
 
   def "중복요청 여부에 따라 저장 호출을 올바르게 한다"() {
     when:

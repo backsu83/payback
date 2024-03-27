@@ -1,4 +1,4 @@
-package com.ebaykorea.payback.core.domain.entity.event;
+package com.ebaykorea.payback.core.domain.entity.event.request;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import lombok.Value;
