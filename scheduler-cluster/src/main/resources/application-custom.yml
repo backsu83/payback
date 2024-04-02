@@ -1,0 +1,57 @@
+spring:
+  config.activate.on-profile: "gmarket"
+
+saturn:
+  application:
+    tenantId: "gmarket"
+  datasource:
+    appName: PAYBACK_API
+    userName: daemon_app
+    tenant: gmarketdev #개발: gmarketdev, 운영: gmarket
+
+apis:
+  payback:
+    url: "http://payback-api-dev.gmarket.co.kr"
+  quilt:
+    url: "https://quilt-overmind-dev.gmarket.co.kr/api"
+    user-id-query-path: "/user-token/cust-no"
+  smile-cash:
+    url: "https://devcashpartnerapi.mysmilepay.com"
+
+com.ebaykorea.payback.scheduler:
+  mass-save:
+    initialDelay: 1 #TimeUnit.SECONDS
+    fixedDelay: 1 #TimeUnit.SECONDS
+    max-rows: 10
+    max-retry-count: 5
+
+
+---
+spring:
+  config.activate.on-profile: "auction"
+
+saturn:
+  application:
+    tenantId: "auction"
+  datasource:
+    appName: PAYBACK_APP
+    userName: discountapp
+    tenant: auctiondev
+
+apis:
+  payback:
+    url: "http://payback-api-dev.auction.co.kr"
+  quilt:
+    url: "https://quilt-overmind-dev.auction.co.kr/api"
+    user-id-query-path: "/v1/user-token/member-id"
+  smile-cash:
+    url: "https://devcashpartnerapi.mysmilepay.com"
+
+com.ebaykorea.payback.scheduler:
+  mass-save:
+    initialDelay: 1 #TimeUnit.SECONDS
+    fixedDelay: 1 #TimeUnit.SECONDS
+    max-rows: 10
+    max-retry-count: 5
+
+
