@@ -6,7 +6,7 @@ import static com.ebaykorea.payback.core.domain.constant.ReviewRewardConstants.P
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType;
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType;
-import com.ebaykorea.payback.core.domain.entity.event.request.ReviewReward;
+import com.ebaykorea.payback.core.domain.entity.event.request.Review;
 import com.ebaykorea.payback.api.dto.review.ReviewRewardRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,7 +19,7 @@ import org.mapstruct.ReportingPolicy;
 public interface ReviewRewardMapper {
 
   @Mapping(expression = "java(mapToDefaultComments(request.getReferenceType(), eventType))", target = "defaultComments")
-  ReviewReward map(ReviewRewardRequestDto request, EventType eventType, ReviewPromotionType promotionType);
+  Review map(ReviewRewardRequestDto request, EventType eventType, ReviewPromotionType promotionType);
 
   default String mapToDefaultComments(final ReviewReferenceType referenceType, final EventType eventType) {
     if (referenceType == ReviewReferenceType.Tour) {

@@ -3,7 +3,7 @@ package com.ebaykorea.payback.api;
 import com.ebaykorea.payback.core.dto.cashback.CashbackResponseDto;
 import com.ebaykorea.payback.core.dto.cashback.SaveCashbackRequestDto;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
-import com.ebaykorea.payback.core.CashbackApplicationService;
+import com.ebaykorea.payback.core.PayRewardApplicationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -23,7 +23,7 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 @RequestMapping("/api")
 public class CashbackController {
 
-  private final CashbackApplicationService applicationService;
+  private final PayRewardApplicationService applicationService;
 
   @PostMapping("/cashbacks")
   public CommonResponse<CashbackResponseDto> saveCashbacks(final @Valid @RequestBody SaveCashbackRequestDto request) {

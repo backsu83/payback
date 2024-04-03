@@ -8,7 +8,7 @@ import com.ebaykorea.payback.api.mapper.EventRewardMapper;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.api.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
-import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository;
+import com.ebaykorea.payback.core.repository.EventRewardRequestRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
@@ -28,13 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/event/rewards")
 public class EventRewardController {
 
-  private final SmileCashEventRequestRepository repository;
+  private final EventRewardRequestRepository repository;
   private final EventRewardMapper mapper;
 
   @Operation(summary = "이벤트 리워드 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")
   @PostMapping
   public CommonResponse<EventRewardResultDto> saveEventReward(
-      final @Valid @RequestBody EventRewardRequestDto request) {
+      @Valid @RequestBody final EventRewardRequestDto request) {
     final var result = repository.saveWithBudget(mapper.map(request)).orElse(null);
     return CommonResponse.success(SUCCESS, result);
   }
@@ -43,8 +43,8 @@ public class EventRewardController {
   @PostMapping("/{saving-no}/approve")
   public CommonResponse<EventRewardResultDto> approveEventReward(
       @PathVariable(value = "saving-no") final Long savingNo,
-      final @Valid @RequestBody ApprovalEventRewardRequestDto request) {
-
+      @Valid @RequestBody final ApprovalEventRewardRequestDto request) {
+    //TODO
     return CommonResponse.success(SUCCESS, null);
   }
 

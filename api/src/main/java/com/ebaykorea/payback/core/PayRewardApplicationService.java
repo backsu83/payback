@@ -8,14 +8,13 @@ import static com.ebaykorea.payback.core.domain.constant.ResponseMessageType.CAS
 import com.ebaykorea.payback.core.domain.constant.OrderSiteType;
 import com.ebaykorea.payback.core.domain.constant.ResponseMessageType;
 import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointState;
-import com.ebaykorea.payback.core.domain.entity.ssgpoint.state.SsgPointStateImpl;
 import com.ebaykorea.payback.core.factory.cashback.PayCashbackCreator;
 import com.ebaykorea.payback.core.factory.ssgpoint.SsgPointCreater;
 import com.ebaykorea.payback.core.gateway.OrderGateway;
 import com.ebaykorea.payback.core.gateway.PaymentGateway;
 import com.ebaykorea.payback.core.gateway.RewardGateway;
 import com.ebaykorea.payback.core.gateway.TransactionGateway;
-import com.ebaykorea.payback.core.repository.PayCashbackRepository;
+import com.ebaykorea.payback.core.repository.PayRewardRepository;
 import com.ebaykorea.payback.core.repository.SsgPointRepository;
 import com.ebaykorea.payback.core.service.MemberService;
 import com.ebaykorea.payback.util.support.GsonUtils;
@@ -26,7 +25,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CashbackApplicationService {
+public class PayRewardApplicationService {
   private final OrderGateway orderGateway;
   private final PaymentGateway paymentGateway;
   private final TransactionGateway transactionGateway;
@@ -35,7 +34,7 @@ public class CashbackApplicationService {
   private final MemberService memberService;
   private final PayCashbackCreator payCashbackCreator;
 
-  private final PayCashbackRepository payCashbackRepository;
+  private final PayRewardRepository payRewardRepository;
   private final SsgPointCreater ssgPointCreater;
   private final SsgPointRepository ssgPointRepository;
   private final SsgPointState ssgPointState;
@@ -49,7 +48,7 @@ public class CashbackApplicationService {
 
     final var orderKeyMap = transactionGateway.getKeyMap(txKey, orderKey);
 
-    final var cashbackAlreadySaved = payCashbackRepository.hasAlreadySaved(orderKeyMap);
+    final var cashbackAlreadySaved = payRewardRepository.hasAlreadySaved(orderKeyMap);
     final var ssgPointsAlreadySaved = ssgPointRepository.hasAlreadySaved(orderKeyMap.getOrderUnitKeys(), order.getBuyer().getBuyerNo(), OrderSiteType.Gmarket);
 
     if (cashbackAlreadySaved && ssgPointsAlreadySaved) {
@@ -71,7 +70,7 @@ public class CashbackApplicationService {
       final var payCashback = payCashbackCreator.create(orderKeyMap, order, member, paymentRecord, itemSnapshots, rewardCashbackPolicies);
       log.info("domain entity payCashback : {}", GsonUtils.toJson(payCashback));
 
-      payCashbackRepository.save(payCashback);
+      payRewardRepository.save(payCashback);
     }
 
     if (!ssgPointsAlreadySaved) {

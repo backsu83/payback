@@ -10,19 +10,19 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class TossEventReward extends SmileCashEvent {
+public class Toss extends EventReward {
 
   private static final int EXPIRATION_PERIOD = 30;
   private static final int ERS_NO = 8166;
 
-  public static TossEventReward of(
+  public static Toss of(
       final long requestNo,
       final String memberKey,
       final BigDecimal saveAmount) {
-    return new TossEventReward(requestNo, memberKey, saveAmount);
+    return new Toss(requestNo, memberKey, saveAmount);
   }
 
-  private TossEventReward(
+  private Toss(
       final long requestNo,
       final String memberKey,
       final BigDecimal saveAmount

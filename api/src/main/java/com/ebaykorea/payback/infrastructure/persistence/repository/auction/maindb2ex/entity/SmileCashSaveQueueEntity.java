@@ -17,8 +17,10 @@ import lombok.NoArgsConstructor;
 public class SmileCashSaveQueueEntity {
 
   public static final String FIND_BY_BIZ_KEY = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_SelectByIacBizKey";
+  public static final String FIND_BY_IAC_TXID = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_SelectByIacTxid";
   public static final String SAVE = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_Insert";
   public static final String UPDATE_BUDGET = "maindb2ex.dbo.UPIAC_Reward_UpdateAmsSmileCashSaveReq";
+  public static final String UPDATE_BY_IAC_TXID = "maindb2ex.dbo.UPIAC_Reward_SmileCashSaveQueue_UpdateByIacTxId";
 
   @Id
   @Column(name = "SEQNO")

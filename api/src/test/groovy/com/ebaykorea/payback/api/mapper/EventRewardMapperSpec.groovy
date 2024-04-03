@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRewardRequestDto_생성
-import static com.ebaykorea.payback.grocery.SmileCashEventGrocery.EventReward_생성
+import static com.ebaykorea.payback.grocery.SmileCashEventGrocery.EventPlatform_생성
 
 class EventRewardMapperSpec extends Specification {
 
@@ -18,6 +18,6 @@ class EventRewardMapperSpec extends Specification {
 
     expect:
     def result = mapper.map(EventRewardRequestDto_생성(saveAmount: 100, eventType: EventType.DailyCheckIn, budgetNo: 1L, eventNo: 2L, expirationDate: expirationDate, comment: "이벤트!"))
-    result == EventReward_생성(saveAmount: 100, budgetNo: 1L, eventNo: 2L, expirationDate: expirationDate, comment: "이벤트!")
+    result == EventPlatform_생성(saveAmount: 100, budgetNo: 1L, eventNo: 2L, expirationDate: expirationDate, comment: "이벤트!")
   }
 }
