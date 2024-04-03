@@ -36,7 +36,7 @@ class AuctionEventRewardApproveRepositorySpec extends Specification {
     saveQueueRepository.findByIacTxid(_ as Long) >> Optional.of(SmileCashSaveQueueEntity_생성())
 
     when:
-    repository.approve(ApprovalEventReward_생성(transactionDate: "2024-03-27 00:00:00"))
+    repository.approve(ApprovalEventReward_생성())
 
     then:
     1 * approvalRepository.save(_ as SmileCashSaveApprovalEntity) >> {}

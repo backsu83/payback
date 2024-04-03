@@ -39,9 +39,11 @@ class SmileCashEventEntityGrocery {
       smilePayNo = (map.smilePayNo ?: 1L) as long
       status = (map.status ?: 0) as int
       returnCode = (map.returnCode ?: null) as String
-      saveDate = (map.saveDate ?: null) as Instant
-      requestMoney = (map.requestMoney ?: 0L) as BigDecimal
-
+      requestMoney = (map.requestMoney ?: null) as BigDecimal
+      certApprId = (map.certApprId ?: "") as String
+      resultOutputImpbMoney = (map.resultOutputImpbMoney ?: 0L) as BigDecimal
+      retExpireDate = (map.retExpireDate ?: null) as Timestamp
+      saveDate = (map.saveDate ?: null) as Timestamp
     }
   }
 }

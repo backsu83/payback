@@ -25,7 +25,8 @@ public enum PaybackExceptionCode {
   API_GATEWAY_004("회원 정보 조회 실패, userToken : {0}"),
 
   PERSIST_001("조회 실패: {0}"),
-  PERSIST_002("처리 불가: {0}")
+  PERSIST_002("처리 불가: {0}"),
+  PERSIST_003("처리 실패: {0}")
   ;
 
   private final String message;
