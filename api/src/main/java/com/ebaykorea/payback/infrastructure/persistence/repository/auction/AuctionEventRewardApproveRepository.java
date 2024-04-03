@@ -5,7 +5,7 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_
 
 import com.ebaykorea.payback.core.domain.entity.event.approval.ApprovalEventReward;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.core.repository.SmileCashEventApproveRepository;
+import com.ebaykorea.payback.core.repository.EventRewardApproveRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveApprovalRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Profile(AUCTION_TENANT)
 @Service
 @RequiredArgsConstructor
-public class AuctionSmileCashEventApproveRepository implements SmileCashEventApproveRepository {
+public class AuctionEventRewardApproveRepository implements EventRewardApproveRepository {
 
   private final SmileCashSaveApprovalRepository approvalRepository;
   private final SmileCashSaveQueueRepository saveQueueRepository;

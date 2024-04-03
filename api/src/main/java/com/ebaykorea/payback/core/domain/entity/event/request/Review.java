@@ -14,13 +14,13 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class ReviewReward extends SmileCashEvent {
+public class Review extends EventReward {
 
   private final ReviewReferenceType referenceType;
 
   private static final int EXPIRATION_PERIOD = 180;
 
-  public ReviewReward(
+  public Review(
       final long requestNo,
       final String memberKey,
       final BigDecimal saveAmount,

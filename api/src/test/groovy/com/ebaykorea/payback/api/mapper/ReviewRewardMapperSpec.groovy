@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.ReviewRewardGrocery.ReviewRewardRequestDto_생성
-import static com.ebaykorea.payback.grocery.SmileCashEventGrocery.ReviewReward_생성
+import static com.ebaykorea.payback.grocery.SmileCashEventGrocery.Review_생성
 
 class ReviewRewardMapperSpec extends Specification {
   def mapper = Mappers.getMapper(ReviewRewardMapper.class)
@@ -20,8 +20,8 @@ class ReviewRewardMapperSpec extends Specification {
     where:
     _________________________________________________
     desc | request | expectResult
-    "코어 일반 상품평"       | ReviewRewardRequestDto_생성()  | ReviewReward_생성(saveAmount: 10, reviewPromotionType: ReviewPromotionType.Normal)
-    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(referenceType: ReviewReferenceType.Tour) | ReviewReward_생성(saveAmount: 10, eventType: EventType.ReviewPremium, referenceType: ReviewReferenceType.Tour, reviewPromotionType: ReviewPromotionType.Premium, defaultComments: "여행 후기 추가 적립")
+    "코어 일반 상품평"       | ReviewRewardRequestDto_생성()  | Review_생성(saveAmount: 10, reviewPromotionType: ReviewPromotionType.Normal)
+    "렌터카 프리미엄 상품평" | ReviewRewardRequestDto_생성(referenceType: ReviewReferenceType.Tour) | Review_생성(saveAmount: 10, eventType: EventType.ReviewPremium, referenceType: ReviewReferenceType.Tour, reviewPromotionType: ReviewPromotionType.Premium, defaultComments: "여행 후기 추가 적립")
     _________________________________________________
     eventType | promotionType | _
     EventType.Review | ReviewPromotionType.Normal | _

@@ -6,7 +6,7 @@ import com.ebaykorea.payback.core.domain.entity.event.request.TossRewardRequestR
 
 import java.util.Optional;
 
-public interface TossRewardRequestRepository {
+public interface TossEventRewardRequestRepository {
 
   long save(TossRewardRequestDto request);
 

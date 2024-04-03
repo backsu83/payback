@@ -9,7 +9,7 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.C
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.DefaultCashbackPolicyEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmilecardCashbackOrderEntityMapper
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.SmilecardT2T3CashbackEntityMapper
-import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.GmarketCashbackRepository
+import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.GmarketPayRewardRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderDetailRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderMemberRepository
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.CashbackOrderPolicyRepository
@@ -39,7 +39,7 @@ import static com.ebaykorea.payback.grocery.SmileCardCashbackGrocery.SmileCardAd
 import static com.ebaykorea.payback.grocery.CashbackEntityGrocery.CashbackOrderDetailEntity_생성
 import static com.ebaykorea.payback.grocery.OrderGrocery.KeyMap_생성
 
-class PayCashbackRepositoryImplSpec extends Specification {
+class PayRewardRepositoryImplSpec extends Specification {
   def cashbackOrderRepository = Mock(CashbackOrderRepository)
   def cashbackOrderPolicyRepository = Mock(CashbackOrderPolicyRepository)
   def cashbackOrderDetailRepository = Mock(CashbackOrderDetailRepository)
@@ -62,7 +62,7 @@ class PayCashbackRepositoryImplSpec extends Specification {
       defaultCashbackPolicyEntityMapper
   ])
 
-  def repository = new GmarketCashbackRepository(
+  def repository = new GmarketPayRewardRepository(
       cashbackOrderRepository,
       cashbackOrderPolicyRepository,
       cashbackOrderDetailRepository,

@@ -3,16 +3,16 @@ package com.ebaykorea.payback.grocery
 import com.ebaykorea.payback.core.domain.constant.EventType
 import com.ebaykorea.payback.core.domain.constant.ReviewPromotionType
 import com.ebaykorea.payback.core.domain.constant.ReviewReferenceType
-import com.ebaykorea.payback.core.domain.entity.event.request.EventReward
-import com.ebaykorea.payback.core.domain.entity.event.request.ReviewReward
+import com.ebaykorea.payback.core.domain.entity.event.request.EventPlatform
+import com.ebaykorea.payback.core.domain.entity.event.request.Review
 import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult
-import com.ebaykorea.payback.core.domain.entity.event.request.TossEventReward
+import com.ebaykorea.payback.core.domain.entity.event.request.Toss
 
 import java.time.Instant
 
 class SmileCashEventGrocery {
-  static def ReviewReward_생성(Map map = [:]) {
-    new ReviewReward(
+  static def Review_생성(Map map = [:]) {
+    new Review(
         (map.requestNo ?: 1L) as Long,
         (map.memberKey ?: "memberKey") as String,
         (map.saveAmount ?: 0) as BigDecimal,
@@ -23,8 +23,8 @@ class SmileCashEventGrocery {
     )
   }
 
-  static def EventReward_생성(Map map = [:]) {
-    new EventReward(
+  static def EventPlatform_생성(Map map = [:]) {
+    new EventPlatform(
         (map.requestNo ?: 1L) as Long,
         (map.memberKey ?: "memberKey") as String,
         (map.saveAmount ?: 0) as BigDecimal,
@@ -37,8 +37,8 @@ class SmileCashEventGrocery {
     )
   }
 
-  static def TossEventReward_생성(Map map = [:]) {
-    TossEventReward.of(
+  static def Toss_생성(Map map = [:]) {
+    Toss.of(
         (map.requestNo ?: 1L) as Long,
         (map.memberKey ?: "memberKey") as String,
         (map.saveAmount ?: 0) as BigDecimal,

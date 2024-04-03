@@ -8,7 +8,7 @@ import com.ebaykorea.payback.api.mapper.EventRewardMapper;
 import com.ebaykorea.payback.core.dto.common.CommonResponse;
 import com.ebaykorea.payback.api.dto.event.EventRewardRequestDto;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
-import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository;
+import com.ebaykorea.payback.core.repository.EventRewardRequestRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/event/rewards")
 public class EventRewardController {
 
-  private final SmileCashEventRequestRepository repository;
+  private final EventRewardRequestRepository repository;
   private final EventRewardMapper mapper;
 
   @Operation(summary = "이벤트 리워드 적립 요청", description = "요청 번호 별 적립 금액으로 적립 요청")

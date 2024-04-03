@@ -1,6 +1,6 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper;
 
-import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent;
+import com.ebaykorea.payback.core.domain.entity.event.request.EventReward;
 import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmileCashEventEntity;
@@ -27,7 +27,7 @@ public interface SmileCashEventEntityMapper {
   @Mapping(source = "requestNo", target = "refNo")
   @Mapping(source = "memberKey", target = "regId")
   @Mapping(source = "eventNo", target = "eid")
-  SmileCashEventRequestEntity map(SmileCashEvent smileCashEvent);
+  SmileCashEventRequestEntity map(EventReward smileCashEvent);
 
   @Mapping(source = "source.result", target = "resultCode")
   @Mapping(source = "source.smilePayNo", target = "savingNo")
