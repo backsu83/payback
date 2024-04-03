@@ -6,7 +6,7 @@ import com.ebaykorea.payback.core.dto.event.toss.TossRewardRequestDto;
 import com.ebaykorea.payback.config.properties.SaturnApplicationProperties;
 import com.ebaykorea.payback.core.domain.constant.EventType;
 import com.ebaykorea.payback.core.domain.entity.event.request.TossRewardRequestResult;
-import com.ebaykorea.payback.core.repository.TossRewardRequestRepository;
+import com.ebaykorea.payback.core.repository.TossEventRewardRequestRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.TossRewardRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.TossRewardRequestStatusRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.opayreward.event.mapper.TossRewardRequestMapper;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class TossRewardRequestRepositoryImpl implements TossRewardRequestRepository {
+public class TossEventRewardRequestRepositoryImpl implements TossEventRewardRequestRepository {
   private final TossRewardRepository repository;
   private final TossRewardRequestStatusRepository statusRepository;
 

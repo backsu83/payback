@@ -1,7 +1,7 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper;
 
 import com.ebaykorea.payback.core.domain.constant.SaveIntegrationType;
-import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent;
+import com.ebaykorea.payback.core.domain.entity.event.request.EventReward;
 import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
@@ -30,7 +30,7 @@ public interface SmileCashSaveQueueEntityMapper {
   @Mapping(source = "smileCashEvent.memberKey", target = "insertOperator")
   @Mapping(source = "smileCashEvent.eventNo", target = "referenceKey")
   @Mapping(source = "smileCashEvent.saveIntegrationType", target = "saveStatus", qualifiedByName = "mapToSaveStatus")
-  SmileCashSaveQueueEntity map(Long txId, String reasonComment, SmileCashEvent smileCashEvent);
+  SmileCashSaveQueueEntity map(Long txId, String reasonComment, EventReward smileCashEvent);
 
   @Named("mapToSaveStatus")
   default int mapToSaveStatus(final SaveIntegrationType saveIntegrationType) {
@@ -38,7 +38,7 @@ public interface SmileCashSaveQueueEntityMapper {
   }
 
   @Named("mapToAdditionalReasonComment")
-  default String mapToAdditionalReasonComment(final SmileCashEvent smileCashEvent) {
+  default String mapToAdditionalReasonComment(final EventReward smileCashEvent) {
     return smileCashEvent.hasOrderNo() ? String.format("(주문번호: %s)", smileCashEvent.getOrderNo().toString()) : "";
   }
 

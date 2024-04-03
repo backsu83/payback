@@ -12,12 +12,12 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_
 import static com.ebaykorea.payback.grocery.ApprovalGrocery.ApprovalEventReward_생성
 import static com.ebaykorea.payback.grocery.SmileCashSaveQueueEntityGrocery.SmileCashSaveQueueEntity_생성
 
-class AuctionSmileCashEventApproveRepositorySpec extends Specification {
+class AuctionEventRewardApproveRepositorySpec extends Specification {
   def approvalRepository = Mock(SmileCashSaveApprovalRepository)
   def saveQueueRepository = Mock(SmileCashSaveQueueRepository)
   def mapper = Mappers.getMapper(SmileCashSaveApprovalEntityMapper.class)
 
-  def repository = new AuctionSmileCashEventApproveRepository(approvalRepository, saveQueueRepository, mapper)
+  def repository = new AuctionEventRewardApproveRepository(approvalRepository, saveQueueRepository, mapper)
 
   def "이미 적립 승인된 적립 요청건에 대한 승인 처리는 실패가 되어야 한다"() {
     setup:

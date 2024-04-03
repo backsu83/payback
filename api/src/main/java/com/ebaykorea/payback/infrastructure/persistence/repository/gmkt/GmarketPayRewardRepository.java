@@ -8,7 +8,7 @@ import com.ebaykorea.payback.core.domain.entity.cashback.unit.CashbackUnit;
 import com.ebaykorea.payback.core.domain.entity.cashback.unit.policy.CashbackPolicy;
 import com.ebaykorea.payback.core.domain.entity.order.KeyMap;
 import com.ebaykorea.payback.core.domain.entity.order.OrderUnitKey;
-import com.ebaykorea.payback.core.repository.PayCashbackRepository;
+import com.ebaykorea.payback.core.repository.PayRewardRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderDetailEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderEntityMapper;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.mapper.CashbackOrderMemberEntityMapper;
@@ -22,7 +22,6 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.C
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmilecardCashbackOrderRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.SmilecardT2T3CashbackRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.CashbackOrderPolicyEntity;
-import com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity.SmilecardT2T3CashbackEntity;
 import com.ebaykorea.payback.util.support.Conditioner;
 
 import java.util.List;
@@ -39,7 +38,7 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 @Profile(GMARKET_TENANT)
 @Service
 @RequiredArgsConstructor
-public class GmarketCashbackRepository implements PayCashbackRepository {
+public class GmarketPayRewardRepository implements PayRewardRepository {
 
   private final CashbackOrderRepository cashbackOrderRepository;
   private final CashbackOrderPolicyRepository cashbackOrderPolicyRepository;

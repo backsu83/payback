@@ -2,11 +2,11 @@ package com.ebaykorea.payback.core
 
 
 import com.ebaykorea.payback.core.domain.constant.TossRewardRequestStatusType
-import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent
+import com.ebaykorea.payback.core.domain.entity.event.request.EventReward
 import com.ebaykorea.payback.core.dto.event.toss.TossRewardRequestDto
 import com.ebaykorea.payback.core.gateway.UserGateway
-import com.ebaykorea.payback.core.repository.TossRewardRequestRepository
-import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository
+import com.ebaykorea.payback.core.repository.TossEventRewardRequestRepository
+import com.ebaykorea.payback.core.repository.EventRewardRequestRepository
 import spock.lang.Specification
 
 import static com.ebaykorea.payback.grocery.TossEventRewardResponseDtoGrocery.TossEventRewardResponseDto_생성
@@ -16,8 +16,8 @@ import static com.ebaykorea.payback.grocery.MemberEventRewardDtoGrocery.EventRew
 import static com.ebaykorea.payback.grocery.TossEventRewardGrocery.TossRewardRequestDto_생성
 
 class TossEventRewardApplicationServiceSpec extends Specification {
-  def eventRewardRepository = Stub(TossRewardRequestRepository)
-  def smileCashEventRepository = Stub(SmileCashEventRequestRepository)
+  def eventRewardRepository = Stub(TossEventRewardRequestRepository)
+  def smileCashEventRepository = Stub(EventRewardRequestRepository)
   def userGateway = Stub(UserGateway)
 
   def service = new TossEventRewardApplicationService(eventRewardRepository, smileCashEventRepository, userGateway)
@@ -27,9 +27,9 @@ class TossEventRewardApplicationServiceSpec extends Specification {
     eventRewardRepository.find(_ as TossRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     eventRewardRepository.save(_ as TossRewardRequestDto) >> 1L
     eventRewardRepository.saveStatus(_ as Long, _ as TossRewardRequestStatusType) >> {}
-    smileCashEventRepository.save(_ as SmileCashEvent) >> Optional.ofNullable(회원적립결과)
+    smileCashEventRepository.save(_ as EventReward) >> Optional.ofNullable(회원적립결과)
     userGateway.getUserId(_ as String) >> "userId"
-    smileCashEventRepository.find(_ as SmileCashEvent) >> Optional.ofNullable(SmileCashEventResult_생성())
+    smileCashEventRepository.find(_ as EventReward) >> Optional.ofNullable(SmileCashEventResult_생성())
 
     expect:
     def result = service.saveEventReward(TossRewardRequestDto_생성())
@@ -54,7 +54,7 @@ class TossEventRewardApplicationServiceSpec extends Specification {
     setup:
     eventRewardRepository.find(_ as TossRewardRequestDto) >> Optional.ofNullable(eventReward결과)
     userGateway.getUserId(_ as String) >> "userId"
-    smileCashEventRepository.find(_ as SmileCashEvent) >> Optional.ofNullable(smileCashEvent결과)
+    smileCashEventRepository.find(_ as EventReward) >> Optional.ofNullable(smileCashEvent결과)
 
     expect:
     def result = service.getEventReward(TossRewardRequestDto_생성())

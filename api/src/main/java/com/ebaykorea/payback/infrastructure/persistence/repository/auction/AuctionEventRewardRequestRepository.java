@@ -5,11 +5,11 @@ import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.PERSIST_002;
 
 import com.ebaykorea.payback.core.domain.constant.EventType;
-import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEvent;
+import com.ebaykorea.payback.core.domain.entity.event.request.EventReward;
 import com.ebaykorea.payback.core.domain.entity.event.request.SmileCashEventResult;
 import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import com.ebaykorea.payback.core.exception.PaybackException;
-import com.ebaykorea.payback.core.repository.SmileCashEventRequestRepository;
+import com.ebaykorea.payback.core.repository.EventRewardRequestRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashReasonCodeRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashTransactionRepository;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Profile(AUCTION_TENANT)
 @Service
 @RequiredArgsConstructor
-public class AuctionSmileCashEventRequestRepository implements SmileCashEventRequestRepository {
+public class AuctionEventRewardRequestRepository implements EventRewardRequestRepository {
 
   private final SmileCashSaveQueueRepository smileCashSaveQueueRepository;
   private final SmileCashTransactionRepository smileCashTransactionRepository;
@@ -40,16 +40,16 @@ public class AuctionSmileCashEventRequestRepository implements SmileCashEventReq
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> save(final SmileCashEvent smileCashEvent) {
-    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(smileCashEvent.getRequestNo())).stream()
+  public Optional<EventRewardResultDto> save(final EventReward eventReward) {
+    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(eventReward.getRequestNo())).stream()
         //중복 요청 체크
-        .filter(alreadyRequested(smileCashEvent.getMemberKey(), smileCashEvent.getEventType()))
+        .filter(alreadyRequested(eventReward.getMemberKey(), eventReward.getEventType()))
         .findAny()
-        .map(savedQueue -> mapper.map(smileCashEvent.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
-        .or(() -> addSmileCashSaveQueue(smileCashEvent)); //중복 요청 건이 아닌 경우
+        .map(savedQueue -> mapper.map(eventReward.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
+        .or(() -> addSmileCashSaveQueue(eventReward)); //중복 요청 건이 아닌 경우
   }
 
-  private Optional<EventRewardResultDto> addSmileCashSaveQueue(final SmileCashEvent smileCashEvent) {
+  private Optional<EventRewardResultDto> addSmileCashSaveQueue(final EventReward smileCashEvent) {
     final var comment = getComment(smileCashEvent);
     final var txId = smileCashTransactionRepository.getIacTxId(smileCashEvent.getMemberKey());
 
@@ -58,7 +58,7 @@ public class AuctionSmileCashEventRequestRepository implements SmileCashEventReq
     return Optional.of(mapper.map(smileCashEvent.getRequestNo(), 0, txId));
   }
 
-  private String getComment(final SmileCashEvent smileCashEvent) {
+  private String getComment(final EventReward smileCashEvent) {
     return Optional.ofNullable(smileCashEvent.getComments())
         .filter(PaybackStrings::isNotBlank)
         // 적립 문구가 넘어온게 없다면 코드에 매핑된 이름을 전달
@@ -69,11 +69,11 @@ public class AuctionSmileCashEventRequestRepository implements SmileCashEventReq
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> saveWithBudget(final SmileCashEvent smileCashEvent) {
-    Optional.of(smileCashSaveQueueRepository.updateBudget(smileCashEvent.getBudgetNo(), smileCashEvent.getSaveAmount()))
+  public Optional<EventRewardResultDto> saveWithBudget(final EventReward eventReward) {
+    Optional.of(smileCashSaveQueueRepository.updateBudget(eventReward.getBudgetNo(), eventReward.getSaveAmount()))
         .filter(res -> res == 0)
-        .orElseThrow(() -> new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", smileCashEvent.getBudgetNo())));
-    return save(smileCashEvent);
+        .orElseThrow(() -> new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", eventReward.getBudgetNo())));
+    return save(eventReward);
   }
 
   private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId, final EventType eventType) {
@@ -83,9 +83,9 @@ public class AuctionSmileCashEventRequestRepository implements SmileCashEventReq
   }
 
   @Override
-  public Optional<SmileCashEventResult> find(final SmileCashEvent smileCashEvent) {
-    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(smileCashEvent.getRequestNo())).stream()
-        .filter(alreadyRequested(smileCashEvent.getMemberKey(), smileCashEvent.getEventType()))
+  public Optional<SmileCashEventResult> find(final EventReward eventReward) {
+    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(eventReward.getRequestNo())).stream()
+        .filter(alreadyRequested(eventReward.getMemberKey(), eventReward.getEventType()))
         .findAny()
         .map(mapper::map);
   }
