@@ -5,5 +5,5 @@ import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import java.util.Optional;
 
 public interface SmileCashEventApproveRepository {
-  Optional<EventRewardResultDto> approve(ApprovalEventReward approvalEventReward);
+  void approve(ApprovalEventReward approvalEventReward);
 }

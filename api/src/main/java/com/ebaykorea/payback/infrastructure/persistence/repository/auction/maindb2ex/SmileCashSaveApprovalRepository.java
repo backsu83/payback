@@ -49,6 +49,6 @@ public class SmileCashSaveApprovalRepository {
       },
       throwEx = true
   )
-  public void saveApproval(final SmileCashSaveApprovalEntity entity) {
+  public void save(final SmileCashSaveApprovalEntity entity) {
   }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_002;
 import static com.ebaykorea.payback.core.exception.PaybackExceptionCode.API_GATEWAY_004;
 
 @Service
@@ -20,7 +19,7 @@ public class UserGatewayImpl implements UserGateway {
 
   @Override
   public Optional<String> findUserKey(String buyerNo) {
-    return quiltApiClient.findUserKey(buyerNo)
+    return quiltApiClient.findUserKeyByCustNo(buyerNo)
         .flatMap(QuiltBaseResponse::findSuccessData);
   }
 
