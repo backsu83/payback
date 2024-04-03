@@ -6,7 +6,7 @@ import com.ebaykorea.payback.core.dto.event.EventRewardResultDto;
 import java.util.Optional;
 
 public interface EventRewardRequestRepository {
-  Optional<EventRewardResultDto> save(EventReward smileCashEvent);
-  Optional<EventRewardResultDto> saveWithBudget(EventReward smileCashEvent);
-  Optional<SmileCashEventResult> find(EventReward smileCashEvent);
+  Optional<EventRewardResultDto> save(EventReward eventReward);
+  Optional<EventRewardResultDto> saveWithBudget(EventReward eventReward);
+  Optional<SmileCashEventResult> find(EventReward eventReward);
 }

@@ -40,13 +40,13 @@ public class AuctionEventRewardRequestRepository implements EventRewardRequestRe
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> save(final EventReward smileCashEvent) {
-    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(smileCashEvent.getRequestNo())).stream()
+  public Optional<EventRewardResultDto> save(final EventReward eventReward) {
+    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(eventReward.getRequestNo())).stream()
         //중복 요청 체크
-        .filter(alreadyRequested(smileCashEvent.getMemberKey(), smileCashEvent.getEventType()))
+        .filter(alreadyRequested(eventReward.getMemberKey(), eventReward.getEventType()))
         .findAny()
-        .map(savedQueue -> mapper.map(smileCashEvent.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
-        .or(() -> addSmileCashSaveQueue(smileCashEvent)); //중복 요청 건이 아닌 경우
+        .map(savedQueue -> mapper.map(eventReward.getRequestNo(), DUPLICATED_REQUEST, savedQueue.getTxId()))
+        .or(() -> addSmileCashSaveQueue(eventReward)); //중복 요청 건이 아닌 경우
   }
 
   private Optional<EventRewardResultDto> addSmileCashSaveQueue(final EventReward smileCashEvent) {
@@ -69,11 +69,11 @@ public class AuctionEventRewardRequestRepository implements EventRewardRequestRe
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> saveWithBudget(final EventReward smileCashEvent) {
-    Optional.of(smileCashSaveQueueRepository.updateBudget(smileCashEvent.getBudgetNo(), smileCashEvent.getSaveAmount()))
+  public Optional<EventRewardResultDto> saveWithBudget(final EventReward eventReward) {
+    Optional.of(smileCashSaveQueueRepository.updateBudget(eventReward.getBudgetNo(), eventReward.getSaveAmount()))
         .filter(res -> res == 0)
-        .orElseThrow(() -> new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", smileCashEvent.getBudgetNo())));
-    return save(smileCashEvent);
+        .orElseThrow(() -> new PaybackException(PERSIST_002, String.format("예산 할당 처리 실패, %d", eventReward.getBudgetNo())));
+    return save(eventReward);
   }
 
   private Predicate<SmileCashSaveQueueEntity> alreadyRequested(final String buyerId, final EventType eventType) {
@@ -83,9 +83,9 @@ public class AuctionEventRewardRequestRepository implements EventRewardRequestRe
   }
 
   @Override
-  public Optional<SmileCashEventResult> find(final EventReward smileCashEvent) {
-    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(smileCashEvent.getRequestNo())).stream()
-        .filter(alreadyRequested(smileCashEvent.getMemberKey(), smileCashEvent.getEventType()))
+  public Optional<SmileCashEventResult> find(final EventReward eventReward) {
+    return smileCashSaveQueueRepository.findByBizKey(String.valueOf(eventReward.getRequestNo())).stream()
+        .filter(alreadyRequested(eventReward.getMemberKey(), eventReward.getEventType()))
         .findAny()
         .map(mapper::map);
   }

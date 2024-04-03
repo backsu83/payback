@@ -26,25 +26,25 @@ public class GmarketEventRewardRequestRepository implements EventRewardRequestRe
 
   @Transactional
   @Override
-  public Optional<EventRewardResultDto> save(final EventReward smileCashEvent) {
-    if (smileCashEvent.isEventRewardEventType()) {
+  public Optional<EventRewardResultDto> save(final EventReward eventReward) {
+    if (eventReward.isEventRewardEventType()) {
       // TODO: 지마켓 이벤트 리워드 적립은 테스트 후 예외 처리 제거
-      throw new PaybackException(PERSIST_002, smileCashEvent.getEventType().getName());
+      throw new PaybackException(PERSIST_002, eventReward.getEventType().getName());
     }
 
-    final var entity = mapper.map(smileCashEvent);
+    final var entity = mapper.map(eventReward);
     return repository.save(entity)
         .map(resultEntity -> mapper.map(entity.getRefNo(), resultEntity));
   }
 
   @Override
-  public Optional<EventRewardResultDto> saveWithBudget(final EventReward smileCashEvent) {
-    return save(smileCashEvent);
+  public Optional<EventRewardResultDto> saveWithBudget(final EventReward eventReward) {
+    return save(eventReward);
   }
 
   @Override
-  public Optional<SmileCashEventResult> find(final EventReward smileCashEvent) {
-    final var entity = mapper.map(smileCashEvent);
+  public Optional<SmileCashEventResult> find(final EventReward eventReward) {
+    final var entity = mapper.map(eventReward);
     return repository.find(entity)
         .map(mapper::map);
   }
