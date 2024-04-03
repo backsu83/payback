@@ -25,6 +25,7 @@ class SmileCashSaveQueueEntityGrocery {
       updateDate = (map.updateDate ?: null) as Timestamp
       referenceKey = (map.referenceKey ?: null) as String
       budgetNo = (map.budgetNo ?: 0L) as long
+      smileUserKey = (map.smileUserKey ?: null) as String
     }
   }
 

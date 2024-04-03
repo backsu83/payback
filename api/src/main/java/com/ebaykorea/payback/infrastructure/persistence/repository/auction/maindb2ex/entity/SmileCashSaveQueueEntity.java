@@ -73,4 +73,12 @@ public class SmileCashSaveQueueEntity {
 
   @Column(name = "BUDGET_NO")
   private long budgetNo;
+
+  @Column(name = "USER_KEY")
+  private String smileUserKey;
+
+  private static final int SAVED = 1;
+  public boolean canBeApproved() {
+    return saveStatus != SAVED;
+  }
 }
