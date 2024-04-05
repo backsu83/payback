@@ -25,10 +25,12 @@ public class SmileCashEventRepository {
           @SaturnProcedureParameter(name = "MAX_ROWS", sqlType = Types.INTEGER),
           @SaturnProcedureParameter(name = "APPR_STATUS", sqlType = Types.TINYINT),
           @SaturnProcedureParameter(name = "MAX_RETRY_COUNT", sqlType = Types.INTEGER),
+          @SaturnProcedureParameter(name = "MOD", sqlType = Types.INTEGER),
+          @SaturnProcedureParameter(name = "MOD_COUNT", sqlType = Types.INTEGER)
       },
       throwEx = true
   )
-  public List<SmileCashEventEntity> findTargets(final int maxRows, final int apprStatus, final int maxRetryCount) {
+  public List<SmileCashEventEntity> findTargets(final int maxRows, final int apprStatus, final int maxRetryCount, final int mod, final int modCount) {
     return emptyList();
   }
 

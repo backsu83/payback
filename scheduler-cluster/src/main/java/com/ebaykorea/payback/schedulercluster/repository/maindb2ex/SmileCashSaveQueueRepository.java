@@ -24,10 +24,12 @@ public class SmileCashSaveQueueRepository {
           @SaturnProcedureParameter(name = "MAX_ROWS", sqlType = Types.INTEGER),
           @SaturnProcedureParameter(name = "SAVE_STATUS", sqlType = Types.TINYINT),
           @SaturnProcedureParameter(name = "MAX_RETRY_COUNT", sqlType = Types.INTEGER),
+          @SaturnProcedureParameter(name = "MOD", sqlType = Types.INTEGER),
+          @SaturnProcedureParameter(name = "MOD_COUNT", sqlType = Types.INTEGER)
       },
       throwEx = true
   )
-  public List<SmileCashSaveQueueEntity> findTargets(final int maxRows, final int saveStatus, final int maxRetryCount) {
+  public List<SmileCashSaveQueueEntity> findTargets(final int maxRows, final int saveStatus, final int maxRetryCount, final int mod, final int modCount) {
     return emptyList();
   }
 
@@ -37,11 +39,12 @@ public class SmileCashSaveQueueRepository {
           @SaturnProcedureParameter(name = "SEQNO", sqlType = Types.BIGINT),
           @SaturnProcedureParameter(name = "SAVE_STATUS", sqlType = Types.TINYINT),
           @SaturnProcedureParameter(name = "RETRY_CNT", sqlType = Types.INTEGER),
-          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 10)
+          @SaturnProcedureParameter(name = "INS_OPRT", sqlType = Types.VARCHAR, scale = 10),
+          @SaturnProcedureParameter(name = "USER_KEY", sqlType = Types.VARCHAR, scale = 200)
       },
       throwEx = true
   )
-  public void update(final long seqno, final int saveStatus, final int retryCnt, final String insOprt) {
+  public void update(final long seqno, final int saveStatus, final int retryCnt, final String insOprt, final String userKey) {
   }
 
 }

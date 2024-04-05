@@ -64,4 +64,7 @@ public class SmileCashSaveQueueEntity {
 
   @Column(name = "INS_OPRT")
   private String insertOperator;
+
+  @Column(name = "USER_KEY")
+  private String userKey;
 }

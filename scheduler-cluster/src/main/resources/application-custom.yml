@@ -25,6 +25,10 @@ com.ebaykorea.payback.scheduler:
     max-rows: 10
     max-retry-count: 5
 
+fusion.cluster:
+  properties:
+    mod: "${MOD_VALUE}"
+    mod-count: "${MOD_COUNT_VALUE}"
 
 ---
 spring:
@@ -53,5 +57,10 @@ com.ebaykorea.payback.scheduler:
     fixedDelay: 1 #TimeUnit.SECONDS
     max-rows: 10
     max-retry-count: 5
+
+fusion.cluster:
+  properties:
+    mod: "${MOD_VALUE}"
+    mod-count: "${MOD_COUNT_VALUE}"
 
 

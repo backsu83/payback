@@ -1,0 +1,70 @@
+spring:
+  config.activate.on-profile: "gmarket"
+
+saturn:
+  application:
+    tenantId: "gmarket"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: payback_app
+    tenant: gmarket #개발: gmarketdev, 운영: gmarket
+    configs:
+      - beanName: "tiger_readDataSource"
+        hikariCp:
+          minimumIdle: 1
+
+apis:
+  payback:
+    url: "http://payback-api.gmarket.co.kr"
+  quilt:
+    url: "https://quilt-overmind.gmarket.co.kr/api"
+    user-id-query-path: "/user-token/cust-no"
+  smile-cash:
+    url: "https://cashpartnerapi.mysmilepay.com"
+
+com.ebaykorea.payback.scheduler:
+  mass-save:
+    initialDelay: 10 #TimeUnit.SECONDS
+    fixedDelay: 10 #TimeUnit.SECONDS
+    max-rows: 10000
+    max-retry-count: 5
+
+fusion.cluster:
+  properties:
+    mod: "${MOD_VALUE}"
+    mod-count: "${MOD_COUNT_VALUE}"
+
+---
+spring:
+  config.activate.on-profile: "auction"
+
+saturn:
+  application:
+    tenantId: "auction"
+  datasource:
+    appName: PAYREWARD_APP
+    userName: escrowapp
+    tenant: auction
+
+apis:
+  payback:
+    url: "http://payback-api.auction.co.kr"
+  quilt:
+    url: "https://quilt-overmind.auction.co.kr/api"
+    user-id-query-path: "/v1/user-token/member-id"
+  smile-cash:
+    url: "https://cashpartnerapi.mysmilepay.com"
+
+com.ebaykorea.payback.scheduler:
+  mass-save:
+    initialDelay: 10 #TimeUnit.SECONDS
+    fixedDelay: 10 #TimeUnit.SECONDS
+    max-rows: 3000
+    max-retry-count: 5
+
+fusion.cluster:
+  properties:
+    mod: "${MOD_VALUE}"
+    mod-count: "${MOD_COUNT_VALUE}"
+
+

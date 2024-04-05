@@ -1,9 +1,10 @@
-package com.ebaykorea.payback.schedulercluster.service.mass;
+package com.ebaykorea.payback.schedulercluster.repository;
 
 import static com.ebaykorea.payback.schedulercluster.model.constant.TenantCode.GMARKET_TENANT;
 
 import com.ebaykorea.payback.schedulercluster.client.SmileCashApiClient;
 import com.ebaykorea.payback.schedulercluster.client.dto.smilecash.MassSaveResponseDto;
+import com.ebaykorea.payback.schedulercluster.config.FusionClusterProperties;
 import com.ebaykorea.payback.schedulercluster.mapper.MassSaveMapper;
 import com.ebaykorea.payback.schedulercluster.repository.stardb.SmileCashEventRepository;
 import com.ebaykorea.payback.schedulercluster.repository.stardb.entity.SmileCashEventEntity;
@@ -14,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +23,23 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GmarketMassSaveService implements MassSaveService {
+public class GmarketMassSaveRepository implements MassSaveRepository {
 
   private final SmileCashEventRepository repository;
   private final MemberService memberService;
   private final SmileCashApiClient smileCashApiClient;
   private final MassSaveMapper massSaveRequestMapper;
   private final ExecutorService taskExecutor;
+  private final FusionClusterProperties properties;
   private static final int MASS_SAVE_REQUEST_STATUS = 0;
   private static final int MASS_SAVE_COMPLETE_STATUS = 50;
 
+  @Value("${fusion.cluster.properties.mod}")
+  private int mod;
+
   @Override
   public List<SmileCashEventEntity> findTargets(final int maxRows, final int maxRetryCount) {
-    return repository.findTargets(maxRows, MASS_SAVE_REQUEST_STATUS, maxRetryCount);
+    return repository.findTargets(maxRows, MASS_SAVE_REQUEST_STATUS, maxRetryCount, properties.getMod(), properties.getModCount());
   }
 
   @Override

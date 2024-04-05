@@ -10,8 +10,11 @@ import java.sql.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface MassSaveMapper {
 
   @Mapping(source = "txId", target = "shopTransactionId")
@@ -27,7 +30,7 @@ public interface MassSaveMapper {
   MassSaveRequestDto map(SmileCashSaveQueueEntity source);
 
   @Mapping(source = "smilePayNo", target = "shopTransactionId")
-  @Mapping(constant = "subShopId", target = "subShopId")
+  @Mapping(constant = "GMKT", target = "subShopId")
   @Mapping(expression = "java(source.getShopOrderId())", target = "shopOrderId")
   @Mapping(source = "ersNo", target = "promotionId")
   @Mapping(source = "expireDate", target = "smileCash.expirationDate", qualifiedByName = "mapExpirationFormatString")

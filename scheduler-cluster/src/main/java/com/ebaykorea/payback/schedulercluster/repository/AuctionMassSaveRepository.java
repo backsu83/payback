@@ -1,9 +1,10 @@
-package com.ebaykorea.payback.schedulercluster.service.mass;
+package com.ebaykorea.payback.schedulercluster.repository;
 
 import static com.ebaykorea.payback.schedulercluster.model.constant.TenantCode.AUCTION_TENANT;
 
 import com.ebaykorea.payback.schedulercluster.client.SmileCashApiClient;
 import com.ebaykorea.payback.schedulercluster.client.dto.smilecash.MassSaveResponseDto;
+import com.ebaykorea.payback.schedulercluster.config.FusionClusterProperties;
 import com.ebaykorea.payback.schedulercluster.mapper.MassSaveMapper;
 import com.ebaykorea.payback.schedulercluster.repository.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.schedulercluster.repository.maindb2ex.entity.SmileCashSaveQueueEntity;
@@ -21,19 +22,21 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuctionMassSaveService implements MassSaveService {
+public class AuctionMassSaveRepository implements MassSaveRepository {
 
   private final SmileCashSaveQueueRepository repository;
   private final MemberService memberService;
   private final SmileCashApiClient smileCashApiClient;
-  private final MassSaveMapper massSaveRequestMapper;
+  private final MassSaveMapper massSaveMapper;
   private final ExecutorService taskExecutor;
+  private final FusionClusterProperties properties;
   private static final int MASS_SAVE_REQUEST_STATUS = 3;
   private static final int MASS_SAVE_COMPLETE_STATUS = 1;
 
+
   @Override
   public List<SmileCashSaveQueueEntity> findTargets(final int maxRows, final int maxRetryCount) {
-    return repository.findTargets(maxRows , MASS_SAVE_REQUEST_STATUS , maxRetryCount);
+    return repository.findTargets(maxRows , MASS_SAVE_REQUEST_STATUS , maxRetryCount , properties.getMod() , properties.getModCount());
   }
 
   @Override
@@ -44,9 +47,9 @@ public class AuctionMassSaveService implements MassSaveService {
           if (SchedulerUtils.isBlank(userKey)) {
             failed(entity);
           } else {
-            smileCashApiClient.requestMassSave(massSaveRequestMapper.map(entity), String.format("basic %s", userKey))
+            smileCashApiClient.requestMassSave(massSaveMapper.map(entity), String.format("basic %s", userKey))
                 .filter(MassSaveResponseDto::isSuccess)
-                .ifPresentOrElse(success -> success(entity), () -> failed(entity));
+                .ifPresentOrElse(success -> success(entity , userKey), () -> failed(entity));
           }
         }, taskExecutor)
         .exceptionally( ex-> {
@@ -55,11 +58,11 @@ public class AuctionMassSaveService implements MassSaveService {
     return result;
   }
 
-  private void success(final SmileCashSaveQueueEntity entity) {
-    repository.update(entity.getSeqNo() , MASS_SAVE_COMPLETE_STATUS, 0 , entity.getInsertOperator());
+  private void success(final SmileCashSaveQueueEntity entity, final String userKey) {
+    repository.update(entity.getSeqNo() , MASS_SAVE_COMPLETE_STATUS, 0 , entity.getInsertOperator(), userKey);
   }
 
   private void failed(final SmileCashSaveQueueEntity entity) {
-    repository.update(entity.getSeqNo(), entity.getSaveStatus(), entity.getRetryCount() + 1, entity.getInsertOperator());
+    repository.update(entity.getSeqNo(), entity.getSaveStatus(), entity.getRetryCount() + 1, entity.getInsertOperator() , "");
   }
 }
