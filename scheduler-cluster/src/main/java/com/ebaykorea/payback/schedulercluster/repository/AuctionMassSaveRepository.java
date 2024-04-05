@@ -33,7 +33,6 @@ public class AuctionMassSaveRepository implements MassSaveRepository {
   private static final int MASS_SAVE_REQUEST_STATUS = 3;
   private static final int MASS_SAVE_COMPLETE_STATUS = 1;
 
-
   @Override
   public List<SmileCashSaveQueueEntity> findTargets(final int maxRows, final int maxRetryCount) {
     return repository.findTargets(maxRows , MASS_SAVE_REQUEST_STATUS , maxRetryCount , properties.getMod() , properties.getModCount());

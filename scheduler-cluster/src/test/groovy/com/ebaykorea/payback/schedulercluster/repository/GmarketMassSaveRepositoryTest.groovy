@@ -38,8 +38,8 @@ class GmarketMassSaveRepositoryTest extends Specification {
     where:
     maxRows | maxRetryConut | expectResult
     1 | 5 | [SmileCashEventEntity_생성()]
-    2 | 5 | [SmileCashEventEntity_생성(), SmileCashEventEntity_생성(seqNo: 2L)]
-    3 | 5 | [SmileCashEventEntity_생성(), SmileCashEventEntity_생성(seqNo: 2L), SmileCashEventEntity_생성(seqNo: 3L)]
+    2 | 5 | [SmileCashEventEntity_생성(), SmileCashEventEntity_생성(smilePayNo: 1L)]
+    3 | 5 | [SmileCashEventEntity_생성(), SmileCashEventEntity_생성(smilePayNo: 1L), SmileCashEventEntity_생성(smilePayNo: 2L)]
 
   }
 

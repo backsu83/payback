@@ -34,9 +34,6 @@ public class GmarketMassSaveRepository implements MassSaveRepository {
   private static final int MASS_SAVE_REQUEST_STATUS = 0;
   private static final int MASS_SAVE_COMPLETE_STATUS = 50;
 
-  @Value("${fusion.cluster.properties.mod}")
-  private int mod;
-
   @Override
   public List<SmileCashEventEntity> findTargets(final int maxRows, final int maxRetryCount) {
     return repository.findTargets(maxRows, MASS_SAVE_REQUEST_STATUS, maxRetryCount, properties.getMod(), properties.getModCount());
