@@ -13,6 +13,8 @@ saturn:
 apis:
   reward:
     url: "http://rewardservice.gmarket.co.kr"
+  reward-policy:
+    url: "http://payreward-api.gmarket.co.kr"
   order:
     url: "http://order-api.gmarket.co.kr/v1"
   club:
