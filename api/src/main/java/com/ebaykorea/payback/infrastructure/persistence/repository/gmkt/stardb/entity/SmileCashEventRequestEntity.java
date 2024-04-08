@@ -1,14 +1,13 @@
 package com.ebaykorea.payback.infrastructure.persistence.repository.gmkt.stardb.entity;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 @Data
 @Builder
@@ -16,7 +15,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class SmileCashEventRequestEntity {
   public static final String SAVE = "stardb.dbo.UPGMKT_Reward_InsertSmileCashEvent";
-  public static final String FIND = "stardb.dbo.UPGMKT_Reward_SelectSmileCashEvent";
 
   @Id
   @Column(name = "SMILEPAY_NO")

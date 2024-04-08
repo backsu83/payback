@@ -10,7 +10,6 @@ import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maind
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.SmileCashSaveQueueRepository;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.maindb2ex.entity.SmileCashSaveQueueEntity;
 import com.ebaykorea.payback.infrastructure.persistence.repository.auction.mapper.SmileCashSaveApprovalEntityMapper;
-import java.util.function.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -29,17 +28,12 @@ public class AuctionEventRewardApproveRepository implements EventRewardApproveRe
   @Override
   @Transactional
   public void approve(final ApprovalEventReward approvalEventReward) {
-
-    final var saveQueueEntity = saveQueueRepository.findByIacTxid(approvalEventReward.getSavingNo()) //TODO: Gmarket 작업 이후 서비스에서 조회하도록 수정
-        .filter(canBeApproved())
+    final var saveQueueEntity = saveQueueRepository.findByIacTxid(approvalEventReward.getSavingNo())
+        .filter(SmileCashSaveQueueEntity::canBeApproved)
         .orElseThrow(() -> new PaybackException(PERSIST_002, approvalEventReward.toString()));
 
     final var approvalEntity = mapper.map(approvalEventReward, saveQueueEntity);
     approvalRepository.save(approvalEntity);
     saveQueueRepository.update(approvalEventReward.getSavingNo(), SAVED, approvalEntity.getInsertOperator());
-  }
-
-  private Predicate<SmileCashSaveQueueEntity> canBeApproved() {
-    return entity -> entity.getSaveStatus() != SAVED;
   }
 }

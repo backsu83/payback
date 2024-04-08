@@ -2,7 +2,6 @@ package com.ebaykorea.payback.core.factory.cashback
 
 import com.ebaykorea.payback.constant.TestConstant
 import com.ebaykorea.payback.core.domain.constant.CashbackType
-import com.ebaykorea.payback.core.factory.cashback.CashbackUnitFactory
 import com.ebaykorea.payback.core.factory.cashback.impl.ChargePayCashbackCreator
 import com.ebaykorea.payback.core.factory.cashback.impl.ClubDayCashbackCreator
 import com.ebaykorea.payback.core.factory.cashback.impl.DefaultCashbackCreator
@@ -83,8 +82,8 @@ class CashbackUnitFactorySpec extends Specification {
     [RewardCashbackPolicy_생성()] | _
     [RewardCashbackPolicy_생성()] | _
     [RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay)] | _
-    [RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay), RewardCashbackPolicy_생성(cashbackCd: CashbackType.ChargePay)] | _
-    [RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay), RewardCashbackPolicy_생성(cashbackCd: CashbackType.ChargePay)] | _
+    [RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay), RewardCashbackPolicy_생성(cashbackCd: CashbackType.ChargePay)]                                                            | _
+    [RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay), RewardCashbackPolicy_생성(cashbackCd: CashbackType.ChargePay)]                                                            | _
     [RewardCashbackPolicy_생성(cashbackCd: CashbackType.SmilePay), RewardCashbackPolicy_생성(cashbackCd: CashbackType.ChargePay), RewardCashbackPolicy_생성(cashbackCd: CashbackType.ClubDay)] | _
     [RewardCashbackPolicy_생성(), RewardCashbackPolicy_생성(cashbackSeq: 2L)] | _
     _________________________________________________
@@ -96,8 +95,8 @@ class CashbackUnitFactorySpec extends Specification {
     [RewardBackendCashbackPolicy_생성()] | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
     [RewardBackendCashbackPolicy_생성()] | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
     [RewardBackendCashbackPolicy_생성()] | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
-    [RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.ChargePay)] | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
-    [RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.ChargePay)] | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
+    [RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.ChargePay)]                                                                     | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
+    [RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.ChargePay)]                                                                     | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
     [RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.ChargePay), RewardBackendCashbackPolicy_생성(cashbackCode: CashbackType.ClubDay)] | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
     [RewardBackendCashbackPolicy_생성(), RewardBackendCashbackPolicy_생성(cashbackSeq: 2L)] | RewardCashbackPolicies_생성(cashbackPolicies: 캐시백정책, backendCashbackPolicies: 백엔드정책) | _
   }

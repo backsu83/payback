@@ -27,7 +27,7 @@ public class GmktReviewRewardQuery implements ReviewRewardQuery {
 
   @Override
   public List<ReviewRewardQueryResult> getReviewReward(final String memberKey , final Long requestNo) {
-    var result = Stream.of(EventType.Review , EventType.ReviewPremium)
+    return Stream.of(EventType.Review , EventType.ReviewPremium)
         .map(eventType -> {
           final var entity = repository.find(SmileCashEventRequestEntity.builder()
               .cashBalanceType(eventType.getGmarketCode())
@@ -39,7 +39,6 @@ public class GmktReviewRewardQuery implements ReviewRewardQuery {
         })
         .flatMap(Optional::stream)
         .collect(Collectors.toUnmodifiableList());
-    return result;
   }
 
   public int getPromotionId(EventType eventType) {
