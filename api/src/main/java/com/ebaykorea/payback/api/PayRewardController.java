@@ -21,7 +21,7 @@ import static com.ebaykorea.payback.core.domain.constant.TenantCode.GMARKET_TENA
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class CashbackController {
+public class PayRewardController {
 
   private final PayRewardApplicationService applicationService;
 

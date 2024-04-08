@@ -19,7 +19,7 @@ import spock.lang.Ignore;
 @Disabled
 @AutoConfigureMockMvc
 @SpringBootTest
-class CashbackControllerTest {
+class PayRewardControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
