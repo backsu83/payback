@@ -1,11 +1,13 @@
 package com.ebaykorea.payback.schedulercluster.repository;
 
 
+import com.ebaykorea.payback.schedulercluster.model.MassSaveEvent;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 
-public interface MassSaveRepository<T> {
-  List<T> findTargets(final int maxRows, final int maxRetryCount);
-  CompletableFuture<Void>  update(final T t);
+public interface MassSaveRepository {
+  List<MassSaveEvent> findTargets(final int maxRows, final int maxRetryCount);
+  void updateSaveStatus(final String userKey, final MassSaveEvent entity);
+  void updateRetryCount(final MassSaveEvent entity);
+
 }

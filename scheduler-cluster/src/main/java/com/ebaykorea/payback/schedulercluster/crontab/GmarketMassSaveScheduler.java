@@ -35,7 +35,7 @@ public class GmarketMassSaveScheduler {
       fixedDelayString = "${com.ebaykorea.payback.scheduler.mass-save.fixedDelay}",
       timeUnit = TimeUnit.SECONDS)
   public void requestMassSave() {
-    service.requestMassSave(maxRows, maxRetryCount);
+    service.requsetMassSave(maxRows, maxRetryCount);
   }
 
 }
